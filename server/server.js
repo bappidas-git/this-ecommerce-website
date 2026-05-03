@@ -347,6 +347,21 @@ app.get('/api/products', (req, res) => {
   res.json(wrapList(slice, { page, perPage, total }));
 });
 
+// GET /api/products/:id/related  — same category, excludes self
+app.get('/api/products/:id/related', (req, res) => {
+  const { id } = req.params;
+  const products = db.get('products').value().filter((p) => p.isActive !== false);
+  const source =
+    products.find((p) => String(p.id) === String(id)) ||
+    products.find((p) => p.slug === String(id));
+  if (!source) return res.json(wrapList([], { page: 1, perPage: 0, total: 0 }));
+  const limit = Math.max(1, Number(req.query._limit) || 8);
+  const related = products
+    .filter((p) => p.id !== source.id && p.categoryId === source.categoryId)
+    .slice(0, limit);
+  res.json(wrapList(related, { page: 1, perPage: related.length, total: related.length }));
+});
+
 // GET /api/products/:slug  — slug or numeric id
 app.get('/api/products/:slug', (req, res) => {
   const { slug } = req.params;
