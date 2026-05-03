@@ -1,0 +1,124 @@
+.tile {
+  position: relative;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  background: var(--color-line);
+  aspect-ratio: 4 / 5;
+}
+
+.link {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: flex-end;
+  text-decoration: none;
+  color: var(--color-bg);
+  border-radius: inherit;
+}
+
+.image {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  transform: scale(1);
+  transition: transform 800ms cubic-bezier(0.2, 0.6, 0.2, 1);
+  will-change: transform;
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(27, 26, 23, 0) 30%,
+    rgba(27, 26, 23, 0.55) 100%
+  );
+  transition: background 400ms var(--motion-ease);
+  pointer-events: none;
+}
+
+.content {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 24px;
+  width: 100%;
+}
+
+.eyebrow {
+  color: var(--color-brass);
+}
+
+.title {
+  font-family: var(--font-display);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  line-height: 1.05;
+  font-size: clamp(1.75rem, 3vw, 2.5rem);
+  color: var(--color-bg);
+}
+
+.cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 4px;
+  font-family: var(--font-body);
+  font-size: 0.9375rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  color: var(--color-bg);
+}
+
+.arrow {
+  transition: transform 280ms var(--motion-ease);
+}
+
+.link:hover .image,
+.link:focus-visible .image {
+  transform: scale(1.04);
+}
+
+.link:hover .overlay,
+.link:focus-visible .overlay {
+  background: linear-gradient(
+    180deg,
+    rgba(27, 26, 23, 0.05) 0%,
+    rgba(27, 26, 23, 0.7) 100%
+  );
+}
+
+.link:hover .arrow,
+.link:focus-visible .arrow {
+  transform: translateX(4px);
+}
+
+@media (min-width: 900px) {
+  .tile {
+    grid-column: var(--tile-col, auto);
+    grid-row: var(--tile-row, auto);
+    aspect-ratio: auto;
+  }
+
+  .content {
+    padding: 32px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .image,
+  .overlay,
+  .arrow {
+    transition: none;
+  }
+  .link:hover .image,
+  .link:focus-visible .image {
+    transform: none;
+  }
+}
