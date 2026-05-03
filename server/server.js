@@ -221,7 +221,7 @@ app.post('/api/auth/forgot', (req, res) => {
       .assign({ resetToken: token, resetTokenExpires: expires })
       .write();
     console.log(
-      `[auth] password reset link → ${WEB_ORIGIN}/auth/reset?token=${token}&email=${encodeURIComponent(user.email)}`,
+      `[auth] password reset link → ${WEB_ORIGIN}/reset-password?token=${token}&email=${encodeURIComponent(user.email)}`,
     );
   }
   // Always succeed — don't leak whether the email exists.
@@ -231,7 +231,25 @@ app.post('/api/auth/forgot', (req, res) => {
 app.post('/api/auth/reset', (req, res) => {
   const { token, password } = req.body || {};
   if (!token || !password) {
-    return res.status(422).json(errorEnvelope('Token and password are required'));
+    return res
+      .status(422)
+      .json(errorEnvelope('Token and password are required', {
+        ...(token ? {} : { token: 'Token is required' }),
+        ...(password ? {} : { password: 'Password is required' }),
+      }));
+  }
+  if (
+    typeof password !== 'string' ||
+    password.length < 8 ||
+    !/[a-z]/.test(password) ||
+    !/[A-Z]/.test(password) ||
+    !/\d/.test(password)
+  ) {
+    return res
+      .status(422)
+      .json(errorEnvelope('Password does not meet the required rules', {
+        password: 'Use 8+ characters with a number and a capital letter.',
+      }));
   }
   const user = db.get('users').find({ resetToken: token }).value();
   if (
@@ -240,7 +258,7 @@ app.post('/api/auth/reset', (req, res) => {
     Date.parse(user.resetTokenExpires) < Date.now()
   ) {
     return res
-      .status(400)
+      .status(410)
       .json(errorEnvelope('Reset token is invalid or expired'));
   }
   db.get('users')
