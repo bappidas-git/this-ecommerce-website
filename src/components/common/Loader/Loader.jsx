@@ -7,7 +7,14 @@ const SIZE_PX = {
   lg: 44,
 };
 
-function Loader({ size = 'md', label, fullScreen = false, className, ...rest }) {
+function Loader({
+  size = 'md',
+  label,
+  fullScreen = false,
+  wordmark = false,
+  className,
+  ...rest
+}) {
   const px = SIZE_PX[size] || SIZE_PX.md;
   const classes = [
     styles.root,
@@ -25,6 +32,11 @@ function Loader({ size = 'md', label, fullScreen = false, className, ...rest }) 
       aria-busy="true"
       {...rest}
     >
+      {wordmark ? (
+        <span className={styles.wordmark} aria-hidden>
+          THIS Interiors
+        </span>
+      ) : null}
       <CircularProgress
         size={px}
         thickness={4}
