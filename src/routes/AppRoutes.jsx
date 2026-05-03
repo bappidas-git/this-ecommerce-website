@@ -13,7 +13,7 @@ import RequireAdmin from './RequireAdmin.jsx';
 import { PATHS } from './paths.js';
 
 import Home from '../features/home/pages/Home.jsx';
-import Shop from '../features/shop/pages/Shop.jsx';
+import ShopPage from '../features/shop/pages/ShopPage.jsx';
 import Product from '../features/product/pages/Product.jsx';
 import Search from '../features/search/pages/Search.jsx';
 import Cart from '../features/cart/pages/Cart.jsx';
@@ -78,8 +78,8 @@ function AppRoutes() {
         }
       >
         <Route index element={<Home />} />
-        <Route path="shop" element={<Shop />} />
-        <Route path="shop/:slug" element={<Shop />} />
+        <Route path="shop" element={<ShopPage />} />
+        <Route path="shop/:slug" element={<ShopPage />} />
         <Route path="products/:slug" element={<Product />} />
         <Route path="search" element={<Search />} />
         <Route path="cart" element={<Cart />} />

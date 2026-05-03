@@ -1,0 +1,30 @@
+.root {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 16px;
+  font-family: var(--font-ui);
+}
+
+.label {
+  font-size: 0.8125rem;
+  color: var(--color-muted);
+  margin-right: 4px;
+}
+
+.clearAll {
+  background: none;
+  border: 0;
+  padding: 0 4px;
+  cursor: pointer;
+  color: var(--color-ink-2);
+  font-family: var(--font-ui);
+  font-size: 0.8125rem;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.clearAll:hover {
+  color: var(--color-ink);
+}

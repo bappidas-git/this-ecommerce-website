@@ -1,0 +1,21 @@
+.root {
+  display: flex;
+  justify-content: center;
+  margin-top: 40px;
+  padding-bottom: 16px;
+}
+
+.root :global(.MuiPaginationItem-root) {
+  font-family: var(--font-ui);
+  color: var(--color-ink-2);
+  border-radius: var(--radius-2);
+}
+
+.root :global(.MuiPaginationItem-root.Mui-selected) {
+  background-color: var(--color-ink);
+  color: var(--color-bg);
+}
+
+.root :global(.MuiPaginationItem-root.Mui-selected:hover) {
+  background-color: var(--color-ink);
+}

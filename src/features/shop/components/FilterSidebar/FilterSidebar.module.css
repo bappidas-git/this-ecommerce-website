@@ -1,0 +1,25 @@
+.root {
+  display: none;
+}
+
+@media (min-width: 900px) {
+  .root {
+    display: block;
+    position: sticky;
+    top: 96px;
+    width: 280px;
+    max-height: calc(100vh - 120px);
+    overflow-y: auto;
+    padding-right: 12px;
+    align-self: start;
+  }
+}
+
+.root::-webkit-scrollbar {
+  width: 6px;
+}
+
+.root::-webkit-scrollbar-thumb {
+  background-color: var(--color-line);
+  border-radius: var(--radius-pill);
+}
