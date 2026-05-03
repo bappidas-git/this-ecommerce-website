@@ -1,0 +1,158 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+}
+
+.label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.field {
+  position: relative;
+  display: flex;
+  align-items: stretch;
+  height: 56px;
+  border-radius: var(--radius-1);
+  transition:
+    border-color 200ms var(--motion-ease),
+    background 200ms var(--motion-ease);
+}
+
+.input {
+  flex: 1 1 auto;
+  min-width: 0;
+  background: transparent;
+  border: 0;
+  outline: none;
+  padding: 0 16px;
+  font-family: var(--font-ui);
+  font-size: 15px;
+  letter-spacing: 0.01em;
+}
+
+.input:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.submit {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  flex: 0 0 auto;
+  min-width: 132px;
+  padding: 0 18px;
+  margin: 6px;
+  border: 0;
+  border-radius: 2px;
+  background: var(--color-brass);
+  color: var(--color-ink);
+  font-family: var(--font-ui);
+  font-weight: 500;
+  font-size: 13px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition:
+    background 200ms var(--motion-ease),
+    color 200ms var(--motion-ease);
+}
+
+.submit:hover:not(:disabled),
+.submit:focus-visible:not(:disabled) {
+  background: var(--color-brass-2);
+  color: var(--color-bg);
+}
+
+.submit:disabled {
+  opacity: 0.7;
+  cursor: progress;
+}
+
+.hint {
+  margin: 0;
+  font-size: 12px;
+  letter-spacing: 0.02em;
+}
+
+.error {
+  margin: 0;
+  font-size: 12px;
+  color: var(--color-error);
+  letter-spacing: 0.02em;
+}
+
+/* Dark tone — for footer / ink backgrounds */
+.toneDark .field {
+  background: rgba(247, 243, 237, 0.04);
+  border: 1px solid rgba(229, 222, 210, 0.24);
+}
+
+.toneDark .field:focus-within {
+  border-color: var(--color-brass);
+  background: rgba(247, 243, 237, 0.06);
+}
+
+.toneDark .input {
+  color: var(--color-bg);
+}
+
+.toneDark .input::placeholder {
+  color: rgba(229, 222, 210, 0.55);
+}
+
+.toneDark .hint {
+  color: rgba(229, 222, 210, 0.6);
+}
+
+/* Light tone — for cream band */
+.toneLight .field {
+  background: var(--color-surface);
+  border: 1px solid var(--color-line);
+}
+
+.toneLight .field:focus-within {
+  border-color: var(--color-brass);
+}
+
+.toneLight .input {
+  color: var(--color-ink);
+}
+
+.toneLight .input::placeholder {
+  color: var(--color-muted);
+}
+
+.toneLight .hint {
+  color: var(--color-muted);
+}
+
+@media (max-width: 480px) {
+  .field {
+    height: auto;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .input {
+    height: 48px;
+    padding: 0 14px;
+  }
+
+  .submit {
+    margin: 0;
+    height: 48px;
+    border-radius: 0 0 calc(var(--radius-1) - 1px) calc(var(--radius-1) - 1px);
+  }
+}

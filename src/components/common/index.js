@@ -15,6 +15,7 @@ export { default as EmptyState } from './EmptyState/EmptyState.jsx';
 export { default as ErrorState } from './ErrorState/ErrorState.jsx';
 export { default as Eyebrow } from './Eyebrow.jsx';
 export { default as Loader } from './Loader/Loader.jsx';
+export { default as NewsletterForm } from './NewsletterForm.jsx';
 export { default as PageStub } from './PageStub.jsx';
 export { default as PriceTag } from './PriceTag.jsx';
 export { default as QuantityStepper } from './QuantityStepper/QuantityStepper.jsx';
