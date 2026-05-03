@@ -1,0 +1,15 @@
+.root :global(.MuiRating-iconFilled) {
+  color: var(--color-brass);
+}
+
+.root :global(.MuiRating-iconHover) {
+  color: var(--color-brass-2);
+}
+
+.root :global(.MuiRating-iconEmpty) {
+  color: var(--color-line);
+}
+
+.root :global(.MuiRating-iconFocus) {
+  color: var(--color-brass);
+}

@@ -1,0 +1,17 @@
+.root :global(.MuiCheckbox-root) {
+  color: var(--color-muted);
+}
+
+.root :global(.MuiCheckbox-root.Mui-checked) {
+  color: var(--color-brass);
+}
+
+.root :global(.MuiFormControlLabel-label) {
+  font-family: var(--font-ui);
+  color: var(--color-ink);
+}
+
+.root :global(.MuiFormHelperText-root) {
+  margin-left: 12px;
+  margin-top: 0;
+}

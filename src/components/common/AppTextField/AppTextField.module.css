@@ -1,0 +1,28 @@
+.root :global(.MuiInputLabel-root) {
+  color: var(--color-muted);
+}
+
+.root :global(.MuiInputLabel-root.Mui-focused) {
+  color: var(--color-brass);
+}
+
+.root :global(.MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline) {
+  border-color: var(--color-brass);
+  border-width: 2px;
+}
+
+.root :global(.MuiFormHelperText-root) {
+  margin-left: 0;
+  margin-top: 6px;
+  color: var(--color-muted);
+}
+
+.root :global(.MuiFormHelperText-root.Mui-error) {
+  color: var(--color-error);
+}
+
+.optional {
+  color: var(--color-muted);
+  font-size: 0.85em;
+  margin-left: 4px;
+}

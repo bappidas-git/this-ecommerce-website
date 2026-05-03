@@ -1,0 +1,31 @@
+.root {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-pill);
+  background-color: var(--color-surface);
+}
+
+.button {
+  color: var(--color-ink);
+}
+
+.button:hover {
+  background-color: rgba(184, 146, 79, 0.08);
+}
+
+.button:disabled {
+  color: var(--color-muted);
+}
+
+.value {
+  min-width: 32px;
+  text-align: center;
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  font-size: 0.9375rem;
+  color: var(--color-ink);
+  user-select: none;
+}

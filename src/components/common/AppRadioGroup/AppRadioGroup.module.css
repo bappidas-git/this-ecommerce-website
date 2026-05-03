@@ -1,0 +1,22 @@
+.root :global(.MuiFormLabel-root) {
+  color: var(--color-ink-2);
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  margin-bottom: 4px;
+}
+
+.root :global(.MuiFormLabel-root.Mui-focused) {
+  color: var(--color-brass);
+}
+
+.root :global(.MuiRadio-root) {
+  color: var(--color-muted);
+}
+
+.root :global(.MuiRadio-root.Mui-checked) {
+  color: var(--color-brass);
+}
+
+.root :global(.MuiFormHelperText-root) {
+  margin-left: 0;
+}

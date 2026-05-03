@@ -1,0 +1,26 @@
+.root {
+  font-family: var(--font-ui);
+  font-size: 0.8125rem;
+  color: var(--color-muted);
+  letter-spacing: 0.02em;
+}
+
+.link {
+  color: var(--color-ink-2);
+  text-decoration: none;
+}
+
+.link:hover {
+  color: var(--color-brass);
+  text-decoration: underline;
+}
+
+.current {
+  color: var(--color-ink);
+  font-weight: 500;
+}
+
+.sep {
+  color: var(--color-muted);
+  margin: 0 4px;
+}
