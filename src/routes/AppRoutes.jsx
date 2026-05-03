@@ -63,6 +63,7 @@ import AdminReports from '../admin/pages/AdminReports.jsx';
 import AdminUsers from '../admin/pages/AdminUsers.jsx';
 
 import KitchenSink from './KitchenSink.jsx';
+import KitchenSinkProducts from './KitchenSinkProducts.jsx';
 
 const isDev = import.meta.env.DEV;
 
@@ -115,6 +116,7 @@ function AppRoutes() {
         </Route>
 
         {isDev ? <Route path="_kitchen-sink" element={<KitchenSink />} /> : null}
+        {isDev ? <Route path="_kitchen-sink/products" element={<KitchenSinkProducts />} /> : null}
       </Route>
 
       <Route
