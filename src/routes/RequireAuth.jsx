@@ -2,6 +2,7 @@ import { Navigate, useLocation } from 'react-router-dom';
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
 import { useAuth } from '../context/AuthContext.jsx';
+import { queueToast } from '../utils/toastQueue.js';
 import { PATHS } from './paths.js';
 
 function RequireAuth({ children }) {
@@ -26,6 +27,7 @@ function RequireAuth({ children }) {
   }
 
   if (!isAuthenticated) {
+    queueToast({ variant: 'info', message: 'Please sign in to continue.' });
     const redirect = encodeURIComponent(`${location.pathname}${location.search}`);
     return <Navigate to={`${PATHS.auth.login}?redirect=${redirect}`} replace />;
   }

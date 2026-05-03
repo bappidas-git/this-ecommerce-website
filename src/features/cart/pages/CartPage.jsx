@@ -2,7 +2,6 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import Alert from '@mui/material/Alert';
 import { AnimatePresence, motion } from 'framer-motion';
-import { useSnackbar } from 'notistack';
 
 import Container from '../../../components/common/Container.jsx';
 import Section from '../../../components/common/Section.jsx';
@@ -13,6 +12,7 @@ import OrderSummary from '../components/OrderSummary.jsx';
 import CartStickyBar from '../components/CartStickyBar.jsx';
 
 import { useCart } from '../../../context/CartContext.jsx';
+import { useToast } from '../../../context/ToastContext.jsx';
 import { useWishlist } from '../../../hooks/useWishlist.js';
 import useProducts from '../../../hooks/useProducts.js';
 import productService from '../../../api/services/productService.js';
@@ -34,7 +34,7 @@ function CartPage() {
     reconcileStock,
   } = useCart();
   const { add: addToWishlist } = useWishlist();
-  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+  const { info, success, dismiss } = useToast();
 
   const summaryRef = useRef(null);
   const [showReconcileBanner, setShowReconcileBanner] = useState(false);
@@ -122,8 +122,7 @@ function CartPage() {
       if (!item) return;
       removeItem(productId);
 
-      const undoKey = enqueueSnackbar(`${item.name} removed.`, {
-        variant: 'default',
+      const undoKey = info(`${item.name} removed.`, {
         autoHideDuration: UNDO_REMOVE_MS,
         action: (key) => (
           <button
@@ -131,7 +130,7 @@ function CartPage() {
             className={styles.snackbarUndo}
             onClick={() => {
               addItem(item, item.qty);
-              closeSnackbar(key);
+              dismiss(key);
             }}
           >
             Undo
@@ -141,7 +140,7 @@ function CartPage() {
       // Touch the key to keep ESLint quiet about the unused returned id.
       void undoKey;
     },
-    [state.items, removeItem, addItem, enqueueSnackbar, closeSnackbar],
+    [state.items, removeItem, addItem, info, dismiss],
   );
 
   const handleMoveToWishlist = useCallback(
@@ -155,11 +154,9 @@ function CartPage() {
   const handleApplyCoupon = useCallback(
     (couponData) => {
       setCoupon(couponData);
-      enqueueSnackbar(`Coupon ${couponData.code} applied`, {
-        variant: 'success',
-      });
+      success(`Coupon ${couponData.code} applied`);
     },
-    [setCoupon, enqueueSnackbar],
+    [setCoupon, success],
   );
 
   const handleClearCoupon = useCallback(() => {

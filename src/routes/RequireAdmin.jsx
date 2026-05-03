@@ -2,19 +2,8 @@ import { Navigate, useLocation } from 'react-router-dom';
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
 import { useAdminAuth } from '../admin/context/AdminAuthContext.jsx';
+import { queueToast } from '../utils/toastQueue.js';
 import { PATHS } from './paths.js';
-
-const TOAST_QUEUE_KEY = 'ti_admin_toast_queue';
-
-function queueToast(toast) {
-  try {
-    const existing = JSON.parse(sessionStorage.getItem(TOAST_QUEUE_KEY) || '[]');
-    existing.push(toast);
-    sessionStorage.setItem(TOAST_QUEUE_KEY, JSON.stringify(existing));
-  } catch {
-    // sessionStorage may be unavailable; non-fatal for guard logic
-  }
-}
 
 function RequireAdmin({ children, permission }) {
   const { isAuthenticated, isLoading, hasPermission } = useAdminAuth();
@@ -38,6 +27,7 @@ function RequireAdmin({ children, permission }) {
   }
 
   if (!isAuthenticated) {
+    queueToast({ variant: 'info', message: 'Please sign in to continue.' });
     const redirect = encodeURIComponent(`${location.pathname}${location.search}`);
     return <Navigate to={`${PATHS.admin.login}?redirect=${redirect}`} replace />;
   }
