@@ -1,0 +1,38 @@
+.inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 16px;
+}
+
+.title {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(2rem, 4vw, 2.75rem);
+  line-height: 1.1;
+  letter-spacing: -0.005em;
+  margin: 0;
+  color: var(--color-ink);
+}
+
+.kicker {
+  font-family: var(--font-ui);
+  font-size: 16px;
+  line-height: 1.6;
+  margin: 0;
+  color: var(--color-ink-2);
+  max-width: 56ch;
+}
+
+.formWrap {
+  width: 100%;
+  max-width: 480px;
+  margin-top: 16px;
+}
+
+@media (min-width: 900px) {
+  .kicker {
+    font-size: 17px;
+  }
+}
