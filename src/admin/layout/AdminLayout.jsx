@@ -3,6 +3,9 @@ import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import { adminTheme } from '../../theme/index.js';
 import { PATHS } from '../../routes/paths.js';
+import { useAdminAuth } from '../context/AdminAuthContext.jsx';
+import useSessionExpiredHandler from '../../hooks/useSessionExpiredHandler.js';
+import useScrollToTop from '../../hooks/useScrollToTop.js';
 import styles from './AdminLayout.module.css';
 
 const ADMIN_NAV = [
@@ -24,6 +27,10 @@ function navClass({ isActive }) {
 }
 
 function AdminLayout() {
+  const adminAuth = useAdminAuth();
+  useSessionExpiredHandler({ scope: 'admin', logout: adminAuth?.logout });
+  useScrollToTop();
+
   return (
     <ThemeProvider theme={adminTheme}>
       <CssBaseline />
