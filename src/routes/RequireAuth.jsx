@@ -6,22 +6,25 @@ import { queueToast } from '../utils/toastQueue.js';
 import { PATHS } from './paths.js';
 
 function RequireAuth({ children }) {
-  const { isAuthenticated, isLoading } = useAuth();
+  const { isAuthenticated, isHydrating } = useAuth();
   const location = useLocation();
 
-  if (isLoading) {
+  if (isHydrating) {
     return (
       <Box
         role="status"
         aria-live="polite"
+        aria-label="Loading"
         sx={{
-          minHeight: '40vh',
+          minHeight: '100vh',
+          width: '100%',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
+          bgcolor: 'background.default',
         }}
       >
-        <CircularProgress size={28} thickness={4} color="primary" />
+        <CircularProgress size={32} thickness={4} color="primary" />
       </Box>
     );
   }
