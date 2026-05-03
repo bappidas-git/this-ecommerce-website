@@ -1,0 +1,82 @@
+.shell {
+  position: sticky;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  width: 100%;
+  background: rgba(247, 243, 237, 0.85);
+  backdrop-filter: saturate(140%) blur(10px);
+  -webkit-backdrop-filter: saturate(140%) blur(10px);
+  border-bottom: 1px solid transparent;
+  transition:
+    background var(--motion-base) var(--motion-ease),
+    border-color var(--motion-base) var(--motion-ease),
+    transform var(--motion-base) var(--motion-ease);
+}
+
+.scrolled {
+  background: var(--color-bg);
+  border-bottom-color: var(--color-line);
+}
+
+.hidden {
+  transform: translateY(-100%);
+}
+
+.appbar {
+  background: transparent;
+  color: var(--color-ink);
+  box-shadow: none;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 16px;
+  height: 60px;
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+.left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.menuButton {
+  color: var(--color-ink);
+}
+
+.center {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  min-width: 0;
+}
+
+.right {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  min-width: 0;
+}
+
+@media (min-width: 768px) {
+  .row {
+    height: 72px;
+    padding: 0 32px;
+  }
+  .center {
+    display: flex;
+  }
+  .menuButton {
+    display: none;
+  }
+}
