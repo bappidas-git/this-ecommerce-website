@@ -1,0 +1,4384 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "firstName": "Aaliyah",
+      "lastName": "Hassan",
+      "email": "admin@thisinteriors.test",
+      "role": "admin",
+      "phone": "+971501110001",
+      "avatar": "https://placehold.co/200x200/B8924F/F7F3ED?text=AH&font=playfair",
+      "passwordHash": "$2b$10$quU3KdC3KyEkq1hzmoANEe/X2QbVAd4ld3JkasoDT6kYGS7DrZpUC",
+      "isActive": true,
+      "createdAt": "2024-01-12T09:00:00.000Z",
+      "updatedAt": "2026-04-20T09:00:00.000Z"
+    },
+    {
+      "id": 2,
+      "firstName": "Marcus",
+      "lastName": "Lawal",
+      "email": "manager@thisinteriors.test",
+      "role": "manager",
+      "phone": "+971501110002",
+      "avatar": "https://placehold.co/200x200/B8924F/F7F3ED?text=ML&font=playfair",
+      "passwordHash": "$2b$10$quU3KdC3KyEkq1hzmoANEe/X2QbVAd4ld3JkasoDT6kYGS7DrZpUC",
+      "isActive": true,
+      "createdAt": "2024-03-04T09:00:00.000Z",
+      "updatedAt": "2026-03-28T09:00:00.000Z"
+    },
+    {
+      "id": 3,
+      "firstName": "Sana",
+      "lastName": "Khoury",
+      "email": "viewer@thisinteriors.test",
+      "role": "viewer",
+      "phone": "+971501110003",
+      "avatar": "https://placehold.co/200x200/B8924F/F7F3ED?text=SK&font=playfair",
+      "passwordHash": "$2b$10$quU3KdC3KyEkq1hzmoANEe/X2QbVAd4ld3JkasoDT6kYGS7DrZpUC",
+      "isActive": true,
+      "createdAt": "2024-06-18T09:00:00.000Z",
+      "updatedAt": "2026-02-11T09:00:00.000Z"
+    },
+    {
+      "id": 4,
+      "firstName": "Layla",
+      "lastName": "Ibrahim",
+      "email": "layla@example.com",
+      "role": "customer",
+      "phone": "+971554441001",
+      "avatar": "https://placehold.co/200x200/B8924F/F7F3ED?text=LI&font=playfair",
+      "passwordHash": "$2b$10$quU3KdC3KyEkq1hzmoANEe/X2QbVAd4ld3JkasoDT6kYGS7DrZpUC",
+      "isActive": true,
+      "createdAt": "2025-05-09T09:00:00.000Z",
+      "updatedAt": "2026-04-14T09:00:00.000Z"
+    },
+    {
+      "id": 5,
+      "firstName": "Omar",
+      "lastName": "Saleh",
+      "email": "omar@example.com",
+      "role": "customer",
+      "phone": "+971554441002",
+      "avatar": "https://placehold.co/200x200/B8924F/F7F3ED?text=OS&font=playfair",
+      "passwordHash": "$2b$10$quU3KdC3KyEkq1hzmoANEe/X2QbVAd4ld3JkasoDT6kYGS7DrZpUC",
+      "isActive": true,
+      "createdAt": "2025-09-21T09:00:00.000Z",
+      "updatedAt": "2026-04-27T09:00:00.000Z"
+    }
+  ],
+  "categories": [
+    {
+      "id": 1,
+      "slug": "vases",
+      "name": "Vases",
+      "description": "Sculptural vessels in marble, glass, brass, and stoneware.",
+      "parentId": null,
+      "image": "https://placehold.co/900x600/E5DED2/1B1A17?text=Vases&font=playfair",
+      "sortOrder": 10
+    },
+    {
+      "id": 2,
+      "slug": "lamps",
+      "name": "Lamps",
+      "description": "Quiet lighting — table, floor and pendant pieces.",
+      "parentId": null,
+      "image": "https://placehold.co/900x600/E5DED2/1B1A17?text=Lamps&font=playfair",
+      "sortOrder": 20
+    },
+    {
+      "id": 3,
+      "slug": "cushions-throws",
+      "name": "Cushions & Throws",
+      "description": "Linen, velvet, and cashmere comfort for sofa and bed.",
+      "parentId": null,
+      "image": "https://placehold.co/900x600/E5DED2/1B1A17?text=Cushions+%26+Throws&font=playfair",
+      "sortOrder": 30
+    },
+    {
+      "id": 4,
+      "slug": "wall-art",
+      "name": "Wall Art",
+      "description": "Limited prints, framed studies, and architectural plates.",
+      "parentId": null,
+      "image": "https://placehold.co/900x600/E5DED2/1B1A17?text=Wall+Art&font=playfair",
+      "sortOrder": 40
+    },
+    {
+      "id": 5,
+      "slug": "mirrors",
+      "name": "Mirrors",
+      "description": "Arched, round, and floor mirrors with brass and stone trim.",
+      "parentId": null,
+      "image": "https://placehold.co/900x600/E5DED2/1B1A17?text=Mirrors&font=playfair",
+      "sortOrder": 50
+    },
+    {
+      "id": 6,
+      "slug": "candles-diffusers",
+      "name": "Candles & Diffusers",
+      "description": "Oud, fig, rose, sandalwood — slow-burn rituals for home.",
+      "parentId": null,
+      "image": "https://placehold.co/900x600/E5DED2/1B1A17?text=Candles+%26+Diffusers&font=playfair",
+      "sortOrder": 60
+    },
+    {
+      "id": 7,
+      "slug": "planters",
+      "name": "Planters",
+      "description": "Terracotta, concrete, brass and marble vessels for greenery.",
+      "parentId": null,
+      "image": "https://placehold.co/900x600/E5DED2/1B1A17?text=Planters&font=playfair",
+      "sortOrder": 70
+    },
+    {
+      "id": 8,
+      "slug": "table-accessories",
+      "name": "Table Accessories",
+      "description": "Napkins, candlesticks, coasters and serving pieces.",
+      "parentId": null,
+      "image": "https://placehold.co/900x600/E5DED2/1B1A17?text=Table+Accessories&font=playfair",
+      "sortOrder": 80
+    }
+  ],
+  "products": [
+    {
+      "id": 1,
+      "slug": "marble-carrara-vase",
+      "name": "Marble Carrara Vase",
+      "categoryId": 1,
+      "description": "Marble Carrara Vase is part of the THIS Interiors core collection — a quietly considered piece for spaces that favour material over decoration. Crafted in carrara marble, the form is restrained and the finish is hand-worked.\n\nDesigned for everyday rituals: weighty in the hand, generous in proportion, easy to live with. The ivory tone reads warm in daylight and recedes by lamplight, sitting comfortably alongside linen, oak, brass and stone.\n\nEach piece is finished by hand, so subtle variation is part of the character. Care is straightforward: a soft, dry cloth is enough for most surfaces — avoid harsh detergents and direct sun.\n\nShipped from our Dubai studio in protective packaging. Pieces ship within 2–4 working days inside the UAE; international orders take 7–14 working days.",
+      "price": 7800,
+      "compareAtPrice": 9750,
+      "currency": "AED",
+      "images": [
+        "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Marble+Carrara+Vase+1&font=playfair",
+        "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Marble+Carrara+Vase+2&font=playfair",
+        "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Marble+Carrara+Vase+3&font=playfair"
+      ],
+      "attributes": {
+        "color": [
+          "Ivory"
+        ],
+        "material": [
+          "Carrara Marble"
+        ],
+        "dimensions": "24 × 24 × 38 cm",
+        "weight": "3.8 kg"
+      },
+      "tags": [
+        "vases",
+        "carrara",
+        "sale",
+        "new"
+      ],
+      "sku": "TI-VAS-0001",
+      "stock": 0,
+      "isActive": true,
+      "isFeatured": true,
+      "isNew": true,
+      "isOnSale": true,
+      "rating": 4.5,
+      "reviewCount": 30,
+      "createdAt": "2025-11-02T09:00:00.000Z",
+      "updatedAt": "2026-04-01T09:00:00.000Z"
+    },
+    {
+      "id": 2,
+      "slug": "brass-stem-vase",
+      "name": "Brass Stem Vase",
+      "categoryId": 1,
+      "description": "Brass Stem Vase is part of the THIS Interiors core collection — a quietly considered piece for spaces that favour material over decoration. Crafted in brushed brass, the form is restrained and the finish is hand-worked.\n\nDesigned for everyday rituals: weighty in the hand, generous in proportion, easy to live with. The brass tone reads warm in daylight and recedes by lamplight, sitting comfortably alongside linen, oak, brass and stone.\n\nEach piece is finished by hand, so subtle variation is part of the character. Care is straightforward: a soft, dry cloth is enough for most surfaces — avoid harsh detergents and direct sun.\n\nShipped from our Dubai studio in protective packaging. Pieces ship within 2–4 working days inside the UAE; international orders take 7–14 working days.",
+      "price": 4900,
+      "compareAtPrice": null,
+      "currency": "AED",
+      "images": [
+        "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Brass+Stem+Vase+1&font=playfair",
+        "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Brass+Stem+Vase+2&font=playfair",
+        "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Brass+Stem+Vase+3&font=playfair",
+        "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Brass+Stem+Vase+4&font=playfair"
+      ],
+      "attributes": {
+        "color": [
+          "Brass"
+        ],
+        "material": [
+          "Brushed Brass"
+        ],
+        "dimensions": "12 × 12 × 32 cm",
+        "weight": "2.07 kg"
+      },
+      "tags": [
+        "vases",
+        "brushed",
+        "core",
+        "classic"
+      ],
+      "sku": "TI-VAS-0002",
+      "stock": 4,
+      "isActive": true,
+      "isFeatured": false,
+      "isNew": false,
+      "isOnSale": false,
+      "rating": 4.3,
+      "reviewCount": 7,
+      "createdAt": "2025-11-05T09:00:00.000Z",
+      "updatedAt": "2026-04-02T09:00:00.000Z"
+    },
+    {
+      "id": 3,
+      "slug": "linen-pottery-vase",
+      "name": "Linen Pottery Vase",
+      "categoryId": 1,
+      "description": "Linen Pottery Vase is part of the THIS Interiors core collection — a quietly considered piece for spaces that favour material over decoration. Crafted in stoneware, the form is restrained and the finish is hand-worked.\n\nDesigned for everyday rituals: weighty in the hand, generous in proportion, easy to live with. The sand tone reads warm in daylight and recedes by lamplight, sitting comfortably alongside linen, oak, brass and stone.\n\nEach piece is finished by hand, so subtle variation is part of the character. Care is straightforward: a soft, dry cloth is enough for most surfaces — avoid harsh detergents and direct sun.\n\nShipped from our Dubai studio in protective packaging. Pieces ship within 2–4 working days inside the UAE; international orders take 7–14 working days.",
+      "price": 3600,
+      "compareAtPrice": null,
+      "currency": "AED",
+      "images": [
+        "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Linen+Pottery+Vase+1&font=playfair",
+        "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Linen+Pottery+Vase+2&font=playfair",
+        "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Linen+Pottery+Vase+3&font=playfair",
+        "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Linen+Pottery+Vase+4&font=playfair",
+        "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Linen+Pottery+Vase+5&font=playfair"
+      ],
+      "attributes": {
+        "color": [
+          "Sand"
+        ],
+        "material": [
+          "Stoneware"
+        ],
+        "dimensions": "18 × 18 × 26 cm",
+        "weight": "0.63 kg"
+      },
+      "tags": [
+        "vases",
+        "stoneware",
+        "core",
+        "classic"
+      ],
+      "sku": "TI-VAS-0003",
+      "stock": 33,
+      "isActive": true,
+      "isFeatured": false,
+      "isNew": false,
+      "isOnSale": false,
+      "rating": 4,
+      "reviewCount": 16,
+      "createdAt": "2025-11-08T09:00:00.000Z",
+      "updatedAt": "2026-04-03T09:00:00.000Z"
+    },
+    {
+      "id": 4,
+      "slug": "smoked-glass-vase",
+      "name": "Smoked Glass Vase",
+      "categoryId": 1,
+      "description": "Smoked Glass Vase is part of the THIS Interiors core collection — a quietly considered piece for spaces that favour material over decoration. Crafted in hand-blown glass, the form is restrained and the finish is hand-worked.\n\nDesigned for everyday rituals: weighty in the hand, generous in proportion, easy to live with. The smoke tone reads warm in daylight and recedes by lamplight, sitting comfortably alongside linen, oak, brass and stone.\n\nEach piece is finished by hand, so subtle variation is part of the character. Care is straightforward: a soft, dry cloth is enough for most surfaces — avoid harsh detergents and direct sun.\n\nShipped from our Dubai studio in protective packaging. Pieces ship within 2–4 working days inside the UAE; international orders take 7–14 working days.",
+      "price": 4200,
+      "compareAtPrice": null,
+      "currency": "AED",
+      "images": [
+        "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Smoked+Glass+Vase+1&font=playfair",
+        "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Smoked+Glass+Vase+2&font=playfair",
+        "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Smoked+Glass+Vase+3&font=playfair"
+      ],
+      "attributes": {
+        "color": [
+          "Smoke"
+        ],
+        "material": [
+          "Hand-blown Glass"
+        ],
+        "dimensions": "16 × 16 × 30 cm",
+        "weight": "1.99 kg"
+      },
+      "tags": [
+        "vases",
+        "hand-blown",
+        "core",
+        "classic"
+      ],
+      "sku": "TI-VAS-0004",
+      "stock": 36,
+      "isActive": true,
+      "isFeatured": false,
+      "isNew": false,
+      "isOnSale": false,
+      "rating": 4.4,
+      "reviewCount": 10,
+      "createdAt": "2025-11-11T09:00:00.000Z",
+      "updatedAt": "2026-04-04T09:00:00.000Z"
+    },
+    {
+      "id": 5,
+      "slug": "travertine-bud-vase",
+      "name": "Travertine Bud Vase",
+      "categoryId": 1,
+      "description": "Travertine Bud Vase is part of the THIS Interiors core collection — a quietly considered piece for spaces that favour material over decoration. Crafted in travertine, the form is restrained and the finish is hand-worked.\n\nDesigned for everyday rituals: weighty in the hand, generous in proportion, easy to live with. The cream tone reads warm in daylight and recedes by lamplight, sitting comfortably alongside linen, oak, brass and stone.\n\nEach piece is finished by hand, so subtle variation is part of the character. Care is straightforward: a soft, dry cloth is enough for most surfaces — avoid harsh detergents and direct sun.\n\nShipped from our Dubai studio in protective packaging. Pieces ship within 2–4 working days inside the UAE; international orders take 7–14 working days.",
+      "price": 2200,
+      "compareAtPrice": null,
+      "currency": "AED",
+      "images": [
+        "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Travertine+Bud+Vase+1&font=playfair",
+        "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Travertine+Bud+Vase+2&font=playfair",
+        "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Travertine+Bud+Vase+3&font=playfair",
+        "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Travertine+Bud+Vase+4&font=playfair"
+      ],
+      "attributes": {
+        "color": [
+          "Cream"
+        ],
+        "material": [
+          "Travertine"
+        ],
+        "dimensions": "8 × 8 × 14 cm",
+        "weight": "2.3 kg"
+      },
+      "tags": [
+        "vases",
+        "travertine",
+        "core",
+        "new"
+      ],
+      "sku": "TI-VAS-0005",
+      "stock": 22,
+      "isActive": true,
+      "isFeatured": false,
+      "isNew": true,
+      "isOnSale": false,
+      "rating": 4.7,
+      "reviewCount": 11,
+      "createdAt": "2025-11-14T09:00:00.000Z",
+      "updatedAt": "2026-04-05T09:00:00.000Z"
+    },
+    {
+      "id": 6,
+      "slug": "brass-reading-lamp",
+      "name": "Brass Reading Lamp",
+      "categoryId": 2,
+      "description": "Brass Reading Lamp is part of the THIS Interiors core collection — a quietly considered piece for spaces that favour material over decoration. Crafted in solid brass and linen shade, the form is restrained and the finish is hand-worked.\n\nDesigned for everyday rituals: weighty in the hand, generous in proportion, easy to live with. The brass tone reads warm in daylight and recedes by lamplight, sitting comfortably alongside linen, oak, brass and stone.\n\nEach piece is finished by hand, so subtle variation is part of the character. Care is straightforward: a soft, dry cloth is enough for most surfaces — avoid harsh detergents and direct sun.\n\nShipped from our Dubai studio in protective packaging. Pieces ship within 2–4 working days inside the UAE; international orders take 7–14 working days.",
+      "price": 12800,
+      "compareAtPrice": 16000,
+      "currency": "AED",
+      "images": [
+        "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Brass+Reading+Lamp+1&font=playfair",
+        "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Brass+Reading+Lamp+2&font=playfair",
+        "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Brass+Reading+Lamp+3&font=playfair",
+        "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Brass+Reading+Lamp+4&font=playfair",
+        "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Brass+Reading+Lamp+5&font=playfair"
+      ],
+      "attributes": {
+        "color": [
+          "Brass",
+          "Ivory"
+        ],
+        "material": [
+          "Solid Brass",
+          "Linen Shade"
+        ],
+        "dimensions": "32 × 32 × 58 cm",
+        "weight": "3.06 kg"
+      },
+      "tags": [
+        "lamps",
+        "solid",
+        "sale",
+        "classic"
+      ],
+      "sku": "TI-LAM-0006",
+      "stock": 23,
+      "isActive": true,
+      "isFeatured": false,
+      "isNew": false,
+      "isOnSale": true,
+      "rating": 4.7,
+      "reviewCount": 17,
+      "createdAt": "2025-11-17T09:00:00.000Z",
+      "updatedAt": "2026-04-06T09:00:00.000Z"
+    },
+    {
+      "id": 7,
+      "slug": "linen-drum-floor-lamp",
+      "name": "Linen Drum Floor Lamp",
+      "categoryId": 2,
+      "description": "Linen Drum Floor Lamp is part of the THIS Interiors core collection — a quietly considered piece for spaces that favour material over decoration. Crafted in oak and linen, the form is restrained and the finish is hand-worked.\n\nDesigned for everyday rituals: weighty in the hand, generous in proportion, easy to live with. The sand tone reads warm in daylight and recedes by lamplight, sitting comfortably alongside linen, oak, brass and stone.\n\nEach piece is finished by hand, so subtle variation is part of the character. Care is straightforward: a soft, dry cloth is enough for most surfaces — avoid harsh detergents and direct sun.\n\nShipped from our Dubai studio in protective packaging. Pieces ship within 2–4 working days inside the UAE; international orders take 7–14 working days.",
+      "price": 18900,
+      "compareAtPrice": null,
+      "currency": "AED",
+      "images": [
+        "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Linen+Drum+Floor+Lamp+1&font=playfair",
+        "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Linen+Drum+Floor+Lamp+2&font=playfair",
+        "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Linen+Drum+Floor+Lamp+3&font=playfair"
+      ],
+      "attributes": {
+        "color": [
+          "Sand"
+        ],
+        "material": [
+          "Oak",
+          "Linen"
+        ],
+        "dimensions": "46 × 46 × 162 cm",
+        "weight": "1.69 kg"
+      },
+      "tags": [
+        "lamps",
+        "oak",
+        "core",
+        "classic"
+      ],
+      "sku": "TI-LAM-0007",
+      "stock": 40,
+      "isActive": true,
+      "isFeatured": true,
+      "isNew": false,
+      "isOnSale": false,
+      "rating": 3.7,
+      "reviewCount": 26,
+      "createdAt": "2025-11-20T09:00:00.000Z",
+      "updatedAt": "2026-04-07T09:00:00.000Z"
+    },
+    {
+      "id": 8,
+      "slug": "pleated-silk-table-lamp",
+      "name": "Pleated Silk Table Lamp",
+      "categoryId": 2,
+      "description": "Pleated Silk Table Lamp is part of the THIS Interiors core collection — a quietly considered piece for spaces that favour material over decoration. Crafted in silk and brass, the form is restrained and the finish is hand-worked.\n\nDesigned for everyday rituals: weighty in the hand, generous in proportion, easy to live with. The champagne tone reads warm in daylight and recedes by lamplight, sitting comfortably alongside linen, oak, brass and stone.\n\nEach piece is finished by hand, so subtle variation is part of the character. Care is straightforward: a soft, dry cloth is enough for most surfaces — avoid harsh detergents and direct sun.\n\nShipped from our Dubai studio in protective packaging. Pieces ship within 2–4 working days inside the UAE; international orders take 7–14 working days.",
+      "price": 9800,
+      "compareAtPrice": null,
+      "currency": "AED",
+      "images": [
+        "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Pleated+Silk+Table+Lamp+1&font=playfair",
+        "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Pleated+Silk+Table+Lamp+2&font=playfair",
+        "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Pleated+Silk+Table+Lamp+3&font=playfair",
+        "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Pleated+Silk+Table+Lamp+4&font=playfair"
+      ],
+      "attributes": {
+        "color": [
+          "Champagne"
+        ],
+        "material": [
+          "Silk",
+          "Brass"
+        ],
+        "dimensions": "34 × 34 × 56 cm",
+        "weight": "1.34 kg"
+      },
+      "tags": [
+        "lamps",
+        "silk",
+        "core",
+        "classic"
+      ],
+      "sku": "TI-LAM-0008",
+      "stock": 10,
+      "isActive": true,
+      "isFeatured": false,
+      "isNew": false,
+      "isOnSale": false,
+      "rating": 4.5,
+      "reviewCount": 5,
+      "createdAt": "2025-11-23T09:00:00.000Z",
+      "updatedAt": "2026-04-08T09:00:00.000Z"
+    },
+    {
+      "id": 9,
+      "slug": "onyx-glow-lamp",
+      "name": "Onyx Glow Lamp",
+      "categoryId": 2,
+      "description": "Onyx Glow Lamp is part of the THIS Interiors core collection — a quietly considered piece for spaces that favour material over decoration. Crafted in onyx stone and brass, the form is restrained and the finish is hand-worked.\n\nDesigned for everyday rituals: weighty in the hand, generous in proportion, easy to live with. The honey tone reads warm in daylight and recedes by lamplight, sitting comfortably alongside linen, oak, brass and stone.\n\nEach piece is finished by hand, so subtle variation is part of the character. Care is straightforward: a soft, dry cloth is enough for most surfaces — avoid harsh detergents and direct sun.\n\nShipped from our Dubai studio in protective packaging. Pieces ship within 2–4 working days inside the UAE; international orders take 7–14 working days.",
+      "price": 14500,
+      "compareAtPrice": null,
+      "currency": "AED",
+      "images": [
+        "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Onyx+Glow+Lamp+1&font=playfair",
+        "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Onyx+Glow+Lamp+2&font=playfair",
+        "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Onyx+Glow+Lamp+3&font=playfair",
+        "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Onyx+Glow+Lamp+4&font=playfair",
+        "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Onyx+Glow+Lamp+5&font=playfair"
+      ],
+      "attributes": {
+        "color": [
+          "Honey"
+        ],
+        "material": [
+          "Onyx Stone",
+          "Brass"
+        ],
+        "dimensions": "22 × 22 × 38 cm",
+        "weight": "2.61 kg"
+      },
+      "tags": [
+        "lamps",
+        "onyx",
+        "core",
+        "new"
+      ],
+      "sku": "TI-LAM-0009",
+      "stock": 12,
+      "isActive": true,
+      "isFeatured": false,
+      "isNew": true,
+      "isOnSale": false,
+      "rating": 4.5,
+      "reviewCount": 25,
+      "createdAt": "2025-11-26T09:00:00.000Z",
+      "updatedAt": "2026-04-09T09:00:00.000Z"
+    },
+    {
+      "id": 10,
+      "slug": "cylinder-pendant-lamp",
+      "name": "Cylinder Pendant Lamp",
+      "categoryId": 2,
+      "description": "Cylinder Pendant Lamp is part of the THIS Interiors core collection — a quietly considered piece for spaces that favour material over decoration. Crafted in brushed brass, the form is restrained and the finish is hand-worked.\n\nDesigned for everyday rituals: weighty in the hand, generous in proportion, easy to live with. The brass tone reads warm in daylight and recedes by lamplight, sitting comfortably alongside linen, oak, brass and stone.\n\nEach piece is finished by hand, so subtle variation is part of the character. Care is straightforward: a soft, dry cloth is enough for most surfaces — avoid harsh detergents and direct sun.\n\nShipped from our Dubai studio in protective packaging. Pieces ship within 2–4 working days inside the UAE; international orders take 7–14 working days.",
+      "price": 7600,
+      "compareAtPrice": null,
+      "currency": "AED",
+      "images": [
+        "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Cylinder+Pendant+Lamp+1&font=playfair",
+        "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Cylinder+Pendant+Lamp+2&font=playfair",
+        "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Cylinder+Pendant+Lamp+3&font=playfair"
+      ],
+      "attributes": {
+        "color": [
+          "Brass"
+        ],
+        "material": [
+          "Brushed Brass"
+        ],
+        "dimensions": "18 × 18 × 32 cm",
+        "weight": "2.87 kg"
+      },
+      "tags": [
+        "lamps",
+        "brushed",
+        "core",
+        "classic"
+      ],
+      "sku": "TI-LAM-0010",
+      "stock": 26,
+      "isActive": true,
+      "isFeatured": false,
+      "isNew": false,
+      "isOnSale": false,
+      "rating": 3.6,
+      "reviewCount": 26,
+      "createdAt": "2025-11-29T09:00:00.000Z",
+      "updatedAt": "2026-04-10T09:00:00.000Z"
+    },
+    {
+      "id": 11,
+      "slug": "linen-sand-cushion",
+      "name": "Linen Sand Cushion",
+      "categoryId": 3,
+      "description": "Linen Sand Cushion is part of the THIS Interiors core collection — a quietly considered piece for spaces that favour material over decoration. Crafted in belgian linen, the form is restrained and the finish is hand-worked.\n\nDesigned for everyday rituals: weighty in the hand, generous in proportion, easy to live with. The sand tone reads warm in daylight and recedes by lamplight, sitting comfortably alongside linen, oak, brass and stone.\n\nEach piece is finished by hand, so subtle variation is part of the character. Care is straightforward: a soft, dry cloth is enough for most surfaces — avoid harsh detergents and direct sun.\n\nShipped from our Dubai studio in protective packaging. Pieces ship within 2–4 working days inside the UAE; international orders take 7–14 working days.",
+      "price": 2400,
+      "compareAtPrice": 3000,
+      "currency": "AED",
+      "images": [
+        "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Linen+Sand+Cushion+1&font=playfair",
+        "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Linen+Sand+Cushion+2&font=playfair",
+        "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Linen+Sand+Cushion+3&font=playfair",
+        "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Linen+Sand+Cushion+4&font=playfair"
+      ],
+      "attributes": {
+        "color": [
+          "Sand"
+        ],
+        "material": [
+          "Belgian Linen"
+        ],
+        "dimensions": "50 × 50 cm",
+        "weight": "1.73 kg"
+      },
+      "tags": [
+        "cushions & throws",
+        "belgian",
+        "sale",
+        "classic"
+      ],
+      "sku": "TI-CUS-0011",
+      "stock": 11,
+      "isActive": true,
+      "isFeatured": false,
+      "isNew": false,
+      "isOnSale": true,
+      "rating": 4.2,
+      "reviewCount": 23,
+      "createdAt": "2025-12-02T09:00:00.000Z",
+      "updatedAt": "2026-04-11T09:00:00.000Z"
+    },
+    {
+      "id": 12,
+      "slug": "velvet-emerald-cushion",
+      "name": "Velvet Emerald Cushion",
+      "categoryId": 3,
+      "description": "Velvet Emerald Cushion is part of the THIS Interiors core collection — a quietly considered piece for spaces that favour material over decoration. Crafted in cotton velvet, the form is restrained and the finish is hand-worked.\n\nDesigned for everyday rituals: weighty in the hand, generous in proportion, easy to live with. The emerald tone reads warm in daylight and recedes by lamplight, sitting comfortably alongside linen, oak, brass and stone.\n\nEach piece is finished by hand, so subtle variation is part of the character. Care is straightforward: a soft, dry cloth is enough for most surfaces — avoid harsh detergents and direct sun.\n\nShipped from our Dubai studio in protective packaging. Pieces ship within 2–4 working days inside the UAE; international orders take 7–14 working days.",
+      "price": 2600,
+      "compareAtPrice": null,
+      "currency": "AED",
+      "images": [
+        "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Velvet+Emerald+Cushion+1&font=playfair",
+        "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Velvet+Emerald+Cushion+2&font=playfair",
+        "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Velvet+Emerald+Cushion+3&font=playfair",
+        "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Velvet+Emerald+Cushion+4&font=playfair",
+        "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Velvet+Emerald+Cushion+5&font=playfair"
+      ],
+      "attributes": {
+        "color": [
+          "Emerald"
+        ],
+        "material": [
+          "Cotton Velvet"
+        ],
+        "dimensions": "50 × 50 cm",
+        "weight": "3.83 kg"
+      },
+      "tags": [
+        "cushions & throws",
+        "cotton",
+        "core",
+        "classic"
+      ],
+      "sku": "TI-CUS-0012",
+      "stock": 19,
+      "isActive": true,
+      "isFeatured": false,
+      "isNew": false,
+      "isOnSale": false,
+      "rating": 4.2,
+      "reviewCount": 37,
+      "createdAt": "2025-12-05T09:00:00.000Z",
+      "updatedAt": "2026-04-12T09:00:00.000Z"
+    },
+    {
+      "id": 13,
+      "slug": "boucle-ivory-throw",
+      "name": "Boucle Ivory Throw",
+      "categoryId": 3,
+      "description": "Boucle Ivory Throw is part of the THIS Interiors core collection — a quietly considered piece for spaces that favour material over decoration. Crafted in wool boucle, the form is restrained and the finish is hand-worked.\n\nDesigned for everyday rituals: weighty in the hand, generous in proportion, easy to live with. The ivory tone reads warm in daylight and recedes by lamplight, sitting comfortably alongside linen, oak, brass and stone.\n\nEach piece is finished by hand, so subtle variation is part of the character. Care is straightforward: a soft, dry cloth is enough for most surfaces — avoid harsh detergents and direct sun.\n\nShipped from our Dubai studio in protective packaging. Pieces ship within 2–4 working days inside the UAE; international orders take 7–14 working days.",
+      "price": 6800,
+      "compareAtPrice": null,
+      "currency": "AED",
+      "images": [
+        "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Boucle+Ivory+Throw+1&font=playfair",
+        "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Boucle+Ivory+Throw+2&font=playfair",
+        "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Boucle+Ivory+Throw+3&font=playfair"
+      ],
+      "attributes": {
+        "color": [
+          "Ivory"
+        ],
+        "material": [
+          "Wool Boucle"
+        ],
+        "dimensions": "130 × 180 cm",
+        "weight": "1.63 kg"
+      },
+      "tags": [
+        "cushions & throws",
+        "wool",
+        "core",
+        "new"
+      ],
+      "sku": "TI-CUS-0013",
+      "stock": 38,
+      "isActive": true,
+      "isFeatured": true,
+      "isNew": true,
+      "isOnSale": false,
+      "rating": 4.7,
+      "reviewCount": 20,
+      "createdAt": "2025-12-08T09:00:00.000Z",
+      "updatedAt": "2026-04-13T09:00:00.000Z"
+    },
+    {
+      "id": 14,
+      "slug": "cashmere-quilted-throw",
+      "name": "Cashmere Quilted Throw",
+      "categoryId": 3,
+      "description": "Cashmere Quilted Throw is part of the THIS Interiors core collection — a quietly considered piece for spaces that favour material over decoration. Crafted in cashmere, the form is restrained and the finish is hand-worked.\n\nDesigned for everyday rituals: weighty in the hand, generous in proportion, easy to live with. The stone tone reads warm in daylight and recedes by lamplight, sitting comfortably alongside linen, oak, brass and stone.\n\nEach piece is finished by hand, so subtle variation is part of the character. Care is straightforward: a soft, dry cloth is enough for most surfaces — avoid harsh detergents and direct sun.\n\nShipped from our Dubai studio in protective packaging. Pieces ship within 2–4 working days inside the UAE; international orders take 7–14 working days.",
+      "price": 12400,
+      "compareAtPrice": null,
+      "currency": "AED",
+      "images": [
+        "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Cashmere+Quilted+Throw+1&font=playfair",
+        "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Cashmere+Quilted+Throw+2&font=playfair",
+        "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Cashmere+Quilted+Throw+3&font=playfair",
+        "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Cashmere+Quilted+Throw+4&font=playfair"
+      ],
+      "attributes": {
+        "color": [
+          "Stone"
+        ],
+        "material": [
+          "Cashmere"
+        ],
+        "dimensions": "140 × 200 cm",
+        "weight": "1.15 kg"
+      },
+      "tags": [
+        "cushions & throws",
+        "cashmere",
+        "core",
+        "classic"
+      ],
+      "sku": "TI-CUS-0014",
+      "stock": 40,
+      "isActive": true,
+      "isFeatured": false,
+      "isNew": false,
+      "isOnSale": false,
+      "rating": 4.1,
+      "reviewCount": 14,
+      "createdAt": "2025-12-11T09:00:00.000Z",
+      "updatedAt": "2026-04-14T09:00:00.000Z"
+    },
+    {
+      "id": 15,
+      "slug": "olive-branch-print",
+      "name": "Olive Branch Print",
+      "categoryId": 4,
+      "description": "Olive Branch Print is part of the THIS Interiors core collection — a quietly considered piece for spaces that favour material over decoration. Crafted in archival paper and oak frame, the form is restrained and the finish is hand-worked.\n\nDesigned for everyday rituals: weighty in the hand, generous in proportion, easy to live with. The sage tone reads warm in daylight and recedes by lamplight, sitting comfortably alongside linen, oak, brass and stone.\n\nEach piece is finished by hand, so subtle variation is part of the character. Care is straightforward: a soft, dry cloth is enough for most surfaces — avoid harsh detergents and direct sun.\n\nShipped from our Dubai studio in protective packaging. Pieces ship within 2–4 working days inside the UAE; international orders take 7–14 working days.",
+      "price": 3400,
+      "compareAtPrice": null,
+      "currency": "AED",
+      "images": [
+        "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Olive+Branch+Print+1&font=playfair",
+        "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Olive+Branch+Print+2&font=playfair",
+        "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Olive+Branch+Print+3&font=playfair",
+        "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Olive+Branch+Print+4&font=playfair",
+        "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Olive+Branch+Print+5&font=playfair"
+      ],
+      "attributes": {
+        "color": [
+          "Sage"
+        ],
+        "material": [
+          "Archival Paper",
+          "Oak Frame"
+        ],
+        "dimensions": "60 × 80 cm",
+        "weight": "3.42 kg"
+      },
+      "tags": [
+        "wall art",
+        "archival",
+        "core",
+        "classic"
+      ],
+      "sku": "TI-WAL-0015",
+      "stock": 4,
+      "isActive": true,
+      "isFeatured": false,
+      "isNew": false,
+      "isOnSale": false,
+      "rating": 4.2,
+      "reviewCount": 3,
+      "createdAt": "2025-12-14T09:00:00.000Z",
+      "updatedAt": "2026-04-15T09:00:00.000Z"
+    },
+    {
+      "id": 16,
+      "slug": "charcoal-nude-study",
+      "name": "Charcoal Nude Study",
+      "categoryId": 4,
+      "description": "Charcoal Nude Study is part of the THIS Interiors core collection — a quietly considered piece for spaces that favour material over decoration. Crafted in charcoal on paper, the form is restrained and the finish is hand-worked.\n\nDesigned for everyday rituals: weighty in the hand, generous in proportion, easy to live with. The charcoal tone reads warm in daylight and recedes by lamplight, sitting comfortably alongside linen, oak, brass and stone.\n\nEach piece is finished by hand, so subtle variation is part of the character. Care is straightforward: a soft, dry cloth is enough for most surfaces — avoid harsh detergents and direct sun.\n\nShipped from our Dubai studio in protective packaging. Pieces ship within 2–4 working days inside the UAE; international orders take 7–14 working days.",
+      "price": 4200,
+      "compareAtPrice": 5250,
+      "currency": "AED",
+      "images": [
+        "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Charcoal+Nude+Study+1&font=playfair",
+        "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Charcoal+Nude+Study+2&font=playfair",
+        "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Charcoal+Nude+Study+3&font=playfair"
+      ],
+      "attributes": {
+        "color": [
+          "Charcoal"
+        ],
+        "material": [
+          "Charcoal on Paper"
+        ],
+        "dimensions": "70 × 100 cm",
+        "weight": "2.92 kg"
+      },
+      "tags": [
+        "wall art",
+        "charcoal",
+        "sale",
+        "classic"
+      ],
+      "sku": "TI-WAL-0016",
+      "stock": 13,
+      "isActive": true,
+      "isFeatured": false,
+      "isNew": false,
+      "isOnSale": true,
+      "rating": 4.5,
+      "reviewCount": 11,
+      "createdAt": "2025-12-17T09:00:00.000Z",
+      "updatedAt": "2026-04-16T09:00:00.000Z"
+    },
+    {
+      "id": 17,
+      "slug": "brass-framed-mirror-print",
+      "name": "Brass Framed Mirror Print",
+      "categoryId": 4,
+      "description": "Brass Framed Mirror Print is part of the THIS Interiors core collection — a quietly considered piece for spaces that favour material over decoration. Crafted in glass and brass, the form is restrained and the finish is hand-worked.\n\nDesigned for everyday rituals: weighty in the hand, generous in proportion, easy to live with. The brass tone reads warm in daylight and recedes by lamplight, sitting comfortably alongside linen, oak, brass and stone.\n\nEach piece is finished by hand, so subtle variation is part of the character. Care is straightforward: a soft, dry cloth is enough for most surfaces — avoid harsh detergents and direct sun.\n\nShipped from our Dubai studio in protective packaging. Pieces ship within 2–4 working days inside the UAE; international orders take 7–14 working days.",
+      "price": 3900,
+      "compareAtPrice": null,
+      "currency": "AED",
+      "images": [
+        "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Brass+Framed+Mirror+Print+1&font=playfair",
+        "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Brass+Framed+Mirror+Print+2&font=playfair",
+        "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Brass+Framed+Mirror+Print+3&font=playfair",
+        "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Brass+Framed+Mirror+Print+4&font=playfair"
+      ],
+      "attributes": {
+        "color": [
+          "Brass"
+        ],
+        "material": [
+          "Glass",
+          "Brass"
+        ],
+        "dimensions": "50 × 70 cm",
+        "weight": "2.47 kg"
+      },
+      "tags": [
+        "wall art",
+        "glass",
+        "core",
+        "new"
+      ],
+      "sku": "TI-WAL-0017",
+      "stock": 11,
+      "isActive": true,
+      "isFeatured": false,
+      "isNew": true,
+      "isOnSale": false,
+      "rating": 3.8,
+      "reviewCount": 17,
+      "createdAt": "2025-12-20T09:00:00.000Z",
+      "updatedAt": "2026-04-17T09:00:00.000Z"
+    },
+    {
+      "id": 18,
+      "slug": "architectural-plate",
+      "name": "Architectural Plate",
+      "categoryId": 4,
+      "description": "Architectural Plate is part of the THIS Interiors core collection — a quietly considered piece for spaces that favour material over decoration. Crafted in cotton paper, the form is restrained and the finish is hand-worked.\n\nDesigned for everyday rituals: weighty in the hand, generous in proportion, easy to live with. The ink tone reads warm in daylight and recedes by lamplight, sitting comfortably alongside linen, oak, brass and stone.\n\nEach piece is finished by hand, so subtle variation is part of the character. Care is straightforward: a soft, dry cloth is enough for most surfaces — avoid harsh detergents and direct sun.\n\nShipped from our Dubai studio in protective packaging. Pieces ship within 2–4 working days inside the UAE; international orders take 7–14 working days.",
+      "price": 2800,
+      "compareAtPrice": null,
+      "currency": "AED",
+      "images": [
+        "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Architectural+Plate+1&font=playfair",
+        "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Architectural+Plate+2&font=playfair",
+        "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Architectural+Plate+3&font=playfair",
+        "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Architectural+Plate+4&font=playfair",
+        "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Architectural+Plate+5&font=playfair"
+      ],
+      "attributes": {
+        "color": [
+          "Ink"
+        ],
+        "material": [
+          "Cotton Paper"
+        ],
+        "dimensions": "50 × 70 cm",
+        "weight": "1.18 kg"
+      },
+      "tags": [
+        "wall art",
+        "cotton",
+        "core",
+        "classic"
+      ],
+      "sku": "TI-WAL-0018",
+      "stock": 41,
+      "isActive": true,
+      "isFeatured": false,
+      "isNew": false,
+      "isOnSale": false,
+      "rating": 4.8,
+      "reviewCount": 33,
+      "createdAt": "2025-12-23T09:00:00.000Z",
+      "updatedAt": "2026-04-18T09:00:00.000Z"
+    },
+    {
+      "id": 19,
+      "slug": "arched-brass-mirror",
+      "name": "Arched Brass Mirror",
+      "categoryId": 5,
+      "description": "Arched Brass Mirror is part of the THIS Interiors core collection — a quietly considered piece for spaces that favour material over decoration. Crafted in solid brass and glass, the form is restrained and the finish is hand-worked.\n\nDesigned for everyday rituals: weighty in the hand, generous in proportion, easy to live with. The brass tone reads warm in daylight and recedes by lamplight, sitting comfortably alongside linen, oak, brass and stone.\n\nEach piece is finished by hand, so subtle variation is part of the character. Care is straightforward: a soft, dry cloth is enough for most surfaces — avoid harsh detergents and direct sun.\n\nShipped from our Dubai studio in protective packaging. Pieces ship within 2–4 working days inside the UAE; international orders take 7–14 working days.",
+      "price": 14800,
+      "compareAtPrice": null,
+      "currency": "AED",
+      "images": [
+        "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Arched+Brass+Mirror+1&font=playfair",
+        "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Arched+Brass+Mirror+2&font=playfair",
+        "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Arched+Brass+Mirror+3&font=playfair"
+      ],
+      "attributes": {
+        "color": [
+          "Brass"
+        ],
+        "material": [
+          "Solid Brass",
+          "Glass"
+        ],
+        "dimensions": "70 × 4 × 120 cm",
+        "weight": "0.69 kg"
+      },
+      "tags": [
+        "mirrors",
+        "solid",
+        "core",
+        "classic"
+      ],
+      "sku": "TI-MIR-0019",
+      "stock": 22,
+      "isActive": true,
+      "isFeatured": true,
+      "isNew": false,
+      "isOnSale": false,
+      "rating": 4,
+      "reviewCount": 13,
+      "createdAt": "2025-12-26T09:00:00.000Z",
+      "updatedAt": "2026-04-19T09:00:00.000Z"
+    },
+    {
+      "id": 20,
+      "slug": "round-travertine-mirror",
+      "name": "Round Travertine Mirror",
+      "categoryId": 5,
+      "description": "Round Travertine Mirror is part of the THIS Interiors core collection — a quietly considered piece for spaces that favour material over decoration. Crafted in travertine and glass, the form is restrained and the finish is hand-worked.\n\nDesigned for everyday rituals: weighty in the hand, generous in proportion, easy to live with. The cream tone reads warm in daylight and recedes by lamplight, sitting comfortably alongside linen, oak, brass and stone.\n\nEach piece is finished by hand, so subtle variation is part of the character. Care is straightforward: a soft, dry cloth is enough for most surfaces — avoid harsh detergents and direct sun.\n\nShipped from our Dubai studio in protective packaging. Pieces ship within 2–4 working days inside the UAE; international orders take 7–14 working days.",
+      "price": 12600,
+      "compareAtPrice": null,
+      "currency": "AED",
+      "images": [
+        "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Round+Travertine+Mirror+1&font=playfair",
+        "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Round+Travertine+Mirror+2&font=playfair",
+        "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Round+Travertine+Mirror+3&font=playfair",
+        "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Round+Travertine+Mirror+4&font=playfair"
+      ],
+      "attributes": {
+        "color": [
+          "Cream"
+        ],
+        "material": [
+          "Travertine",
+          "Glass"
+        ],
+        "dimensions": "90 × 6 × 90 cm",
+        "weight": "4.92 kg"
+      },
+      "tags": [
+        "mirrors",
+        "travertine",
+        "core",
+        "classic"
+      ],
+      "sku": "TI-MIR-0020",
+      "stock": 11,
+      "isActive": true,
+      "isFeatured": false,
+      "isNew": false,
+      "isOnSale": false,
+      "rating": 4.8,
+      "reviewCount": 18,
+      "createdAt": "2025-12-29T09:00:00.000Z",
+      "updatedAt": "2026-04-20T09:00:00.000Z"
+    },
+    {
+      "id": 21,
+      "slug": "slim-floor-mirror",
+      "name": "Slim Floor Mirror",
+      "categoryId": 5,
+      "description": "Slim Floor Mirror is part of the THIS Interiors core collection — a quietly considered piece for spaces that favour material over decoration. Crafted in oak and glass, the form is restrained and the finish is hand-worked.\n\nDesigned for everyday rituals: weighty in the hand, generous in proportion, easy to live with. The oak tone reads warm in daylight and recedes by lamplight, sitting comfortably alongside linen, oak, brass and stone.\n\nEach piece is finished by hand, so subtle variation is part of the character. Care is straightforward: a soft, dry cloth is enough for most surfaces — avoid harsh detergents and direct sun.\n\nShipped from our Dubai studio in protective packaging. Pieces ship within 2–4 working days inside the UAE; international orders take 7–14 working days.",
+      "price": 9800,
+      "compareAtPrice": 12250,
+      "currency": "AED",
+      "images": [
+        "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Slim+Floor+Mirror+1&font=playfair",
+        "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Slim+Floor+Mirror+2&font=playfair",
+        "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Slim+Floor+Mirror+3&font=playfair",
+        "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Slim+Floor+Mirror+4&font=playfair",
+        "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Slim+Floor+Mirror+5&font=playfair"
+      ],
+      "attributes": {
+        "color": [
+          "Oak"
+        ],
+        "material": [
+          "Oak",
+          "Glass"
+        ],
+        "dimensions": "60 × 4 × 180 cm",
+        "weight": "4.85 kg"
+      },
+      "tags": [
+        "mirrors",
+        "oak",
+        "sale",
+        "new"
+      ],
+      "sku": "TI-MIR-0021",
+      "stock": 34,
+      "isActive": true,
+      "isFeatured": false,
+      "isNew": true,
+      "isOnSale": true,
+      "rating": 4.3,
+      "reviewCount": 30,
+      "createdAt": "2026-01-01T09:00:00.000Z",
+      "updatedAt": "2026-04-21T09:00:00.000Z"
+    },
+    {
+      "id": 22,
+      "slug": "beveled-wall-mirror",
+      "name": "Beveled Wall Mirror",
+      "categoryId": 5,
+      "description": "Beveled Wall Mirror is part of the THIS Interiors core collection — a quietly considered piece for spaces that favour material over decoration. Crafted in glass and aluminum, the form is restrained and the finish is hand-worked.\n\nDesigned for everyday rituals: weighty in the hand, generous in proportion, easy to live with. The silver tone reads warm in daylight and recedes by lamplight, sitting comfortably alongside linen, oak, brass and stone.\n\nEach piece is finished by hand, so subtle variation is part of the character. Care is straightforward: a soft, dry cloth is enough for most surfaces — avoid harsh detergents and direct sun.\n\nShipped from our Dubai studio in protective packaging. Pieces ship within 2–4 working days inside the UAE; international orders take 7–14 working days.",
+      "price": 6400,
+      "compareAtPrice": null,
+      "currency": "AED",
+      "images": [
+        "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Beveled+Wall+Mirror+1&font=playfair",
+        "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Beveled+Wall+Mirror+2&font=playfair",
+        "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Beveled+Wall+Mirror+3&font=playfair"
+      ],
+      "attributes": {
+        "color": [
+          "Silver"
+        ],
+        "material": [
+          "Glass",
+          "Aluminum"
+        ],
+        "dimensions": "80 × 2 × 100 cm",
+        "weight": "4.59 kg"
+      },
+      "tags": [
+        "mirrors",
+        "glass",
+        "core",
+        "classic"
+      ],
+      "sku": "TI-MIR-0022",
+      "stock": 37,
+      "isActive": true,
+      "isFeatured": false,
+      "isNew": false,
+      "isOnSale": false,
+      "rating": 4,
+      "reviewCount": 11,
+      "createdAt": "2026-01-04T09:00:00.000Z",
+      "updatedAt": "2026-04-22T09:00:00.000Z"
+    },
+    {
+      "id": 23,
+      "slug": "oud-amber-candle",
+      "name": "Oud Amber Candle",
+      "categoryId": 6,
+      "description": "Oud Amber Candle is part of the THIS Interiors core collection — a quietly considered piece for spaces that favour material over decoration. Crafted in soy wax and glass, the form is restrained and the finish is hand-worked.\n\nDesigned for everyday rituals: weighty in the hand, generous in proportion, easy to live with. The amber tone reads warm in daylight and recedes by lamplight, sitting comfortably alongside linen, oak, brass and stone.\n\nEach piece is finished by hand, so subtle variation is part of the character. Care is straightforward: a soft, dry cloth is enough for most surfaces — avoid harsh detergents and direct sun.\n\nShipped from our Dubai studio in protective packaging. Pieces ship within 2–4 working days inside the UAE; international orders take 7–14 working days.",
+      "price": 1800,
+      "compareAtPrice": null,
+      "currency": "AED",
+      "images": [
+        "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Oud+Amber+Candle+1&font=playfair",
+        "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Oud+Amber+Candle+2&font=playfair",
+        "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Oud+Amber+Candle+3&font=playfair",
+        "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Oud+Amber+Candle+4&font=playfair"
+      ],
+      "attributes": {
+        "color": [
+          "Amber"
+        ],
+        "material": [
+          "Soy Wax",
+          "Glass"
+        ],
+        "dimensions": "9 × 9 × 11 cm",
+        "weight": "2.75 kg"
+      },
+      "tags": [
+        "candles & diffusers",
+        "soy",
+        "core",
+        "classic"
+      ],
+      "sku": "TI-CAN-0023",
+      "stock": 40,
+      "isActive": true,
+      "isFeatured": false,
+      "isNew": false,
+      "isOnSale": false,
+      "rating": 4.1,
+      "reviewCount": 8,
+      "createdAt": "2026-01-07T09:00:00.000Z",
+      "updatedAt": "2026-04-23T09:00:00.000Z"
+    },
+    {
+      "id": 24,
+      "slug": "fig-and-cassis-candle",
+      "name": "Fig & Cassis Candle",
+      "categoryId": 6,
+      "description": "Fig & Cassis Candle is part of the THIS Interiors core collection — a quietly considered piece for spaces that favour material over decoration. Crafted in coconut wax and glass, the form is restrained and the finish is hand-worked.\n\nDesigned for everyday rituals: weighty in the hand, generous in proportion, easy to live with. The plum tone reads warm in daylight and recedes by lamplight, sitting comfortably alongside linen, oak, brass and stone.\n\nEach piece is finished by hand, so subtle variation is part of the character. Care is straightforward: a soft, dry cloth is enough for most surfaces — avoid harsh detergents and direct sun.\n\nShipped from our Dubai studio in protective packaging. Pieces ship within 2–4 working days inside the UAE; international orders take 7–14 working days.",
+      "price": 1800,
+      "compareAtPrice": null,
+      "currency": "AED",
+      "images": [
+        "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Fig+%26+Cassis+Candle+1&font=playfair",
+        "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Fig+%26+Cassis+Candle+2&font=playfair",
+        "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Fig+%26+Cassis+Candle+3&font=playfair",
+        "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Fig+%26+Cassis+Candle+4&font=playfair",
+        "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Fig+%26+Cassis+Candle+5&font=playfair"
+      ],
+      "attributes": {
+        "color": [
+          "Plum"
+        ],
+        "material": [
+          "Coconut Wax",
+          "Glass"
+        ],
+        "dimensions": "9 × 9 × 11 cm",
+        "weight": "1.04 kg"
+      },
+      "tags": [
+        "candles & diffusers",
+        "coconut",
+        "core",
+        "classic"
+      ],
+      "sku": "TI-CAN-0024",
+      "stock": 1,
+      "isActive": true,
+      "isFeatured": false,
+      "isNew": false,
+      "isOnSale": false,
+      "rating": 4.8,
+      "reviewCount": 5,
+      "createdAt": "2026-01-10T09:00:00.000Z",
+      "updatedAt": "2026-04-24T09:00:00.000Z"
+    },
+    {
+      "id": 25,
+      "slug": "rose-diffuser-set",
+      "name": "Rose Diffuser Set",
+      "categoryId": 6,
+      "description": "Rose Diffuser Set is part of the THIS Interiors core collection — a quietly considered piece for spaces that favour material over decoration. Crafted in glass and rattan, the form is restrained and the finish is hand-worked.\n\nDesigned for everyday rituals: weighty in the hand, generous in proportion, easy to live with. The rose tone reads warm in daylight and recedes by lamplight, sitting comfortably alongside linen, oak, brass and stone.\n\nEach piece is finished by hand, so subtle variation is part of the character. Care is straightforward: a soft, dry cloth is enough for most surfaces — avoid harsh detergents and direct sun.\n\nShipped from our Dubai studio in protective packaging. Pieces ship within 2–4 working days inside the UAE; international orders take 7–14 working days.",
+      "price": 2200,
+      "compareAtPrice": null,
+      "currency": "AED",
+      "images": [
+        "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Rose+Diffuser+Set+1&font=playfair",
+        "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Rose+Diffuser+Set+2&font=playfair",
+        "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Rose+Diffuser+Set+3&font=playfair"
+      ],
+      "attributes": {
+        "color": [
+          "Rose"
+        ],
+        "material": [
+          "Glass",
+          "Rattan"
+        ],
+        "dimensions": "7 × 7 × 22 cm",
+        "weight": "4.49 kg"
+      },
+      "tags": [
+        "candles & diffusers",
+        "glass",
+        "core",
+        "new"
+      ],
+      "sku": "TI-CAN-0025",
+      "stock": 12,
+      "isActive": true,
+      "isFeatured": true,
+      "isNew": true,
+      "isOnSale": false,
+      "rating": 4.8,
+      "reviewCount": 11,
+      "createdAt": "2026-01-13T09:00:00.000Z",
+      "updatedAt": "2026-04-25T09:00:00.000Z"
+    },
+    {
+      "id": 26,
+      "slug": "cedar-wax-pillar",
+      "name": "Cedar Wax Pillar",
+      "categoryId": 6,
+      "description": "Cedar Wax Pillar is part of the THIS Interiors core collection — a quietly considered piece for spaces that favour material over decoration. Crafted in beeswax, the form is restrained and the finish is hand-worked.\n\nDesigned for everyday rituals: weighty in the hand, generous in proportion, easy to live with. The honey tone reads warm in daylight and recedes by lamplight, sitting comfortably alongside linen, oak, brass and stone.\n\nEach piece is finished by hand, so subtle variation is part of the character. Care is straightforward: a soft, dry cloth is enough for most surfaces — avoid harsh detergents and direct sun.\n\nShipped from our Dubai studio in protective packaging. Pieces ship within 2–4 working days inside the UAE; international orders take 7–14 working days.",
+      "price": 1400,
+      "compareAtPrice": 1750,
+      "currency": "AED",
+      "images": [
+        "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Cedar+Wax+Pillar+1&font=playfair",
+        "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Cedar+Wax+Pillar+2&font=playfair",
+        "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Cedar+Wax+Pillar+3&font=playfair",
+        "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Cedar+Wax+Pillar+4&font=playfair"
+      ],
+      "attributes": {
+        "color": [
+          "Honey"
+        ],
+        "material": [
+          "Beeswax"
+        ],
+        "dimensions": "8 × 8 × 18 cm",
+        "weight": "2.03 kg"
+      },
+      "tags": [
+        "candles & diffusers",
+        "beeswax",
+        "sale",
+        "classic"
+      ],
+      "sku": "TI-CAN-0026",
+      "stock": 7,
+      "isActive": true,
+      "isFeatured": false,
+      "isNew": false,
+      "isOnSale": true,
+      "rating": 4,
+      "reviewCount": 30,
+      "createdAt": "2026-01-16T09:00:00.000Z",
+      "updatedAt": "2026-04-26T09:00:00.000Z"
+    },
+    {
+      "id": 27,
+      "slug": "sandalwood-reed-diffuser",
+      "name": "Sandalwood Reed Diffuser",
+      "categoryId": 6,
+      "description": "Sandalwood Reed Diffuser is part of the THIS Interiors core collection — a quietly considered piece for spaces that favour material over decoration. Crafted in glass and rattan, the form is restrained and the finish is hand-worked.\n\nDesigned for everyday rituals: weighty in the hand, generous in proportion, easy to live with. The sand tone reads warm in daylight and recedes by lamplight, sitting comfortably alongside linen, oak, brass and stone.\n\nEach piece is finished by hand, so subtle variation is part of the character. Care is straightforward: a soft, dry cloth is enough for most surfaces — avoid harsh detergents and direct sun.\n\nShipped from our Dubai studio in protective packaging. Pieces ship within 2–4 working days inside the UAE; international orders take 7–14 working days.",
+      "price": 2100,
+      "compareAtPrice": null,
+      "currency": "AED",
+      "images": [
+        "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Sandalwood+Reed+Diffuser+1&font=playfair",
+        "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Sandalwood+Reed+Diffuser+2&font=playfair",
+        "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Sandalwood+Reed+Diffuser+3&font=playfair",
+        "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Sandalwood+Reed+Diffuser+4&font=playfair",
+        "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Sandalwood+Reed+Diffuser+5&font=playfair"
+      ],
+      "attributes": {
+        "color": [
+          "Sand"
+        ],
+        "material": [
+          "Glass",
+          "Rattan"
+        ],
+        "dimensions": "7 × 7 × 22 cm",
+        "weight": "0.48 kg"
+      },
+      "tags": [
+        "candles & diffusers",
+        "glass",
+        "core",
+        "classic"
+      ],
+      "sku": "TI-CAN-0027",
+      "stock": 37,
+      "isActive": true,
+      "isFeatured": false,
+      "isNew": false,
+      "isOnSale": false,
+      "rating": 3.6,
+      "reviewCount": 34,
+      "createdAt": "2026-01-19T09:00:00.000Z",
+      "updatedAt": "2026-04-27T09:00:00.000Z"
+    },
+    {
+      "id": 28,
+      "slug": "terracotta-tall-planter",
+      "name": "Terracotta Tall Planter",
+      "categoryId": 7,
+      "description": "Terracotta Tall Planter is part of the THIS Interiors core collection — a quietly considered piece for spaces that favour material over decoration. Crafted in terracotta, the form is restrained and the finish is hand-worked.\n\nDesigned for everyday rituals: weighty in the hand, generous in proportion, easy to live with. The clay tone reads warm in daylight and recedes by lamplight, sitting comfortably alongside linen, oak, brass and stone.\n\nEach piece is finished by hand, so subtle variation is part of the character. Care is straightforward: a soft, dry cloth is enough for most surfaces — avoid harsh detergents and direct sun.\n\nShipped from our Dubai studio in protective packaging. Pieces ship within 2–4 working days inside the UAE; international orders take 7–14 working days.",
+      "price": 4400,
+      "compareAtPrice": null,
+      "currency": "AED",
+      "images": [
+        "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Terracotta+Tall+Planter+1&font=playfair",
+        "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Terracotta+Tall+Planter+2&font=playfair",
+        "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Terracotta+Tall+Planter+3&font=playfair"
+      ],
+      "attributes": {
+        "color": [
+          "Clay"
+        ],
+        "material": [
+          "Terracotta"
+        ],
+        "dimensions": "32 × 32 × 60 cm",
+        "weight": "3.39 kg"
+      },
+      "tags": [
+        "planters",
+        "terracotta",
+        "core",
+        "classic"
+      ],
+      "sku": "TI-PLA-0028",
+      "stock": 21,
+      "isActive": true,
+      "isFeatured": false,
+      "isNew": false,
+      "isOnSale": false,
+      "rating": 3.8,
+      "reviewCount": 2,
+      "createdAt": "2026-01-22T09:00:00.000Z",
+      "updatedAt": "2026-04-28T09:00:00.000Z"
+    },
+    {
+      "id": 29,
+      "slug": "concrete-cube-planter",
+      "name": "Concrete Cube Planter",
+      "categoryId": 7,
+      "description": "Concrete Cube Planter is part of the THIS Interiors core collection — a quietly considered piece for spaces that favour material over decoration. Crafted in concrete, the form is restrained and the finish is hand-worked.\n\nDesigned for everyday rituals: weighty in the hand, generous in proportion, easy to live with. The stone tone reads warm in daylight and recedes by lamplight, sitting comfortably alongside linen, oak, brass and stone.\n\nEach piece is finished by hand, so subtle variation is part of the character. Care is straightforward: a soft, dry cloth is enough for most surfaces — avoid harsh detergents and direct sun.\n\nShipped from our Dubai studio in protective packaging. Pieces ship within 2–4 working days inside the UAE; international orders take 7–14 working days.",
+      "price": 3200,
+      "compareAtPrice": null,
+      "currency": "AED",
+      "images": [
+        "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Concrete+Cube+Planter+1&font=playfair",
+        "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Concrete+Cube+Planter+2&font=playfair",
+        "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Concrete+Cube+Planter+3&font=playfair",
+        "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Concrete+Cube+Planter+4&font=playfair"
+      ],
+      "attributes": {
+        "color": [
+          "Stone"
+        ],
+        "material": [
+          "Concrete"
+        ],
+        "dimensions": "30 × 30 × 30 cm",
+        "weight": "2.42 kg"
+      },
+      "tags": [
+        "planters",
+        "concrete",
+        "core",
+        "new"
+      ],
+      "sku": "TI-PLA-0029",
+      "stock": 26,
+      "isActive": true,
+      "isFeatured": false,
+      "isNew": true,
+      "isOnSale": false,
+      "rating": 4.8,
+      "reviewCount": 22,
+      "createdAt": "2026-01-25T09:00:00.000Z",
+      "updatedAt": "2026-04-29T09:00:00.000Z"
+    },
+    {
+      "id": 30,
+      "slug": "brass-hanging-planter",
+      "name": "Brass Hanging Planter",
+      "categoryId": 7,
+      "description": "Brass Hanging Planter is part of the THIS Interiors core collection — a quietly considered piece for spaces that favour material over decoration. Crafted in brushed brass, the form is restrained and the finish is hand-worked.\n\nDesigned for everyday rituals: weighty in the hand, generous in proportion, easy to live with. The brass tone reads warm in daylight and recedes by lamplight, sitting comfortably alongside linen, oak, brass and stone.\n\nEach piece is finished by hand, so subtle variation is part of the character. Care is straightforward: a soft, dry cloth is enough for most surfaces — avoid harsh detergents and direct sun.\n\nShipped from our Dubai studio in protective packaging. Pieces ship within 2–4 working days inside the UAE; international orders take 7–14 working days.",
+      "price": 3600,
+      "compareAtPrice": null,
+      "currency": "AED",
+      "images": [
+        "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Brass+Hanging+Planter+1&font=playfair",
+        "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Brass+Hanging+Planter+2&font=playfair",
+        "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Brass+Hanging+Planter+3&font=playfair",
+        "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Brass+Hanging+Planter+4&font=playfair",
+        "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Brass+Hanging+Planter+5&font=playfair"
+      ],
+      "attributes": {
+        "color": [
+          "Brass"
+        ],
+        "material": [
+          "Brushed Brass"
+        ],
+        "dimensions": "22 × 22 × 60 cm",
+        "weight": "1.99 kg"
+      },
+      "tags": [
+        "planters",
+        "brushed",
+        "core",
+        "classic"
+      ],
+      "sku": "TI-PLA-0030",
+      "stock": 11,
+      "isActive": true,
+      "isFeatured": false,
+      "isNew": false,
+      "isOnSale": false,
+      "rating": 5,
+      "reviewCount": 2,
+      "createdAt": "2026-01-28T09:00:00.000Z",
+      "updatedAt": "2026-04-30T09:00:00.000Z"
+    },
+    {
+      "id": 31,
+      "slug": "marble-trough-planter",
+      "name": "Marble Trough Planter",
+      "categoryId": 7,
+      "description": "Marble Trough Planter is part of the THIS Interiors core collection — a quietly considered piece for spaces that favour material over decoration. Crafted in marble, the form is restrained and the finish is hand-worked.\n\nDesigned for everyday rituals: weighty in the hand, generous in proportion, easy to live with. The ivory tone reads warm in daylight and recedes by lamplight, sitting comfortably alongside linen, oak, brass and stone.\n\nEach piece is finished by hand, so subtle variation is part of the character. Care is straightforward: a soft, dry cloth is enough for most surfaces — avoid harsh detergents and direct sun.\n\nShipped from our Dubai studio in protective packaging. Pieces ship within 2–4 working days inside the UAE; international orders take 7–14 working days.",
+      "price": 8400,
+      "compareAtPrice": 10500,
+      "currency": "AED",
+      "images": [
+        "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Marble+Trough+Planter+1&font=playfair",
+        "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Marble+Trough+Planter+2&font=playfair",
+        "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Marble+Trough+Planter+3&font=playfair"
+      ],
+      "attributes": {
+        "color": [
+          "Ivory"
+        ],
+        "material": [
+          "Marble"
+        ],
+        "dimensions": "60 × 22 × 22 cm",
+        "weight": "1.67 kg"
+      },
+      "tags": [
+        "planters",
+        "marble",
+        "sale",
+        "classic"
+      ],
+      "sku": "TI-PLA-0031",
+      "stock": 25,
+      "isActive": true,
+      "isFeatured": true,
+      "isNew": false,
+      "isOnSale": true,
+      "rating": 4.9,
+      "reviewCount": 9,
+      "createdAt": "2026-01-31T09:00:00.000Z",
+      "updatedAt": "2026-04-01T09:00:00.000Z"
+    },
+    {
+      "id": 32,
+      "slug": "stoneware-bowl-planter",
+      "name": "Stoneware Bowl Planter",
+      "categoryId": 7,
+      "description": "Stoneware Bowl Planter is part of the THIS Interiors core collection — a quietly considered piece for spaces that favour material over decoration. Crafted in stoneware, the form is restrained and the finish is hand-worked.\n\nDesigned for everyday rituals: weighty in the hand, generous in proportion, easy to live with. The sand tone reads warm in daylight and recedes by lamplight, sitting comfortably alongside linen, oak, brass and stone.\n\nEach piece is finished by hand, so subtle variation is part of the character. Care is straightforward: a soft, dry cloth is enough for most surfaces — avoid harsh detergents and direct sun.\n\nShipped from our Dubai studio in protective packaging. Pieces ship within 2–4 working days inside the UAE; international orders take 7–14 working days.",
+      "price": 2800,
+      "compareAtPrice": null,
+      "currency": "AED",
+      "images": [
+        "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Stoneware+Bowl+Planter+1&font=playfair",
+        "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Stoneware+Bowl+Planter+2&font=playfair",
+        "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Stoneware+Bowl+Planter+3&font=playfair",
+        "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Stoneware+Bowl+Planter+4&font=playfair"
+      ],
+      "attributes": {
+        "color": [
+          "Sand"
+        ],
+        "material": [
+          "Stoneware"
+        ],
+        "dimensions": "36 × 36 × 18 cm",
+        "weight": "4.7 kg"
+      },
+      "tags": [
+        "planters",
+        "stoneware",
+        "core",
+        "classic"
+      ],
+      "sku": "TI-PLA-0032",
+      "stock": 10,
+      "isActive": true,
+      "isFeatured": false,
+      "isNew": false,
+      "isOnSale": false,
+      "rating": 4.6,
+      "reviewCount": 3,
+      "createdAt": "2026-02-03T09:00:00.000Z",
+      "updatedAt": "2026-04-02T09:00:00.000Z"
+    },
+    {
+      "id": 33,
+      "slug": "linen-napkin-set",
+      "name": "Linen Napkin Set",
+      "categoryId": 8,
+      "description": "Linen Napkin Set is part of the THIS Interiors core collection — a quietly considered piece for spaces that favour material over decoration. Crafted in belgian linen, the form is restrained and the finish is hand-worked.\n\nDesigned for everyday rituals: weighty in the hand, generous in proportion, easy to live with. The sand tone reads warm in daylight and recedes by lamplight, sitting comfortably alongside linen, oak, brass and stone.\n\nEach piece is finished by hand, so subtle variation is part of the character. Care is straightforward: a soft, dry cloth is enough for most surfaces — avoid harsh detergents and direct sun.\n\nShipped from our Dubai studio in protective packaging. Pieces ship within 2–4 working days inside the UAE; international orders take 7–14 working days.",
+      "price": 1800,
+      "compareAtPrice": null,
+      "currency": "AED",
+      "images": [
+        "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Linen+Napkin+Set+1&font=playfair",
+        "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Linen+Napkin+Set+2&font=playfair",
+        "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Linen+Napkin+Set+3&font=playfair",
+        "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Linen+Napkin+Set+4&font=playfair",
+        "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Linen+Napkin+Set+5&font=playfair"
+      ],
+      "attributes": {
+        "color": [
+          "Sand"
+        ],
+        "material": [
+          "Belgian Linen"
+        ],
+        "dimensions": "Set of 4, 45 × 45 cm",
+        "weight": "0.84 kg"
+      },
+      "tags": [
+        "table accessories",
+        "belgian",
+        "core",
+        "new"
+      ],
+      "sku": "TI-TAB-0033",
+      "stock": 13,
+      "isActive": true,
+      "isFeatured": false,
+      "isNew": true,
+      "isOnSale": false,
+      "rating": 4.1,
+      "reviewCount": 37,
+      "createdAt": "2026-02-06T09:00:00.000Z",
+      "updatedAt": "2026-04-03T09:00:00.000Z"
+    },
+    {
+      "id": 34,
+      "slug": "brass-candlesticks-pair",
+      "name": "Brass Candlesticks Pair",
+      "categoryId": 8,
+      "description": "Brass Candlesticks Pair is part of the THIS Interiors core collection — a quietly considered piece for spaces that favour material over decoration. Crafted in brass, the form is restrained and the finish is hand-worked.\n\nDesigned for everyday rituals: weighty in the hand, generous in proportion, easy to live with. The brass tone reads warm in daylight and recedes by lamplight, sitting comfortably alongside linen, oak, brass and stone.\n\nEach piece is finished by hand, so subtle variation is part of the character. Care is straightforward: a soft, dry cloth is enough for most surfaces — avoid harsh detergents and direct sun.\n\nShipped from our Dubai studio in protective packaging. Pieces ship within 2–4 working days inside the UAE; international orders take 7–14 working days.",
+      "price": 2900,
+      "compareAtPrice": null,
+      "currency": "AED",
+      "images": [
+        "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Brass+Candlesticks+Pair+1&font=playfair",
+        "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Brass+Candlesticks+Pair+2&font=playfair",
+        "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Brass+Candlesticks+Pair+3&font=playfair"
+      ],
+      "attributes": {
+        "color": [
+          "Brass"
+        ],
+        "material": [
+          "Brass"
+        ],
+        "dimensions": "Set of 2, ø8 × 22 cm",
+        "weight": "1.28 kg"
+      },
+      "tags": [
+        "table accessories",
+        "brass",
+        "core",
+        "classic"
+      ],
+      "sku": "TI-TAB-0034",
+      "stock": 22,
+      "isActive": true,
+      "isFeatured": false,
+      "isNew": false,
+      "isOnSale": false,
+      "rating": 4.4,
+      "reviewCount": 7,
+      "createdAt": "2026-02-09T09:00:00.000Z",
+      "updatedAt": "2026-04-04T09:00:00.000Z"
+    },
+    {
+      "id": 35,
+      "slug": "marble-coaster-set",
+      "name": "Marble Coaster Set",
+      "categoryId": 8,
+      "description": "Marble Coaster Set is part of the THIS Interiors core collection — a quietly considered piece for spaces that favour material over decoration. Crafted in marble and cork, the form is restrained and the finish is hand-worked.\n\nDesigned for everyday rituals: weighty in the hand, generous in proportion, easy to live with. The ivory tone reads warm in daylight and recedes by lamplight, sitting comfortably alongside linen, oak, brass and stone.\n\nEach piece is finished by hand, so subtle variation is part of the character. Care is straightforward: a soft, dry cloth is enough for most surfaces — avoid harsh detergents and direct sun.\n\nShipped from our Dubai studio in protective packaging. Pieces ship within 2–4 working days inside the UAE; international orders take 7–14 working days.",
+      "price": 1600,
+      "compareAtPrice": null,
+      "currency": "AED",
+      "images": [
+        "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Marble+Coaster+Set+1&font=playfair",
+        "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Marble+Coaster+Set+2&font=playfair",
+        "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Marble+Coaster+Set+3&font=playfair",
+        "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Marble+Coaster+Set+4&font=playfair"
+      ],
+      "attributes": {
+        "color": [
+          "Ivory"
+        ],
+        "material": [
+          "Marble",
+          "Cork"
+        ],
+        "dimensions": "Set of 4, ø10 cm",
+        "weight": "2.23 kg"
+      },
+      "tags": [
+        "table accessories",
+        "marble",
+        "core",
+        "classic"
+      ],
+      "sku": "TI-TAB-0035",
+      "stock": 16,
+      "isActive": true,
+      "isFeatured": false,
+      "isNew": false,
+      "isOnSale": false,
+      "rating": 4.6,
+      "reviewCount": 6,
+      "createdAt": "2026-02-12T09:00:00.000Z",
+      "updatedAt": "2026-04-05T09:00:00.000Z"
+    },
+    {
+      "id": 36,
+      "slug": "olive-wood-bowl",
+      "name": "Olive Wood Bowl",
+      "categoryId": 8,
+      "description": "Olive Wood Bowl is part of the THIS Interiors core collection — a quietly considered piece for spaces that favour material over decoration. Crafted in olive wood, the form is restrained and the finish is hand-worked.\n\nDesigned for everyday rituals: weighty in the hand, generous in proportion, easy to live with. The olive tone reads warm in daylight and recedes by lamplight, sitting comfortably alongside linen, oak, brass and stone.\n\nEach piece is finished by hand, so subtle variation is part of the character. Care is straightforward: a soft, dry cloth is enough for most surfaces — avoid harsh detergents and direct sun.\n\nShipped from our Dubai studio in protective packaging. Pieces ship within 2–4 working days inside the UAE; international orders take 7–14 working days.",
+      "price": 2200,
+      "compareAtPrice": 2750,
+      "currency": "AED",
+      "images": [
+        "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Olive+Wood+Bowl+1&font=playfair",
+        "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Olive+Wood+Bowl+2&font=playfair",
+        "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Olive+Wood+Bowl+3&font=playfair",
+        "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Olive+Wood+Bowl+4&font=playfair",
+        "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Olive+Wood+Bowl+5&font=playfair"
+      ],
+      "attributes": {
+        "color": [
+          "Olive"
+        ],
+        "material": [
+          "Olive Wood"
+        ],
+        "dimensions": "ø28 × 8 cm",
+        "weight": "1.27 kg"
+      },
+      "tags": [
+        "table accessories",
+        "olive",
+        "sale",
+        "classic"
+      ],
+      "sku": "TI-TAB-0036",
+      "stock": 33,
+      "isActive": true,
+      "isFeatured": false,
+      "isNew": false,
+      "isOnSale": true,
+      "rating": 4.4,
+      "reviewCount": 28,
+      "createdAt": "2026-02-15T09:00:00.000Z",
+      "updatedAt": "2026-04-06T09:00:00.000Z"
+    }
+  ],
+  "reviews": [
+    {
+      "id": 1,
+      "productId": 1,
+      "userId": 4,
+      "rating": 4,
+      "title": "A small ritual",
+      "body": "Bought one for us and one as a gift. Both have been admired. The finish is genuinely hand-worked.",
+      "status": "published",
+      "verifiedPurchase": true,
+      "createdAt": "2025-11-25T09:00:00.000Z"
+    },
+    {
+      "id": 2,
+      "productId": 1,
+      "userId": 4,
+      "rating": 3,
+      "title": "A small ritual",
+      "body": "Lovely object. The base is felted so it doesn't scratch the marble.",
+      "status": "published",
+      "verifiedPurchase": true,
+      "createdAt": "2025-11-26T09:00:00.000Z"
+    },
+    {
+      "id": 3,
+      "productId": 2,
+      "userId": 4,
+      "rating": 5,
+      "title": "Pairs beautifully with linen",
+      "body": "Slight variation on the rim which I love — feels handmade, not factory.",
+      "status": "published",
+      "verifiedPurchase": true,
+      "createdAt": "2025-11-28T09:00:00.000Z"
+    },
+    {
+      "id": 4,
+      "productId": 2,
+      "userId": 4,
+      "rating": 4,
+      "title": "Subtle and considered",
+      "body": "Slight variation on the rim which I love — feels handmade, not factory.",
+      "status": "published",
+      "verifiedPurchase": true,
+      "createdAt": "2025-11-29T09:00:00.000Z"
+    },
+    {
+      "id": 5,
+      "productId": 2,
+      "userId": 4,
+      "rating": 3,
+      "title": "Subtle and considered",
+      "body": "Arrived well wrapped, no marks. The proportions are exactly right — substantial without being heavy.",
+      "status": "published",
+      "verifiedPurchase": false,
+      "createdAt": "2025-11-30T09:00:00.000Z"
+    },
+    {
+      "id": 6,
+      "productId": 2,
+      "userId": 5,
+      "rating": 3,
+      "title": "Lives on our console",
+      "body": "Bought one for us and one as a gift. Both have been admired. The finish is genuinely hand-worked.",
+      "status": "pending",
+      "verifiedPurchase": true,
+      "createdAt": "2025-12-02T09:00:00.000Z"
+    },
+    {
+      "id": 7,
+      "productId": 2,
+      "userId": 5,
+      "rating": 5,
+      "title": "A grown-up gift to ourselves",
+      "body": "Bought one for us and one as a gift. Both have been admired. The finish is genuinely hand-worked.",
+      "status": "published",
+      "verifiedPurchase": true,
+      "createdAt": "2025-12-03T09:00:00.000Z"
+    },
+    {
+      "id": 8,
+      "productId": 3,
+      "userId": 4,
+      "rating": 4,
+      "title": "The light it throws is wonderful",
+      "body": "Arrived well wrapped, no marks. The proportions are exactly right — substantial without being heavy.",
+      "status": "published",
+      "verifiedPurchase": true,
+      "createdAt": "2025-12-04T09:00:00.000Z"
+    },
+    {
+      "id": 9,
+      "productId": 3,
+      "userId": 5,
+      "rating": 5,
+      "title": "Worth the wait",
+      "body": "Light is soft and warm, not yellow. Sketches well over a side table at night.",
+      "status": "published",
+      "verifiedPurchase": true,
+      "createdAt": "2025-12-05T09:00:00.000Z"
+    },
+    {
+      "id": 10,
+      "productId": 3,
+      "userId": 4,
+      "rating": 5,
+      "title": "Lives on our console",
+      "body": "I was nervous about the colour from the photos but it reads warmer in person. Sits beautifully on a brass tray.",
+      "status": "published",
+      "verifiedPurchase": true,
+      "createdAt": "2025-12-07T09:00:00.000Z"
+    },
+    {
+      "id": 11,
+      "productId": 3,
+      "userId": 5,
+      "rating": 5,
+      "title": "Quietly beautiful",
+      "body": "I was nervous about the colour from the photos but it reads warmer in person. Sits beautifully on a brass tray.",
+      "status": "rejected",
+      "verifiedPurchase": true,
+      "createdAt": "2025-12-08T09:00:00.000Z"
+    },
+    {
+      "id": 12,
+      "productId": 4,
+      "userId": 5,
+      "rating": 4,
+      "title": "A small ritual",
+      "body": "Light is soft and warm, not yellow. Sketches well over a side table at night.",
+      "status": "pending",
+      "verifiedPurchase": false,
+      "createdAt": "2025-12-09T09:00:00.000Z"
+    },
+    {
+      "id": 13,
+      "productId": 4,
+      "userId": 5,
+      "rating": 4,
+      "title": "Subtle and considered",
+      "body": "Slight variation on the rim which I love — feels handmade, not factory.",
+      "status": "published",
+      "verifiedPurchase": true,
+      "createdAt": "2025-12-11T09:00:00.000Z"
+    },
+    {
+      "id": 14,
+      "productId": 4,
+      "userId": 4,
+      "rating": 3,
+      "title": "A grown-up gift to ourselves",
+      "body": "Slight variation on the rim which I love — feels handmade, not factory.",
+      "status": "published",
+      "verifiedPurchase": true,
+      "createdAt": "2025-12-12T09:00:00.000Z"
+    },
+    {
+      "id": 15,
+      "productId": 5,
+      "userId": 4,
+      "rating": 4,
+      "title": "Worth the wait",
+      "body": "Light is soft and warm, not yellow. Sketches well over a side table at night.",
+      "status": "published",
+      "verifiedPurchase": true,
+      "createdAt": "2025-12-13T09:00:00.000Z"
+    },
+    {
+      "id": 16,
+      "productId": 5,
+      "userId": 4,
+      "rating": 5,
+      "title": "Better in person",
+      "body": "Quick delivery inside Dubai. Packaging was reusable — small thing but appreciated.",
+      "status": "published",
+      "verifiedPurchase": true,
+      "createdAt": "2025-12-15T09:00:00.000Z"
+    },
+    {
+      "id": 17,
+      "productId": 6,
+      "userId": 4,
+      "rating": 4,
+      "title": "Subtle and considered",
+      "body": "Quick delivery inside Dubai. Packaging was reusable — small thing but appreciated.",
+      "status": "published",
+      "verifiedPurchase": true,
+      "createdAt": "2025-12-16T09:00:00.000Z"
+    },
+    {
+      "id": 18,
+      "productId": 6,
+      "userId": 5,
+      "rating": 3,
+      "title": "Quietly beautiful",
+      "body": "Quick delivery inside Dubai. Packaging was reusable — small thing but appreciated.",
+      "status": "pending",
+      "verifiedPurchase": true,
+      "createdAt": "2025-12-17T09:00:00.000Z"
+    },
+    {
+      "id": 19,
+      "productId": 6,
+      "userId": 5,
+      "rating": 3,
+      "title": "The light it throws is wonderful",
+      "body": "Colour matched the website faithfully. Would buy again from this shop.",
+      "status": "published",
+      "verifiedPurchase": true,
+      "createdAt": "2025-12-18T09:00:00.000Z"
+    },
+    {
+      "id": 20,
+      "productId": 6,
+      "userId": 4,
+      "rating": 5,
+      "title": "A small ritual",
+      "body": "Lovely object. The base is felted so it doesn't scratch the marble.",
+      "status": "published",
+      "verifiedPurchase": true,
+      "createdAt": "2025-12-20T09:00:00.000Z"
+    },
+    {
+      "id": 21,
+      "productId": 6,
+      "userId": 5,
+      "rating": 3,
+      "title": "Subtle and considered",
+      "body": "Quick delivery inside Dubai. Packaging was reusable — small thing but appreciated.",
+      "status": "published",
+      "verifiedPurchase": false,
+      "createdAt": "2025-12-21T09:00:00.000Z"
+    },
+    {
+      "id": 22,
+      "productId": 7,
+      "userId": 5,
+      "rating": 3,
+      "title": "Subtle and considered",
+      "body": "Bought one for us and one as a gift. Both have been admired. The finish is genuinely hand-worked.",
+      "status": "rejected",
+      "verifiedPurchase": true,
+      "createdAt": "2025-12-22T09:00:00.000Z"
+    },
+    {
+      "id": 23,
+      "productId": 7,
+      "userId": 4,
+      "rating": 3,
+      "title": "Quietly beautiful",
+      "body": "Slight variation on the rim which I love — feels handmade, not factory.",
+      "status": "published",
+      "verifiedPurchase": true,
+      "createdAt": "2025-12-24T09:00:00.000Z"
+    },
+    {
+      "id": 24,
+      "productId": 7,
+      "userId": 4,
+      "rating": 4,
+      "title": "Lives on our console",
+      "body": "Colour matched the website faithfully. Would buy again from this shop.",
+      "status": "pending",
+      "verifiedPurchase": true,
+      "createdAt": "2025-12-25T09:00:00.000Z"
+    },
+    {
+      "id": 25,
+      "productId": 7,
+      "userId": 5,
+      "rating": 5,
+      "title": "The light it throws is wonderful",
+      "body": "Colour matched the website faithfully. Would buy again from this shop.",
+      "status": "published",
+      "verifiedPurchase": true,
+      "createdAt": "2025-12-26T09:00:00.000Z"
+    },
+    {
+      "id": 26,
+      "productId": 8,
+      "userId": 5,
+      "rating": 5,
+      "title": "Pairs beautifully with linen",
+      "body": "Colour matched the website faithfully. Would buy again from this shop.",
+      "status": "published",
+      "verifiedPurchase": true,
+      "createdAt": "2025-12-28T09:00:00.000Z"
+    },
+    {
+      "id": 27,
+      "productId": 8,
+      "userId": 5,
+      "rating": 4,
+      "title": "Worth the wait",
+      "body": "Arrived well wrapped, no marks. The proportions are exactly right — substantial without being heavy.",
+      "status": "published",
+      "verifiedPurchase": true,
+      "createdAt": "2025-12-29T09:00:00.000Z"
+    },
+    {
+      "id": 28,
+      "productId": 8,
+      "userId": 4,
+      "rating": 3,
+      "title": "The light it throws is wonderful",
+      "body": "Lovely object. The base is felted so it doesn't scratch the marble.",
+      "status": "published",
+      "verifiedPurchase": true,
+      "createdAt": "2025-12-30T09:00:00.000Z"
+    },
+    {
+      "id": 29,
+      "productId": 9,
+      "userId": 4,
+      "rating": 4,
+      "title": "Quietly beautiful",
+      "body": "Light is soft and warm, not yellow. Sketches well over a side table at night.",
+      "status": "published",
+      "verifiedPurchase": true,
+      "createdAt": "2025-12-31T09:00:00.000Z"
+    },
+    {
+      "id": 30,
+      "productId": 9,
+      "userId": 5,
+      "rating": 3,
+      "title": "Lives on our console",
+      "body": "Lovely object. The base is felted so it doesn't scratch the marble.",
+      "status": "pending",
+      "verifiedPurchase": true,
+      "createdAt": "2026-01-02T09:00:00.000Z"
+    },
+    {
+      "id": 31,
+      "productId": 10,
+      "userId": 4,
+      "rating": 5,
+      "title": "Exactly the weight I hoped for",
+      "body": "Arrived well wrapped, no marks. The proportions are exactly right — substantial without being heavy.",
+      "status": "published",
+      "verifiedPurchase": true,
+      "createdAt": "2026-01-03T09:00:00.000Z"
+    },
+    {
+      "id": 32,
+      "productId": 10,
+      "userId": 4,
+      "rating": 3,
+      "title": "Worth the wait",
+      "body": "Light is soft and warm, not yellow. Sketches well over a side table at night.",
+      "status": "published",
+      "verifiedPurchase": false,
+      "createdAt": "2026-01-04T09:00:00.000Z"
+    },
+    {
+      "id": 33,
+      "productId": 10,
+      "userId": 4,
+      "rating": 4,
+      "title": "Quietly beautiful",
+      "body": "Quick delivery inside Dubai. Packaging was reusable — small thing but appreciated.",
+      "status": "rejected",
+      "verifiedPurchase": true,
+      "createdAt": "2026-01-06T09:00:00.000Z"
+    },
+    {
+      "id": 34,
+      "productId": 10,
+      "userId": 4,
+      "rating": 3,
+      "title": "The light it throws is wonderful",
+      "body": "Lovely object. The base is felted so it doesn't scratch the marble.",
+      "status": "published",
+      "verifiedPurchase": true,
+      "createdAt": "2026-01-07T09:00:00.000Z"
+    },
+    {
+      "id": 35,
+      "productId": 10,
+      "userId": 4,
+      "rating": 5,
+      "title": "The light it throws is wonderful",
+      "body": "Lovely object. The base is felted so it doesn't scratch the marble.",
+      "status": "published",
+      "verifiedPurchase": true,
+      "createdAt": "2026-01-08T09:00:00.000Z"
+    },
+    {
+      "id": 36,
+      "productId": 11,
+      "userId": 4,
+      "rating": 4,
+      "title": "A grown-up gift to ourselves",
+      "body": "Lovely object. The base is felted so it doesn't scratch the marble.",
+      "status": "pending",
+      "verifiedPurchase": false,
+      "createdAt": "2026-01-10T09:00:00.000Z"
+    },
+    {
+      "id": 37,
+      "productId": 11,
+      "userId": 4,
+      "rating": 3,
+      "title": "A small ritual",
+      "body": "I was nervous about the colour from the photos but it reads warmer in person. Sits beautifully on a brass tray.",
+      "status": "published",
+      "verifiedPurchase": true,
+      "createdAt": "2026-01-11T09:00:00.000Z"
+    },
+    {
+      "id": 38,
+      "productId": 11,
+      "userId": 4,
+      "rating": 3,
+      "title": "Better in person",
+      "body": "Lovely object. The base is felted so it doesn't scratch the marble.",
+      "status": "published",
+      "verifiedPurchase": true,
+      "createdAt": "2026-01-12T09:00:00.000Z"
+    },
+    {
+      "id": 39,
+      "productId": 11,
+      "userId": 5,
+      "rating": 5,
+      "title": "Subtle and considered",
+      "body": "Light is soft and warm, not yellow. Sketches well over a side table at night.",
+      "status": "published",
+      "verifiedPurchase": true,
+      "createdAt": "2026-01-13T09:00:00.000Z"
+    },
+    {
+      "id": 40,
+      "productId": 12,
+      "userId": 5,
+      "rating": 3,
+      "title": "Lives on our console",
+      "body": "Bought one for us and one as a gift. Both have been admired. The finish is genuinely hand-worked.",
+      "status": "published",
+      "verifiedPurchase": false,
+      "createdAt": "2026-01-15T09:00:00.000Z"
+    },
+    {
+      "id": 41,
+      "productId": 12,
+      "userId": 4,
+      "rating": 5,
+      "title": "A grown-up gift to ourselves",
+      "body": "Light is soft and warm, not yellow. Sketches well over a side table at night.",
+      "status": "published",
+      "verifiedPurchase": true,
+      "createdAt": "2026-01-16T09:00:00.000Z"
+    },
+    {
+      "id": 42,
+      "productId": 12,
+      "userId": 5,
+      "rating": 3,
+      "title": "Exactly the weight I hoped for",
+      "body": "Light is soft and warm, not yellow. Sketches well over a side table at night.",
+      "status": "pending",
+      "verifiedPurchase": false,
+      "createdAt": "2026-01-17T09:00:00.000Z"
+    },
+    {
+      "id": 43,
+      "productId": 13,
+      "userId": 5,
+      "rating": 5,
+      "title": "Exactly the weight I hoped for",
+      "body": "Light is soft and warm, not yellow. Sketches well over a side table at night.",
+      "status": "published",
+      "verifiedPurchase": true,
+      "createdAt": "2026-01-19T09:00:00.000Z"
+    },
+    {
+      "id": 44,
+      "productId": 13,
+      "userId": 5,
+      "rating": 5,
+      "title": "Exactly the weight I hoped for",
+      "body": "Lovely object. The base is felted so it doesn't scratch the marble.",
+      "status": "rejected",
+      "verifiedPurchase": false,
+      "createdAt": "2026-01-20T09:00:00.000Z"
+    },
+    {
+      "id": 45,
+      "productId": 14,
+      "userId": 5,
+      "rating": 4,
+      "title": "Subtle and considered",
+      "body": "Bought one for us and one as a gift. Both have been admired. The finish is genuinely hand-worked.",
+      "status": "published",
+      "verifiedPurchase": false,
+      "createdAt": "2026-01-21T09:00:00.000Z"
+    },
+    {
+      "id": 46,
+      "productId": 14,
+      "userId": 5,
+      "rating": 5,
+      "title": "Exactly the weight I hoped for",
+      "body": "Bought one for us and one as a gift. Both have been admired. The finish is genuinely hand-worked.",
+      "status": "published",
+      "verifiedPurchase": true,
+      "createdAt": "2026-01-23T09:00:00.000Z"
+    },
+    {
+      "id": 47,
+      "productId": 14,
+      "userId": 5,
+      "rating": 5,
+      "title": "Subtle and considered",
+      "body": "Quick delivery inside Dubai. Packaging was reusable — small thing but appreciated.",
+      "status": "published",
+      "verifiedPurchase": true,
+      "createdAt": "2026-01-24T09:00:00.000Z"
+    },
+    {
+      "id": 48,
+      "productId": 14,
+      "userId": 5,
+      "rating": 4,
+      "title": "Pairs beautifully with linen",
+      "body": "Light is soft and warm, not yellow. Sketches well over a side table at night.",
+      "status": "pending",
+      "verifiedPurchase": false,
+      "createdAt": "2026-01-25T09:00:00.000Z"
+    },
+    {
+      "id": 49,
+      "productId": 14,
+      "userId": 4,
+      "rating": 3,
+      "title": "A small ritual",
+      "body": "Arrived well wrapped, no marks. The proportions are exactly right — substantial without being heavy.",
+      "status": "published",
+      "verifiedPurchase": true,
+      "createdAt": "2026-01-26T09:00:00.000Z"
+    },
+    {
+      "id": 50,
+      "productId": 15,
+      "userId": 5,
+      "rating": 4,
+      "title": "Lives on our console",
+      "body": "I was nervous about the colour from the photos but it reads warmer in person. Sits beautifully on a brass tray.",
+      "status": "published",
+      "verifiedPurchase": true,
+      "createdAt": "2026-01-28T09:00:00.000Z"
+    },
+    {
+      "id": 51,
+      "productId": 15,
+      "userId": 4,
+      "rating": 5,
+      "title": "Worth the wait",
+      "body": "Colour matched the website faithfully. Would buy again from this shop.",
+      "status": "published",
+      "verifiedPurchase": true,
+      "createdAt": "2026-01-29T09:00:00.000Z"
+    },
+    {
+      "id": 52,
+      "productId": 15,
+      "userId": 5,
+      "rating": 4,
+      "title": "Quietly beautiful",
+      "body": "Bought one for us and one as a gift. Both have been admired. The finish is genuinely hand-worked.",
+      "status": "published",
+      "verifiedPurchase": true,
+      "createdAt": "2026-01-30T09:00:00.000Z"
+    },
+    {
+      "id": 53,
+      "productId": 15,
+      "userId": 4,
+      "rating": 5,
+      "title": "Pairs beautifully with linen",
+      "body": "Bought one for us and one as a gift. Both have been admired. The finish is genuinely hand-worked.",
+      "status": "published",
+      "verifiedPurchase": true,
+      "createdAt": "2026-02-01T09:00:00.000Z"
+    },
+    {
+      "id": 54,
+      "productId": 16,
+      "userId": 5,
+      "rating": 5,
+      "title": "Quietly beautiful",
+      "body": "I was nervous about the colour from the photos but it reads warmer in person. Sits beautifully on a brass tray.",
+      "status": "pending",
+      "verifiedPurchase": true,
+      "createdAt": "2026-02-02T09:00:00.000Z"
+    },
+    {
+      "id": 55,
+      "productId": 16,
+      "userId": 4,
+      "rating": 5,
+      "title": "The light it throws is wonderful",
+      "body": "I was nervous about the colour from the photos but it reads warmer in person. Sits beautifully on a brass tray.",
+      "status": "rejected",
+      "verifiedPurchase": false,
+      "createdAt": "2026-02-03T09:00:00.000Z"
+    },
+    {
+      "id": 56,
+      "productId": 16,
+      "userId": 4,
+      "rating": 3,
+      "title": "Better in person",
+      "body": "Arrived well wrapped, no marks. The proportions are exactly right — substantial without being heavy.",
+      "status": "published",
+      "verifiedPurchase": true,
+      "createdAt": "2026-02-05T09:00:00.000Z"
+    },
+    {
+      "id": 57,
+      "productId": 17,
+      "userId": 4,
+      "rating": 4,
+      "title": "A grown-up gift to ourselves",
+      "body": "I was nervous about the colour from the photos but it reads warmer in person. Sits beautifully on a brass tray.",
+      "status": "published",
+      "verifiedPurchase": true,
+      "createdAt": "2026-02-06T09:00:00.000Z"
+    },
+    {
+      "id": 58,
+      "productId": 17,
+      "userId": 5,
+      "rating": 5,
+      "title": "A small ritual",
+      "body": "Light is soft and warm, not yellow. Sketches well over a side table at night.",
+      "status": "published",
+      "verifiedPurchase": true,
+      "createdAt": "2026-02-07T09:00:00.000Z"
+    },
+    {
+      "id": 59,
+      "productId": 18,
+      "userId": 5,
+      "rating": 3,
+      "title": "Worth the wait",
+      "body": "Arrived well wrapped, no marks. The proportions are exactly right — substantial without being heavy.",
+      "status": "published",
+      "verifiedPurchase": true,
+      "createdAt": "2026-02-08T09:00:00.000Z"
+    },
+    {
+      "id": 60,
+      "productId": 18,
+      "userId": 4,
+      "rating": 4,
+      "title": "Better in person",
+      "body": "Light is soft and warm, not yellow. Sketches well over a side table at night.",
+      "status": "pending",
+      "verifiedPurchase": true,
+      "createdAt": "2026-02-10T09:00:00.000Z"
+    },
+    {
+      "id": 61,
+      "productId": 18,
+      "userId": 5,
+      "rating": 5,
+      "title": "Subtle and considered",
+      "body": "Colour matched the website faithfully. Would buy again from this shop.",
+      "status": "published",
+      "verifiedPurchase": true,
+      "createdAt": "2026-02-11T09:00:00.000Z"
+    },
+    {
+      "id": 62,
+      "productId": 18,
+      "userId": 4,
+      "rating": 5,
+      "title": "A small ritual",
+      "body": "I was nervous about the colour from the photos but it reads warmer in person. Sits beautifully on a brass tray.",
+      "status": "published",
+      "verifiedPurchase": true,
+      "createdAt": "2026-02-12T09:00:00.000Z"
+    },
+    {
+      "id": 63,
+      "productId": 18,
+      "userId": 4,
+      "rating": 5,
+      "title": "Quietly beautiful",
+      "body": "Colour matched the website faithfully. Would buy again from this shop.",
+      "status": "published",
+      "verifiedPurchase": true,
+      "createdAt": "2026-02-14T09:00:00.000Z"
+    },
+    {
+      "id": 64,
+      "productId": 19,
+      "userId": 4,
+      "rating": 5,
+      "title": "A grown-up gift to ourselves",
+      "body": "Slight variation on the rim which I love — feels handmade, not factory.",
+      "status": "published",
+      "verifiedPurchase": true,
+      "createdAt": "2026-02-15T09:00:00.000Z"
+    },
+    {
+      "id": 65,
+      "productId": 19,
+      "userId": 4,
+      "rating": 4,
+      "title": "Exactly the weight I hoped for",
+      "body": "Lovely object. The base is felted so it doesn't scratch the marble.",
+      "status": "published",
+      "verifiedPurchase": true,
+      "createdAt": "2026-02-16T09:00:00.000Z"
+    },
+    {
+      "id": 66,
+      "productId": 19,
+      "userId": 5,
+      "rating": 4,
+      "title": "The light it throws is wonderful",
+      "body": "Slight variation on the rim which I love — feels handmade, not factory.",
+      "status": "rejected",
+      "verifiedPurchase": true,
+      "createdAt": "2026-02-18T09:00:00.000Z"
+    },
+    {
+      "id": 67,
+      "productId": 19,
+      "userId": 4,
+      "rating": 5,
+      "title": "Pairs beautifully with linen",
+      "body": "Lovely object. The base is felted so it doesn't scratch the marble.",
+      "status": "published",
+      "verifiedPurchase": true,
+      "createdAt": "2026-02-19T09:00:00.000Z"
+    },
+    {
+      "id": 68,
+      "productId": 20,
+      "userId": 5,
+      "rating": 4,
+      "title": "Worth the wait",
+      "body": "Arrived well wrapped, no marks. The proportions are exactly right — substantial without being heavy.",
+      "status": "published",
+      "verifiedPurchase": true,
+      "createdAt": "2026-02-20T09:00:00.000Z"
+    },
+    {
+      "id": 69,
+      "productId": 20,
+      "userId": 4,
+      "rating": 4,
+      "title": "Worth the wait",
+      "body": "I was nervous about the colour from the photos but it reads warmer in person. Sits beautifully on a brass tray.",
+      "status": "published",
+      "verifiedPurchase": false,
+      "createdAt": "2026-02-21T09:00:00.000Z"
+    },
+    {
+      "id": 70,
+      "productId": 20,
+      "userId": 4,
+      "rating": 5,
+      "title": "Exactly the weight I hoped for",
+      "body": "Slight variation on the rim which I love — feels handmade, not factory.",
+      "status": "published",
+      "verifiedPurchase": true,
+      "createdAt": "2026-02-23T09:00:00.000Z"
+    },
+    {
+      "id": 71,
+      "productId": 21,
+      "userId": 4,
+      "rating": 4,
+      "title": "The light it throws is wonderful",
+      "body": "Quick delivery inside Dubai. Packaging was reusable — small thing but appreciated.",
+      "status": "published",
+      "verifiedPurchase": false,
+      "createdAt": "2026-02-24T09:00:00.000Z"
+    },
+    {
+      "id": 72,
+      "productId": 21,
+      "userId": 4,
+      "rating": 5,
+      "title": "Pairs beautifully with linen",
+      "body": "Bought one for us and one as a gift. Both have been admired. The finish is genuinely hand-worked.",
+      "status": "pending",
+      "verifiedPurchase": true,
+      "createdAt": "2026-02-25T09:00:00.000Z"
+    },
+    {
+      "id": 73,
+      "productId": 22,
+      "userId": 5,
+      "rating": 4,
+      "title": "The light it throws is wonderful",
+      "body": "Lovely object. The base is felted so it doesn't scratch the marble.",
+      "status": "published",
+      "verifiedPurchase": true,
+      "createdAt": "2026-02-27T09:00:00.000Z"
+    },
+    {
+      "id": 74,
+      "productId": 22,
+      "userId": 4,
+      "rating": 4,
+      "title": "Better in person",
+      "body": "Light is soft and warm, not yellow. Sketches well over a side table at night.",
+      "status": "published",
+      "verifiedPurchase": false,
+      "createdAt": "2026-02-28T09:00:00.000Z"
+    },
+    {
+      "id": 75,
+      "productId": 22,
+      "userId": 4,
+      "rating": 3,
+      "title": "Lives on our console",
+      "body": "Arrived well wrapped, no marks. The proportions are exactly right — substantial without being heavy.",
+      "status": "published",
+      "verifiedPurchase": true,
+      "createdAt": "2026-03-01T09:00:00.000Z"
+    },
+    {
+      "id": 76,
+      "productId": 22,
+      "userId": 5,
+      "rating": 3,
+      "title": "Exactly the weight I hoped for",
+      "body": "Arrived well wrapped, no marks. The proportions are exactly right — substantial without being heavy.",
+      "status": "published",
+      "verifiedPurchase": true,
+      "createdAt": "2026-03-03T09:00:00.000Z"
+    },
+    {
+      "id": 77,
+      "productId": 22,
+      "userId": 4,
+      "rating": 4,
+      "title": "Better in person",
+      "body": "Colour matched the website faithfully. Would buy again from this shop.",
+      "status": "rejected",
+      "verifiedPurchase": false,
+      "createdAt": "2026-03-04T09:00:00.000Z"
+    },
+    {
+      "id": 78,
+      "productId": 23,
+      "userId": 4,
+      "rating": 4,
+      "title": "Lives on our console",
+      "body": "Colour matched the website faithfully. Would buy again from this shop.",
+      "status": "pending",
+      "verifiedPurchase": true,
+      "createdAt": "2026-03-05T09:00:00.000Z"
+    },
+    {
+      "id": 79,
+      "productId": 23,
+      "userId": 5,
+      "rating": 3,
+      "title": "Worth the wait",
+      "body": "Slight variation on the rim which I love — feels handmade, not factory.",
+      "status": "published",
+      "verifiedPurchase": true,
+      "createdAt": "2026-03-06T09:00:00.000Z"
+    },
+    {
+      "id": 80,
+      "productId": 23,
+      "userId": 4,
+      "rating": 5,
+      "title": "A grown-up gift to ourselves",
+      "body": "Bought one for us and one as a gift. Both have been admired. The finish is genuinely hand-worked.",
+      "status": "published",
+      "verifiedPurchase": true,
+      "createdAt": "2026-03-08T09:00:00.000Z"
+    },
+    {
+      "id": 81,
+      "productId": 23,
+      "userId": 4,
+      "rating": 3,
+      "title": "A grown-up gift to ourselves",
+      "body": "Lovely object. The base is felted so it doesn't scratch the marble.",
+      "status": "published",
+      "verifiedPurchase": false,
+      "createdAt": "2026-03-09T09:00:00.000Z"
+    },
+    {
+      "id": 82,
+      "productId": 24,
+      "userId": 4,
+      "rating": 3,
+      "title": "A grown-up gift to ourselves",
+      "body": "Light is soft and warm, not yellow. Sketches well over a side table at night.",
+      "status": "published",
+      "verifiedPurchase": true,
+      "createdAt": "2026-03-10T09:00:00.000Z"
+    },
+    {
+      "id": 83,
+      "productId": 24,
+      "userId": 5,
+      "rating": 3,
+      "title": "A small ritual",
+      "body": "I was nervous about the colour from the photos but it reads warmer in person. Sits beautifully on a brass tray.",
+      "status": "published",
+      "verifiedPurchase": true,
+      "createdAt": "2026-03-12T09:00:00.000Z"
+    },
+    {
+      "id": 84,
+      "productId": 24,
+      "userId": 4,
+      "rating": 5,
+      "title": "A grown-up gift to ourselves",
+      "body": "Arrived well wrapped, no marks. The proportions are exactly right — substantial without being heavy.",
+      "status": "pending",
+      "verifiedPurchase": true,
+      "createdAt": "2026-03-13T09:00:00.000Z"
+    },
+    {
+      "id": 85,
+      "productId": 25,
+      "userId": 5,
+      "rating": 3,
+      "title": "Exactly the weight I hoped for",
+      "body": "I was nervous about the colour from the photos but it reads warmer in person. Sits beautifully on a brass tray.",
+      "status": "published",
+      "verifiedPurchase": true,
+      "createdAt": "2026-03-14T09:00:00.000Z"
+    },
+    {
+      "id": 86,
+      "productId": 25,
+      "userId": 4,
+      "rating": 5,
+      "title": "Subtle and considered",
+      "body": "Bought one for us and one as a gift. Both have been admired. The finish is genuinely hand-worked.",
+      "status": "published",
+      "verifiedPurchase": true,
+      "createdAt": "2026-03-16T09:00:00.000Z"
+    },
+    {
+      "id": 87,
+      "productId": 26,
+      "userId": 5,
+      "rating": 3,
+      "title": "Lives on our console",
+      "body": "Quick delivery inside Dubai. Packaging was reusable — small thing but appreciated.",
+      "status": "published",
+      "verifiedPurchase": true,
+      "createdAt": "2026-03-17T09:00:00.000Z"
+    },
+    {
+      "id": 88,
+      "productId": 26,
+      "userId": 5,
+      "rating": 5,
+      "title": "A small ritual",
+      "body": "Arrived well wrapped, no marks. The proportions are exactly right — substantial without being heavy.",
+      "status": "rejected",
+      "verifiedPurchase": true,
+      "createdAt": "2026-03-18T09:00:00.000Z"
+    },
+    {
+      "id": 89,
+      "productId": 26,
+      "userId": 4,
+      "rating": 4,
+      "title": "Better in person",
+      "body": "Quick delivery inside Dubai. Packaging was reusable — small thing but appreciated.",
+      "status": "published",
+      "verifiedPurchase": true,
+      "createdAt": "2026-03-19T09:00:00.000Z"
+    },
+    {
+      "id": 90,
+      "productId": 26,
+      "userId": 5,
+      "rating": 4,
+      "title": "A small ritual",
+      "body": "Bought one for us and one as a gift. Both have been admired. The finish is genuinely hand-worked.",
+      "status": "pending",
+      "verifiedPurchase": true,
+      "createdAt": "2026-03-21T09:00:00.000Z"
+    },
+    {
+      "id": 91,
+      "productId": 26,
+      "userId": 5,
+      "rating": 3,
+      "title": "A small ritual",
+      "body": "Arrived well wrapped, no marks. The proportions are exactly right — substantial without being heavy.",
+      "status": "published",
+      "verifiedPurchase": true,
+      "createdAt": "2026-03-22T09:00:00.000Z"
+    },
+    {
+      "id": 92,
+      "productId": 27,
+      "userId": 5,
+      "rating": 3,
+      "title": "A grown-up gift to ourselves",
+      "body": "Lovely object. The base is felted so it doesn't scratch the marble.",
+      "status": "published",
+      "verifiedPurchase": false,
+      "createdAt": "2026-03-23T09:00:00.000Z"
+    },
+    {
+      "id": 93,
+      "productId": 27,
+      "userId": 5,
+      "rating": 4,
+      "title": "A small ritual",
+      "body": "Colour matched the website faithfully. Would buy again from this shop.",
+      "status": "published",
+      "verifiedPurchase": true,
+      "createdAt": "2026-03-25T09:00:00.000Z"
+    },
+    {
+      "id": 94,
+      "productId": 27,
+      "userId": 5,
+      "rating": 5,
+      "title": "Exactly the weight I hoped for",
+      "body": "Lovely object. The base is felted so it doesn't scratch the marble.",
+      "status": "published",
+      "verifiedPurchase": true,
+      "createdAt": "2026-03-26T09:00:00.000Z"
+    },
+    {
+      "id": 95,
+      "productId": 27,
+      "userId": 4,
+      "rating": 5,
+      "title": "A small ritual",
+      "body": "I was nervous about the colour from the photos but it reads warmer in person. Sits beautifully on a brass tray.",
+      "status": "published",
+      "verifiedPurchase": true,
+      "createdAt": "2026-03-27T09:00:00.000Z"
+    },
+    {
+      "id": 96,
+      "productId": 28,
+      "userId": 4,
+      "rating": 4,
+      "title": "Worth the wait",
+      "body": "Quick delivery inside Dubai. Packaging was reusable — small thing but appreciated.",
+      "status": "pending",
+      "verifiedPurchase": true,
+      "createdAt": "2026-03-29T09:00:00.000Z"
+    },
+    {
+      "id": 97,
+      "productId": 28,
+      "userId": 4,
+      "rating": 4,
+      "title": "A grown-up gift to ourselves",
+      "body": "Slight variation on the rim which I love — feels handmade, not factory.",
+      "status": "published",
+      "verifiedPurchase": true,
+      "createdAt": "2026-03-30T09:00:00.000Z"
+    },
+    {
+      "id": 98,
+      "productId": 28,
+      "userId": 5,
+      "rating": 5,
+      "title": "Quietly beautiful",
+      "body": "I was nervous about the colour from the photos but it reads warmer in person. Sits beautifully on a brass tray.",
+      "status": "published",
+      "verifiedPurchase": false,
+      "createdAt": "2026-03-31T09:00:00.000Z"
+    },
+    {
+      "id": 99,
+      "productId": 29,
+      "userId": 5,
+      "rating": 5,
+      "title": "A grown-up gift to ourselves",
+      "body": "Bought one for us and one as a gift. Both have been admired. The finish is genuinely hand-worked.",
+      "status": "rejected",
+      "verifiedPurchase": false,
+      "createdAt": "2026-04-01T09:00:00.000Z"
+    },
+    {
+      "id": 100,
+      "productId": 29,
+      "userId": 5,
+      "rating": 4,
+      "title": "A small ritual",
+      "body": "Light is soft and warm, not yellow. Sketches well over a side table at night.",
+      "status": "published",
+      "verifiedPurchase": true,
+      "createdAt": "2026-04-03T09:00:00.000Z"
+    },
+    {
+      "id": 101,
+      "productId": 30,
+      "userId": 5,
+      "rating": 5,
+      "title": "Quietly beautiful",
+      "body": "Lovely object. The base is felted so it doesn't scratch the marble.",
+      "status": "published",
+      "verifiedPurchase": false,
+      "createdAt": "2026-04-04T09:00:00.000Z"
+    },
+    {
+      "id": 102,
+      "productId": 30,
+      "userId": 5,
+      "rating": 5,
+      "title": "Exactly the weight I hoped for",
+      "body": "I was nervous about the colour from the photos but it reads warmer in person. Sits beautifully on a brass tray.",
+      "status": "pending",
+      "verifiedPurchase": true,
+      "createdAt": "2026-04-05T09:00:00.000Z"
+    },
+    {
+      "id": 103,
+      "productId": 30,
+      "userId": 4,
+      "rating": 4,
+      "title": "A grown-up gift to ourselves",
+      "body": "Quick delivery inside Dubai. Packaging was reusable — small thing but appreciated.",
+      "status": "published",
+      "verifiedPurchase": true,
+      "createdAt": "2026-04-07T09:00:00.000Z"
+    },
+    {
+      "id": 104,
+      "productId": 30,
+      "userId": 5,
+      "rating": 3,
+      "title": "Better in person",
+      "body": "Light is soft and warm, not yellow. Sketches well over a side table at night.",
+      "status": "published",
+      "verifiedPurchase": true,
+      "createdAt": "2026-04-08T09:00:00.000Z"
+    },
+    {
+      "id": 105,
+      "productId": 30,
+      "userId": 5,
+      "rating": 4,
+      "title": "A small ritual",
+      "body": "Slight variation on the rim which I love — feels handmade, not factory.",
+      "status": "published",
+      "verifiedPurchase": true,
+      "createdAt": "2026-04-09T09:00:00.000Z"
+    },
+    {
+      "id": 106,
+      "productId": 31,
+      "userId": 5,
+      "rating": 3,
+      "title": "Quietly beautiful",
+      "body": "Lovely object. The base is felted so it doesn't scratch the marble.",
+      "status": "published",
+      "verifiedPurchase": false,
+      "createdAt": "2026-04-11T09:00:00.000Z"
+    },
+    {
+      "id": 107,
+      "productId": 31,
+      "userId": 4,
+      "rating": 5,
+      "title": "A small ritual",
+      "body": "Slight variation on the rim which I love — feels handmade, not factory.",
+      "status": "published",
+      "verifiedPurchase": false,
+      "createdAt": "2026-04-12T09:00:00.000Z"
+    },
+    {
+      "id": 108,
+      "productId": 31,
+      "userId": 4,
+      "rating": 3,
+      "title": "A small ritual",
+      "body": "Arrived well wrapped, no marks. The proportions are exactly right — substantial without being heavy.",
+      "status": "pending",
+      "verifiedPurchase": true,
+      "createdAt": "2026-04-13T09:00:00.000Z"
+    },
+    {
+      "id": 109,
+      "productId": 31,
+      "userId": 5,
+      "rating": 3,
+      "title": "Pairs beautifully with linen",
+      "body": "Slight variation on the rim which I love — feels handmade, not factory.",
+      "status": "published",
+      "verifiedPurchase": true,
+      "createdAt": "2026-04-14T09:00:00.000Z"
+    },
+    {
+      "id": 110,
+      "productId": 32,
+      "userId": 5,
+      "rating": 3,
+      "title": "Subtle and considered",
+      "body": "Light is soft and warm, not yellow. Sketches well over a side table at night.",
+      "status": "rejected",
+      "verifiedPurchase": true,
+      "createdAt": "2026-04-16T09:00:00.000Z"
+    },
+    {
+      "id": 111,
+      "productId": 32,
+      "userId": 4,
+      "rating": 4,
+      "title": "Pairs beautifully with linen",
+      "body": "Slight variation on the rim which I love — feels handmade, not factory.",
+      "status": "published",
+      "verifiedPurchase": true,
+      "createdAt": "2026-04-17T09:00:00.000Z"
+    },
+    {
+      "id": 112,
+      "productId": 32,
+      "userId": 5,
+      "rating": 3,
+      "title": "Lives on our console",
+      "body": "Bought one for us and one as a gift. Both have been admired. The finish is genuinely hand-worked.",
+      "status": "published",
+      "verifiedPurchase": true,
+      "createdAt": "2026-04-18T09:00:00.000Z"
+    },
+    {
+      "id": 113,
+      "productId": 33,
+      "userId": 5,
+      "rating": 3,
+      "title": "The light it throws is wonderful",
+      "body": "Lovely object. The base is felted so it doesn't scratch the marble.",
+      "status": "published",
+      "verifiedPurchase": true,
+      "createdAt": "2026-04-20T09:00:00.000Z"
+    },
+    {
+      "id": 114,
+      "productId": 33,
+      "userId": 4,
+      "rating": 4,
+      "title": "Worth the wait",
+      "body": "I was nervous about the colour from the photos but it reads warmer in person. Sits beautifully on a brass tray.",
+      "status": "pending",
+      "verifiedPurchase": true,
+      "createdAt": "2026-04-21T09:00:00.000Z"
+    },
+    {
+      "id": 115,
+      "productId": 34,
+      "userId": 5,
+      "rating": 5,
+      "title": "Worth the wait",
+      "body": "I was nervous about the colour from the photos but it reads warmer in person. Sits beautifully on a brass tray.",
+      "status": "published",
+      "verifiedPurchase": false,
+      "createdAt": "2026-04-22T09:00:00.000Z"
+    },
+    {
+      "id": 116,
+      "productId": 34,
+      "userId": 4,
+      "rating": 5,
+      "title": "Worth the wait",
+      "body": "Slight variation on the rim which I love — feels handmade, not factory.",
+      "status": "published",
+      "verifiedPurchase": true,
+      "createdAt": "2026-04-24T09:00:00.000Z"
+    },
+    {
+      "id": 117,
+      "productId": 34,
+      "userId": 4,
+      "rating": 5,
+      "title": "Worth the wait",
+      "body": "Colour matched the website faithfully. Would buy again from this shop.",
+      "status": "published",
+      "verifiedPurchase": true,
+      "createdAt": "2026-04-25T09:00:00.000Z"
+    },
+    {
+      "id": 118,
+      "productId": 34,
+      "userId": 5,
+      "rating": 5,
+      "title": "Better in person",
+      "body": "Lovely object. The base is felted so it doesn't scratch the marble.",
+      "status": "published",
+      "verifiedPurchase": true,
+      "createdAt": "2026-04-26T09:00:00.000Z"
+    },
+    {
+      "id": 119,
+      "productId": 34,
+      "userId": 5,
+      "rating": 3,
+      "title": "Better in person",
+      "body": "Bought one for us and one as a gift. Both have been admired. The finish is genuinely hand-worked.",
+      "status": "published",
+      "verifiedPurchase": true,
+      "createdAt": "2026-04-27T09:00:00.000Z"
+    },
+    {
+      "id": 120,
+      "productId": 35,
+      "userId": 5,
+      "rating": 4,
+      "title": "Exactly the weight I hoped for",
+      "body": "Arrived well wrapped, no marks. The proportions are exactly right — substantial without being heavy.",
+      "status": "pending",
+      "verifiedPurchase": false,
+      "createdAt": "2026-04-29T09:00:00.000Z"
+    },
+    {
+      "id": 121,
+      "productId": 35,
+      "userId": 5,
+      "rating": 4,
+      "title": "The light it throws is wonderful",
+      "body": "Arrived well wrapped, no marks. The proportions are exactly right — substantial without being heavy.",
+      "status": "rejected",
+      "verifiedPurchase": true,
+      "createdAt": "2026-04-30T09:00:00.000Z"
+    },
+    {
+      "id": 122,
+      "productId": 35,
+      "userId": 5,
+      "rating": 3,
+      "title": "A small ritual",
+      "body": "Light is soft and warm, not yellow. Sketches well over a side table at night.",
+      "status": "published",
+      "verifiedPurchase": false,
+      "createdAt": "2026-04-30T09:00:00.000Z"
+    },
+    {
+      "id": 123,
+      "productId": 35,
+      "userId": 4,
+      "rating": 4,
+      "title": "Quietly beautiful",
+      "body": "Colour matched the website faithfully. Would buy again from this shop.",
+      "status": "published",
+      "verifiedPurchase": false,
+      "createdAt": "2026-05-02T09:00:00.000Z"
+    },
+    {
+      "id": 124,
+      "productId": 36,
+      "userId": 4,
+      "rating": 4,
+      "title": "Subtle and considered",
+      "body": "Light is soft and warm, not yellow. Sketches well over a side table at night.",
+      "status": "published",
+      "verifiedPurchase": true,
+      "createdAt": "2026-05-03T09:00:00.000Z"
+    },
+    {
+      "id": 125,
+      "productId": 36,
+      "userId": 5,
+      "rating": 4,
+      "title": "Better in person",
+      "body": "Quick delivery inside Dubai. Packaging was reusable — small thing but appreciated.",
+      "status": "published",
+      "verifiedPurchase": true,
+      "createdAt": "2026-05-04T09:00:00.000Z"
+    },
+    {
+      "id": 126,
+      "productId": 36,
+      "userId": 4,
+      "rating": 4,
+      "title": "Lives on our console",
+      "body": "Light is soft and warm, not yellow. Sketches well over a side table at night.",
+      "status": "pending",
+      "verifiedPurchase": true,
+      "createdAt": "2026-05-06T09:00:00.000Z"
+    }
+  ],
+  "orders": [
+    {
+      "id": 1,
+      "number": "TI-2026-00001",
+      "userId": 5,
+      "items": [
+        {
+          "productId": 36,
+          "sku": "TI-TAB-0036",
+          "name": "Olive Wood Bowl",
+          "slug": "olive-wood-bowl",
+          "image": "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Olive+Wood+Bowl+1&font=playfair",
+          "unitPrice": 2200,
+          "quantity": 2,
+          "lineTotal": 4400
+        },
+        {
+          "productId": 27,
+          "sku": "TI-CAN-0027",
+          "name": "Sandalwood Reed Diffuser",
+          "slug": "sandalwood-reed-diffuser",
+          "image": "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Sandalwood+Reed+Diffuser+1&font=playfair",
+          "unitPrice": 2100,
+          "quantity": 1,
+          "lineTotal": 2100
+        },
+        {
+          "productId": 14,
+          "sku": "TI-CUS-0014",
+          "name": "Cashmere Quilted Throw",
+          "slug": "cashmere-quilted-throw",
+          "image": "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Cashmere+Quilted+Throw+1&font=playfair",
+          "unitPrice": 12400,
+          "quantity": 2,
+          "lineTotal": 24800
+        }
+      ],
+      "subtotal": 31300,
+      "discount": 3130,
+      "tax": 1408.5,
+      "total": 29578.5,
+      "currency": "AED",
+      "couponCode": "WELCOME10",
+      "paymentMethod": "card",
+      "paymentStatus": "pending",
+      "status": "pending",
+      "shippingAddress": {
+        "userId": 5,
+        "label": "Home",
+        "firstName": "Omar",
+        "lastName": "Saleh",
+        "phone": "+971554441002",
+        "line1": "Apartment 2104, Marina Gate 2",
+        "line2": "Dubai Marina",
+        "city": "Dubai",
+        "emirate": "Dubai",
+        "country": "AE",
+        "isDefault": true
+      },
+      "billingAddress": {
+        "userId": 5,
+        "label": "Home",
+        "firstName": "Omar",
+        "lastName": "Saleh",
+        "phone": "+971554441002",
+        "line1": "Apartment 2104, Marina Gate 2",
+        "line2": "Dubai Marina",
+        "city": "Dubai",
+        "emirate": "Dubai",
+        "country": "AE",
+        "isDefault": true
+      },
+      "notes": [
+        {
+          "id": 1,
+          "authorId": 1,
+          "body": "Customer requested gift wrap.",
+          "createdAt": "2026-03-02T09:00:00.000Z",
+          "isInternal": false
+        }
+      ],
+      "createdAt": "2026-03-02T09:00:00.000Z",
+      "updatedAt": "2026-03-02T09:00:00.000Z"
+    },
+    {
+      "id": 2,
+      "number": "TI-2026-00002",
+      "userId": 4,
+      "items": [
+        {
+          "productId": 28,
+          "sku": "TI-PLA-0028",
+          "name": "Terracotta Tall Planter",
+          "slug": "terracotta-tall-planter",
+          "image": "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Terracotta+Tall+Planter+1&font=playfair",
+          "unitPrice": 4400,
+          "quantity": 3,
+          "lineTotal": 13200
+        },
+        {
+          "productId": 5,
+          "sku": "TI-VAS-0005",
+          "name": "Travertine Bud Vase",
+          "slug": "travertine-bud-vase",
+          "image": "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Travertine+Bud+Vase+1&font=playfair",
+          "unitPrice": 2200,
+          "quantity": 2,
+          "lineTotal": 4400
+        },
+        {
+          "productId": 27,
+          "sku": "TI-CAN-0027",
+          "name": "Sandalwood Reed Diffuser",
+          "slug": "sandalwood-reed-diffuser",
+          "image": "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Sandalwood+Reed+Diffuser+1&font=playfair",
+          "unitPrice": 2100,
+          "quantity": 3,
+          "lineTotal": 6300
+        },
+        {
+          "productId": 6,
+          "sku": "TI-LAM-0006",
+          "name": "Brass Reading Lamp",
+          "slug": "brass-reading-lamp",
+          "image": "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Brass+Reading+Lamp+1&font=playfair",
+          "unitPrice": 12800,
+          "quantity": 2,
+          "lineTotal": 25600
+        }
+      ],
+      "subtotal": 49500,
+      "discount": 0,
+      "tax": 2475,
+      "total": 51975,
+      "currency": "AED",
+      "couponCode": null,
+      "paymentMethod": "cod",
+      "paymentStatus": "paid",
+      "status": "confirmed",
+      "shippingAddress": {
+        "userId": 4,
+        "label": "Home",
+        "firstName": "Layla",
+        "lastName": "Ibrahim",
+        "phone": "+971554441001",
+        "line1": "Villa 14, Street 7",
+        "line2": "Jumeirah 1",
+        "city": "Dubai",
+        "emirate": "Dubai",
+        "country": "AE",
+        "isDefault": true
+      },
+      "billingAddress": {
+        "userId": 4,
+        "label": "Home",
+        "firstName": "Layla",
+        "lastName": "Ibrahim",
+        "phone": "+971554441001",
+        "line1": "Villa 14, Street 7",
+        "line2": "Jumeirah 1",
+        "city": "Dubai",
+        "emirate": "Dubai",
+        "country": "AE",
+        "isDefault": true
+      },
+      "notes": [],
+      "createdAt": "2026-03-06T09:00:00.000Z",
+      "updatedAt": "2026-03-06T09:00:00.000Z"
+    },
+    {
+      "id": 3,
+      "number": "TI-2026-00003",
+      "userId": 5,
+      "items": [
+        {
+          "productId": 28,
+          "sku": "TI-PLA-0028",
+          "name": "Terracotta Tall Planter",
+          "slug": "terracotta-tall-planter",
+          "image": "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Terracotta+Tall+Planter+1&font=playfair",
+          "unitPrice": 4400,
+          "quantity": 2,
+          "lineTotal": 8800
+        }
+      ],
+      "subtotal": 8800,
+      "discount": 0,
+      "tax": 440,
+      "total": 9240,
+      "currency": "AED",
+      "couponCode": null,
+      "paymentMethod": "bank_transfer",
+      "paymentStatus": "paid",
+      "status": "preparing",
+      "shippingAddress": {
+        "userId": 5,
+        "label": "Home",
+        "firstName": "Omar",
+        "lastName": "Saleh",
+        "phone": "+971554441002",
+        "line1": "Apartment 2104, Marina Gate 2",
+        "line2": "Dubai Marina",
+        "city": "Dubai",
+        "emirate": "Dubai",
+        "country": "AE",
+        "isDefault": true
+      },
+      "billingAddress": {
+        "userId": 5,
+        "label": "Home",
+        "firstName": "Omar",
+        "lastName": "Saleh",
+        "phone": "+971554441002",
+        "line1": "Apartment 2104, Marina Gate 2",
+        "line2": "Dubai Marina",
+        "city": "Dubai",
+        "emirate": "Dubai",
+        "country": "AE",
+        "isDefault": true
+      },
+      "notes": [],
+      "createdAt": "2026-03-10T09:00:00.000Z",
+      "updatedAt": "2026-03-10T09:00:00.000Z"
+    },
+    {
+      "id": 4,
+      "number": "TI-2026-00004",
+      "userId": 5,
+      "items": [
+        {
+          "productId": 17,
+          "sku": "TI-WAL-0017",
+          "name": "Brass Framed Mirror Print",
+          "slug": "brass-framed-mirror-print",
+          "image": "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Brass+Framed+Mirror+Print+1&font=playfair",
+          "unitPrice": 3900,
+          "quantity": 2,
+          "lineTotal": 7800
+        },
+        {
+          "productId": 16,
+          "sku": "TI-WAL-0016",
+          "name": "Charcoal Nude Study",
+          "slug": "charcoal-nude-study",
+          "image": "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Charcoal+Nude+Study+1&font=playfair",
+          "unitPrice": 4200,
+          "quantity": 1,
+          "lineTotal": 4200
+        },
+        {
+          "productId": 18,
+          "sku": "TI-WAL-0018",
+          "name": "Architectural Plate",
+          "slug": "architectural-plate",
+          "image": "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Architectural+Plate+1&font=playfair",
+          "unitPrice": 2800,
+          "quantity": 1,
+          "lineTotal": 2800
+        }
+      ],
+      "subtotal": 14800,
+      "discount": 0,
+      "tax": 740,
+      "total": 15540,
+      "currency": "AED",
+      "couponCode": null,
+      "paymentMethod": "card",
+      "paymentStatus": "pending",
+      "status": "ready",
+      "shippingAddress": {
+        "userId": 5,
+        "label": "Home",
+        "firstName": "Omar",
+        "lastName": "Saleh",
+        "phone": "+971554441002",
+        "line1": "Apartment 2104, Marina Gate 2",
+        "line2": "Dubai Marina",
+        "city": "Dubai",
+        "emirate": "Dubai",
+        "country": "AE",
+        "isDefault": true
+      },
+      "billingAddress": {
+        "userId": 5,
+        "label": "Home",
+        "firstName": "Omar",
+        "lastName": "Saleh",
+        "phone": "+971554441002",
+        "line1": "Apartment 2104, Marina Gate 2",
+        "line2": "Dubai Marina",
+        "city": "Dubai",
+        "emirate": "Dubai",
+        "country": "AE",
+        "isDefault": true
+      },
+      "notes": [
+        {
+          "id": 1,
+          "authorId": 1,
+          "body": "Customer requested gift wrap.",
+          "createdAt": "2026-03-14T09:00:00.000Z",
+          "isInternal": false
+        }
+      ],
+      "createdAt": "2026-03-14T09:00:00.000Z",
+      "updatedAt": "2026-03-14T09:00:00.000Z"
+    },
+    {
+      "id": 5,
+      "number": "TI-2026-00005",
+      "userId": 5,
+      "items": [
+        {
+          "productId": 10,
+          "sku": "TI-LAM-0010",
+          "name": "Cylinder Pendant Lamp",
+          "slug": "cylinder-pendant-lamp",
+          "image": "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Cylinder+Pendant+Lamp+1&font=playfair",
+          "unitPrice": 7600,
+          "quantity": 2,
+          "lineTotal": 15200
+        },
+        {
+          "productId": 19,
+          "sku": "TI-MIR-0019",
+          "name": "Arched Brass Mirror",
+          "slug": "arched-brass-mirror",
+          "image": "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Arched+Brass+Mirror+1&font=playfair",
+          "unitPrice": 14800,
+          "quantity": 3,
+          "lineTotal": 44400
+        },
+        {
+          "productId": 2,
+          "sku": "TI-VAS-0002",
+          "name": "Brass Stem Vase",
+          "slug": "brass-stem-vase",
+          "image": "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Brass+Stem+Vase+1&font=playfair",
+          "unitPrice": 4900,
+          "quantity": 3,
+          "lineTotal": 14700
+        },
+        {
+          "productId": 7,
+          "sku": "TI-LAM-0007",
+          "name": "Linen Drum Floor Lamp",
+          "slug": "linen-drum-floor-lamp",
+          "image": "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Linen+Drum+Floor+Lamp+1&font=playfair",
+          "unitPrice": 18900,
+          "quantity": 2,
+          "lineTotal": 37800
+        }
+      ],
+      "subtotal": 112100,
+      "discount": 11210,
+      "tax": 5044.5,
+      "total": 105934.5,
+      "currency": "AED",
+      "couponCode": "WELCOME10",
+      "paymentMethod": "cod",
+      "paymentStatus": "paid",
+      "status": "completed",
+      "shippingAddress": {
+        "userId": 5,
+        "label": "Home",
+        "firstName": "Omar",
+        "lastName": "Saleh",
+        "phone": "+971554441002",
+        "line1": "Apartment 2104, Marina Gate 2",
+        "line2": "Dubai Marina",
+        "city": "Dubai",
+        "emirate": "Dubai",
+        "country": "AE",
+        "isDefault": true
+      },
+      "billingAddress": {
+        "userId": 5,
+        "label": "Home",
+        "firstName": "Omar",
+        "lastName": "Saleh",
+        "phone": "+971554441002",
+        "line1": "Apartment 2104, Marina Gate 2",
+        "line2": "Dubai Marina",
+        "city": "Dubai",
+        "emirate": "Dubai",
+        "country": "AE",
+        "isDefault": true
+      },
+      "notes": [],
+      "createdAt": "2026-03-18T09:00:00.000Z",
+      "updatedAt": "2026-03-18T09:00:00.000Z"
+    },
+    {
+      "id": 6,
+      "number": "TI-2026-00006",
+      "userId": 4,
+      "items": [
+        {
+          "productId": 35,
+          "sku": "TI-TAB-0035",
+          "name": "Marble Coaster Set",
+          "slug": "marble-coaster-set",
+          "image": "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Marble+Coaster+Set+1&font=playfair",
+          "unitPrice": 1600,
+          "quantity": 2,
+          "lineTotal": 3200
+        },
+        {
+          "productId": 13,
+          "sku": "TI-CUS-0013",
+          "name": "Boucle Ivory Throw",
+          "slug": "boucle-ivory-throw",
+          "image": "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Boucle+Ivory+Throw+1&font=playfair",
+          "unitPrice": 6800,
+          "quantity": 3,
+          "lineTotal": 20400
+        },
+        {
+          "productId": 19,
+          "sku": "TI-MIR-0019",
+          "name": "Arched Brass Mirror",
+          "slug": "arched-brass-mirror",
+          "image": "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Arched+Brass+Mirror+1&font=playfair",
+          "unitPrice": 14800,
+          "quantity": 1,
+          "lineTotal": 14800
+        },
+        {
+          "productId": 27,
+          "sku": "TI-CAN-0027",
+          "name": "Sandalwood Reed Diffuser",
+          "slug": "sandalwood-reed-diffuser",
+          "image": "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Sandalwood+Reed+Diffuser+1&font=playfair",
+          "unitPrice": 2100,
+          "quantity": 1,
+          "lineTotal": 2100
+        }
+      ],
+      "subtotal": 40500,
+      "discount": 0,
+      "tax": 2025,
+      "total": 42525,
+      "currency": "AED",
+      "couponCode": null,
+      "paymentMethod": "bank_transfer",
+      "paymentStatus": "paid",
+      "status": "completed",
+      "shippingAddress": {
+        "userId": 4,
+        "label": "Home",
+        "firstName": "Layla",
+        "lastName": "Ibrahim",
+        "phone": "+971554441001",
+        "line1": "Villa 14, Street 7",
+        "line2": "Jumeirah 1",
+        "city": "Dubai",
+        "emirate": "Dubai",
+        "country": "AE",
+        "isDefault": true
+      },
+      "billingAddress": {
+        "userId": 4,
+        "label": "Home",
+        "firstName": "Layla",
+        "lastName": "Ibrahim",
+        "phone": "+971554441001",
+        "line1": "Villa 14, Street 7",
+        "line2": "Jumeirah 1",
+        "city": "Dubai",
+        "emirate": "Dubai",
+        "country": "AE",
+        "isDefault": true
+      },
+      "notes": [],
+      "createdAt": "2026-03-22T09:00:00.000Z",
+      "updatedAt": "2026-03-22T09:00:00.000Z"
+    },
+    {
+      "id": 7,
+      "number": "TI-2026-00007",
+      "userId": 4,
+      "items": [
+        {
+          "productId": 23,
+          "sku": "TI-CAN-0023",
+          "name": "Oud Amber Candle",
+          "slug": "oud-amber-candle",
+          "image": "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Oud+Amber+Candle+1&font=playfair",
+          "unitPrice": 1800,
+          "quantity": 1,
+          "lineTotal": 1800
+        }
+      ],
+      "subtotal": 1800,
+      "discount": 0,
+      "tax": 90,
+      "total": 1890,
+      "currency": "AED",
+      "couponCode": null,
+      "paymentMethod": "card",
+      "paymentStatus": "paid",
+      "status": "completed",
+      "shippingAddress": {
+        "userId": 4,
+        "label": "Home",
+        "firstName": "Layla",
+        "lastName": "Ibrahim",
+        "phone": "+971554441001",
+        "line1": "Villa 14, Street 7",
+        "line2": "Jumeirah 1",
+        "city": "Dubai",
+        "emirate": "Dubai",
+        "country": "AE",
+        "isDefault": true
+      },
+      "billingAddress": {
+        "userId": 4,
+        "label": "Home",
+        "firstName": "Layla",
+        "lastName": "Ibrahim",
+        "phone": "+971554441001",
+        "line1": "Villa 14, Street 7",
+        "line2": "Jumeirah 1",
+        "city": "Dubai",
+        "emirate": "Dubai",
+        "country": "AE",
+        "isDefault": true
+      },
+      "notes": [
+        {
+          "id": 1,
+          "authorId": 1,
+          "body": "Customer requested gift wrap.",
+          "createdAt": "2026-03-26T09:00:00.000Z",
+          "isInternal": false
+        }
+      ],
+      "createdAt": "2026-03-26T09:00:00.000Z",
+      "updatedAt": "2026-03-26T09:00:00.000Z"
+    },
+    {
+      "id": 8,
+      "number": "TI-2026-00008",
+      "userId": 5,
+      "items": [
+        {
+          "productId": 11,
+          "sku": "TI-CUS-0011",
+          "name": "Linen Sand Cushion",
+          "slug": "linen-sand-cushion",
+          "image": "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Linen+Sand+Cushion+1&font=playfair",
+          "unitPrice": 2400,
+          "quantity": 1,
+          "lineTotal": 2400
+        },
+        {
+          "productId": 33,
+          "sku": "TI-TAB-0033",
+          "name": "Linen Napkin Set",
+          "slug": "linen-napkin-set",
+          "image": "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Linen+Napkin+Set+1&font=playfair",
+          "unitPrice": 1800,
+          "quantity": 3,
+          "lineTotal": 5400
+        }
+      ],
+      "subtotal": 7800,
+      "discount": 0,
+      "tax": 390,
+      "total": 8190,
+      "currency": "AED",
+      "couponCode": null,
+      "paymentMethod": "cod",
+      "paymentStatus": "failed",
+      "status": "cancelled",
+      "shippingAddress": {
+        "userId": 5,
+        "label": "Home",
+        "firstName": "Omar",
+        "lastName": "Saleh",
+        "phone": "+971554441002",
+        "line1": "Apartment 2104, Marina Gate 2",
+        "line2": "Dubai Marina",
+        "city": "Dubai",
+        "emirate": "Dubai",
+        "country": "AE",
+        "isDefault": true
+      },
+      "billingAddress": {
+        "userId": 5,
+        "label": "Home",
+        "firstName": "Omar",
+        "lastName": "Saleh",
+        "phone": "+971554441002",
+        "line1": "Apartment 2104, Marina Gate 2",
+        "line2": "Dubai Marina",
+        "city": "Dubai",
+        "emirate": "Dubai",
+        "country": "AE",
+        "isDefault": true
+      },
+      "notes": [],
+      "createdAt": "2026-03-30T09:00:00.000Z",
+      "updatedAt": "2026-03-30T09:00:00.000Z"
+    },
+    {
+      "id": 9,
+      "number": "TI-2026-00009",
+      "userId": 5,
+      "items": [
+        {
+          "productId": 26,
+          "sku": "TI-CAN-0026",
+          "name": "Cedar Wax Pillar",
+          "slug": "cedar-wax-pillar",
+          "image": "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Cedar+Wax+Pillar+1&font=playfair",
+          "unitPrice": 1400,
+          "quantity": 3,
+          "lineTotal": 4200
+        }
+      ],
+      "subtotal": 4200,
+      "discount": 420,
+      "tax": 189,
+      "total": 3969,
+      "currency": "AED",
+      "couponCode": "WELCOME10",
+      "paymentMethod": "bank_transfer",
+      "paymentStatus": "paid",
+      "status": "preparing",
+      "shippingAddress": {
+        "userId": 5,
+        "label": "Home",
+        "firstName": "Omar",
+        "lastName": "Saleh",
+        "phone": "+971554441002",
+        "line1": "Apartment 2104, Marina Gate 2",
+        "line2": "Dubai Marina",
+        "city": "Dubai",
+        "emirate": "Dubai",
+        "country": "AE",
+        "isDefault": true
+      },
+      "billingAddress": {
+        "userId": 5,
+        "label": "Home",
+        "firstName": "Omar",
+        "lastName": "Saleh",
+        "phone": "+971554441002",
+        "line1": "Apartment 2104, Marina Gate 2",
+        "line2": "Dubai Marina",
+        "city": "Dubai",
+        "emirate": "Dubai",
+        "country": "AE",
+        "isDefault": true
+      },
+      "notes": [],
+      "createdAt": "2026-04-03T09:00:00.000Z",
+      "updatedAt": "2026-04-03T09:00:00.000Z"
+    },
+    {
+      "id": 10,
+      "number": "TI-2026-00010",
+      "userId": 5,
+      "items": [
+        {
+          "productId": 24,
+          "sku": "TI-CAN-0024",
+          "name": "Fig & Cassis Candle",
+          "slug": "fig-and-cassis-candle",
+          "image": "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Fig+%26+Cassis+Candle+1&font=playfair",
+          "unitPrice": 1800,
+          "quantity": 2,
+          "lineTotal": 3600
+        },
+        {
+          "productId": 8,
+          "sku": "TI-LAM-0008",
+          "name": "Pleated Silk Table Lamp",
+          "slug": "pleated-silk-table-lamp",
+          "image": "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Pleated+Silk+Table+Lamp+1&font=playfair",
+          "unitPrice": 9800,
+          "quantity": 3,
+          "lineTotal": 29400
+        }
+      ],
+      "subtotal": 33000,
+      "discount": 0,
+      "tax": 1650,
+      "total": 34650,
+      "currency": "AED",
+      "couponCode": null,
+      "paymentMethod": "card",
+      "paymentStatus": "pending",
+      "status": "confirmed",
+      "shippingAddress": {
+        "userId": 5,
+        "label": "Home",
+        "firstName": "Omar",
+        "lastName": "Saleh",
+        "phone": "+971554441002",
+        "line1": "Apartment 2104, Marina Gate 2",
+        "line2": "Dubai Marina",
+        "city": "Dubai",
+        "emirate": "Dubai",
+        "country": "AE",
+        "isDefault": true
+      },
+      "billingAddress": {
+        "userId": 5,
+        "label": "Home",
+        "firstName": "Omar",
+        "lastName": "Saleh",
+        "phone": "+971554441002",
+        "line1": "Apartment 2104, Marina Gate 2",
+        "line2": "Dubai Marina",
+        "city": "Dubai",
+        "emirate": "Dubai",
+        "country": "AE",
+        "isDefault": true
+      },
+      "notes": [
+        {
+          "id": 1,
+          "authorId": 1,
+          "body": "Customer requested gift wrap.",
+          "createdAt": "2026-04-07T09:00:00.000Z",
+          "isInternal": false
+        }
+      ],
+      "createdAt": "2026-04-07T09:00:00.000Z",
+      "updatedAt": "2026-04-07T09:00:00.000Z"
+    },
+    {
+      "id": 11,
+      "number": "TI-2026-00011",
+      "userId": 5,
+      "items": [
+        {
+          "productId": 34,
+          "sku": "TI-TAB-0034",
+          "name": "Brass Candlesticks Pair",
+          "slug": "brass-candlesticks-pair",
+          "image": "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Brass+Candlesticks+Pair+1&font=playfair",
+          "unitPrice": 2900,
+          "quantity": 3,
+          "lineTotal": 8700
+        },
+        {
+          "productId": 19,
+          "sku": "TI-MIR-0019",
+          "name": "Arched Brass Mirror",
+          "slug": "arched-brass-mirror",
+          "image": "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Arched+Brass+Mirror+1&font=playfair",
+          "unitPrice": 14800,
+          "quantity": 2,
+          "lineTotal": 29600
+        }
+      ],
+      "subtotal": 38300,
+      "discount": 0,
+      "tax": 1915,
+      "total": 40215,
+      "currency": "AED",
+      "couponCode": null,
+      "paymentMethod": "cod",
+      "paymentStatus": "paid",
+      "status": "completed",
+      "shippingAddress": {
+        "userId": 5,
+        "label": "Home",
+        "firstName": "Omar",
+        "lastName": "Saleh",
+        "phone": "+971554441002",
+        "line1": "Apartment 2104, Marina Gate 2",
+        "line2": "Dubai Marina",
+        "city": "Dubai",
+        "emirate": "Dubai",
+        "country": "AE",
+        "isDefault": true
+      },
+      "billingAddress": {
+        "userId": 5,
+        "label": "Home",
+        "firstName": "Omar",
+        "lastName": "Saleh",
+        "phone": "+971554441002",
+        "line1": "Apartment 2104, Marina Gate 2",
+        "line2": "Dubai Marina",
+        "city": "Dubai",
+        "emirate": "Dubai",
+        "country": "AE",
+        "isDefault": true
+      },
+      "notes": [],
+      "createdAt": "2026-04-11T09:00:00.000Z",
+      "updatedAt": "2026-04-11T09:00:00.000Z"
+    },
+    {
+      "id": 12,
+      "number": "TI-2026-00012",
+      "userId": 5,
+      "items": [
+        {
+          "productId": 22,
+          "sku": "TI-MIR-0022",
+          "name": "Beveled Wall Mirror",
+          "slug": "beveled-wall-mirror",
+          "image": "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Beveled+Wall+Mirror+1&font=playfair",
+          "unitPrice": 6400,
+          "quantity": 2,
+          "lineTotal": 12800
+        },
+        {
+          "productId": 31,
+          "sku": "TI-PLA-0031",
+          "name": "Marble Trough Planter",
+          "slug": "marble-trough-planter",
+          "image": "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Marble+Trough+Planter+1&font=playfair",
+          "unitPrice": 8400,
+          "quantity": 3,
+          "lineTotal": 25200
+        },
+        {
+          "productId": 32,
+          "sku": "TI-PLA-0032",
+          "name": "Stoneware Bowl Planter",
+          "slug": "stoneware-bowl-planter",
+          "image": "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Stoneware+Bowl+Planter+1&font=playfair",
+          "unitPrice": 2800,
+          "quantity": 3,
+          "lineTotal": 8400
+        },
+        {
+          "productId": 16,
+          "sku": "TI-WAL-0016",
+          "name": "Charcoal Nude Study",
+          "slug": "charcoal-nude-study",
+          "image": "https://placehold.co/1200x1500/F7F3ED/1B1A17?text=Charcoal+Nude+Study+1&font=playfair",
+          "unitPrice": 4200,
+          "quantity": 1,
+          "lineTotal": 4200
+        }
+      ],
+      "subtotal": 50600,
+      "discount": 0,
+      "tax": 2530,
+      "total": 53130,
+      "currency": "AED",
+      "couponCode": null,
+      "paymentMethod": "bank_transfer",
+      "paymentStatus": "paid",
+      "status": "completed",
+      "shippingAddress": {
+        "userId": 5,
+        "label": "Home",
+        "firstName": "Omar",
+        "lastName": "Saleh",
+        "phone": "+971554441002",
+        "line1": "Apartment 2104, Marina Gate 2",
+        "line2": "Dubai Marina",
+        "city": "Dubai",
+        "emirate": "Dubai",
+        "country": "AE",
+        "isDefault": true
+      },
+      "billingAddress": {
+        "userId": 5,
+        "label": "Home",
+        "firstName": "Omar",
+        "lastName": "Saleh",
+        "phone": "+971554441002",
+        "line1": "Apartment 2104, Marina Gate 2",
+        "line2": "Dubai Marina",
+        "city": "Dubai",
+        "emirate": "Dubai",
+        "country": "AE",
+        "isDefault": true
+      },
+      "notes": [],
+      "createdAt": "2026-04-15T09:00:00.000Z",
+      "updatedAt": "2026-04-15T09:00:00.000Z"
+    }
+  ],
+  "addresses": [
+    {
+      "id": 1,
+      "userId": 4,
+      "label": "Home",
+      "firstName": "Layla",
+      "lastName": "Ibrahim",
+      "phone": "+971554441001",
+      "line1": "Villa 14, Street 7",
+      "line2": "Jumeirah 1",
+      "city": "Dubai",
+      "emirate": "Dubai",
+      "country": "AE",
+      "isDefault": true
+    },
+    {
+      "id": 2,
+      "userId": 4,
+      "label": "Studio",
+      "firstName": "Layla",
+      "lastName": "Ibrahim",
+      "phone": "+971554441001",
+      "line1": "Office 802, Boulevard Plaza Tower 1",
+      "line2": "Downtown Dubai",
+      "city": "Dubai",
+      "emirate": "Dubai",
+      "country": "AE",
+      "isDefault": false
+    },
+    {
+      "id": 3,
+      "userId": 5,
+      "label": "Home",
+      "firstName": "Omar",
+      "lastName": "Saleh",
+      "phone": "+971554441002",
+      "line1": "Apartment 2104, Marina Gate 2",
+      "line2": "Dubai Marina",
+      "city": "Dubai",
+      "emirate": "Dubai",
+      "country": "AE",
+      "isDefault": true
+    },
+    {
+      "id": 4,
+      "userId": 5,
+      "label": "Parents",
+      "firstName": "Hala",
+      "lastName": "Saleh",
+      "phone": "+971501110099",
+      "line1": "Villa 9, Al Bateen",
+      "line2": "",
+      "city": "Abu Dhabi",
+      "emirate": "Abu Dhabi",
+      "country": "AE",
+      "isDefault": false
+    },
+    {
+      "id": 5,
+      "userId": 4,
+      "label": "Gift — Sister",
+      "firstName": "Maya",
+      "lastName": "Ibrahim",
+      "phone": "+971554441099",
+      "line1": "Villa 21, Al Wasl Road",
+      "line2": "Al Safa",
+      "city": "Dubai",
+      "emirate": "Dubai",
+      "country": "AE",
+      "isDefault": false
+    },
+    {
+      "id": 6,
+      "userId": 5,
+      "label": "Office",
+      "firstName": "Omar",
+      "lastName": "Saleh",
+      "phone": "+971554441002",
+      "line1": "Floor 18, One Central",
+      "line2": "DWTC",
+      "city": "Dubai",
+      "emirate": "Dubai",
+      "country": "AE",
+      "isDefault": false
+    }
+  ],
+  "wishlists": [
+    {
+      "id": 1,
+      "userId": 4,
+      "productIds": [
+        1,
+        6,
+        13,
+        19,
+        24
+      ]
+    },
+    {
+      "id": 2,
+      "userId": 5,
+      "productIds": [
+        3,
+        9,
+        14,
+        23,
+        28,
+        32
+      ]
+    }
+  ],
+  "coupons": [
+    {
+      "id": 1,
+      "code": "WELCOME10",
+      "type": "percent",
+      "value": 10,
+      "minSubtotal": 0,
+      "maxRedemptions": 1000,
+      "redeemedCount": 142,
+      "startsAt": "2025-01-01T09:00:00.000Z",
+      "endsAt": "2026-12-31T09:00:00.000Z",
+      "isActive": true,
+      "appliesTo": "all",
+      "targetIds": []
+    },
+    {
+      "id": 2,
+      "code": "BRASS20",
+      "type": "percent",
+      "value": 20,
+      "minSubtotal": 5000,
+      "maxRedemptions": 200,
+      "redeemedCount": 24,
+      "startsAt": "2026-03-01T09:00:00.000Z",
+      "endsAt": "2026-06-30T09:00:00.000Z",
+      "isActive": true,
+      "appliesTo": "categories",
+      "targetIds": [
+        2,
+        5
+      ]
+    },
+    {
+      "id": 3,
+      "code": "STUDIO150",
+      "type": "fixed",
+      "value": 150,
+      "minSubtotal": 1500,
+      "maxRedemptions": 500,
+      "redeemedCount": 88,
+      "startsAt": "2025-12-01T09:00:00.000Z",
+      "endsAt": "2026-12-31T09:00:00.000Z",
+      "isActive": true,
+      "appliesTo": "all",
+      "targetIds": []
+    },
+    {
+      "id": 4,
+      "code": "CUSHION25",
+      "type": "percent",
+      "value": 25,
+      "minSubtotal": 2000,
+      "maxRedemptions": 100,
+      "redeemedCount": 17,
+      "startsAt": "2026-04-01T09:00:00.000Z",
+      "endsAt": "2026-05-31T09:00:00.000Z",
+      "isActive": true,
+      "appliesTo": "categories",
+      "targetIds": [
+        3
+      ]
+    },
+    {
+      "id": 5,
+      "code": "EXPIRED",
+      "type": "percent",
+      "value": 50,
+      "minSubtotal": 0,
+      "maxRedemptions": 50,
+      "redeemedCount": 50,
+      "startsAt": "2024-01-01T09:00:00.000Z",
+      "endsAt": "2024-12-31T09:00:00.000Z",
+      "isActive": false,
+      "appliesTo": "all",
+      "targetIds": []
+    }
+  ],
+  "inventory_log": [
+    {
+      "id": 1,
+      "productId": 10,
+      "delta": 6,
+      "reason": "restock",
+      "userId": 1,
+      "createdAt": "2026-02-10T09:00:00.000Z"
+    },
+    {
+      "id": 2,
+      "productId": 24,
+      "delta": -3,
+      "reason": "order_fulfillment",
+      "userId": 2,
+      "createdAt": "2026-02-13T09:00:00.000Z"
+    },
+    {
+      "id": 3,
+      "productId": 36,
+      "delta": -4,
+      "reason": "manual_adjustment",
+      "userId": 2,
+      "createdAt": "2026-02-16T09:00:00.000Z"
+    },
+    {
+      "id": 4,
+      "productId": 11,
+      "delta": -4,
+      "reason": "damage",
+      "userId": 2,
+      "createdAt": "2026-02-19T09:00:00.000Z"
+    },
+    {
+      "id": 5,
+      "productId": 2,
+      "delta": 7,
+      "reason": "return",
+      "userId": 1,
+      "createdAt": "2026-02-22T09:00:00.000Z"
+    },
+    {
+      "id": 6,
+      "productId": 14,
+      "delta": 8,
+      "reason": "restock",
+      "userId": 2,
+      "createdAt": "2026-02-25T09:00:00.000Z"
+    },
+    {
+      "id": 7,
+      "productId": 4,
+      "delta": -3,
+      "reason": "order_fulfillment",
+      "userId": 2,
+      "createdAt": "2026-02-28T09:00:00.000Z"
+    },
+    {
+      "id": 8,
+      "productId": 4,
+      "delta": -3,
+      "reason": "manual_adjustment",
+      "userId": 2,
+      "createdAt": "2026-03-03T09:00:00.000Z"
+    },
+    {
+      "id": 9,
+      "productId": 21,
+      "delta": -3,
+      "reason": "damage",
+      "userId": 1,
+      "createdAt": "2026-03-06T09:00:00.000Z"
+    },
+    {
+      "id": 10,
+      "productId": 19,
+      "delta": 4,
+      "reason": "return",
+      "userId": 2,
+      "createdAt": "2026-03-09T09:00:00.000Z"
+    },
+    {
+      "id": 11,
+      "productId": 4,
+      "delta": 3,
+      "reason": "restock",
+      "userId": 2,
+      "createdAt": "2026-03-12T09:00:00.000Z"
+    },
+    {
+      "id": 12,
+      "productId": 7,
+      "delta": -3,
+      "reason": "order_fulfillment",
+      "userId": 2,
+      "createdAt": "2026-03-15T09:00:00.000Z"
+    },
+    {
+      "id": 13,
+      "productId": 22,
+      "delta": -3,
+      "reason": "manual_adjustment",
+      "userId": 1,
+      "createdAt": "2026-03-18T09:00:00.000Z"
+    },
+    {
+      "id": 14,
+      "productId": 35,
+      "delta": -4,
+      "reason": "damage",
+      "userId": 2,
+      "createdAt": "2026-03-21T09:00:00.000Z"
+    },
+    {
+      "id": 15,
+      "productId": 25,
+      "delta": 5,
+      "reason": "return",
+      "userId": 2,
+      "createdAt": "2026-03-24T09:00:00.000Z"
+    },
+    {
+      "id": 16,
+      "productId": 30,
+      "delta": 11,
+      "reason": "restock",
+      "userId": 2,
+      "createdAt": "2026-03-27T09:00:00.000Z"
+    },
+    {
+      "id": 17,
+      "productId": 16,
+      "delta": -2,
+      "reason": "order_fulfillment",
+      "userId": 1,
+      "createdAt": "2026-03-30T09:00:00.000Z"
+    },
+    {
+      "id": 18,
+      "productId": 10,
+      "delta": -3,
+      "reason": "manual_adjustment",
+      "userId": 2,
+      "createdAt": "2026-04-02T09:00:00.000Z"
+    },
+    {
+      "id": 19,
+      "productId": 16,
+      "delta": -3,
+      "reason": "damage",
+      "userId": 2,
+      "createdAt": "2026-04-05T09:00:00.000Z"
+    },
+    {
+      "id": 20,
+      "productId": 36,
+      "delta": 10,
+      "reason": "return",
+      "userId": 2,
+      "createdAt": "2026-04-08T09:00:00.000Z"
+    },
+    {
+      "id": 21,
+      "productId": 8,
+      "delta": 8,
+      "reason": "restock",
+      "userId": 1,
+      "createdAt": "2026-04-11T09:00:00.000Z"
+    },
+    {
+      "id": 22,
+      "productId": 9,
+      "delta": -1,
+      "reason": "order_fulfillment",
+      "userId": 2,
+      "createdAt": "2026-04-14T09:00:00.000Z"
+    },
+    {
+      "id": 23,
+      "productId": 2,
+      "delta": -1,
+      "reason": "manual_adjustment",
+      "userId": 2,
+      "createdAt": "2026-04-17T09:00:00.000Z"
+    },
+    {
+      "id": 24,
+      "productId": 3,
+      "delta": -4,
+      "reason": "damage",
+      "userId": 2,
+      "createdAt": "2026-04-20T09:00:00.000Z"
+    }
+  ],
+  "settings": {
+    "id": 1,
+    "general": {
+      "storeName": "THIS Interiors",
+      "supportEmail": "studio@thisinteriors.test",
+      "supportPhone": "+971 4 000 0000",
+      "currency": "AED",
+      "address": "Al Quoz Industrial 1, Warehouse 14, Dubai, United Arab Emirates"
+    },
+    "branding": {
+      "logoText": "THIS",
+      "faviconUrl": "/favicon.svg"
+    },
+    "homepage": {
+      "heroTitle": "Quiet objects for considered rooms.",
+      "heroSubtitle": "A small Dubai studio working in marble, brass, linen and stone — pieces designed to settle in and stay.",
+      "heroCta": "Shop the collection",
+      "heroImage": "https://placehold.co/1920x1080/1F4034/F7F3ED?text=Quiet+objects%2C+considered+rooms&font=playfair",
+      "featuredCategoryIds": [
+        1,
+        2,
+        5,
+        6
+      ],
+      "featuredProductIds": [
+        1,
+        6,
+        13,
+        19,
+        23,
+        28
+      ]
+    },
+    "announcement": {
+      "isActive": true,
+      "text": "Complimentary gift wrap on orders over AED 800.",
+      "link": "/shop"
+    },
+    "payment": {
+      "codEnabled": true,
+      "cardEnabled": true,
+      "bankTransferEnabled": true,
+      "bankDetails": "THIS Interiors LLC · Emirates NBD · IBAN AE000000000000000000000 · BIC EBILAEAD"
+    },
+    "social": {
+      "instagram": "https://instagram.com/thisinteriors",
+      "pinterest": "https://pinterest.com/thisinteriors",
+      "facebook": "",
+      "tiktok": ""
+    },
+    "emails": {
+      "orderConfirmation": "Thank you for your order. We are preparing it now and will share tracking once it ships.",
+      "shipping": "Your order is on its way — please allow 2–4 working days inside the UAE.",
+      "passwordReset": "Use the link below within 30 minutes to reset your password.",
+      "welcome": "Welcome to THIS Interiors. We are glad you are here."
+    }
+  }
+}
