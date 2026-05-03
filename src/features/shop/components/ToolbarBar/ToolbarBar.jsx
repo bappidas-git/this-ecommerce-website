@@ -24,6 +24,8 @@ function ToolbarBar({
   isLoading = false,
   sort = 'featured',
   view = 'grid',
+  onSortChange,
+  onViewChange,
   onOpenFilters,
   onOpenSort,
 }) {
@@ -37,6 +39,14 @@ function ToolbarBar({
   }, []);
 
   const countLabel = buildCountLabel({ total, page, pageSize, isLoading });
+
+  const handleSortChange = (event) => {
+    if (typeof onSortChange === 'function') onSortChange(event.target.value);
+  };
+
+  const handleViewChange = (next) => () => {
+    if (typeof onViewChange === 'function' && next !== view) onViewChange(next);
+  };
 
   return (
     <div
@@ -76,7 +86,7 @@ function ToolbarBar({
               label="Sort by"
               size="small"
               value={sort}
-              onChange={() => {}}
+              onChange={handleSortChange}
               options={SORT_OPTIONS}
               className={styles.sortSelect}
             />
@@ -86,7 +96,7 @@ function ToolbarBar({
                 className={styles.viewBtn}
                 aria-pressed={view === 'grid'}
                 aria-label="Grid view"
-                onClick={() => {}}
+                onClick={handleViewChange('grid')}
               >
                 <GridViewRoundedIcon fontSize="small" />
               </button>
@@ -95,7 +105,7 @@ function ToolbarBar({
                 className={styles.viewBtn}
                 aria-pressed={view === 'list'}
                 aria-label="List view"
-                onClick={() => {}}
+                onClick={handleViewChange('list')}
               >
                 <ViewListRoundedIcon fontSize="small" />
               </button>

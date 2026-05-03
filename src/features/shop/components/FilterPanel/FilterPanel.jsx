@@ -22,6 +22,15 @@ const DEFAULT_OPEN_GROUPS = {
   search: true,
 };
 
+const toggleInList = (list, value) =>
+  list.includes(value) ? list.filter((v) => v !== value) : [...list, value];
+
+const clampNum = (raw, fallback) => {
+  if (raw === '' || raw === null || raw === undefined) return null;
+  const n = Number(raw);
+  return Number.isFinite(n) ? Math.max(0, n) : fallback;
+};
+
 function CollapsibleGroup({ id, title, isOpen, onToggle, children }) {
   const headingId = `filter-group-${id}-label`;
   const panelId = `filter-group-${id}-panel`;
@@ -55,14 +64,11 @@ function CollapsibleGroup({ id, title, isOpen, onToggle, children }) {
 
 function FilterPanel({
   categories = [],
-  selectedCategory = '',
-  priceRange = DEFAULT_PRICE,
-  selectedColors = [],
-  selectedMaterials = [],
-  inStock = false,
-  onSale = false,
-  searchTerm = '',
+  state,
+  onChange,
   onClearAll,
+  isCategoryLocked = false,
+  lockedCategory = null,
   showHeader = true,
   className,
 }) {
@@ -72,10 +78,28 @@ function FilterPanel({
     setOpenGroups((prev) => ({ ...prev, [id]: !prev[id] }));
   };
 
+  const setPartial = (partial) => {
+    if (typeof onChange === 'function') onChange(partial);
+  };
+
+  const minPrice = state?.minPrice ?? DEFAULT_PRICE.min;
+  const maxPrice = state?.maxPrice ?? DEFAULT_PRICE.max;
+  const colors = state?.colors ?? [];
+  const materials = state?.materials ?? [];
+
   const categoryOptions = [
     { value: '', label: 'All categories' },
-    ...categories.map((c) => ({ value: c.slug, label: c.name })),
+    ...categories.map((c) => ({ value: String(c.id), label: c.name })),
   ];
+
+  const handleSliderChange = (_e, value) => {
+    if (!Array.isArray(value)) return;
+    const [nextMin, nextMax] = value;
+    setPartial({
+      minPrice: nextMin === DEFAULT_PRICE.min ? null : nextMin,
+      maxPrice: nextMax === DEFAULT_PRICE.max ? null : nextMax,
+    });
+  };
 
   return (
     <div className={[styles.root, className].filter(Boolean).join(' ')}>
@@ -96,8 +120,8 @@ function FilterPanel({
       >
         <AppTextField
           placeholder="Search this collection"
-          value={searchTerm}
-          onChange={() => {}}
+          value={state?.q ?? ''}
+          onChange={(e) => setPartial({ q: e.target.value })}
           size="small"
           inputProps={{ 'aria-label': 'Search within results' }}
         />
@@ -109,11 +133,25 @@ function FilterPanel({
         isOpen={openGroups.category}
         onToggle={toggleGroup}
       >
-        <AppRadioGroup
-          options={categoryOptions}
-          value={selectedCategory}
-          onChange={() => {}}
-        />
+        {isCategoryLocked ? (
+          <>
+            <div className={styles.lockedCategory} aria-live="polite">
+              <span className={styles.lockedCategoryDot} aria-hidden="true" />
+              <span>{lockedCategory ? lockedCategory.name : 'Loading category…'}</span>
+            </div>
+            <p className={styles.lockedCategoryHint}>
+              Browse all collections from the Shop landing page.
+            </p>
+          </>
+        ) : (
+          <AppRadioGroup
+            options={categoryOptions}
+            value={state?.categoryId ? String(state.categoryId) : ''}
+            onChange={(e) =>
+              setPartial({ categoryId: e.target.value || null })
+            }
+          />
+        )}
       </CollapsibleGroup>
 
       <CollapsibleGroup
@@ -127,27 +165,31 @@ function FilterPanel({
             label="Min"
             type="number"
             size="small"
-            value={priceRange.min}
-            onChange={() => {}}
+            value={state?.minPrice ?? ''}
+            onChange={(e) =>
+              setPartial({ minPrice: clampNum(e.target.value, null) })
+            }
             inputProps={{ min: 0, 'aria-label': 'Minimum price' }}
           />
           <AppTextField
             label="Max"
             type="number"
             size="small"
-            value={priceRange.max}
-            onChange={() => {}}
+            value={state?.maxPrice ?? ''}
+            onChange={(e) =>
+              setPartial({ maxPrice: clampNum(e.target.value, null) })
+            }
             inputProps={{ min: 0, 'aria-label': 'Maximum price' }}
           />
         </div>
         <div className={styles.sliderRow}>
           <Slider
-            value={[priceRange.min, priceRange.max]}
+            value={[minPrice, maxPrice]}
             min={DEFAULT_PRICE.min}
             max={DEFAULT_PRICE.max}
             valueLabelDisplay="auto"
             aria-label="Price range"
-            onChange={() => {}}
+            onChangeCommitted={handleSliderChange}
           />
         </div>
       </CollapsibleGroup>
@@ -164,8 +206,8 @@ function FilterPanel({
               key={opt.value}
               label={opt.label}
               variant="outline"
-              selected={selectedColors.includes(opt.value)}
-              onClick={() => {}}
+              selected={colors.includes(opt.value)}
+              onClick={() => setPartial({ colors: toggleInList(colors, opt.value) })}
               clickable
             />
           ))}
@@ -184,8 +226,8 @@ function FilterPanel({
               key={opt.value}
               label={opt.label}
               variant="outline"
-              selected={selectedMaterials.includes(opt.value)}
-              onClick={() => {}}
+              selected={materials.includes(opt.value)}
+              onClick={() => setPartial({ materials: toggleInList(materials, opt.value) })}
               clickable
             />
           ))}
@@ -199,8 +241,16 @@ function FilterPanel({
         onToggle={toggleGroup}
       >
         <div className={styles.toggleRow}>
-          <AppSwitch label="In stock" checked={inStock} onChange={() => {}} />
-          <AppSwitch label="On sale" checked={onSale} onChange={() => {}} />
+          <AppSwitch
+            label="In stock"
+            checked={Boolean(state?.inStock)}
+            onChange={(e) => setPartial({ inStock: e.target.checked })}
+          />
+          <AppSwitch
+            label="On sale"
+            checked={Boolean(state?.onSale)}
+            onChange={(e) => setPartial({ onSale: e.target.checked })}
+          />
         </div>
       </CollapsibleGroup>
     </div>

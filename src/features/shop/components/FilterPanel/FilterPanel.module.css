@@ -109,3 +109,32 @@
   flex-direction: column;
   gap: 4px;
 }
+
+.lockedCategory {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  margin-bottom: 8px;
+  border-radius: var(--radius-2, 8px);
+  background-color: var(--color-bg);
+  border: 1px solid var(--color-line);
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  color: var(--color-ink);
+}
+
+.lockedCategoryDot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--color-brass);
+}
+
+.lockedCategoryHint {
+  margin: 4px 0 0;
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  color: var(--color-muted);
+}
