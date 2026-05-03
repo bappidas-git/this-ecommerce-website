@@ -22,4 +22,5 @@ export { default as QuantityStepper } from './QuantityStepper/QuantityStepper.js
 export { default as Rating } from './Rating/Rating.jsx';
 export { default as Section } from './Section.jsx';
 export { default as SectionHeader } from './SectionHeader.jsx';
+export { default as Seo } from './Seo.jsx';
 export { default as SkeletonCard } from './SkeletonCard/SkeletonCard.jsx';

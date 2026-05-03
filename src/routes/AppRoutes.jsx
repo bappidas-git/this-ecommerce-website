@@ -84,7 +84,6 @@ function AppRoutes() {
         <Route path="cart" element={<CartPage />} />
         <Route path="wishlist" element={<WishlistPage />} />
 
-        <Route path="login" element={<Login />} />
         <Route path="register" element={<Register />} />
         <Route path="forgot-password" element={<ForgotPassword />} />
         <Route path="reset-password" element={<ResetPassword />} />
@@ -142,6 +141,15 @@ function AppRoutes() {
       >
         <Route path="confirmation/:id" element={<OrderConfirmation />} />
       </Route>
+
+      <Route
+        path="login"
+        element={
+          <AuthProvider>
+            <Login />
+          </AuthProvider>
+        }
+      />
 
       <Route
         path="admin/login"
