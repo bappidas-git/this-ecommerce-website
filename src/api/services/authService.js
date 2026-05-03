@@ -9,6 +9,10 @@ export const authService = {
   logout: () => http.post(ENDPOINTS.auth.logout).then(unwrap),
   forgot: (payload) => http.post(ENDPOINTS.auth.forgot, payload).then(unwrap),
   reset: (payload) => http.post(ENDPOINTS.auth.reset, payload).then(unwrap),
+  subscribe: (payload) =>
+    new Promise((resolve) => {
+      setTimeout(() => resolve({ data: { email: payload?.email, status: 'pending' } }), 400);
+    }),
 };
 
 export default authService;
