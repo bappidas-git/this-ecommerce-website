@@ -1,0 +1,78 @@
+import axios from 'axios';
+
+const STOREFRONT_TOKEN_KEY = 'ti_token';
+const ADMIN_TOKEN_KEY = 'ti_admin_token';
+const STOREFRONT_AUTH_EVENT = 'ti:auth-expired';
+const ADMIN_AUTH_EVENT = 'ti:admin-auth-expired';
+
+const baseURL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:4000/api';
+
+export const isAdminUrl = (url) => {
+  if (!url) return false;
+  const stripped = String(url).replace(/^https?:\/\/[^/]+/i, '');
+  return stripped.startsWith('/admin') || stripped.startsWith('admin');
+};
+
+export const tokenForUrl = (url) => {
+  const key = isAdminUrl(url) ? ADMIN_TOKEN_KEY : STOREFRONT_TOKEN_KEY;
+  try {
+    return typeof window === 'undefined' ? null : window.localStorage.getItem(key);
+  } catch {
+    return null;
+  }
+};
+
+const dispatchAuthExpired = (url) => {
+  if (typeof window === 'undefined') return;
+  const eventName = isAdminUrl(url) ? ADMIN_AUTH_EVENT : STOREFRONT_AUTH_EVENT;
+  window.dispatchEvent(new CustomEvent(eventName));
+};
+
+const normalizeError = (err) => {
+  const status = err?.response?.status ?? 0;
+  const payload = err?.response?.data ?? {};
+  const message =
+    payload?.message ||
+    err?.message ||
+    (status >= 500 ? 'Server error' : 'Request failed');
+  const errors = payload?.errors || null;
+  const normalized = new Error(message);
+  normalized.status = status;
+  normalized.message = message;
+  normalized.errors = errors;
+  normalized.original = err;
+  return normalized;
+};
+
+export const http = axios.create({
+  baseURL,
+  timeout: 15000,
+  headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+});
+
+http.interceptors.request.use((config) => {
+  const token = tokenForUrl(config.url);
+  if (token) {
+    config.headers = config.headers || {};
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+});
+
+http.interceptors.response.use(
+  (response) => response,
+  (err) => {
+    const status = err?.response?.status;
+    if (status === 401) {
+      dispatchAuthExpired(err?.config?.url);
+    }
+    throw normalizeError(err);
+  },
+);
+
+export const AUTH_EVENTS = Object.freeze({
+  storefront: STOREFRONT_AUTH_EVENT,
+  admin: ADMIN_AUTH_EVENT,
+});
+
+export default http;

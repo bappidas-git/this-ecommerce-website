@@ -1,0 +1,78 @@
+export const ENDPOINTS = Object.freeze({
+  auth: {
+    login: '/auth/login',
+    register: '/auth/register',
+    me: '/auth/me',
+    logout: '/auth/logout',
+    forgot: '/auth/forgot',
+    reset: '/auth/reset',
+  },
+  products: {
+    list: '/products',
+    bySlug: (s) => `/products/${s}`,
+    byId: (id) => `/products/${id}`,
+    related: (id) => `/products/${id}/related`,
+  },
+  categories: {
+    list: '/categories',
+    bySlug: (s) => `/categories/${s}`,
+  },
+  reviews: {
+    list: '/reviews',
+    create: '/reviews',
+    byId: (id) => `/reviews/${id}`,
+  },
+  orders: {
+    list: '/orders',
+    byId: (id) => `/orders/${id}`,
+    create: '/orders',
+    cancel: (id) => `/orders/${id}/cancel`,
+    reorder: (id) => `/orders/${id}/reorder`,
+  },
+  addresses: {
+    list: '/addresses',
+    byId: (id) => `/addresses/${id}`,
+    setDefault: (id) => `/addresses/${id}/default`,
+  },
+  wishlists: {
+    mine: '/wishlists/me',
+    toggle: '/wishlists/me/toggle',
+  },
+  coupons: {
+    validate: '/coupons/validate',
+  },
+  settings: {
+    public: '/settings',
+  },
+  admin: {
+    login: '/admin/auth/login',
+    me: '/admin/auth/me',
+    products: '/admin/products',
+    productById: (id) => `/admin/products/${id}`,
+    categories: '/admin/categories',
+    categoryById: (id) => `/admin/categories/${id}`,
+    inventory: '/admin/inventory',
+    inventoryById: (id) => `/admin/inventory/${id}`,
+    orders: '/admin/orders',
+    orderById: (id) => `/admin/orders/${id}`,
+    customers: '/admin/customers',
+    customerById: (id) => `/admin/customers/${id}`,
+    reviews: '/admin/reviews',
+    reviewById: (id) => `/admin/reviews/${id}`,
+    coupons: '/admin/coupons',
+    couponById: (id) => `/admin/coupons/${id}`,
+    settings: '/admin/settings',
+    users: '/admin/users',
+    userById: (id) => `/admin/users/${id}`,
+    reports: {
+      salesOverTime: '/admin/reports/sales-over-time',
+      salesByCategory: '/admin/reports/sales-by-category',
+      topProducts: '/admin/reports/top-products',
+      topCustomers: '/admin/reports/top-customers',
+      couponPerformance: '/admin/reports/coupon-performance',
+      inventoryTurnover: '/admin/reports/inventory-turnover',
+    },
+  },
+});
+
+export default ENDPOINTS;
