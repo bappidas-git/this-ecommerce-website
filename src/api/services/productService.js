@@ -3,13 +3,17 @@ import { ENDPOINTS } from '../endpoints.js';
 import { buildUrl, unwrap, unwrapList } from '../queryString.js';
 
 export const productService = {
-  list: (filters = {}) =>
-    http.get(buildUrl(ENDPOINTS.products.list, filters)).then(unwrapList),
-  getBySlug: (slug) => http.get(ENDPOINTS.products.bySlug(slug)).then(unwrap),
-  getById: (id) => http.get(ENDPOINTS.products.byId(id)).then(unwrap),
-  getRelated: (productId, params = {}) =>
+  list: (filters = {}, { signal } = {}) =>
     http
-      .get(buildUrl(ENDPOINTS.products.related(productId), params))
+      .get(buildUrl(ENDPOINTS.products.list, filters), { signal })
+      .then(unwrapList),
+  getBySlug: (slug, { signal } = {}) =>
+    http.get(ENDPOINTS.products.bySlug(slug), { signal }).then(unwrap),
+  getById: (id, { signal } = {}) =>
+    http.get(ENDPOINTS.products.byId(id), { signal }).then(unwrap),
+  getRelated: (productId, params = {}, { signal } = {}) =>
+    http
+      .get(buildUrl(ENDPOINTS.products.related(productId), params), { signal })
       .then(unwrapList),
 };
 
