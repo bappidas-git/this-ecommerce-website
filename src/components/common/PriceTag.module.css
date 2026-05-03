@@ -1,0 +1,54 @@
+.root {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 8px;
+  font-family: var(--font-body);
+  color: var(--color-ink);
+}
+
+.compare {
+  color: var(--color-muted);
+  text-decoration: line-through;
+  font-weight: 400;
+}
+
+.price {
+  color: var(--color-ink);
+  font-weight: 500;
+  letter-spacing: -0.005em;
+}
+
+.save {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  border-radius: var(--radius-pill);
+  background: var(--color-brass);
+  color: var(--color-bg);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  line-height: 1.4;
+}
+
+.sm .price {
+  font-size: 14px;
+}
+.sm .compare {
+  font-size: 12px;
+}
+
+.md .price {
+  font-size: 18px;
+}
+.md .compare {
+  font-size: 14px;
+}
+
+.lg .price {
+  font-size: 24px;
+}
+.lg .compare {
+  font-size: 16px;
+}
