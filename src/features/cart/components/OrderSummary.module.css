@@ -1,0 +1,121 @@
+.root {
+  background: var(--color-surface);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-3);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  margin: 0;
+  color: var(--color-ink);
+  letter-spacing: 0.01em;
+}
+
+.lines {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 0;
+  padding: 16px 0;
+  border-top: 1px solid var(--color-line);
+  border-bottom: 1px solid var(--color-line);
+}
+
+.line {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+  margin: 0;
+  font-family: var(--font-ui);
+  font-size: 0.9375rem;
+  color: var(--color-ink-2);
+}
+
+.line dt {
+  margin: 0;
+}
+
+.line dd {
+  margin: 0;
+  color: var(--color-ink);
+}
+
+.discount {
+  color: var(--color-success);
+}
+
+.totalLine {
+  margin-top: 8px;
+  padding-top: 12px;
+  border-top: 1px solid var(--color-line);
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  color: var(--color-ink);
+}
+
+.totalLine dt {
+  color: var(--color-ink);
+}
+
+.shippingHint {
+  margin: 0;
+  font-size: 0.8125rem;
+  color: var(--color-muted);
+}
+
+.shippingHintMet {
+  color: var(--color-success);
+}
+
+.checkoutButton {
+  min-height: 56px;
+  font-size: 1rem;
+}
+
+.continueLink {
+  align-self: center;
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  color: var(--color-ink-2);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.continueLink:hover {
+  color: var(--color-brass-2);
+}
+
+.continueLink:focus-visible {
+  outline: 2px solid var(--color-brass);
+  outline-offset: 2px;
+  border-radius: var(--radius-1);
+}
+
+.trustStrip {
+  list-style: none;
+  margin: 8px 0 0;
+  padding: 16px 0 0;
+  border-top: 1px solid var(--color-line);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.trustItem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.8125rem;
+  color: var(--color-ink-2);
+}
+
+.trustIcon {
+  color: var(--color-brass);
+  font-size: 1.125rem;
+}

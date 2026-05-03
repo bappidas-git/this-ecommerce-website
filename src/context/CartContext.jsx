@@ -417,6 +417,14 @@ export function CartProvider({ children }) {
     dispatch({ type: ACTIONS.CLEAR_COUPON });
   }, []);
 
+  const setCoupon = useCallback(({ code, type, value } = {}) => {
+    if (!code) return;
+    dispatch({
+      type: ACTIONS.APPLY_COUPON,
+      payload: { code, type: type || 'fixed', value: Number(value) || 0 },
+    });
+  }, []);
+
   const reconcileStock = useCallback(
     (updates) => {
       if (!updates) return;
@@ -463,6 +471,7 @@ export function CartProvider({ children }) {
       clear,
       applyCoupon,
       clearCoupon,
+      setCoupon,
       reconcileStock,
       isInCart,
       getQty,
@@ -476,6 +485,7 @@ export function CartProvider({ children }) {
       clear,
       applyCoupon,
       clearCoupon,
+      setCoupon,
       reconcileStock,
       isInCart,
       getQty,

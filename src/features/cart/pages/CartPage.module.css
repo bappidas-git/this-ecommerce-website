@@ -1,0 +1,84 @@
+.section {
+  padding-bottom: 96px;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding-block: 24px 16px;
+}
+
+.heading {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4vw, 2.75rem);
+  margin: 0;
+  color: var(--color-ink);
+  letter-spacing: 0.01em;
+}
+
+.caption {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--color-muted);
+}
+
+.bannerWrap {
+  margin-block: 8px 16px;
+}
+
+.banner {
+  background: var(--color-surface);
+  border-radius: var(--radius-2);
+  border-color: var(--color-line);
+  color: var(--color-ink);
+  font-family: var(--font-ui);
+}
+
+.banner :global(.MuiAlert-icon) {
+  color: var(--color-warning);
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+  margin-top: 8px;
+}
+
+.itemsCol {
+  min-width: 0;
+}
+
+.summaryCol {
+  min-width: 0;
+}
+
+.snackbarUndo {
+  background: none;
+  border: none;
+  font-family: var(--font-ui);
+  font-size: 0.8125rem;
+  color: var(--color-brass);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+  padding: 4px 8px;
+}
+
+.snackbarUndo:hover {
+  color: var(--color-bg);
+}
+
+@media (min-width: 1024px) {
+  .layout {
+    grid-template-columns: minmax(0, 1fr) 380px;
+    gap: 48px;
+  }
+
+  .summaryCol {
+    position: sticky;
+    top: 96px;
+    align-self: start;
+  }
+}
