@@ -1,54 +1,18 @@
-import { useCallback } from 'react';
-import { useSnackbar } from 'notistack';
-import wishlistService from '../api/services/wishlistService.js';
+import { useWishlistContext } from '../context/WishlistContext.jsx';
 
 export function useWishlist() {
-  const { enqueueSnackbar } = useSnackbar();
-
-  const add = useCallback(
-    async (product) => {
-      const productId = product?.productId ?? product?.id;
-      if (productId === undefined || productId === null) return null;
-      try {
-        const result = await wishlistService.toggle(productId);
-        enqueueSnackbar('Saved to wishlist', { variant: 'success' });
-        if (typeof window !== 'undefined') {
-          window.dispatchEvent(
-            new CustomEvent('ti:wishlist-add', { detail: { productId } }),
-          );
-        }
-        return result;
-      } catch (err) {
-        const message =
-          err?.response?.data?.message ||
-          err?.message ||
-          'Could not save to wishlist';
-        enqueueSnackbar(message, { variant: 'error' });
-        return null;
-      }
-    },
-    [enqueueSnackbar],
-  );
-
-  const remove = useCallback(
-    async (productId) => {
-      if (productId === undefined || productId === null) return null;
-      try {
-        const result = await wishlistService.toggle(productId);
-        return result;
-      } catch (err) {
-        const message =
-          err?.response?.data?.message ||
-          err?.message ||
-          'Could not remove from wishlist';
-        enqueueSnackbar(message, { variant: 'error' });
-        return null;
-      }
-    },
-    [enqueueSnackbar],
-  );
-
-  return { add, remove };
+  const ctx = useWishlistContext();
+  return {
+    productIds: ctx.productIds,
+    isHydrated: ctx.isHydrated,
+    isSyncing: ctx.isSyncing,
+    isWishlisted: ctx.isWishlisted,
+    toggle: ctx.toggle,
+    add: ctx.add,
+    remove: ctx.remove,
+    clear: ctx.clear,
+    count: ctx.count,
+  };
 }
 
 export default useWishlist;
