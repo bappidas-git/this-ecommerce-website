@@ -1,0 +1,26 @@
+.eyebrow {
+  display: inline-block;
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 1.4;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+.muted {
+  color: var(--color-muted);
+}
+
+.brass {
+  color: var(--color-brass);
+}
+
+.emerald {
+  color: var(--color-emerald);
+}
+
+.bg {
+  color: var(--color-bg);
+}

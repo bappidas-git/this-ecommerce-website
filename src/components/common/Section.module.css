@@ -1,0 +1,43 @@
+.section {
+  --section-pad-y: 48px;
+  position: relative;
+  width: 100%;
+  padding-top: var(--section-pad-y);
+  padding-bottom: var(--section-pad-y);
+  background: var(--color-bg);
+  color: var(--color-ink);
+}
+
+.dense {
+  --section-pad-y: 32px;
+}
+
+.cream {
+  background: var(--color-bg);
+  color: var(--color-ink);
+}
+
+.surface {
+  background: var(--color-surface);
+  color: var(--color-ink);
+}
+
+.emerald {
+  background: var(--color-emerald);
+  color: var(--color-bg);
+}
+
+.ink {
+  background: var(--color-ink);
+  color: var(--color-bg);
+}
+
+@media (min-width: 900px) {
+  .section {
+    --section-pad-y: 96px;
+  }
+
+  .dense {
+    --section-pad-y: 64px;
+  }
+}
