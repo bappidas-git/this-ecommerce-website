@@ -7,10 +7,11 @@ import {
   useReducer,
   useRef,
 } from 'react';
-import { useSnackbar } from 'notistack';
 import { couponService } from '../api/services/couponService.js';
 import { useAuth } from './AuthContext.jsx';
+import { useToast } from './ToastContext.jsx';
 import { useSettings } from '../hooks/useSettings.js';
+import { getApiErrorMessage } from '../hooks/useApiError.js';
 
 const GUEST_KEY = 'ti_cart_guest';
 const userKeyFor = (id) => `ti_cart_user_${id}`;
@@ -285,7 +286,7 @@ const CartContext = createContext(null);
 export function CartProvider({ children }) {
   const { user, isAuthenticated } = useAuth();
   const { data: settings } = useSettings();
-  const { enqueueSnackbar } = useSnackbar();
+  const { success, error: toastError, warning } = useToast();
 
   const [rawState, dispatch] = useReducer(reducer, INITIAL_STATE);
   const state = useMemo(() => computeTotals(rawState, settings), [rawState, settings]);
@@ -344,11 +345,11 @@ export function CartProvider({ children }) {
       if (typeof stock === 'number' && projected > stock) {
         const remaining = Math.max(0, stock - (existing?.qty || 0));
         if (remaining <= 0) {
-          enqueueSnackbar(`Only ${stock} available`, { variant: 'warning' });
+          warning(`Only ${stock} available`);
           return;
         }
         normalized.qty = remaining;
-        enqueueSnackbar(`Only ${stock} available`, { variant: 'warning' });
+        warning(`Only ${stock} available`);
       } else {
         normalized.qty = desired;
       }
@@ -359,7 +360,7 @@ export function CartProvider({ children }) {
         );
       }
     },
-    [rawState.items, enqueueSnackbar],
+    [rawState.items, warning],
   );
 
   const updateQty = useCallback(
@@ -368,12 +369,12 @@ export function CartProvider({ children }) {
       if (!item) return;
       const desired = Math.max(0, Math.floor(Number(qty) || 0));
       if (typeof item.stock === 'number' && desired > item.stock) {
-        enqueueSnackbar(`Only ${item.stock} available`, { variant: 'warning' });
+        warning(`Only ${item.stock} available`);
         return;
       }
       dispatch({ type: ACTIONS.UPDATE_QTY, payload: { productId, qty: desired } });
     },
-    [rawState.items, enqueueSnackbar],
+    [rawState.items, warning],
   );
 
   const removeItem = useCallback((productId) => {
@@ -399,18 +400,14 @@ export function CartProvider({ children }) {
             value: data.value ?? data.amount ?? data.discountValue ?? 0,
           },
         });
-        enqueueSnackbar(data.message || `Coupon ${trimmed} applied`, {
-          variant: 'success',
-        });
+        success(data.message || `Coupon ${trimmed} applied`);
         return data;
       } catch (err) {
-        const message =
-          err?.response?.data?.message || err?.message || 'Coupon could not be applied';
-        enqueueSnackbar(message, { variant: 'error' });
+        toastError(getApiErrorMessage(err) || 'Coupon could not be applied');
         return null;
       }
     },
-    [state.subtotal, enqueueSnackbar],
+    [state.subtotal, success, toastError],
   );
 
   const clearCoupon = useCallback(() => {
@@ -438,10 +435,10 @@ export function CartProvider({ children }) {
         return typeof prev === 'number' && typeof stock === 'number' && prev > stock;
       });
       if (adjusted) {
-        enqueueSnackbar('Quantity adjusted to available stock', { variant: 'warning' });
+        warning('Quantity adjusted to available stock');
       }
     },
-    [rawState.items, enqueueSnackbar],
+    [rawState.items, warning],
   );
 
   const isInCart = useCallback(

@@ -7,9 +7,10 @@ import {
   useReducer,
   useRef,
 } from 'react';
-import { useSnackbar } from 'notistack';
 import wishlistService from '../api/services/wishlistService.js';
 import { useAuth } from './AuthContext.jsx';
+import { useToast } from './ToastContext.jsx';
+import { getApiErrorMessage } from '../hooks/useApiError.js';
 
 const GUEST_KEY = 'ti_wishlist_guest';
 const userKeyFor = (id) => `ti_wishlist_user_${id}`;
@@ -158,7 +159,7 @@ const WishlistContext = createContext(null);
 
 export function WishlistProvider({ children }) {
   const { user, isAuthenticated } = useAuth();
-  const { enqueueSnackbar } = useSnackbar();
+  const { error: toastError } = useToast();
 
   const [state, dispatch] = useReducer(reducer, INITIAL_STATE);
 
@@ -302,14 +303,10 @@ export function WishlistProvider({ children }) {
         // Revert
         dispatch({ type: ACTIONS.TOGGLE, payload: id });
         announce(wasOn ? 'Save failed — restored to wishlist' : 'Could not save to wishlist');
-        const message =
-          err?.response?.data?.message ||
-          err?.message ||
-          'Wishlist update failed';
-        enqueueSnackbar(message, { variant: 'error' });
+        toastError(getApiErrorMessage(err) || 'Wishlist update failed');
       }
     },
-    [state.productIds, isAuthenticated, enqueueSnackbar, announce],
+    [state.productIds, isAuthenticated, toastError, announce],
   );
 
   const add = useCallback(
@@ -329,12 +326,10 @@ export function WishlistProvider({ children }) {
         await wishlistService.toggle(id);
       } catch (err) {
         dispatch({ type: ACTIONS.REMOVE, payload: id });
-        const message =
-          err?.response?.data?.message || err?.message || 'Could not save to wishlist';
-        enqueueSnackbar(message, { variant: 'error' });
+        toastError(getApiErrorMessage(err) || 'Could not save to wishlist');
       }
     },
-    [state.productIds, isAuthenticated, enqueueSnackbar, announce],
+    [state.productIds, isAuthenticated, toastError, announce],
   );
 
   const remove = useCallback(
@@ -355,14 +350,10 @@ export function WishlistProvider({ children }) {
         await wishlistService.toggle(id);
       } catch (err) {
         dispatch({ type: ACTIONS.ADD, payload: id });
-        const message =
-          err?.response?.data?.message ||
-          err?.message ||
-          'Could not remove from wishlist';
-        enqueueSnackbar(message, { variant: 'error' });
+        toastError(getApiErrorMessage(err) || 'Could not remove from wishlist');
       }
     },
-    [state.productIds, isAuthenticated, enqueueSnackbar, announce],
+    [state.productIds, isAuthenticated, toastError, announce],
   );
 
   const clear = useCallback(() => {

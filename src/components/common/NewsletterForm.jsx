@@ -2,9 +2,10 @@ import { useId } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import { useSnackbar } from 'notistack';
 import { ArrowRight } from 'lucide-react';
 import { authService } from '../../api/services/authService.js';
+import { useToast } from '../../context/ToastContext.jsx';
+import { getApiErrorMessage } from '../../hooks/useApiError.js';
 import styles from './NewsletterForm.module.css';
 
 const schema = yup.object({
@@ -16,7 +17,7 @@ const schema = yup.object({
 });
 
 function NewsletterForm({ tone = 'dark', hint, ariaLabel = 'Subscribe to our newsletter' }) {
-  const { enqueueSnackbar } = useSnackbar();
+  const { brand, error: toastError } = useToast();
   const inputId = useId();
   const errorId = useId();
   const {
@@ -35,14 +36,10 @@ function NewsletterForm({ tone = 'dark', hint, ariaLabel = 'Subscribe to our new
       if (typeof authService.subscribe === 'function') {
         await authService.subscribe({ email: values.email });
       }
-      enqueueSnackbar('Thank you — confirmation in your inbox shortly.', {
-        variant: 'success',
-      });
+      brand('Thank you — confirmation in your inbox shortly.');
       reset();
     } catch (err) {
-      enqueueSnackbar('We could not subscribe you just now. Please try again.', {
-        variant: 'error',
-      });
+      toastError(getApiErrorMessage(err) || 'We could not subscribe you just now. Please try again.');
     }
   };
 

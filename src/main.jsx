@@ -5,25 +5,21 @@ import { BrowserRouter } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
-import { SnackbarProvider } from 'notistack';
 import { theme } from './theme/index.js';
+import { ToastProvider } from './context/ToastContext.jsx';
 import App from './App.jsx';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <HelmetProvider>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <SnackbarProvider
-          maxSnack={3}
-          anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
-          autoHideDuration={4000}
-        >
-          <BrowserRouter>
+      <BrowserRouter>
+        <ToastProvider>
+          <ThemeProvider theme={theme}>
+            <CssBaseline />
             <App />
-          </BrowserRouter>
-        </SnackbarProvider>
-      </ThemeProvider>
+          </ThemeProvider>
+        </ToastProvider>
+      </BrowserRouter>
     </HelmetProvider>
   </StrictMode>,
 );

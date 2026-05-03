@@ -1,7 +1,8 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { useSnackbar } from 'notistack';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+
+import { useToast } from '../../../context/ToastContext.jsx';
 
 import Section from '../../../components/common/Section.jsx';
 import Container from '../../../components/common/Container.jsx';
@@ -21,7 +22,7 @@ import styles from './WishlistPage.module.css';
 function WishlistPage({ variant = 'standalone' }) {
   const { productIds, isHydrated, remove, clear, count } = useWishlist();
   const { addItem } = useCart();
-  const { enqueueSnackbar } = useSnackbar();
+  const { success, warning } = useToast();
 
   const [products, setProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -93,9 +94,7 @@ function WishlistPage({ variant = 'standalone' }) {
       if (!product) return;
       const pid = product.id ?? product.productId;
       if (typeof product.stock === 'number' && product.stock <= 0) {
-        enqueueSnackbar(`${product.name || 'This piece'} is sold out`, {
-          variant: 'warning',
-        });
+        warning(`${product.name || 'This piece'} is sold out`);
         return;
       }
       addItem(
@@ -114,11 +113,9 @@ function WishlistPage({ variant = 'standalone' }) {
         1,
       );
       await remove(pid);
-      enqueueSnackbar(`${product.name || 'Piece'} moved to your bag`, {
-        variant: 'success',
-      });
+      success(`${product.name || 'Piece'} moved to your bag`);
     },
-    [addItem, remove, enqueueSnackbar],
+    [addItem, remove, success, warning],
   );
 
   const handleMoveAll = useCallback(async () => {
@@ -147,14 +144,13 @@ function WishlistPage({ variant = 'standalone' }) {
       moved += 1;
     }
     if (moved > 0) {
-      enqueueSnackbar(
+      success(
         moved === 1 ? '1 piece moved to your bag' : `${moved} pieces moved to your bag`,
-        { variant: 'success' },
       );
     } else {
-      enqueueSnackbar('Nothing available to move', { variant: 'warning' });
+      warning('Nothing available to move');
     }
-  }, [products, addItem, remove, enqueueSnackbar]);
+  }, [products, addItem, remove, success, warning]);
 
   const handleConfirmClear = useCallback(() => {
     clear();
