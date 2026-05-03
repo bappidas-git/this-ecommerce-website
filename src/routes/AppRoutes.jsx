@@ -14,7 +14,7 @@ import { PATHS } from './paths.js';
 
 import Home from '../features/home/pages/Home.jsx';
 import ShopPage from '../features/shop/pages/ShopPage.jsx';
-import Product from '../features/product/pages/Product.jsx';
+import ProductDetailPage from '../features/product/pages/ProductDetailPage.jsx';
 import Search from '../features/search/pages/Search.jsx';
 import Cart from '../features/cart/pages/Cart.jsx';
 import Wishlist from '../features/cart/pages/Wishlist.jsx';
@@ -80,7 +80,7 @@ function AppRoutes() {
         <Route index element={<Home />} />
         <Route path="shop" element={<ShopPage />} />
         <Route path="shop/:slug" element={<ShopPage />} />
-        <Route path="products/:slug" element={<Product />} />
+        <Route path="products/:slug" element={<ProductDetailPage />} />
         <Route path="search" element={<Search />} />
         <Route path="cart" element={<Cart />} />
         <Route path="wishlist" element={<Wishlist />} />

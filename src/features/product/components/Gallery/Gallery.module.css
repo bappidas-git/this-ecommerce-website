@@ -1,0 +1,261 @@
+.root {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+@media (min-width: 768px) {
+  .root {
+    grid-template-columns: 72px 1fr;
+    align-items: start;
+  }
+}
+
+.thumbColumn {
+  display: none;
+  flex-direction: column;
+  gap: 12px;
+  position: sticky;
+  top: 96px;
+}
+
+@media (min-width: 768px) {
+  .thumbColumn {
+    display: flex;
+    grid-column: 1;
+    grid-row: 1;
+  }
+}
+
+.thumb {
+  width: 64px;
+  height: 64px;
+  padding: 0;
+  border: 1px solid var(--color-line);
+  background: var(--color-surface);
+  border-radius: var(--radius-2);
+  overflow: hidden;
+  cursor: pointer;
+  transition:
+    border-color 160ms var(--motion-ease),
+    transform 160ms var(--motion-ease);
+}
+
+.thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.thumb:hover,
+.thumb:focus-visible {
+  border-color: var(--color-brass);
+  outline: none;
+}
+
+.thumbActive {
+  border-color: var(--color-ink);
+  box-shadow: 0 0 0 1px var(--color-ink) inset;
+}
+
+@media (min-width: 768px) {
+  .thumb {
+    width: 72px;
+    height: 72px;
+  }
+}
+
+.stage {
+  position: relative;
+  background: var(--color-surface);
+  border-radius: var(--radius-3);
+  overflow: hidden;
+  aspect-ratio: 4 / 5;
+  border: 1px solid var(--color-line);
+  grid-column: 1;
+  grid-row: 1;
+}
+
+@media (min-width: 768px) {
+  .stage {
+    grid-column: 2;
+    grid-row: 1;
+  }
+}
+
+.mainBtn {
+  position: absolute;
+  inset: 0;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  background-repeat: no-repeat;
+  background-color: var(--color-bg);
+  cursor: zoom-in;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.mainBtn:focus-visible {
+  outline: 2px solid var(--color-brass);
+  outline-offset: -2px;
+}
+
+.mainImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  opacity: 0;
+  pointer-events: none;
+}
+
+@media (hover: none) {
+  .mainBtn {
+    background-size: cover !important;
+    background-position: center !important;
+    cursor: pointer;
+  }
+
+  .mainImg {
+    opacity: 1;
+  }
+}
+
+.badges {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  z-index: 2;
+}
+
+.navBtn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 3;
+  background: var(--color-surface);
+  border-radius: var(--radius-pill);
+  box-shadow: 0 2px 12px rgba(27, 26, 23, 0.08);
+  opacity: 0;
+  transition: opacity 160ms var(--motion-ease);
+}
+
+.stage:hover .navBtn,
+.stage:focus-within .navBtn {
+  opacity: 1;
+}
+
+@media (hover: none) {
+  .navBtn {
+    opacity: 1;
+  }
+}
+
+.navPrev {
+  left: 12px;
+}
+
+.navNext {
+  right: 12px;
+}
+
+.thumbStrip {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  scrollbar-width: thin;
+  padding-bottom: 4px;
+  -webkit-overflow-scrolling: touch;
+  grid-column: 1;
+  grid-row: 2;
+}
+
+@media (min-width: 768px) {
+  .thumbStrip {
+    display: none;
+  }
+}
+
+.thumbStrip .thumb {
+  flex: 0 0 auto;
+}
+
+/* Lightbox */
+.lightbox :global(.MuiPaper-root) {
+  background: rgba(27, 26, 23, 0.96);
+}
+
+.lightboxBody {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  padding: 24px 16px;
+}
+
+.lightboxTitle {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+}
+
+.lightboxImg {
+  max-width: 100%;
+  max-height: 75vh;
+  object-fit: contain;
+  display: block;
+}
+
+.lightboxNav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(247, 243, 237, 0.92);
+  color: var(--color-ink);
+}
+
+.lightboxNav:hover {
+  background: var(--color-surface);
+}
+
+.lightboxPrev {
+  left: 8px;
+}
+
+.lightboxNext {
+  right: 8px;
+}
+
+.lightboxClose {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: rgba(247, 243, 237, 0.92);
+  color: var(--color-ink);
+}
+
+.lightboxClose:hover {
+  background: var(--color-surface);
+}
+
+.lightboxCounter {
+  position: absolute;
+  bottom: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: var(--color-bg);
+  font-family: var(--font-ui);
+  font-size: 13px;
+  letter-spacing: 0.04em;
+  margin: 0;
+}

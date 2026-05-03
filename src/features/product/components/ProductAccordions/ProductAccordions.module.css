@@ -1,0 +1,80 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid var(--color-line);
+}
+
+.accordion {
+  background: transparent;
+  border-bottom: 1px solid var(--color-line);
+  box-shadow: none;
+}
+
+.accordion:before {
+  display: none;
+}
+
+.summary {
+  padding: 0;
+  min-height: 64px;
+}
+
+.summary :global(.MuiAccordionSummary-content) {
+  margin: 18px 0;
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size: 22px;
+  letter-spacing: -0.005em;
+  color: var(--color-ink);
+}
+
+.details {
+  padding: 0 0 24px;
+}
+
+.detailsBody {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.paragraph {
+  margin: 0;
+  font-family: var(--font-ui);
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--color-ink-2);
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.kv {
+  margin: 0;
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 8px 24px;
+  font-family: var(--font-ui);
+  font-size: 14px;
+}
+
+.kv dt {
+  color: var(--color-muted);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  font-size: 12px;
+}
+
+.kv dd {
+  margin: 0;
+  color: var(--color-ink);
+}
+
+.kvRow {
+  display: contents;
+}

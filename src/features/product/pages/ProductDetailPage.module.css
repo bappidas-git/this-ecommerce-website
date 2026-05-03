@@ -1,0 +1,74 @@
+.topSection {
+  padding-bottom: 24px;
+}
+
+.crumbWrap {
+  margin-bottom: 16px;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 32px;
+  align-items: start;
+}
+
+@media (min-width: 768px) {
+  .layout {
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .layout {
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    gap: 56px;
+  }
+}
+
+.galleryCol {
+  min-width: 0;
+}
+
+.buyboxCol {
+  position: relative;
+  min-width: 0;
+}
+
+@media (min-width: 768px) {
+  .buyboxCol {
+    position: sticky;
+    top: 96px;
+    align-self: start;
+  }
+}
+
+.accordionsWrap {
+  margin-top: 56px;
+  padding-top: 8px;
+}
+
+@media (min-width: 768px) {
+  .accordionsWrap {
+    margin-top: 80px;
+  }
+}
+
+.reviewsAnchor {
+  position: relative;
+  height: 1px;
+  scroll-margin-top: 96px;
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}

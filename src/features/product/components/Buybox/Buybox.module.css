@@ -1,0 +1,203 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  width: 100%;
+  max-width: 480px;
+}
+
+.eyebrowLink {
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.eyebrowLink:hover,
+.eyebrowLink:focus-visible {
+  color: var(--color-brass);
+  outline: none;
+}
+
+.title {
+  margin: 0;
+  font-family: var(--font-display);
+  color: var(--color-ink);
+  font-weight: 500;
+  font-size: clamp(2rem, 3.6vw, 2.75rem);
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+}
+
+.priceRow {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+}
+
+.ratingRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+}
+
+.ratingLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--color-ink-2);
+  text-decoration: none;
+  font-family: var(--font-ui);
+  font-size: 14px;
+}
+
+.ratingLink:hover,
+.ratingLink:focus-visible {
+  color: var(--color-ink);
+  outline: none;
+}
+
+.ratingStar {
+  color: var(--color-brass);
+  font-size: 18px;
+}
+
+.ratingValue {
+  font-weight: 600;
+}
+
+.ratingCount {
+  color: var(--color-muted);
+}
+
+.ratingMuted {
+  color: var(--color-muted);
+  font-family: var(--font-ui);
+  font-size: 14px;
+}
+
+.reviewsLink {
+  margin-left: auto;
+  font-family: var(--font-ui);
+  font-size: 13px;
+  color: var(--color-brass-2);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.reviewsLink:hover,
+.reviewsLink:focus-visible {
+  color: var(--color-ink);
+  outline: none;
+}
+
+.summary {
+  margin: 0;
+  color: var(--color-ink-2);
+  font-family: var(--font-ui);
+  font-size: 15px;
+  line-height: 1.65;
+}
+
+.stock {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-ui);
+  font-size: 13px;
+  letter-spacing: 0.02em;
+}
+
+.stockDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  display: inline-block;
+}
+
+.stockOk {
+  color: var(--color-success);
+}
+
+.stockOk .stockDot {
+  background: var(--color-success);
+}
+
+.stockLow {
+  color: var(--color-warning);
+}
+
+.stockLow .stockDot {
+  background: var(--color-warning);
+}
+
+.stockOut {
+  color: var(--color-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 12px;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  gap: 12px;
+  margin-top: 4px;
+}
+
+.addBtn {
+  flex: 1;
+  min-width: 200px;
+  min-height: 56px;
+  border-radius: var(--radius-pill);
+  font-size: 15px;
+}
+
+.wishlist {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 0;
+  background: none;
+  border: 0;
+  cursor: pointer;
+  align-self: flex-start;
+  color: var(--color-ink-2);
+  font-family: var(--font-ui);
+  font-size: 14px;
+}
+
+.wishlist:hover,
+.wishlist:focus-visible {
+  color: var(--color-ink);
+  outline: none;
+}
+
+.wishlistActive {
+  color: var(--color-rose);
+}
+
+.trust {
+  list-style: none;
+  margin: 8px 0 0;
+  padding: 16px 0 0;
+  border-top: 1px solid var(--color-line);
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 10px 16px;
+}
+
+.trust li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--color-ink-2);
+  font-family: var(--font-ui);
+  font-size: 12.5px;
+  letter-spacing: 0.02em;
+}
+
+.trustIcon {
+  color: var(--color-brass);
+  font-size: 16px;
+}
