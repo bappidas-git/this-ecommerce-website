@@ -164,16 +164,19 @@ export function AuthProvider({ children }) {
   );
 
   const register = useCallback(
-    async ({ name, email, password, subscribe } = {}) => {
+    async (payload = {}) => {
       setIsLoading(true);
       setError(null);
       try {
-        const data = await authService.register({ name, email, password, subscribe });
+        const data = await authService.register(payload);
         if (data?.token) {
           return applyAuthSuccess(data);
         }
         // Backend didn't return a token — auto-login.
-        const loginData = await authService.login({ email, password });
+        const loginData = await authService.login({
+          email: payload?.email,
+          password: payload?.password,
+        });
         return applyAuthSuccess(loginData);
       } catch (err) {
         const message = getApiErrorMessage(err) || 'Registration failed';

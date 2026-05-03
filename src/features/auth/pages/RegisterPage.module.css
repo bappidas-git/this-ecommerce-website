@@ -1,0 +1,137 @@
+.eyebrow {
+  margin-bottom: 8px;
+}
+
+.title {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(2rem, 4vw, 2.5rem);
+  line-height: 1.1;
+  color: var(--color-ink);
+  margin: 0 0 16px;
+}
+
+.divider {
+  height: 1px;
+  width: 56px;
+  background: var(--color-brass);
+  border: 0;
+  margin: 0 0 24px;
+}
+
+.alert {
+  margin-bottom: 16px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.nameRow {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+.fieldGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.helper {
+  font-family: var(--font-body);
+  font-size: 12px;
+  line-height: 1.4;
+  color: var(--color-muted);
+  margin: 0;
+}
+
+.helper a {
+  color: var(--color-brass-2);
+  text-decoration: none;
+  border-bottom: 1px solid var(--color-brass-2);
+  transition: color var(--motion-fast) var(--motion-ease),
+    border-color var(--motion-fast) var(--motion-ease);
+}
+
+.helper a:hover,
+.helper a:focus-visible {
+  color: var(--color-ink);
+  border-bottom-color: var(--color-ink);
+}
+
+.checkboxes {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: 4px;
+}
+
+.termsLabel {
+  font-family: var(--font-body);
+  font-size: 14px;
+  color: var(--color-ink-2);
+  line-height: 1.5;
+}
+
+.termsLabel a {
+  color: var(--color-brass-2);
+  text-decoration: none;
+  border-bottom: 1px solid var(--color-brass-2);
+  transition: color var(--motion-fast) var(--motion-ease),
+    border-color var(--motion-fast) var(--motion-ease);
+}
+
+.termsLabel a:hover,
+.termsLabel a:focus-visible {
+  color: var(--color-ink);
+  border-bottom-color: var(--color-ink);
+}
+
+.subscribeLabel {
+  font-family: var(--font-body);
+  font-size: 14px;
+  color: var(--color-ink-2);
+}
+
+.submit {
+  margin-top: 8px;
+  height: 56px;
+}
+
+.signinLine {
+  margin-top: 24px;
+  font-family: var(--font-body);
+  font-size: 14px;
+  color: var(--color-ink-2);
+}
+
+.signinLink {
+  color: var(--color-brass-2);
+  text-decoration: none;
+  border-bottom: 1px solid var(--color-brass-2);
+  margin-left: 4px;
+}
+
+.signinLink:hover,
+.signinLink:focus-visible {
+  color: var(--color-ink);
+  border-bottom-color: var(--color-ink);
+}
+
+.field :global(.MuiOutlinedInput-root) {
+  height: 56px;
+}
+
+.field :global(.MuiInputBase-input) {
+  font-family: var(--font-body);
+}
+
+@media (min-width: 768px) {
+  .nameRow {
+    grid-template-columns: 1fr 1fr;
+  }
+}

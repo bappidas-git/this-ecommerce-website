@@ -20,7 +20,7 @@ import CartPage from '../features/cart/pages/CartPage.jsx';
 import WishlistPage from '../features/account/pages/WishlistPage.jsx';
 
 import Login from '../features/auth/pages/Login.jsx';
-import Register from '../features/auth/pages/Register.jsx';
+import RegisterPage from '../features/auth/pages/RegisterPage.jsx';
 import ForgotPassword from '../features/auth/pages/ForgotPassword.jsx';
 import ResetPassword from '../features/auth/pages/ResetPassword.jsx';
 
@@ -84,7 +84,6 @@ function AppRoutes() {
         <Route path="cart" element={<CartPage />} />
         <Route path="wishlist" element={<WishlistPage />} />
 
-        <Route path="register" element={<Register />} />
         <Route path="forgot-password" element={<ForgotPassword />} />
         <Route path="reset-password" element={<ResetPassword />} />
 
@@ -147,6 +146,14 @@ function AppRoutes() {
         element={
           <AuthProvider>
             <Login />
+          </AuthProvider>
+        }
+      />
+      <Route
+        path="register"
+        element={
+          <AuthProvider>
+            <RegisterPage />
           </AuthProvider>
         }
       />
