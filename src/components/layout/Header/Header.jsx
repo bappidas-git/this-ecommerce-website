@@ -9,6 +9,7 @@ import Logo from './Logo.jsx';
 import PrimaryNav from './PrimaryNav.jsx';
 import HeaderActions from './HeaderActions.jsx';
 import { useScrollState } from '../../../hooks/useScrollState.js';
+import { useUI } from '../../../context/UIContext.jsx';
 import styles from './Header.module.css';
 
 const HIDE_THRESHOLD = 240;
@@ -18,6 +19,11 @@ function Header({ onOpenMobileMenu, onOpenSearch, onOpenCart }) {
   const { y, dir } = useScrollState();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+  const { openCart, openSearch, openMobileNav } = useUI();
+
+  const handleOpenCart = onOpenCart || openCart;
+  const handleOpenSearch = onOpenSearch || openSearch;
+  const handleOpenMobileMenu = onOpenMobileMenu || openMobileNav;
 
   const [hidden, setHidden] = useState(false);
   const lastY = useRef(0);
@@ -61,7 +67,7 @@ function Header({ onOpenMobileMenu, onOpenSearch, onOpenCart }) {
             <IconButton
               className={styles.menuButton}
               aria-label="Open navigation menu"
-              onClick={onOpenMobileMenu}
+              onClick={handleOpenMobileMenu}
               size="medium"
             >
               <MenuIcon />
@@ -72,7 +78,7 @@ function Header({ onOpenMobileMenu, onOpenSearch, onOpenCart }) {
             <PrimaryNav />
           </div>
           <div className={styles.right}>
-            <HeaderActions onOpenSearch={onOpenSearch} onOpenCart={onOpenCart} />
+            <HeaderActions onOpenSearch={handleOpenSearch} onOpenCart={handleOpenCart} />
           </div>
         </div>
       </AppBar>

@@ -23,6 +23,9 @@ function AppDrawer({
   className,
   hideHeader = false,
   ariaLabelledBy,
+  paperRef,
+  closeButtonRef,
+  closeButtonLabel = 'Close drawer',
   ...rest
 }) {
   useEffect(() => {
@@ -45,7 +48,7 @@ function AppDrawer({
       anchor={anchor}
       open={Boolean(open)}
       onClose={onClose}
-      PaperProps={{ className: styles.paper, sx: paperSx }}
+      PaperProps={{ className: styles.paper, sx: paperSx, ref: paperRef }}
       ModalProps={{ keepMounted: false }}
       aria-labelledby={ariaLabelledBy || (title ? 'app-drawer-title' : undefined)}
       className={[styles.root, className].filter(Boolean).join(' ')}
@@ -62,8 +65,9 @@ function AppDrawer({
             {description ? <p className={styles.description}>{description}</p> : null}
           </div>
           <IconButton
+            ref={closeButtonRef}
             onClick={onClose}
-            aria-label="Close drawer"
+            aria-label={closeButtonLabel}
             size="small"
             className={styles.close}
           >

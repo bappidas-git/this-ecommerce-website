@@ -29,7 +29,13 @@ function HeaderActions({ onOpenSearch, onOpenCart }) {
     else navigate(PATHS.search);
   };
 
-  const handleCart = () => {
+  const handleCart = (event) => {
+    // Preserve right-click / middle-click / cmd-click → real `/cart` navigation.
+    const isModified =
+      event?.metaKey || event?.ctrlKey || event?.shiftKey || event?.altKey ||
+      event?.button === 1;
+    if (isModified) return;
+    event?.preventDefault?.();
     if (onOpenCart) onOpenCart();
     else navigate(PATHS.cart);
   };
@@ -83,6 +89,8 @@ function HeaderActions({ onOpenSearch, onOpenCart }) {
       <IconButton
         className={styles.iconButton}
         aria-label={cartCount > 0 ? `Cart, ${cartCount} items` : 'Cart'}
+        component="a"
+        href={PATHS.cart}
         onClick={handleCart}
         size="medium"
       >
