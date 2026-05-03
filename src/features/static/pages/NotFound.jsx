@@ -1,0 +1,52 @@
+import { Link } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
+import { motion } from 'framer-motion';
+import Button from '@mui/material/Button';
+import Section from '../../../components/common/Section.jsx';
+import Container from '../../../components/common/Container.jsx';
+import { PATHS } from '../../../routes/paths.js';
+import styles from './ErrorPage.module.css';
+
+const fade = {
+  initial: { opacity: 0, y: 12 },
+  animate: { opacity: 1, y: 0 },
+  transition: { duration: 0.5, ease: [0.2, 0.6, 0.2, 1] },
+};
+
+function NotFound() {
+  return (
+    <>
+      <Helmet>
+        <title>Page not found — THIS Interiors</title>
+      </Helmet>
+      <Section tone="cream">
+        <Container gutter>
+          <div className={styles.wrap}>
+            <motion.div className={styles.inner} {...fade}>
+              <p className={styles.code} aria-hidden>
+                404
+              </p>
+              <p className={styles.eyebrow}>Lost in the gallery</p>
+              <h1 className={styles.title}>We couldn&rsquo;t find that page.</h1>
+              <span className={styles.rule} aria-hidden />
+              <p className={styles.kicker}>
+                The link may be old or the piece has been moved. Let&rsquo;s get you back to
+                somewhere calm.
+              </p>
+              <div className={styles.actions}>
+                <Button variant="contained" color="primary" component={Link} to={PATHS.home}>
+                  Return home
+                </Button>
+                <Button variant="outlined" color="primary" component={Link} to={PATHS.shop}>
+                  Browse the shop
+                </Button>
+              </div>
+            </motion.div>
+          </div>
+        </Container>
+      </Section>
+    </>
+  );
+}
+
+export default NotFound;
