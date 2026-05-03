@@ -1,0 +1,34 @@
+.root {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  color: var(--color-brass);
+}
+
+.label {
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  color: var(--color-ink-2);
+  letter-spacing: 0.02em;
+}
+
+.fullScreen {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(247, 243, 237, 0.7);
+  z-index: 1500;
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}

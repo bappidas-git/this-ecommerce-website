@@ -1,0 +1,51 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+}
+
+.image {
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  background-color: var(--color-line);
+  border-radius: var(--radius-3);
+  animation: pulse 1.4s ease-in-out infinite;
+}
+
+.lines {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.line {
+  height: 12px;
+  background-color: var(--color-line);
+  border-radius: var(--radius-1);
+  animation: pulse 1.4s ease-in-out infinite;
+}
+
+.lineLong {
+  width: 75%;
+}
+
+.lineShort {
+  width: 45%;
+}
+
+.price {
+  width: 32%;
+  height: 14px;
+  margin-top: 4px;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.55;
+  }
+}

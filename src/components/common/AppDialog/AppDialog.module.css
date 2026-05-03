@@ -1,0 +1,67 @@
+.root :global(.MuiBackdrop-root) {
+  background-color: rgba(27, 26, 23, 0.45);
+}
+
+.paper {
+  background-color: var(--color-surface);
+  border-radius: var(--radius-3);
+  box-shadow: 0 6px 20px rgba(27, 26, 23, 0.08);
+  margin: 24px;
+  max-height: calc(100% - 48px);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 100%;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 20px 24px 8px;
+  border-bottom: 1px solid var(--color-line);
+}
+
+.header > .title {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-brass);
+  font-size: 1.25rem;
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  color: var(--color-ink);
+  padding: 0;
+  margin: 0;
+}
+
+.close {
+  color: var(--color-ink-2);
+}
+
+.description {
+  margin: 0 0 16px 0;
+  color: var(--color-ink-2);
+  font-family: var(--font-ui);
+  font-size: 0.9375rem;
+}
+
+.content {
+  padding: 20px 24px;
+  overflow-y: auto;
+}
+
+.actions {
+  padding: 12px 24px 20px;
+  gap: 8px;
+  border-top: 1px solid var(--color-line);
+}

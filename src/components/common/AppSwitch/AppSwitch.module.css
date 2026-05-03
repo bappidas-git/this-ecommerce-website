@@ -1,0 +1,17 @@
+.root :global(.MuiSwitch-switchBase.Mui-checked) {
+  color: var(--color-brass);
+}
+
+.root :global(.MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track) {
+  background-color: var(--color-brass);
+  opacity: 0.5;
+}
+
+.root :global(.MuiFormControlLabel-label) {
+  color: var(--color-ink);
+  font-family: var(--font-ui);
+}
+
+.root :global(.MuiFormHelperText-root) {
+  margin-left: 12px;
+}

@@ -1,0 +1,39 @@
+.root {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-ui);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border-radius: var(--radius-pill);
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+.new {
+  background-color: var(--color-brass);
+  color: var(--color-bg);
+}
+
+.sale {
+  background-color: var(--color-error);
+  color: var(--color-bg);
+}
+
+.limited {
+  background-color: var(--color-emerald);
+  color: var(--color-bg);
+}
+
+.lowStock {
+  background-color: var(--color-warning);
+  color: var(--color-bg);
+}
+
+.soldOut {
+  background-color: var(--color-muted);
+  color: var(--color-bg);
+}

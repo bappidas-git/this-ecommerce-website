@@ -1,0 +1,43 @@
+.root {
+  border-radius: var(--radius-pill);
+  min-height: 44px;
+  font-family: var(--font-ui);
+  letter-spacing: 0.01em;
+}
+
+.root :global(.MuiButton-startIcon),
+.root :global(.MuiButton-endIcon) {
+  margin-inline: 0;
+}
+
+.root :global(.MuiButton-startIcon) {
+  margin-right: 8px;
+}
+
+.root :global(.MuiButton-endIcon) {
+  margin-left: 8px;
+}
+
+.variant_secondary {
+  background-color: transparent;
+  border: 1px solid var(--color-line);
+  color: var(--color-ink);
+}
+
+.variant_secondary:hover {
+  border-color: var(--color-brass);
+  background-color: rgba(184, 146, 79, 0.06);
+}
+
+.variant_ghost {
+  color: var(--color-ink);
+}
+
+.variant_ghost:hover {
+  background-color: rgba(27, 26, 23, 0.04);
+}
+
+.root:focus-visible {
+  outline: 2px solid var(--color-brass);
+  outline-offset: 2px;
+}
