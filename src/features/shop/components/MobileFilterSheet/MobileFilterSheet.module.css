@@ -1,0 +1,26 @@
+.handleWrap {
+  display: flex;
+  justify-content: center;
+  padding: 8px 0 4px;
+}
+
+.handle {
+  width: 40px;
+  height: 4px;
+  border-radius: var(--radius-pill);
+  background-color: var(--color-line);
+}
+
+.body {
+  padding: 4px 0 0;
+}
+
+.footer {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.footer > :global(.MuiButtonBase-root) {
+  flex: 1 1 0;
+}
