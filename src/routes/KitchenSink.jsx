@@ -3,7 +3,7 @@ import { useForm, FormProvider } from 'react-hook-form';
 import SearchIcon from '@mui/icons-material/Search';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import InboxIcon from '@mui/icons-material/Inbox';
-import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
+// import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 
 import Section from '../components/common/Section.jsx';
@@ -128,7 +128,11 @@ function KitchenSink() {
             eyebrow="Kitchen Sink"
             title="Editorial primitives preview"
             kicker="A development-only canvas to verify every common UI primitive in all its variants."
-            cta={<AppButton variant="primary" icon={<ArrowForwardIcon />} iconPosition="end">Primary CTA</AppButton>}
+            cta={
+              <AppButton variant="primary" icon={<ArrowForwardIcon />} iconPosition="end">
+                Primary CTA
+              </AppButton>
+            }
           />
         </Container>
       </Section>
@@ -136,28 +140,53 @@ function KitchenSink() {
       <Section tone="surface">
         <Container gutter>
           <div className={utils.stack} style={{ gap: 32 }}>
-
             <Group title="AppButton / variants">
               <AppButton variant="primary">Primary</AppButton>
               <AppButton variant="secondary">Secondary</AppButton>
               <AppButton variant="ghost">Ghost</AppButton>
               <AppButton variant="danger">Danger</AppButton>
-              <AppButton variant="primary" loading>Loading</AppButton>
-              <AppButton variant="primary" disabled>Disabled</AppButton>
-              <AppButton variant="primary" icon={<SearchIcon />}>With icon</AppButton>
-              <AppButton variant="secondary" icon={<ArrowForwardIcon />} iconPosition="end">End icon</AppButton>
-              <AppButton variant="primary" to="/shop">Router link</AppButton>
-              <AppButton variant="primary" size="small">Small</AppButton>
-              <AppButton variant="primary" size="large">Large</AppButton>
-              <AppButton variant="primary" fullWidth>Full width</AppButton>
+              <AppButton variant="primary" loading>
+                Loading
+              </AppButton>
+              <AppButton variant="primary" disabled>
+                Disabled
+              </AppButton>
+              <AppButton variant="primary" icon={<SearchIcon />}>
+                With icon
+              </AppButton>
+              <AppButton variant="secondary" icon={<ArrowForwardIcon />} iconPosition="end">
+                End icon
+              </AppButton>
+              <AppButton variant="primary" to="/shop">
+                Router link
+              </AppButton>
+              <AppButton variant="primary" size="small">
+                Small
+              </AppButton>
+              <AppButton variant="primary" size="large">
+                Large
+              </AppButton>
+              <AppButton variant="primary" fullWidth>
+                Full width
+              </AppButton>
             </Group>
 
             <Group title="AppIconButton">
-              <AppIconButton aria-label="Search"><SearchIcon /></AppIconButton>
-              <AppIconButton tooltip="Add to wishlist"><FavoriteBorderIcon /></AppIconButton>
-              <AppIconButton tooltip="Disabled" disabled><FavoriteBorderIcon /></AppIconButton>
-              <AppIconButton aria-label="Small" size="small"><SearchIcon fontSize="small" /></AppIconButton>
-              <AppIconButton aria-label="Large" size="large"><SearchIcon /></AppIconButton>
+              <AppIconButton aria-label="Search">
+                <SearchIcon />
+              </AppIconButton>
+              <AppIconButton tooltip="Add to wishlist">
+                <FavoriteBorderIcon />
+              </AppIconButton>
+              <AppIconButton tooltip="Disabled" disabled>
+                <FavoriteBorderIcon />
+              </AppIconButton>
+              <AppIconButton aria-label="Small" size="small">
+                <SearchIcon fontSize="small" />
+              </AppIconButton>
+              <AppIconButton aria-label="Large" size="large">
+                <SearchIcon />
+              </AppIconButton>
             </Group>
 
             <Group title="AppBadge">
@@ -233,7 +262,14 @@ function KitchenSink() {
             </Group>
 
             <Group title="SkeletonCard">
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 16, width: '100%' }}>
+              <div
+                style={{
+                  display: 'grid',
+                  gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))',
+                  gap: 16,
+                  width: '100%',
+                }}
+              >
                 <SkeletonCard />
                 <SkeletonCard />
                 <SkeletonCard />
@@ -246,13 +282,17 @@ function KitchenSink() {
                 icon={<InboxIcon style={{ fontSize: 56 }} />}
                 title="Your wishlist is empty"
                 description="Save the pieces you love and they will appear here for easy access."
-                cta={<AppButton variant="primary" to="/shop">Continue shopping</AppButton>}
+                cta={
+                  <AppButton variant="primary" to="/shop">
+                    Continue shopping
+                  </AppButton>
+                }
               />
             </Group>
 
             <Group title="ErrorState">
               <ErrorState
-                icon={<ErrorOutlineIcon style={{ fontSize: 56 }} />}
+                icon={<ArrowForwardIcon style={{ fontSize: 56 }} />}
                 title="We couldn't load this section"
                 description="Please check your connection and retry. If the issue persists, contact support."
                 onRetry={() => console.log('retry')}
@@ -273,7 +313,6 @@ function KitchenSink() {
                 Open drawer
               </AppButton>
             </Group>
-
           </div>
         </Container>
       </Section>
@@ -286,8 +325,12 @@ function KitchenSink() {
         size="md"
         actions={
           <>
-            <AppButton variant="ghost" onClick={() => setDialogOpen(false)}>Cancel</AppButton>
-            <AppButton variant="primary" onClick={() => setDialogOpen(false)}>Confirm</AppButton>
+            <AppButton variant="ghost" onClick={() => setDialogOpen(false)}>
+              Cancel
+            </AppButton>
+            <AppButton variant="primary" onClick={() => setDialogOpen(false)}>
+              Confirm
+            </AppButton>
           </>
         }
       >
@@ -304,8 +347,12 @@ function KitchenSink() {
         description="Refine your view"
         footer={
           <div style={{ display: 'flex', gap: 8, justifyContent: 'flex-end' }}>
-            <AppButton variant="ghost" onClick={() => setDrawerOpen(false)}>Cancel</AppButton>
-            <AppButton variant="primary" onClick={() => setDrawerOpen(false)}>Apply</AppButton>
+            <AppButton variant="ghost" onClick={() => setDrawerOpen(false)}>
+              Cancel
+            </AppButton>
+            <AppButton variant="primary" onClick={() => setDrawerOpen(false)}>
+              Apply
+            </AppButton>
           </div>
         }
       >
