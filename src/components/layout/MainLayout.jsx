@@ -3,22 +3,25 @@ import Header from './Header/index.js';
 import Footer from './Footer/Footer.jsx';
 import MiniCartDrawer from './MiniCartDrawer/MiniCartDrawer.jsx';
 import { CartProvider } from '../../context/CartContext.jsx';
+import { WishlistProvider } from '../../context/WishlistContext.jsx';
 import { UIProvider } from '../../context/UIContext.jsx';
 import styles from './MainLayout.module.css';
 
 function MainLayout() {
   return (
     <CartProvider>
-      <UIProvider>
-        <div className={styles.shell}>
-          <Header />
-          <main id="main" className={styles.main}>
-            <Outlet />
-          </main>
-          <Footer />
-        </div>
-        <MiniCartDrawer />
-      </UIProvider>
+      <WishlistProvider>
+        <UIProvider>
+          <div className={styles.shell}>
+            <Header />
+            <main id="main" className={styles.main}>
+              <Outlet />
+            </main>
+            <Footer />
+          </div>
+          <MiniCartDrawer />
+        </UIProvider>
+      </WishlistProvider>
     </CartProvider>
   );
 }

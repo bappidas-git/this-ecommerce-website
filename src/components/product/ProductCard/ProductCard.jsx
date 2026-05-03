@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, useReducedMotion } from 'framer-motion';
 import FavoriteIcon from '@mui/icons-material/Favorite';
@@ -11,6 +11,7 @@ import Eyebrow from '../../common/Eyebrow.jsx';
 import PriceTag from '../../common/PriceTag.jsx';
 
 import { PATHS } from '../../../routes/paths.js';
+import { WishlistContext } from '../../../context/WishlistContext.jsx';
 import styles from './ProductCard.module.css';
 
 /**
@@ -46,12 +47,22 @@ function ProductCard({
   onQuickAdd,
   onWishlistToggle,
   isWishlisted,
+  overlayAction,
   className,
 }) {
   const reduceMotion = useReducedMotion();
+  const wishlistCtx = useContext(WishlistContext);
   const wishlistedControlled = typeof isWishlisted === 'boolean';
   const [internalWishlisted, setInternalWishlisted] = useState(false);
-  const wishlisted = wishlistedControlled ? isWishlisted : internalWishlisted;
+  const ctxWishlisted =
+    wishlistCtx && product
+      ? wishlistCtx.isWishlisted(product.id ?? product.productId)
+      : null;
+  const wishlisted = wishlistedControlled
+    ? isWishlisted
+    : ctxWishlisted !== null
+      ? ctxWishlisted
+      : internalWishlisted;
 
   useEffect(() => {
     if (wishlistedControlled) return;
@@ -86,11 +97,19 @@ function ProductCard({
     event.preventDefault();
     event.stopPropagation();
     const next = !wishlisted;
+    if (typeof onWishlistToggle === 'function') {
+      if (!wishlistedControlled && ctxWishlisted === null) {
+        setInternalWishlisted(next);
+      }
+      onWishlistToggle(product, next);
+      return;
+    }
+    if (wishlistCtx) {
+      wishlistCtx.toggle(product);
+      return;
+    }
     if (!wishlistedControlled) {
       setInternalWishlisted(next);
-    }
-    if (typeof onWishlistToggle === 'function') {
-      onWishlistToggle(product, next);
     }
   };
 
@@ -204,6 +223,23 @@ function ProductCard({
               Sold out
             </span>
           </div>
+        ) : overlayAction ? (
+          <div className={styles.quickAddWrap}>
+            <button
+              type="button"
+              className={styles.quickAdd}
+              aria-label={overlayAction.ariaLabel || overlayAction.label}
+              onClick={(event) => {
+                event.preventDefault();
+                event.stopPropagation();
+                if (typeof overlayAction.onClick === 'function') {
+                  overlayAction.onClick(product);
+                }
+              }}
+            >
+              {overlayAction.label}
+            </button>
+          </div>
         ) : showQuickAdd ? (
           <div className={styles.quickAddWrap}>
             <button
@@ -218,7 +254,24 @@ function ProductCard({
         ) : null}
       </div>
 
-      {showQuickAdd || isSoldOut ? (
+      {overlayAction && !isSoldOut ? (
+        <div className={styles.touchQuickAddWrap}>
+          <button
+            type="button"
+            className={styles.touchQuickAdd}
+            aria-label={overlayAction.ariaLabel || overlayAction.label}
+            onClick={(event) => {
+              event.preventDefault();
+              event.stopPropagation();
+              if (typeof overlayAction.onClick === 'function') {
+                overlayAction.onClick(product);
+              }
+            }}
+          >
+            {overlayAction.label}
+          </button>
+        </div>
+      ) : showQuickAdd || isSoldOut ? (
         <div className={styles.touchQuickAddWrap}>
           <button
             type="button"

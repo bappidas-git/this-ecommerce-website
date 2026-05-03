@@ -17,7 +17,7 @@ import ShopPage from '../features/shop/pages/ShopPage.jsx';
 import ProductDetailPage from '../features/product/pages/ProductDetailPage.jsx';
 import Search from '../features/search/pages/Search.jsx';
 import CartPage from '../features/cart/pages/CartPage.jsx';
-import Wishlist from '../features/cart/pages/Wishlist.jsx';
+import WishlistPage from '../features/account/pages/WishlistPage.jsx';
 
 import Login from '../features/auth/pages/Login.jsx';
 import Register from '../features/auth/pages/Register.jsx';
@@ -41,7 +41,6 @@ import AccountProfile from '../features/account/pages/AccountProfile.jsx';
 import AccountOrders from '../features/account/pages/AccountOrders.jsx';
 import AccountOrderDetail from '../features/account/pages/AccountOrderDetail.jsx';
 import AccountAddresses from '../features/account/pages/AccountAddresses.jsx';
-import AccountWishlist from '../features/account/pages/AccountWishlist.jsx';
 import AccountPassword from '../features/account/pages/AccountPassword.jsx';
 import AccountPreferences from '../features/account/pages/AccountPreferences.jsx';
 
@@ -83,7 +82,7 @@ function AppRoutes() {
         <Route path="products/:slug" element={<ProductDetailPage />} />
         <Route path="search" element={<Search />} />
         <Route path="cart" element={<CartPage />} />
-        <Route path="wishlist" element={<Wishlist />} />
+        <Route path="wishlist" element={<WishlistPage />} />
 
         <Route path="login" element={<Login />} />
         <Route path="register" element={<Register />} />
@@ -110,7 +109,7 @@ function AppRoutes() {
           <Route path="orders" element={<AccountOrders />} />
           <Route path="orders/:id" element={<AccountOrderDetail />} />
           <Route path="addresses" element={<AccountAddresses />} />
-          <Route path="wishlist" element={<AccountWishlist />} />
+          <Route path="wishlist" element={<WishlistPage variant="account" />} />
           <Route path="password" element={<AccountPassword />} />
           <Route path="preferences" element={<AccountPreferences />} />
         </Route>
