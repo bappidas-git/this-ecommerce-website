@@ -1,0 +1,30 @@
+:root {
+  --color-bg: #F7F3ED;
+  --color-surface: #FFFFFF;
+  --color-ink: #1B1A17;
+  --color-ink-2: #4A453E;
+  --color-muted: #8C8678;
+  --color-line: #E5DED2;
+  --color-brass: #B8924F;
+  --color-brass-2: #9A7836;
+  --color-emerald: #1F4034;
+  --color-rose: #C8A29A;
+  --color-error: #B0382A;
+  --color-success: #3F6B4F;
+  --color-warning: #B8862B;
+
+  --font-display: 'Cormorant Garamond', Georgia, serif;
+  --font-ui: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+
+  --radius-1: 4px;
+  --radius-2: 8px;
+  --radius-3: 14px;
+  --radius-4: 24px;
+  --radius-pill: 999px;
+
+  --motion-ease: cubic-bezier(0.22, 1, 0.36, 1);
+
+  --z-drawer-backdrop: 1300;
+  --z-drawer-panel: 1310;
+}
