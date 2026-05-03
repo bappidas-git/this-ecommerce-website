@@ -1,61 +1,83 @@
-import { useEffect, useRef } from 'react';
-import { Link } from 'react-router-dom';
-import { useUI } from '../../../context/UIContext.jsx';
+import { useEffect, useRef, useState } from 'react';
+import AppBar from '@mui/material/AppBar';
+import IconButton from '@mui/material/IconButton';
+import MenuIcon from '@mui/icons-material/Menu';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { useTheme } from '@mui/material/styles';
+import AnnouncementBar from './AnnouncementBar.jsx';
+import Logo from './Logo.jsx';
+import PrimaryNav from './PrimaryNav.jsx';
+import HeaderActions from './HeaderActions.jsx';
+import { useScrollState } from '../../../hooks/useScrollState.js';
 import styles from './Header.module.css';
 
-function MenuIcon() {
-  return (
-    <svg
-      width="22"
-      height="22"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-    >
-      <line x1="3" y1="7" x2="21" y2="7" />
-      <line x1="3" y1="12" x2="21" y2="12" />
-      <line x1="3" y1="17" x2="21" y2="17" />
-    </svg>
-  );
-}
+const HIDE_THRESHOLD = 240;
+const SOLID_THRESHOLD = 8;
 
-export default function Header() {
-  const { isMobileNavOpen, openMobileNav } = useUI();
-  const hamburgerRef = useRef(null);
-  const wasOpenRef = useRef(false);
+function Header({ onOpenMobileMenu, onOpenSearch, onOpenCart }) {
+  const { y, dir } = useScrollState();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+
+  const [hidden, setHidden] = useState(false);
+  const lastY = useRef(0);
 
   useEffect(() => {
-    if (wasOpenRef.current && !isMobileNavOpen) {
-      hamburgerRef.current?.focus();
+    if (!isMobile) {
+      if (hidden) setHidden(false);
+      lastY.current = y;
+      return;
     }
-    wasOpenRef.current = isMobileNavOpen;
-  }, [isMobileNavOpen]);
+    if (y < HIDE_THRESHOLD) {
+      if (hidden) setHidden(false);
+    } else if (dir === 'down' && y > lastY.current) {
+      if (!hidden) setHidden(true);
+    } else if (dir === 'up') {
+      if (hidden) setHidden(false);
+    }
+    lastY.current = y;
+  }, [y, dir, isMobile, hidden]);
+
+  const isScrolled = y > SOLID_THRESHOLD;
+  const shellClassName = [
+    styles.shell,
+    isScrolled ? styles.scrolled : '',
+    hidden ? styles.hidden : '',
+  ]
+    .filter(Boolean)
+    .join(' ');
 
   return (
-    <header className={styles.header}>
-      <div className={styles.inner}>
-        <div className={styles.left}>
-          <button
-            ref={hamburgerRef}
-            type="button"
-            className={`${styles.iconButton} ${styles.hamburger}`}
-            onClick={openMobileNav}
-            aria-label="Open navigation"
-            aria-expanded={isMobileNavOpen}
-            aria-controls="mobile-nav-drawer"
-          >
-            <MenuIcon />
-          </button>
+    <header className={shellClassName}>
+      <AnnouncementBar />
+      <AppBar
+        className={styles.appbar}
+        position="static"
+        elevation={0}
+        component="div"
+      >
+        <div className={styles.row}>
+          <div className={styles.left}>
+            <IconButton
+              className={styles.menuButton}
+              aria-label="Open navigation menu"
+              onClick={onOpenMobileMenu}
+              size="medium"
+            >
+              <MenuIcon />
+            </IconButton>
+            <Logo />
+          </div>
+          <div className={styles.center}>
+            <PrimaryNav />
+          </div>
+          <div className={styles.right}>
+            <HeaderActions onOpenSearch={onOpenSearch} onOpenCart={onOpenCart} />
+          </div>
         </div>
-        <Link to="/" className={styles.wordmark}>
-          THIS
-        </Link>
-        <div className={styles.right} />
-      </div>
+      </AppBar>
     </header>
   );
 }
+
+export default Header;

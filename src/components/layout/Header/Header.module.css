@@ -1,53 +1,82 @@
-.header {
+.shell {
   position: sticky;
   top: 0;
-  z-index: 1100;
-  background: var(--color-surface);
-  border-bottom: 1px solid var(--color-line);
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  width: 100%;
+  background: rgba(247, 243, 237, 0.85);
+  backdrop-filter: saturate(140%) blur(10px);
+  -webkit-backdrop-filter: saturate(140%) blur(10px);
+  border-bottom: 1px solid transparent;
+  transition:
+    background var(--motion-base) var(--motion-ease),
+    border-color var(--motion-base) var(--motion-ease),
+    transform var(--motion-base) var(--motion-ease);
 }
 
-.inner {
+.scrolled {
+  background: var(--color-bg);
+  border-bottom-color: var(--color-line);
+}
+
+.hidden {
+  transform: translateY(-100%);
+}
+
+.appbar {
+  background: transparent;
+  color: var(--color-ink);
+  box-shadow: none;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 16px;
+  height: 60px;
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+.left {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 12px 16px;
-  min-height: 64px;
+  gap: 8px;
+  min-width: 0;
 }
 
-.left,
+.menuButton {
+  color: var(--color-ink);
+}
+
+.center {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  min-width: 0;
+}
+
 .right {
   display: flex;
   align-items: center;
-  gap: 4px;
+  justify-content: flex-end;
+  min-width: 0;
 }
 
-.iconButton {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 44px;
-  height: 44px;
-  border: none;
-  background: transparent;
-  color: var(--color-ink);
-  cursor: pointer;
-  border-radius: var(--radius-pill);
-}
-
-.iconButton:hover {
-  background: var(--color-bg);
-}
-
-.wordmark {
-  font-family: var(--font-display);
-  font-size: 22px;
-  font-weight: 500;
-  letter-spacing: 0.04em;
-  color: var(--color-ink);
-}
-
-@media (min-width: 900px) {
-  .hamburger {
+@media (min-width: 768px) {
+  .row {
+    height: 72px;
+    padding: 0 32px;
+  }
+  .center {
+    display: flex;
+  }
+  .menuButton {
     display: none;
   }
 }

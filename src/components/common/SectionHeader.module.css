@@ -1,0 +1,101 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+}
+
+.alignLeft {
+  align-items: flex-start;
+  text-align: left;
+}
+
+.alignCenter {
+  align-items: center;
+  text-align: center;
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+}
+
+.headRow {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+}
+
+.titleWrap {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.title {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(2rem, 4.5vw, 3rem);
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  margin: 0;
+  color: var(--color-ink);
+}
+
+.titleOnDark {
+  color: var(--color-bg);
+}
+
+.kicker {
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.6;
+  margin: 0;
+  color: var(--color-ink-2);
+  max-width: 56ch;
+}
+
+.kickerOnDark {
+  color: var(--color-bg);
+  opacity: 0.85;
+}
+
+.alignCenter .kicker {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.rule {
+  margin-top: 4px;
+}
+
+.cta {
+  margin-top: 8px;
+}
+
+@media (min-width: 900px) {
+  .kicker {
+    font-size: 18px;
+  }
+
+  .alignLeft .headRow {
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 32px;
+  }
+
+  .alignLeft .titleWrap {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  .alignLeft .cta {
+    flex: 0 0 auto;
+    margin-top: 0;
+    align-self: flex-end;
+  }
+}

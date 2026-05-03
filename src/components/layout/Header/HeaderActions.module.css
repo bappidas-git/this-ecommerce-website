@@ -1,0 +1,67 @@
+.actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 4px;
+}
+
+.iconButton {
+  color: var(--color-ink);
+}
+
+.iconButton:hover {
+  color: var(--color-brass-2);
+  background-color: rgba(184, 146, 79, 0.08);
+}
+
+.badge :global(.MuiBadge-badge) {
+  background: var(--color-brass);
+  color: var(--color-bg);
+  font-family: var(--font-body);
+  font-size: 0.625rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  min-width: 16px;
+  height: 16px;
+  padding: 0 4px;
+}
+
+.menuPaper {
+  margin-top: 8px;
+  min-width: 200px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-line);
+  box-shadow: var(--shadow-2);
+}
+
+.menuItem {
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  color: var(--color-ink);
+  padding: 10px 16px;
+}
+
+.menuItem:hover {
+  background: var(--color-bg);
+  color: var(--color-brass-2);
+}
+
+.userHeader {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--color-line);
+}
+
+.userName {
+  font-family: var(--font-display);
+  font-size: 1.125rem;
+  color: var(--color-ink);
+  margin: 0;
+  line-height: 1.2;
+}
+
+.userEmail {
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  color: var(--color-muted);
+  margin: 2px 0 0;
+}
