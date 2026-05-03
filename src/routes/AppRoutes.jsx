@@ -21,8 +21,8 @@ import WishlistPage from '../features/account/pages/WishlistPage.jsx';
 
 import Login from '../features/auth/pages/Login.jsx';
 import RegisterPage from '../features/auth/pages/RegisterPage.jsx';
-import ForgotPassword from '../features/auth/pages/ForgotPassword.jsx';
-import ResetPassword from '../features/auth/pages/ResetPassword.jsx';
+import ForgotPasswordPage from '../features/auth/pages/ForgotPasswordPage.jsx';
+import ResetPasswordPage from '../features/auth/pages/ResetPasswordPage.jsx';
 
 import About from '../features/static/pages/About.jsx';
 import Contact from '../features/static/pages/Contact.jsx';
@@ -84,8 +84,8 @@ function AppRoutes() {
         <Route path="cart" element={<CartPage />} />
         <Route path="wishlist" element={<WishlistPage />} />
 
-        <Route path="forgot-password" element={<ForgotPassword />} />
-        <Route path="reset-password" element={<ResetPassword />} />
+        <Route path="forgot-password" element={<ForgotPasswordPage />} />
+        <Route path="reset-password" element={<ResetPasswordPage />} />
 
         <Route path="about" element={<About />} />
         <Route path="contact" element={<Contact />} />

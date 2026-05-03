@@ -15,9 +15,27 @@ import Seo from '../../../components/common/Seo.jsx';
 import { useAuth } from '../../../context/AuthContext.jsx';
 import { useToast } from '../../../context/ToastContext.jsx';
 import { getApiErrorMessage } from '../../../hooks/useApiError.js';
+import { drainBannerQueue } from '../../../utils/toastQueue.js';
 import { PATHS } from '../../../routes/paths.js';
 
 import styles from './Login.module.css';
+
+// StrictMode-safe banner drain: cache the most recently drained banner for a
+// short window so the second mount in dev re-shows the same item.
+let recentBanner = null;
+
+function consumeLoginBanner() {
+  const items = drainBannerQueue('login');
+  if (items.length > 0) {
+    const next = items[items.length - 1];
+    recentBanner = { item: next, at: Date.now() };
+    return next;
+  }
+  if (recentBanner && Date.now() - recentBanner.at < 1500) {
+    return recentBanner.item;
+  }
+  return null;
+}
 
 const schema = yup
   .object({
@@ -52,6 +70,14 @@ function Login() {
   const toast = useToast();
 
   const [serverError, setServerError] = useState(null);
+  const [banner, setBanner] = useState(() => consumeLoginBanner());
+
+  useEffect(() => {
+    if (!banner) return undefined;
+    const ms = Number.isFinite(banner.durationMs) ? banner.durationMs : 8000;
+    const timeoutId = window.setTimeout(() => setBanner(null), ms);
+    return () => window.clearTimeout(timeoutId);
+  }, [banner]);
 
   const params = useMemo(() => new URLSearchParams(location.search), [location.search]);
   const redirectTarget = useMemo(() => safeRedirectTarget(params.get('redirect')), [params]);
@@ -117,6 +143,17 @@ function Login() {
         </Eyebrow>
         <h1 className={styles.title}>Sign in</h1>
         <hr className={styles.divider} aria-hidden="true" />
+
+        {banner ? (
+          <Alert
+            severity={banner.severity || 'success'}
+            variant="outlined"
+            role="status"
+            className={styles.alert}
+          >
+            {banner.message}
+          </Alert>
+        ) : null}
 
         {serverError ? (
           <Alert
