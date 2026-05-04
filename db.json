@@ -73,7 +73,7 @@
       "name": "Vases",
       "description": "Sculptural vessels in marble, glass, brass, and stoneware.",
       "parentId": null,
-      "image": "https://placehold.co/720x960/1F4034/F7F3ED?text=Vases&font=playfair",
+      "image": "https://placehold.co/720x960/1F4034/3a5d4f?text=THIS+Interiors&font=playfair",
       "sortOrder": 10
     },
     {
@@ -82,7 +82,7 @@
       "name": "Lamps",
       "description": "Quiet lighting — table, floor and pendant pieces.",
       "parentId": null,
-      "image": "https://placehold.co/720x960/1F4034/F7F3ED?text=Lamps&font=playfair",
+      "image": "https://placehold.co/720x960/1F4034/3a5d4f?text=THIS+Interiors&font=playfair",
       "sortOrder": 20
     },
     {
@@ -91,7 +91,7 @@
       "name": "Cushions & Throws",
       "description": "Linen, velvet, and cashmere comfort for sofa and bed.",
       "parentId": null,
-      "image": "https://placehold.co/720x960/1F4034/F7F3ED?text=Cushions+%26+Throws&font=playfair",
+      "image": "https://placehold.co/720x960/1F4034/3a5d4f?text=THIS+Interiors&font=playfair",
       "sortOrder": 30
     },
     {
@@ -100,7 +100,7 @@
       "name": "Wall Art",
       "description": "Limited prints, framed studies, and architectural plates.",
       "parentId": null,
-      "image": "https://placehold.co/720x960/1F4034/F7F3ED?text=Wall+Art&font=playfair",
+      "image": "https://placehold.co/720x960/1F4034/3a5d4f?text=THIS+Interiors&font=playfair",
       "sortOrder": 40
     },
     {
@@ -109,7 +109,7 @@
       "name": "Mirrors",
       "description": "Arched, round, and floor mirrors with brass and stone trim.",
       "parentId": null,
-      "image": "https://placehold.co/720x960/1F4034/F7F3ED?text=Mirrors&font=playfair",
+      "image": "https://placehold.co/720x960/1F4034/3a5d4f?text=THIS+Interiors&font=playfair",
       "sortOrder": 50
     },
     {
@@ -118,7 +118,7 @@
       "name": "Candles & Diffusers",
       "description": "Oud, fig, rose, sandalwood — slow-burn rituals for home.",
       "parentId": null,
-      "image": "https://placehold.co/720x960/1F4034/F7F3ED?text=Candles+%26+Diffusers&font=playfair",
+      "image": "https://placehold.co/720x960/1F4034/3a5d4f?text=THIS+Interiors&font=playfair",
       "sortOrder": 60
     },
     {
@@ -127,7 +127,7 @@
       "name": "Planters",
       "description": "Terracotta, concrete, brass and marble vessels for greenery.",
       "parentId": null,
-      "image": "https://placehold.co/720x960/1F4034/F7F3ED?text=Planters&font=playfair",
+      "image": "https://placehold.co/720x960/1F4034/3a5d4f?text=THIS+Interiors&font=playfair",
       "sortOrder": 70
     },
     {
@@ -136,7 +136,7 @@
       "name": "Table Accessories",
       "description": "Napkins, candlesticks, coasters and serving pieces.",
       "parentId": null,
-      "image": "https://placehold.co/720x960/1F4034/F7F3ED?text=Table+Accessories&font=playfair",
+      "image": "https://placehold.co/720x960/1F4034/3a5d4f?text=THIS+Interiors&font=playfair",
       "sortOrder": 80
     }
   ],

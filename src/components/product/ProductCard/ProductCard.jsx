@@ -4,43 +4,33 @@ import { motion, useReducedMotion } from 'framer-motion';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import StarRoundedIcon from '@mui/icons-material/StarRounded';
-import ShoppingBagOutlinedIcon from '@mui/icons-material/ShoppingBagOutlined';
+import AddRoundedIcon from '@mui/icons-material/AddRounded';
 
 import AppBadge from '../../common/AppBadge/AppBadge.jsx';
-import AppIconButton from '../../common/AppIconButton/AppIconButton.jsx';
-import Eyebrow from '../../common/Eyebrow.jsx';
-import PriceTag from '../../common/PriceTag.jsx';
 
 import { PATHS } from '../../../routes/paths.js';
 import { WishlistContext } from '../../../context/WishlistContext.jsx';
 import { CartContext } from '../../../context/CartContext.jsx';
 import { getProductPlaceholder, handleImageError } from '../../../utils/imageFallback.js';
+import { formatCurrency } from '../../../utils/format.js';
 import styles from './ProductCard.module.css';
 
-/**
- * @typedef {Object} ProductCardProduct
- * @property {number|string} id
- * @property {string} slug
- * @property {string} name
- * @property {number} price
- * @property {number} [compareAtPrice]
- * @property {string} [currency]
- * @property {string[]} [images]
- * @property {number} [rating]
- * @property {number} [reviewCount]
- * @property {number} [stock]
- * @property {boolean} [isNew]
- * @property {boolean} [isOnSale]
- * @property {boolean} [isLimited]
- * @property {{ name?: string, slug?: string }} [category]
- */
+const BADGE_PRIORITY = ['sale', 'new', 'bestseller', 'limited'];
+const BADGE_LABEL = {
+  sale: 'Sale',
+  new: 'New',
+  bestseller: 'Bestseller',
+  limited: 'Limited',
+};
+const MAX_BADGES = 2;
 
 function buildBadges(product) {
-  const items = [];
-  if (product.isNew) items.push({ key: 'new', variant: 'new' });
-  if (product.isOnSale) items.push({ key: 'sale', variant: 'sale' });
-  if (product.isLimited) items.push({ key: 'limited', variant: 'limited' });
-  return items;
+  const set = new Set();
+  if (product.isOnSale) set.add('sale');
+  if (product.isNew) set.add('new');
+  if (product.isBestseller) set.add('bestseller');
+  if (product.isLimited) set.add('limited');
+  return BADGE_PRIORITY.filter((key) => set.has(key)).slice(0, MAX_BADGES);
 }
 
 function ProductCard({
@@ -53,6 +43,13 @@ function ProductCard({
   overlayAction,
   className,
 }) {
+  // `overlayAction` is a higher-priority click target (e.g. Wishlist's
+  // "Move to bag") that replaces the default add-to-bag handler.
+  const overlayClick =
+    overlayAction && typeof overlayAction.onClick === 'function'
+      ? overlayAction.onClick
+      : null;
+  const overlayLabel = overlayAction?.label;
   const reduceMotion = useReducedMotion();
   const wishlistCtx = useContext(WishlistContext);
   const cartCtx = useContext(CartContext);
@@ -96,12 +93,14 @@ function ProductCard({
   const hasSecondary = Boolean(secondaryImage) && secondaryImage !== primaryImage;
   const badges = buildBadges(product);
   const productHref = slug ? PATHS.product(slug) : '#';
-  // When no explicit handler is provided, fall back to cart context so the
-  // shop & home rails can add to bag without prop wiring at every level.
+
   const handlerQuickAdd = typeof onQuickAdd === 'function' ? onQuickAdd : null;
-  const cartQuickAdd = !handlerQuickAdd && cartCtx ? (p) => cartCtx.addItem(p, 1) : null;
-  const effectiveQuickAdd = handlerQuickAdd || cartQuickAdd;
-  const showQuickAdd = Boolean(effectiveQuickAdd);
+  const cartQuickAdd =
+    !handlerQuickAdd && !overlayClick && cartCtx
+      ? (p) => cartCtx.addItem(p, 1)
+      : null;
+  const effectiveQuickAdd = overlayClick || handlerQuickAdd || cartQuickAdd;
+  const showQuickAdd = Boolean(effectiveQuickAdd) && !isSoldOut;
 
   const handleWishlistClick = (event) => {
     event.preventDefault();
@@ -118,17 +117,13 @@ function ProductCard({
       wishlistCtx.toggle(product);
       return;
     }
-    if (!wishlistedControlled) {
-      setInternalWishlisted(next);
-    }
+    if (!wishlistedControlled) setInternalWishlisted(next);
   };
 
   const handleQuickAddClick = (event) => {
     event.preventDefault();
     event.stopPropagation();
-    if (typeof effectiveQuickAdd === 'function') {
-      effectiveQuickAdd(product);
-    }
+    if (typeof effectiveQuickAdd === 'function') effectiveQuickAdd(product);
   };
 
   const motionProps = reduceMotion
@@ -144,9 +139,20 @@ function ProductCard({
     .filter(Boolean)
     .join(' ');
 
-  const wishlistLabel = wishlisted ? `Remove ${name} from wishlist` : `Add ${name} to wishlist`;
+  const wishlistLabel = wishlisted
+    ? `Remove ${name} from wishlist`
+    : `Add ${name} to wishlist`;
   const ratingValue = typeof rating === 'number' ? rating : null;
   const reviewsValue = typeof reviewCount === 'number' ? reviewCount : null;
+  const hasReviews = reviewsValue !== null && reviewsValue > 0;
+
+  const hasDiscount =
+    typeof compareAtPrice === 'number' &&
+    typeof price === 'number' &&
+    compareAtPrice > price;
+  const savePct = hasDiscount
+    ? Math.round(((compareAtPrice - price) / compareAtPrice) * 100)
+    : 0;
 
   return (
     <motion.article className={rootClasses} {...motionProps}>
@@ -170,101 +176,108 @@ function ProductCard({
               onError={(e) => handleImageError(e, name)}
             />
           ) : null}
+
+          {badges.length > 0 ? (
+            <div className={styles.badges}>
+              {badges.map((key) => (
+                <AppBadge key={key} variant={key}>
+                  {BADGE_LABEL[key]}
+                </AppBadge>
+              ))}
+            </div>
+          ) : null}
+
+          <button
+            type="button"
+            aria-label={wishlistLabel}
+            aria-pressed={wishlisted}
+            className={[styles.wishlist, wishlisted ? styles.wishlistActive : null]
+              .filter(Boolean)
+              .join(' ')}
+            onClick={handleWishlistClick}
+          >
+            {wishlisted ? (
+              <FavoriteIcon fontSize="small" />
+            ) : (
+              <FavoriteBorderIcon fontSize="small" />
+            )}
+          </button>
+
+          {isSoldOut ? (
+            <span className={styles.soldOutBar} aria-live="polite">
+              Sold out
+            </span>
+          ) : showQuickAdd ? (
+            <>
+              <button
+                type="button"
+                className={styles.addBag}
+                aria-label={overlayLabel ? `${overlayLabel} — ${name}` : `Add ${name} to bag`}
+                onClick={handleQuickAddClick}
+              >
+                {overlayLabel || 'Add to bag'}
+              </button>
+              <button
+                type="button"
+                className={styles.addBagMobile}
+                aria-label={overlayLabel ? `${overlayLabel} — ${name}` : `Add ${name} to bag`}
+                onClick={handleQuickAddClick}
+              >
+                <AddRoundedIcon fontSize="inherit" aria-hidden="true" />
+              </button>
+            </>
+          ) : null}
         </div>
 
         <div className={styles.meta}>
           {category?.name ? (
-            <Eyebrow color="muted" className={styles.eyebrow}>
-              {category.name}
-            </Eyebrow>
-          ) : null}
+            <span className={styles.eyebrow}>{category.name}</span>
+          ) : (
+            <span className={styles.eyebrow} aria-hidden="true">
+              &nbsp;
+            </span>
+          )}
 
-          <h3 className={styles.name}>
-            <span className={styles.nameInner}>{name}</span>
-          </h3>
+          <h3 className={styles.name}>{name}</h3>
 
-          {showRating && !isCompact && ratingValue !== null ? (
-            <span className={styles.ratingRow} aria-label={`Rated ${ratingValue} out of 5`}>
+          {showRating && !isCompact && ratingValue !== null && hasReviews ? (
+            <span
+              className={styles.ratingRow}
+              aria-label={`Rated ${ratingValue} out of 5 from ${reviewsValue} reviews`}
+            >
               <StarRoundedIcon
                 style={{ color: 'var(--color-brass)', fontSize: 14 }}
                 aria-hidden="true"
               />
               <span className={styles.ratingValue}>{ratingValue.toFixed(1)}</span>
-              {reviewsValue !== null ? (
-                <span className={styles.ratingCount}>({reviewsValue})</span>
-              ) : null}
+              <span className={styles.ratingCount}>({reviewsValue})</span>
             </span>
-          ) : null}
+          ) : (
+            <span className={styles.ratingRow} aria-hidden="true">
+              &nbsp;
+            </span>
+          )}
 
           <span className={styles.priceRow}>
-            <PriceTag value={price} compareAt={compareAtPrice} currency={currency} size="md" />
+            <span className={styles.price}>
+              {formatCurrency(price, currency || 'AED')}
+            </span>
+            {hasDiscount ? (
+              <span className={styles.compare} aria-label="Original price">
+                {formatCurrency(compareAtPrice, currency || 'AED')}
+              </span>
+            ) : null}
+            {hasDiscount && savePct > 0 ? (
+              <span
+                className={styles.savePill}
+                aria-label={`${savePct} percent off`}
+              >
+                –{savePct}%
+              </span>
+            ) : null}
           </span>
         </div>
       </Link>
-
-      <div className={styles.overlay} aria-hidden="false">
-        {badges.length > 0 ? (
-          <div className={styles.badges}>
-            {badges.map((b) => (
-              <AppBadge key={b.key} variant={b.variant} />
-            ))}
-          </div>
-        ) : null}
-
-        <AppIconButton
-          aria-label={wishlistLabel}
-          aria-pressed={wishlisted}
-          size="small"
-          className={[styles.wishlist, wishlisted ? styles.wishlistActive : null]
-            .filter(Boolean)
-            .join(' ')}
-          onClick={handleWishlistClick}
-        >
-          {wishlisted ? <FavoriteIcon fontSize="small" /> : <FavoriteBorderIcon fontSize="small" />}
-        </AppIconButton>
-
-      </div>
-
-      {overlayAction && !isSoldOut ? (
-        <div className={styles.cardActions}>
-          <button
-            type="button"
-            className={styles.addBag}
-            aria-label={overlayAction.ariaLabel || overlayAction.label}
-            onClick={(event) => {
-              event.preventDefault();
-              event.stopPropagation();
-              if (typeof overlayAction.onClick === 'function') {
-                overlayAction.onClick(product);
-              }
-            }}
-          >
-            <ShoppingBagOutlinedIcon
-              fontSize="inherit"
-              className={styles.addBagIcon}
-              aria-hidden="true"
-            />
-            <span>{overlayAction.label}</span>
-          </button>
-        </div>
-      ) : showQuickAdd || isSoldOut ? (
-        <div className={styles.cardActions}>
-          <button
-            type="button"
-            className={styles.addBag}
-            disabled={isSoldOut}
-            aria-label={isSoldOut ? `${name} is sold out` : `Add ${name} to bag`}
-            onClick={isSoldOut ? undefined : handleQuickAddClick}
-          >
-            <ShoppingBagOutlinedIcon
-              fontSize="inherit"
-              className={styles.addBagIcon}
-              aria-hidden="true"
-            />
-            <span>{isSoldOut ? 'Sold out' : 'Add to bag'}</span>
-          </button>
-        </div>
-      ) : null}
     </motion.article>
   );
 }
@@ -286,6 +299,9 @@ function ProductCardSkeleton({ density = 'standard', showRating = true, classNam
       <div className={styles.meta}>
         <span className={`${styles.skeletonLine} ${styles.skeletonEyebrow}`} />
         <span className={`${styles.skeletonLine} ${styles.skeletonName}`} />
+        <span
+          className={`${styles.skeletonLine} ${styles.skeletonName} ${styles.skeletonNameShort}`}
+        />
         {showRating && !isCompact ? (
           <span className={`${styles.skeletonLine} ${styles.skeletonRating}`} />
         ) : null}

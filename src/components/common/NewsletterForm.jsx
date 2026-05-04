@@ -44,7 +44,12 @@ function NewsletterForm({ tone = 'dark', hint, ariaLabel = 'Subscribe to our new
   };
 
   const hasError = Boolean(errors.email);
-  const toneClass = tone === 'light' ? styles.toneLight : styles.toneDark;
+  const toneClass =
+    tone === 'light'
+      ? styles.toneLight
+      : tone === 'emerald'
+        ? styles.toneEmerald
+        : styles.toneDark;
   const hintText = hint || 'One letter a month. Unsubscribe anytime.';
 
   return (

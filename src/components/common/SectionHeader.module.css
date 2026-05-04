@@ -32,7 +32,12 @@
 .titleWrap {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  /* 8px between eyebrow and heading, with the rule pinned tight under it. */
+  gap: 8px;
+}
+
+.alignCenter .titleWrap {
+  align-items: center;
 }
 
 .title {
@@ -69,7 +74,22 @@
 }
 
 .rule {
-  margin-top: 4px;
+  display: block;
+  width: 48px;
+  height: 1px;
+  background: var(--color-brass);
+  border: 0;
+  border-radius: 0;
+  margin-top: 16px;
+}
+
+.ruleOnDark {
+  background: var(--color-brass);
+}
+
+.alignCenter .rule {
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .cta {

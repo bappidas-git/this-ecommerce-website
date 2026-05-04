@@ -3,6 +3,7 @@ import styles from './AppBadge.module.css';
 const VARIANT_LABEL = {
   new: 'New',
   sale: 'Sale',
+  bestseller: 'Bestseller',
   limited: 'Limited',
   'low-stock': 'Low stock',
   'sold-out': 'Sold out',
@@ -11,6 +12,7 @@ const VARIANT_LABEL = {
 const VARIANT_CLASS = {
   new: styles.new,
   sale: styles.sale,
+  bestseller: styles.bestseller,
   limited: styles.limited,
   'low-stock': styles.lowStock,
   'sold-out': styles.soldOut,

@@ -1,7 +1,7 @@
 .root {
   display: flex;
   gap: 14px;
-  padding: 14px 0;
+  padding: 16px 0;
   border-bottom: 1px solid var(--color-line);
   list-style: none;
 }
@@ -14,10 +14,10 @@
   flex-shrink: 0;
   display: block;
   width: 80px;
-  height: 80px;
-  border-radius: var(--radius-2);
+  height: 100px;
+  border-radius: 8px;
   overflow: hidden;
-  background-color: var(--color-bg);
+  background-color: var(--color-line);
 }
 
 .image {
@@ -84,6 +84,13 @@
   align-items: center;
   justify-content: space-between;
   gap: 8px;
+}
+
+/* Compact stepper to keep the line tight (28px tall, 96px wide max). */
+.bottomRow :global(.MuiButtonGroup-root),
+.bottomRow > div:first-child {
+  max-width: 96px;
+  height: 28px;
 }
 
 .removeButton {

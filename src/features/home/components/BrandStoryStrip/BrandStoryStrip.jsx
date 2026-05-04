@@ -9,9 +9,10 @@ import { PATHS } from '../../../../routes/paths.js';
 
 import styles from './BrandStoryStrip.module.css';
 
+// Cream-on-brass so the panels stay readable against the emerald section bg.
 const STORY_IMAGES = [
-  'https://placehold.co/1200x1400/1F4034/F7F3ED?text=The+Atelier&font=playfair',
-  'https://placehold.co/1200x1400/1F4034/B8924F?text=Hand+Finished&font=playfair',
+  'https://placehold.co/720x900/F7F3ED/B8924F?text=The+Atelier&font=playfair',
+  'https://placehold.co/720x900/F7F3ED/B8924F?text=Hand+Finished&font=playfair',
 ];
 
 const ROTATE_INTERVAL = 6000;

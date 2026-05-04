@@ -13,11 +13,16 @@
   box-shadow: 0 1px 2px rgba(27, 26, 23, 0.04);
 }
 
+/* Sort bar layout — never overflows: wraps to two rows on small screens,
+   right cluster does not shrink past content width. */
 .inner {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
+  gap: 16px;
+  flex-wrap: wrap;
+  width: 100%;
+  max-width: 100%;
   min-height: 56px;
   padding: 8px 0;
   font-family: var(--font-ui);
@@ -27,19 +32,20 @@
   display: flex;
   align-items: center;
   gap: 12px;
-  flex: 1 1 auto;
   min-width: 0;
+  flex: 1 1 auto;
 }
 
 .count {
-  font-size: 0.875rem;
+  font-size: 14px;
+  font-weight: 500;
   color: var(--color-ink-2);
 }
 
 .right {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 12px;
   flex-shrink: 0;
 }
 
@@ -57,12 +63,27 @@
   .desktopOnly {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 12px;
   }
 
   .mobileTriggers {
     display: none;
   }
+}
+
+@media (max-width: 599px) {
+  .left,
+  .right {
+    flex: 1 1 100%;
+  }
+}
+
+.sortLabel {
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-muted);
 }
 
 .sortSelect {

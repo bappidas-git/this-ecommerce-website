@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import Drawer from '@mui/material/Drawer';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
@@ -26,16 +25,14 @@ function AppDrawer({
   paperRef,
   closeButtonRef,
   closeButtonLabel = 'Close drawer',
+  disableScrollLock = false,
   ...rest
 }) {
-  useEffect(() => {
-    if (!open) return undefined;
-    const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = 'hidden';
-    return () => {
-      document.body.style.overflow = previousOverflow;
-    };
-  }, [open]);
+  // Side-anchored drawers (left/right) cover one edge of the viewport, so the
+  // body doesn't need to scroll-lock; opting out also avoids the well-known
+  // "body stuck with overflow:hidden" bug when the drawer unmounts mid-close.
+  // Top/bottom sheets keep the lock for a calmer mobile experience.
+  const shouldLock = !disableScrollLock && (anchor === 'top' || anchor === 'bottom');
 
   const widths = ANCHOR_WIDTHS[anchor] || ANCHOR_WIDTHS.right;
   const paperSx =
@@ -48,6 +45,7 @@ function AppDrawer({
       anchor={anchor}
       open={Boolean(open)}
       onClose={onClose}
+      disableScrollLock={!shouldLock}
       PaperProps={{ className: styles.paper, sx: paperSx, ref: paperRef }}
       ModalProps={{ keepMounted: false }}
       aria-labelledby={ariaLabelledBy || (title ? 'app-drawer-title' : undefined)}
