@@ -670,6 +670,149 @@ app.post('/api/orders', requireAuth, (req, res) => {
 });
 
 // ============================================================================
+// ORDERS — list/detail/cancel/reorder, scoped to the authenticated user
+// ============================================================================
+
+const ORDER_STATUSES = new Set([
+  'pending',
+  'confirmed',
+  'preparing',
+  'ready',
+  'completed',
+  'cancelled',
+]);
+
+app.get('/api/orders', requireAuth, (req, res) => {
+  const q = req.query;
+  let items = db
+    .get('orders')
+    .value()
+    .filter((o) => o.userId === req.user.id);
+
+  if (q.status && ORDER_STATUSES.has(String(q.status))) {
+    items = items.filter((o) => o.status === q.status);
+  }
+
+  const search = String(req.snakeFilters?.q || q.q || '').trim().toLowerCase();
+  if (search) {
+    items = items.filter((o) =>
+      String(o.number || '').toLowerCase().includes(search),
+    );
+  }
+
+  if (q.from) {
+    const fromTs = Date.parse(q.from);
+    if (!Number.isNaN(fromTs)) {
+      items = items.filter((o) => Date.parse(o.createdAt) >= fromTs);
+    }
+  }
+  if (q.to) {
+    const toTs = Date.parse(q.to);
+    if (!Number.isNaN(toTs)) {
+      items = items.filter((o) => Date.parse(o.createdAt) <= toTs + 86400000);
+    }
+  }
+
+  items = [...items].sort(
+    (a, b) => Date.parse(b.createdAt) - Date.parse(a.createdAt),
+  );
+
+  const total = items.length;
+  const page = Math.max(1, Number(q._page) || 1);
+  const perPage = Math.max(1, Number(q._limit) || 10);
+  const start = (page - 1) * perPage;
+  const slice = items.slice(start, start + perPage);
+  res.json(wrapList(slice, { page, perPage, total }));
+});
+
+app.get('/api/orders/:id', requireAuth, (req, res) => {
+  const id = Number(req.params.id);
+  const order = db.get('orders').find({ id }).value();
+  if (!order) return res.status(404).json(errorEnvelope('Order not found'));
+  if (order.userId !== req.user.id) {
+    return res.status(403).json(errorEnvelope('Not authorised'));
+  }
+  res.json(wrapItem(order));
+});
+
+app.post('/api/orders/:id/cancel', requireAuth, (req, res) => {
+  const id = Number(req.params.id);
+  const order = db.get('orders').find({ id }).value();
+  if (!order) return res.status(404).json(errorEnvelope('Order not found'));
+  if (order.userId !== req.user.id) {
+    return res.status(403).json(errorEnvelope('Not authorised'));
+  }
+  if (order.status !== 'pending' && order.status !== 'confirmed') {
+    return res
+      .status(409)
+      .json(errorEnvelope('This order can no longer be cancelled'));
+  }
+  const now = new Date().toISOString();
+  db.get('orders')
+    .find({ id })
+    .assign({ status: 'cancelled', updatedAt: now })
+    .write();
+
+  // Restock items
+  for (const it of order.items || []) {
+    db.get('products')
+      .find({ id: it.productId })
+      .update('stock', (s) => Math.max(0, Number(s) || 0) + Number(it.quantity || 0))
+      .write();
+  }
+
+  const updated = db.get('orders').find({ id }).value();
+  res.json(wrapItem(updated));
+});
+
+app.post('/api/orders/:id/reorder', requireAuth, (req, res) => {
+  const id = Number(req.params.id);
+  const order = db.get('orders').find({ id }).value();
+  if (!order) return res.status(404).json(errorEnvelope('Order not found'));
+  if (order.userId !== req.user.id) {
+    return res.status(403).json(errorEnvelope('Not authorised'));
+  }
+
+  const products = db.get('products').value();
+  const added = [];
+  const skipped = [];
+  for (const it of order.items || []) {
+    const p = products.find((prod) => prod.id === it.productId);
+    if (!p || p.isActive === false) {
+      skipped.push({
+        productId: it.productId,
+        name: it.name,
+        reason: 'unavailable',
+      });
+      continue;
+    }
+    const stock = typeof p.stock === 'number' ? p.stock : null;
+    if (stock !== null && stock <= 0) {
+      skipped.push({
+        productId: it.productId,
+        name: it.name,
+        reason: 'out_of_stock',
+      });
+      continue;
+    }
+    const qty = Math.max(1, Number(it.quantity) || 1);
+    const clamped = stock !== null ? Math.min(qty, stock) : qty;
+    added.push({
+      productId: p.id,
+      slug: p.slug,
+      name: p.name,
+      image: p.images?.[0] || it.image || null,
+      price: p.price,
+      currency: p.currency || 'AED',
+      qty: clamped,
+      stock,
+      adjusted: clamped < qty,
+    });
+  }
+  res.json(wrapItem({ items: added, skipped }));
+});
+
+// ============================================================================
 // ADDRESSES — scoped to the authenticated user
 // ============================================================================
 const EMIRATES = new Set([

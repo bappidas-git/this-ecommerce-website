@@ -38,8 +38,8 @@ import CheckoutReview from '../features/checkout/pages/CheckoutReview.jsx';
 import OrderConfirmation from '../features/checkout/pages/OrderConfirmation.jsx';
 
 import AccountProfile from '../features/account/pages/AccountProfile.jsx';
-import AccountOrders from '../features/account/pages/AccountOrders.jsx';
-import AccountOrderDetail from '../features/account/pages/AccountOrderDetail.jsx';
+import OrdersListPage from '../features/account/pages/OrdersListPage.jsx';
+import OrderDetailPage from '../features/account/pages/OrderDetailPage.jsx';
 import AddressesPage from '../features/account/pages/AddressesPage.jsx';
 import AccountPassword from '../features/account/pages/AccountPassword.jsx';
 import AccountPreferences from '../features/account/pages/AccountPreferences.jsx';
@@ -104,8 +104,8 @@ function AppRoutes() {
         >
           <Route index element={<Navigate to={PATHS.account.profile} replace />} />
           <Route path="profile" element={<AccountProfile />} />
-          <Route path="orders" element={<AccountOrders />} />
-          <Route path="orders/:id" element={<AccountOrderDetail />} />
+          <Route path="orders" element={<OrdersListPage />} />
+          <Route path="orders/:id" element={<OrderDetailPage />} />
           <Route path="addresses" element={<AddressesPage />} />
           <Route path="wishlist" element={<WishlistPage variant="account" />} />
           <Route path="password" element={<AccountPassword />} />

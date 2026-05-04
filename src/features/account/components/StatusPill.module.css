@@ -1,0 +1,45 @@
+.root {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: var(--radius-pill);
+  font-family: var(--font-ui);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  line-height: 1;
+  white-space: nowrap;
+  border: 1px solid transparent;
+}
+
+.muted {
+  background-color: var(--color-line);
+  color: var(--color-ink-2);
+  border-color: var(--color-line);
+}
+
+.brass {
+  background-color: rgba(184, 146, 79, 0.16);
+  color: var(--color-brass-2);
+  border-color: rgba(184, 146, 79, 0.32);
+}
+
+.emerald {
+  background-color: rgba(31, 64, 52, 0.12);
+  color: var(--color-emerald);
+  border-color: rgba(31, 64, 52, 0.28);
+}
+
+.success {
+  background-color: rgba(63, 107, 79, 0.14);
+  color: var(--color-success);
+  border-color: rgba(63, 107, 79, 0.28);
+}
+
+.error {
+  background-color: rgba(176, 56, 42, 0.10);
+  color: var(--color-error);
+  border-color: rgba(176, 56, 42, 0.28);
+}
