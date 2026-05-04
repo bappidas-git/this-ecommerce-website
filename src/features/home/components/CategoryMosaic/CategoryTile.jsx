@@ -3,15 +3,17 @@ import { motion } from 'framer-motion';
 
 import Eyebrow from '../../../../components/common/Eyebrow.jsx';
 import { PATHS } from '../../../../routes/paths.js';
+import { getProductPlaceholder } from '../../../../utils/imageFallback.js';
 import styles from './CategoryTile.module.css';
-
-const FALLBACK_IMAGE =
-  'https://placehold.co/900x1100/E5DED2/1B1A17?text=THIS+Interiors&font=playfair';
 
 function CategoryTile({ category, index = 0, span }) {
   const slug = category?.slug ?? '';
   const name = category?.name ?? 'Category';
-  const image = category?.image || FALLBACK_IMAGE;
+  const fallback = getProductPlaceholder(name, 900, 1100);
+  // Treat known-bad placeholder URLs as missing so we use the local SVG instead
+  // of pulling in placehold.co text overlays that fight the tile copy.
+  const remote = category?.image && !/placehold\.co/.test(category.image) ? category.image : '';
+  const image = remote || fallback;
 
   const styleVars = span
     ? {

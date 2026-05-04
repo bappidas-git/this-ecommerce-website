@@ -7,10 +7,9 @@ import IconButton from '@mui/material/IconButton';
 import AppBadge from '../../../../components/common/AppBadge/AppBadge.jsx';
 import AppDialog from '../../../../components/common/AppDialog/AppDialog.jsx';
 import AppIconButton from '../../../../components/common/AppIconButton/AppIconButton.jsx';
+import { getProductPlaceholder, handleImageError } from '../../../../utils/imageFallback.js';
 
 import styles from './Gallery.module.css';
-
-const FALLBACK_IMAGE = 'https://placehold.co/1200x1500/E5DED2/1B1A17?text=THIS+Interiors&font=playfair';
 
 function clampIndex(i, length) {
   if (length <= 0) return 0;
@@ -28,20 +27,36 @@ function buildBadges(product) {
 }
 
 function Gallery({ product }) {
+  const fallback = useMemo(
+    () => getProductPlaceholder(product?.name || 'THIS Interiors', 1200, 1500),
+    [product?.name],
+  );
   const images = useMemo(() => {
     const list = Array.isArray(product?.images) ? product.images.filter(Boolean) : [];
-    return list.length > 0 ? list : [FALLBACK_IMAGE];
-  }, [product]);
+    return list.length > 0 ? list : [fallback];
+  }, [product, fallback]);
 
   const [active, setActive] = useState(0);
   const [zoomPos, setZoomPos] = useState({ x: 50, y: 50 });
   const [isZooming, setIsZooming] = useState(false);
   const [lightboxOpen, setLightboxOpen] = useState(false);
+  // Tracks indices whose remote URL failed; we swap to local fallback for those.
+  const [brokenIdx, setBrokenIdx] = useState(() => new Set());
   const stageRef = useRef(null);
 
   useEffect(() => {
     setActive(0);
+    setBrokenIdx(new Set());
   }, [product?.id]);
+
+  const markBroken = useCallback((idx) => {
+    setBrokenIdx((prev) => {
+      if (prev.has(idx)) return prev;
+      const next = new Set(prev);
+      next.add(idx);
+      return next;
+    });
+  }, []);
 
   const total = images.length;
   const next = useCallback(() => setActive((i) => clampIndex(i + 1, total)), [total]);
@@ -76,7 +91,8 @@ function Gallery({ product }) {
 
   const badges = buildBadges(product);
   const altBase = product?.name || 'Product image';
-  const mainSrc = images[active];
+  const rawSrc = images[active];
+  const mainSrc = brokenIdx.has(active) ? fallback : rawSrc;
 
   return (
     <section
@@ -101,7 +117,12 @@ function Gallery({ product }) {
                 .join(' ')}
               onClick={() => setActive(idx)}
             >
-              <img src={src} alt="" loading="lazy" />
+              <img
+                src={src}
+                alt=""
+                loading="lazy"
+                onError={(e) => handleImageError(e, altBase)}
+              />
             </button>
           );
         })}
@@ -134,7 +155,15 @@ function Gallery({ product }) {
             backgroundPosition: isZooming ? `${zoomPos.x}% ${zoomPos.y}%` : 'center',
           }}
         >
-          <img src={mainSrc} alt={`${altBase} — view ${active + 1}`} className={styles.mainImg} />
+          <img
+            src={mainSrc}
+            alt={`${altBase} — view ${active + 1}`}
+            className={styles.mainImg}
+            onError={(e) => {
+              markBroken(active);
+              handleImageError(e, altBase);
+            }}
+          />
         </button>
 
         {total > 1 ? (
@@ -168,7 +197,12 @@ function Gallery({ product }) {
                 .join(' ')}
               onClick={() => setActive(idx)}
             >
-              <img src={src} alt="" loading="lazy" />
+              <img
+                src={src}
+                alt=""
+                loading="lazy"
+                onError={(e) => handleImageError(e, altBase)}
+              />
             </button>
           );
         })}
@@ -189,6 +223,7 @@ function Gallery({ product }) {
             src={mainSrc}
             alt={`${altBase} — view ${active + 1}`}
             className={styles.lightboxImg}
+            onError={(e) => handleImageError(e, altBase)}
           />
 
           {total > 1 ? (

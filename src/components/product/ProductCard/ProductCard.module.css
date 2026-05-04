@@ -61,19 +61,6 @@
   opacity: 1;
 }
 
-.imagePlaceholder {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: var(--color-line);
-  color: var(--color-muted);
-  font-family: var(--font-display);
-  font-size: 48px;
-  font-weight: 400;
-}
-
 .overlay {
   position: absolute;
   top: 0;
@@ -117,82 +104,61 @@
   color: var(--color-error);
 }
 
-.quickAddWrap {
-  position: absolute;
-  left: 50%;
-  bottom: 12px;
-  transform: translateX(-50%);
+.cardActions {
+  display: flex;
+  margin-top: 4px;
 }
 
-.quickAdd {
+.addBag {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 6px;
+  gap: 8px;
+  width: 100%;
   font-family: var(--font-ui);
   font-size: 12px;
   font-weight: 600;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  padding: 10px 18px;
+  padding: 11px 16px;
   border-radius: var(--radius-pill);
-  border: none;
-  background-color: var(--color-brass);
-  color: var(--color-bg);
+  border: 1px solid var(--color-ink);
+  background-color: var(--color-bg);
+  color: var(--color-ink);
   cursor: pointer;
   white-space: nowrap;
-  box-shadow: 0 2px 12px rgba(27, 26, 23, 0.12);
-  opacity: 0;
-  transform: translateY(6px);
   transition:
-    opacity 200ms var(--motion-ease),
-    transform 200ms var(--motion-ease),
-    background-color 160ms var(--motion-ease);
+    background-color 180ms var(--motion-ease),
+    color 180ms var(--motion-ease),
+    border-color 180ms var(--motion-ease),
+    transform 180ms var(--motion-ease);
 }
 
-.quickAdd:hover {
-  background-color: var(--color-brass-2);
-}
-
-.quickAdd:focus-visible {
-  outline: 2px solid var(--color-ink);
-  outline-offset: 2px;
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.root:hover .quickAdd,
-.root:focus-within .quickAdd {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.soldOutPill {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  font-family: var(--font-ui);
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  padding: 10px 18px;
-  border-radius: var(--radius-pill);
-  background-color: var(--color-muted);
+.addBag:hover,
+.addBag:focus-visible {
+  background-color: var(--color-ink);
   color: var(--color-bg);
-  white-space: nowrap;
-  pointer-events: none;
-  opacity: 0;
-  transform: translateY(6px);
-  transition:
-    opacity 200ms var(--motion-ease),
-    transform 200ms var(--motion-ease);
+  border-color: var(--color-ink);
+  outline: none;
 }
 
-.root:hover .soldOutPill,
-.root:focus-within .soldOutPill {
-  opacity: 1;
-  transform: translateY(0);
+.addBag:focus-visible {
+  box-shadow: 0 0 0 2px var(--color-bg), 0 0 0 4px var(--color-brass);
+}
+
+.addBag:active {
+  transform: translateY(1px);
+}
+
+.addBag[disabled] {
+  background-color: var(--color-line);
+  color: var(--color-muted);
+  border-color: var(--color-line);
+  cursor: not-allowed;
+}
+
+.addBagIcon {
+  font-size: 16px;
 }
 
 .meta {
@@ -251,56 +217,13 @@
   margin-top: 2px;
 }
 
-.touchQuickAddWrap {
-  display: none;
-  margin-top: 8px;
-}
-
-.touchQuickAdd {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  font-family: var(--font-ui);
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  padding: 8px 14px;
-  border-radius: var(--radius-pill);
-  border: 1px solid var(--color-brass);
-  background-color: transparent;
-  color: var(--color-brass);
-  cursor: pointer;
-}
-
-.touchQuickAdd:hover {
-  background-color: var(--color-brass);
-  color: var(--color-bg);
-}
-
-.touchQuickAdd:focus-visible {
-  outline: 2px solid var(--color-brass);
-  outline-offset: 2px;
-}
-
-.touchQuickAdd[disabled] {
-  border-color: var(--color-muted);
-  color: var(--color-muted);
-  cursor: not-allowed;
-}
-
-@media (hover: none) {
-  .touchQuickAddWrap {
-    display: flex;
-  }
-
-  .quickAddWrap {
-    display: none;
-  }
-}
-
 .compact .name {
   font-size: 15px;
+}
+
+.compact .addBag {
+  padding: 9px 14px;
+  font-size: 11px;
 }
 
 .compact .meta {
@@ -359,8 +282,7 @@
 
 @media (prefers-reduced-motion: reduce) {
   .image,
-  .quickAdd,
-  .soldOutPill,
+  .addBag,
   .nameInner,
   .skeletonLine,
   .skeleton .imageArea {
