@@ -1,0 +1,68 @@
+.sidebar {
+  background: var(--color-surface);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-3);
+  padding: 8px;
+  position: sticky;
+  top: 96px;
+  align-self: start;
+}
+
+.nav {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.link {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px 10px 16px;
+  border-radius: var(--radius-2);
+  text-decoration: none;
+  color: var(--color-ink-2);
+  font-family: var(--font-ui);
+  font-size: 0.9375rem;
+  line-height: 1.4;
+  transition: background 180ms var(--motion-ease), color 180ms var(--motion-ease);
+}
+
+.link:hover {
+  color: var(--color-ink);
+  background: var(--color-bg);
+}
+
+.link:focus-visible {
+  outline: 2px solid var(--color-brass);
+  outline-offset: 2px;
+}
+
+.bar {
+  position: absolute;
+  left: 0;
+  top: 8px;
+  bottom: 8px;
+  width: 3px;
+  border-radius: 999px;
+  background: transparent;
+  transition: background 180ms var(--motion-ease);
+}
+
+.label {
+  display: block;
+}
+
+.linkActive {
+  color: var(--color-ink);
+  background: var(--color-bg);
+}
+
+.linkActive .bar {
+  background: var(--color-brass);
+}
+
+.linkActive .label {
+  font-weight: 500;
+}

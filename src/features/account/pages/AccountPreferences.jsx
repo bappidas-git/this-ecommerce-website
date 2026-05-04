@@ -1,11 +1,15 @@
+import { Helmet } from 'react-helmet-async';
+import useAccountSection from '../hooks/useAccountSection.js';
+
 function AccountPreferences() {
+  useAccountSection({ descriptor: 'Communication and personalization settings.' });
+
   return (
-    <section>
-      <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 500, margin: 0 }}>Preferences</h2>
-      <p style={{ color: 'var(--color-ink-2)', marginTop: 8 }}>
-        Communication and personalization settings.
-      </p>
-    </section>
+    <>
+      <Helmet>
+        <title>Preferences · My Account · THIS Interiors</title>
+      </Helmet>
+    </>
   );
 }
 
