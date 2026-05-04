@@ -33,10 +33,13 @@
 .overlay {
   position: absolute;
   inset: 0;
+  /* Stronger gradient so the editorial title reads cleanly and any baked-in
+     placeholder caption never bleeds through. */
   background: linear-gradient(
     180deg,
-    rgba(31, 64, 52, 0) 30%,
-    rgba(31, 64, 52, 0.7) 100%
+    rgba(27, 26, 23, 0) 35%,
+    rgba(27, 26, 23, 0.55) 70%,
+    rgba(27, 26, 23, 0.85) 100%
   );
   transition: background 400ms var(--motion-ease);
   pointer-events: none;
@@ -60,8 +63,14 @@
   font-weight: 500;
   letter-spacing: -0.01em;
   line-height: 1.05;
-  font-size: clamp(1.75rem, 3vw, 2.5rem);
+  font-size: 22px;
   color: var(--color-bg);
+}
+
+@media (min-width: 768px) {
+  .title {
+    font-size: 28px;
+  }
 }
 
 .cta {
@@ -89,8 +98,9 @@
 .link:focus-visible .overlay {
   background: linear-gradient(
     180deg,
-    rgba(31, 64, 52, 0.1) 0%,
-    rgba(31, 64, 52, 0.85) 100%
+    rgba(27, 26, 23, 0.05) 0%,
+    rgba(27, 26, 23, 0.7) 60%,
+    rgba(27, 26, 23, 0.92) 100%
   );
 }
 

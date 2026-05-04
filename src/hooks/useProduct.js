@@ -62,7 +62,9 @@ export function useProduct(slug) {
   }, [slug]);
 
   const status = error?.response?.status ?? error?.status;
-  const isNotFound = status === 404;
+  // The service returns `null` for 404; treat any explicit-null payload as
+  // not-found so the page can render the friendly state instead of crashing.
+  const isNotFound = status === 404 || (!isLoading && !error && Boolean(slug) && data === null);
 
   return {
     data,

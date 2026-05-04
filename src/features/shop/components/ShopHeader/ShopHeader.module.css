@@ -25,7 +25,7 @@
   letter-spacing: -0.01em;
   color: var(--color-ink);
   margin: 0;
-  font-size: clamp(2rem, 4.5vw, 3rem);
+  font-size: clamp(1.75rem, 3.5vw, 2.5rem);
   line-height: 1.1;
 }
 
@@ -39,21 +39,22 @@
 }
 
 .heroBand {
-  margin-top: 24px;
-  border-radius: var(--radius-3);
-  overflow: hidden;
+  margin-top: 16px;
   display: grid;
   grid-template-columns: 1fr;
-  gap: 0;
-  background-color: var(--color-surface);
-  border: 1px solid var(--color-line);
+  gap: 16px;
+  background: transparent;
+  /* Mobile: image on top (180px), copy below — total ≤ 360px. */
+  max-height: 360px;
 }
 
 .heroBandImageWrap {
   position: relative;
   width: 100%;
-  aspect-ratio: 16 / 10;
+  height: 180px;
+  border-radius: 14px;
   overflow: hidden;
+  order: -1;
 }
 
 .heroBandImageWrap::after {
@@ -61,6 +62,7 @@
   position: absolute;
   inset: 6px;
   border: 1px solid var(--color-brass);
+  border-radius: 10px;
   pointer-events: none;
 }
 
@@ -72,7 +74,7 @@
 }
 
 .heroBandContent {
-  padding: 24px;
+  padding: 4px 0 0;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -81,28 +83,26 @@
 
 @media (min-width: 768px) {
   .root {
-    padding-top: 40px;
-    padding-bottom: 32px;
+    padding-top: 32px;
+    padding-bottom: 24px;
   }
 
   .heroBand {
-    grid-template-columns: 1.1fr 1fr;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
     align-items: stretch;
-  }
-
-  .heroBandContent {
-    padding: 40px;
+    min-height: 240px;
+    max-height: 320px;
   }
 
   .heroBandImageWrap {
     height: 100%;
-    aspect-ratio: auto;
-    min-height: 320px;
+    min-height: 240px;
+    max-height: 320px;
+    order: 0;
   }
-}
 
-@media (min-width: 1024px) {
-  .heroBandImageWrap {
-    min-height: 360px;
+  .heroBandContent {
+    padding: 8px 0;
   }
 }

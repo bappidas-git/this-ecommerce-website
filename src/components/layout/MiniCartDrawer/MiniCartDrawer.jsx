@@ -153,6 +153,7 @@ function MiniCartDrawer() {
           fullWidth
           to={PATHS.cart}
           onClick={handleViewBagClick}
+          className={styles.viewBagBtn}
         >
           View bag
         </AppButton>
@@ -161,6 +162,7 @@ function MiniCartDrawer() {
           fullWidth
           to={PATHS.checkout}
           onClick={handleCheckoutClick}
+          className={styles.checkoutBtn}
         >
           Checkout
         </AppButton>
@@ -173,6 +175,7 @@ function MiniCartDrawer() {
       open={isCartOpen}
       onClose={closeCart}
       anchor="right"
+      disableScrollLock
       width="min(92vw, 420px)"
       title={titleNode}
       footer={footerNode}

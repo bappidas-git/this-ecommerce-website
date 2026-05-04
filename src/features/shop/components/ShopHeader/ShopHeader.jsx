@@ -1,9 +1,15 @@
+import { motion, useReducedMotion } from 'framer-motion';
+
 import Container from '../../../../components/common/Container.jsx';
 import Breadcrumbs from '../../../../components/common/Breadcrumbs/Breadcrumbs.jsx';
 import Eyebrow from '../../../../components/common/Eyebrow.jsx';
 import { PATHS } from '../../../../routes/paths.js';
 import { handleImageError } from '../../../../utils/imageFallback.js';
 import styles from './ShopHeader.module.css';
+
+// Neutral textured panel — never echoes the category name in giant text.
+const NEUTRAL_HERO_IMAGE =
+  'https://placehold.co/1200x720/E5DED2/8C8678?text=THIS+Interiors&font=playfair';
 
 function ShopHeader({ category, title, kicker, bannerImage }) {
   const isCategory = Boolean(category);
@@ -22,14 +28,18 @@ function ShopHeader({ category, title, kicker, bannerImage }) {
         `A considered selection of ${category.name.toLowerCase()} for quiet, lived‑in rooms.`
       : 'All small decor for considered homes.');
 
-  const encodedName = isCategory ? encodeURIComponent(category.name) : '';
-  const categoryHero =
-    isCategory && category?.image
-      ? category.image
-      : isCategory
-        ? `https://placehold.co/1600x1000/1F4034/F7F3ED?text=${encodedName}&font=playfair`
-        : null;
-  const banner = bannerImage || categoryHero;
+  // Always use the neutral panel for the hero image — the heading on the
+  // left already says the category name; the image must not duplicate it.
+  const banner = bannerImage || NEUTRAL_HERO_IMAGE;
+
+  const reduceMotion = useReducedMotion();
+  const motionProps = reduceMotion
+    ? {}
+    : {
+        initial: { opacity: 0, y: 8 },
+        animate: { opacity: 1, y: 0 },
+        transition: { duration: 0.42, ease: [0.22, 1, 0.36, 1] },
+      };
 
   return (
     <header className={styles.root} aria-labelledby="shop-page-title">
@@ -37,7 +47,7 @@ function ShopHeader({ category, title, kicker, bannerImage }) {
         <Breadcrumbs items={crumbs} className={styles.crumbs} />
 
         {isCategory && banner ? (
-          <div className={styles.heroBand}>
+          <motion.div className={styles.heroBand} {...motionProps}>
             <div className={styles.heroBandContent}>
               <Eyebrow color="brass" className={styles.eyebrow}>
                 The collection
@@ -50,14 +60,15 @@ function ShopHeader({ category, title, kicker, bannerImage }) {
             <div className={styles.heroBandImageWrap}>
               <img
                 src={banner}
-                alt={`${category.name} — editorial`}
+                alt=""
+                aria-hidden="true"
                 className={styles.heroBandImage}
-                onError={(e) => handleImageError(e, category.name)}
+                onError={(e) => handleImageError(e, 'THIS Interiors')}
               />
             </div>
-          </div>
+          </motion.div>
         ) : (
-          <div className={styles.titleBlock}>
+          <motion.div className={styles.titleBlock} {...motionProps}>
             <Eyebrow color="brass" className={styles.eyebrow}>
               The collection
             </Eyebrow>
@@ -65,7 +76,7 @@ function ShopHeader({ category, title, kicker, bannerImage }) {
               {heading}
             </h1>
             <p className={styles.kicker}>{subline}</p>
-          </div>
+          </motion.div>
         )}
       </Container>
     </header>

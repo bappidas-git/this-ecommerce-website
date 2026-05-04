@@ -2,7 +2,7 @@ export const PATHS = Object.freeze({
   home: '/',
   shop: '/shop',
   category: (slug) => `/shop/${slug}`,
-  product: (slug) => `/products/${slug}`,
+  product: (slug) => `/product/${slug}`,
   search: '/search',
   cart: '/cart',
   wishlist: '/wishlist',

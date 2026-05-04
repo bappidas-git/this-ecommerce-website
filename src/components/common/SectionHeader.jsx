@@ -42,7 +42,14 @@ function SectionHeader({
               {title}
             </h2>
           ) : null}
-          {!isDark ? <span className={[utils.editorialRule, styles.rule].join(' ')} aria-hidden /> : null}
+          {/* Brass underline sits directly under the heading (left-aligned or
+              centered depending on alignment), not floating top-left. */}
+          <span
+            className={[utils.editorialRule, styles.rule, isDark ? styles.ruleOnDark : '']
+              .filter(Boolean)
+              .join(' ')}
+            aria-hidden
+          />
         </div>
         {cta ? <div className={styles.cta}>{cta}</div> : null}
       </div>

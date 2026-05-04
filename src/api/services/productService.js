@@ -7,8 +7,16 @@ export const productService = {
     http
       .get(buildUrl(ENDPOINTS.products.list, filters), { signal })
       .then(unwrapList),
+  // Resolves to the product, or `null` for 404 / empty payloads.
   getBySlug: (slug, { signal } = {}) =>
-    http.get(ENDPOINTS.products.bySlug(slug), { signal }).then(unwrap),
+    http
+      .get(ENDPOINTS.products.bySlug(slug), { signal })
+      .then(unwrap)
+      .then((value) => value ?? null)
+      .catch((err) => {
+        if (err?.status === 404) return null;
+        throw err;
+      }),
   getById: (id, { signal } = {}) =>
     http.get(ENDPOINTS.products.byId(id), { signal }).then(unwrap),
   getRelated: (productId, params = {}, { signal } = {}) =>

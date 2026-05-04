@@ -1,65 +1,95 @@
-.carousel {
-  position: relative;
-  margin-top: 32px;
+.grid {
+  list-style: none;
+  margin: 48px 0 0;
+  padding: 0;
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 24px;
-  padding: 24px 8px 8px;
-  user-select: none;
-  touch-action: pan-y;
+  gap: 16px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
 }
 
-.openingMark {
+.grid::-webkit-scrollbar {
+  display: none;
+}
+
+.item {
+  flex: 0 0 85%;
+  scroll-snap-align: center;
+  display: flex;
+}
+
+@media (min-width: 900px) {
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    overflow: visible;
+  }
+
+  .item {
+    flex: 1 1 auto;
+  }
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 0;
+  padding: 32px;
+  background: var(--color-bg);
+  border-radius: 14px;
+  width: 100%;
+  height: 100%;
+}
+
+.mark {
   font-family: var(--font-display);
-  font-size: 96px;
-  line-height: 0.6;
+  font-size: 24px;
+  line-height: 0.5;
   color: var(--color-brass);
-  margin: 0;
   pointer-events: none;
+  display: inline-block;
 }
 
-.viewport {
-  width: 100%;
-  max-width: 720px;
-  min-height: 220px;
-  position: relative;
-  display: flex;
+.stars {
+  display: inline-flex;
   align-items: center;
-  justify-content: center;
-}
-
-.slide {
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  gap: 24px;
-  width: 100%;
+  gap: 2px;
+  margin-top: 4px;
 }
 
 .quote {
   font-family: var(--font-display);
   font-style: italic;
   font-weight: 400;
-  font-size: clamp(1.5rem, 3vw, 2rem);
-  line-height: 1.35;
+  font-size: 18px;
+  line-height: 1.5;
   color: var(--color-ink);
   margin: 0;
-  max-width: 60ch;
+}
+
+.divider {
+  display: block;
+  width: 100%;
+  height: 1px;
+  background-color: var(--color-line);
+  margin: 8px 0 4px;
 }
 
 .attribution {
   display: inline-flex;
   align-items: center;
   gap: 12px;
+  margin-top: 0;
 }
 
 .avatar {
   width: 40px;
   height: 40px;
-  border-radius: var(--radius-pill);
+  border-radius: 999px;
   object-fit: cover;
   background: var(--color-brass);
   flex: 0 0 auto;
@@ -78,57 +108,11 @@
   font-size: 14px;
   font-weight: 500;
   color: var(--color-ink);
-  letter-spacing: 0.01em;
 }
 
 .location {
   font-size: 12px;
   color: var(--color-muted);
-  letter-spacing: 0.04em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-}
-
-.dots {
-  display: inline-flex;
-  gap: 10px;
-  margin-top: 8px;
-}
-
-.dot {
-  width: 8px;
-  height: 8px;
-  border-radius: var(--radius-pill);
-  border: 1px solid var(--color-line);
-  background: transparent;
-  padding: 0;
-  cursor: pointer;
-  transition:
-    background var(--motion-fast, 200ms) var(--motion-ease),
-    border-color var(--motion-fast, 200ms) var(--motion-ease),
-    transform var(--motion-fast, 200ms) var(--motion-ease);
-}
-
-.dot:hover {
-  border-color: var(--color-brass);
-}
-
-.dotActive {
-  background: var(--color-brass);
-  border-color: var(--color-brass);
-  transform: scale(1.15);
-}
-
-.dot:focus-visible {
-  outline: 2px solid var(--color-brass);
-  outline-offset: 2px;
-}
-
-@media (min-width: 900px) {
-  .openingMark {
-    font-size: 128px;
-  }
-
-  .quote {
-    font-size: clamp(1.75rem, 2.4vw, 2.25rem);
-  }
 }

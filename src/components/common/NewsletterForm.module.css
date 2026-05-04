@@ -22,7 +22,8 @@
   display: flex;
   align-items: stretch;
   height: 56px;
-  border-radius: var(--radius-1);
+  padding: 0 8px 0 24px;
+  border-radius: 999px;
   transition:
     border-color 200ms var(--motion-ease),
     background 200ms var(--motion-ease);
@@ -52,10 +53,12 @@
   gap: 8px;
   flex: 0 0 auto;
   min-width: 132px;
-  padding: 0 18px;
-  margin: 6px;
+  padding: 0 20px;
+  margin: 4px 4px 4px 8px;
+  height: 48px;
+  align-self: center;
   border: 0;
-  border-radius: 2px;
+  border-radius: 999px;
   background: var(--color-brass);
   color: var(--color-ink);
   font-family: var(--font-ui);
@@ -136,6 +139,30 @@
 
 .toneLight .hint {
   color: var(--color-muted);
+}
+
+/* Emerald tone — for the newsletter band sitting on emerald section bg. */
+.toneEmerald .field {
+  background: var(--color-bg);
+  border: 0;
+}
+
+.toneEmerald .field:focus-within {
+  box-shadow: 0 0 0 2px var(--color-brass);
+}
+
+.toneEmerald .input {
+  color: var(--color-ink);
+}
+
+.toneEmerald .input::placeholder {
+  color: var(--color-muted);
+}
+
+.toneEmerald .hint {
+  color: rgba(247, 243, 237, 0.6);
+  text-align: center;
+  margin-top: 8px;
 }
 
 @media (max-width: 480px) {

@@ -177,10 +177,9 @@
 }
 
 .footer {
-  box-shadow: var(--shadow-2);
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 12px;
 }
 
 .subtotalRow {
@@ -192,14 +191,14 @@
 
 .subtotalLabel {
   font-family: var(--font-ui);
-  font-size: 0.875rem;
-  color: var(--color-muted);
+  font-size: 14px;
+  color: var(--color-ink-2);
 }
 
 .subtotalValue {
   font-family: var(--font-ui);
-  font-size: 1.125rem;
-  font-weight: 500;
+  font-size: 18px;
+  font-weight: 600;
   color: var(--color-ink);
   font-variant-numeric: tabular-nums;
 }
@@ -207,15 +206,33 @@
 .shippingNote {
   margin: 0;
   font-family: var(--font-ui);
-  font-size: 0.8125rem;
+  font-size: 12px;
   color: var(--color-muted);
+  line-height: 1;
 }
 
 .actions {
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  margin-top: 6px;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+/* Force checkout pill 52px tall, view-bag underline 44px. */
+.actions :global(.MuiButton-root) {
+  border-radius: 999px;
+}
+
+.viewBagBtn {
+  height: 44px !important;
+  text-decoration: underline !important;
+  text-underline-offset: 4px;
+  color: var(--color-brass) !important;
+}
+
+.checkoutBtn {
+  height: 52px !important;
+  font-weight: 500 !important;
 }
 
 @media (prefers-reduced-motion: reduce) {

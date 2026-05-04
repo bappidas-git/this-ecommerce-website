@@ -15,12 +15,18 @@
 
 .new {
   background-color: var(--color-brass);
+  color: var(--color-ink);
+}
+
+/* Sale uses emerald — red is reserved for errors. */
+.sale {
+  background-color: var(--color-emerald);
   color: var(--color-bg);
 }
 
-.sale {
-  background-color: var(--color-error);
-  color: var(--color-bg);
+.bestseller {
+  background-color: var(--color-rose);
+  color: var(--color-ink);
 }
 
 .limited {

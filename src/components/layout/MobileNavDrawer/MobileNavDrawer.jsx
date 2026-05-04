@@ -128,11 +128,12 @@ export default function MobileNavDrawer() {
   const [categoriesOpen, setCategoriesOpen] = useState(true);
 
   useEffect(() => {
-    if (!isMobileNavOpen) return;
-    const original = document.body.style.overflow;
+    if (!isMobileNavOpen) return undefined;
     document.body.style.overflow = 'hidden';
     return () => {
-      document.body.style.overflow = original;
+      // Always clear — never restore a stale `'hidden'` snapshot, which is
+      // what locks the page when the drawer unmounts mid-close on navigation.
+      document.body.style.overflow = '';
     };
   }, [isMobileNavOpen]);
 
