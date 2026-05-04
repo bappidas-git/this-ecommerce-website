@@ -2,7 +2,7 @@ import Container from '../../../../components/common/Container.jsx';
 import Breadcrumbs from '../../../../components/common/Breadcrumbs/Breadcrumbs.jsx';
 import Eyebrow from '../../../../components/common/Eyebrow.jsx';
 import { PATHS } from '../../../../routes/paths.js';
-import { getProductPlaceholder, handleImageError } from '../../../../utils/imageFallback.js';
+import { handleImageError } from '../../../../utils/imageFallback.js';
 import styles from './ShopHeader.module.css';
 
 function ShopHeader({ category, title, kicker, bannerImage }) {
@@ -22,8 +22,14 @@ function ShopHeader({ category, title, kicker, bannerImage }) {
         `A considered selection of ${category.name.toLowerCase()} for quiet, lived‑in rooms.`
       : 'All small decor for considered homes.');
 
-  const banner =
-    bannerImage || (isCategory ? getProductPlaceholder(category.name, 1600, 500) : null);
+  const encodedName = isCategory ? encodeURIComponent(category.name) : '';
+  const categoryHero =
+    isCategory && category?.image
+      ? category.image
+      : isCategory
+        ? `https://placehold.co/1600x1000/1F4034/F7F3ED?text=${encodedName}&font=playfair`
+        : null;
+  const banner = bannerImage || categoryHero;
 
   return (
     <header className={styles.root} aria-labelledby="shop-page-title">
@@ -41,13 +47,14 @@ function ShopHeader({ category, title, kicker, bannerImage }) {
               </h1>
               <p className={styles.kicker}>{subline}</p>
             </div>
-            <img
-              src={banner}
-              alt=""
-              aria-hidden="true"
-              className={styles.heroBandImage}
-              onError={(e) => handleImageError(e, category.name)}
-            />
+            <div className={styles.heroBandImageWrap}>
+              <img
+                src={banner}
+                alt={`${category.name} — editorial`}
+                className={styles.heroBandImage}
+                onError={(e) => handleImageError(e, category.name)}
+              />
+            </div>
           </div>
         ) : (
           <div className={styles.titleBlock}>

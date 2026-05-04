@@ -27,7 +27,7 @@ import { formatCurrency } from '../../../utils/format.js';
 
 import styles from './ProductDetailPage.module.css';
 
-const FALLBACK_OG = 'https://placehold.co/1200x630/F7F3ED/1B1A17?text=THIS+Interiors&font=playfair';
+const FALLBACK_OG = 'https://placehold.co/1200x630/1B1A17/F7F3ED?text=THIS+Interiors&font=playfair';
 
 function buildAvailability(stock) {
   if (typeof stock !== 'number') return 'https://schema.org/InStock';
@@ -97,7 +97,7 @@ function ProductDetailPage() {
     window.scrollTo({ top: 0, behavior: 'auto' });
   }, [slug]);
 
-  const canonical = `/products/${slug}`;
+  const canonical = PATHS.product(slug);
   const ogImage = product?.images?.[0] || FALLBACK_OG;
   const seoTitle = product
     ? `${product.name} · THIS Interiors`
@@ -138,7 +138,7 @@ function ProductDetailPage() {
     );
   }
 
-  if (isNotFound || (!product && isError === false)) {
+  if (isNotFound || (!isLoading && !product && !isError)) {
     return (
       <Section tone="cream">
         <Container gutter>
@@ -147,12 +147,17 @@ function ProductDetailPage() {
             <meta name="robots" content="noindex" />
           </Helmet>
           <EmptyState
-            title="We couldn’t find that piece."
+            title="This piece isn’t available."
             description="It may have moved on to a new home, or the link could be out of date."
             cta={
-              <AppButton variant="primary" to={PATHS.shop}>
-                Back to shop
-              </AppButton>
+              <div className={styles.notFoundCtas}>
+                <AppButton variant="primary" to={`${PATHS.shop}?sort=-created_at`}>
+                  Browse new arrivals
+                </AppButton>
+                <AppButton variant="ghost" to={PATHS.shop}>
+                  Back to shop
+                </AppButton>
+              </div>
             }
           />
         </Container>
