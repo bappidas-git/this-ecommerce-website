@@ -89,14 +89,14 @@ export function useProducts(params = {}) {
   resolvedRef.current = resolved;
   keyRef.current = key;
 
-  useEffect(
-    () => () => {
+  useEffect(() => {
+    mountedRef.current = true;
+    return () => {
       mountedRef.current = false;
       if (abortRef.current) abortRef.current.abort();
       if (debounceRef.current) clearTimeout(debounceRef.current);
-    },
-    [],
-  );
+    };
+  }, []);
 
   const performFetch = useCallback((paramsForFetch, currentKey) => {
     if (abortRef.current) abortRef.current.abort();
