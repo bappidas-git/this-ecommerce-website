@@ -1,0 +1,135 @@
+.controls {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.chipRow {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.chip {
+  font-size: 12px;
+}
+
+.filtersRow {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
+
+.search {
+  width: 100%;
+}
+
+.searchIcon {
+  margin-right: 8px;
+  color: var(--color-muted);
+}
+
+.dateInput {
+  width: 100%;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.paginationWrap {
+  display: flex;
+  justify-content: center;
+  margin-top: 24px;
+}
+
+.errorWrap {
+  padding: 24px;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-3);
+  text-align: center;
+}
+
+.errorMessage {
+  margin: 0;
+  font-family: var(--font-ui);
+  color: var(--color-error);
+}
+
+.skeletonRow {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-3);
+  background-color: var(--color-bg);
+}
+
+.skeletonHead {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.skeletonBody {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.skeletonThumbs {
+  display: flex;
+}
+
+.skeletonThumb {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-pill);
+  background-color: var(--color-line);
+  border: 2px solid var(--color-surface);
+  margin-left: -8px;
+  animation: pulse 1.4s ease-in-out infinite;
+}
+
+.skeletonThumb:first-child {
+  margin-left: 0;
+}
+
+.skeletonBar {
+  display: inline-block;
+  background-color: var(--color-line);
+  border-radius: var(--radius-1);
+  animation: pulse 1.4s ease-in-out infinite;
+}
+
+.skBarSm {
+  width: 140px;
+  height: 12px;
+}
+
+.skBarMd {
+  width: 80px;
+  height: 18px;
+}
+
+.skBarPill {
+  width: 90px;
+  height: 18px;
+  border-radius: var(--radius-pill);
+}
+
+@media (min-width: 600px) {
+  .filtersRow {
+    grid-template-columns: 2fr 1fr 1fr;
+    align-items: start;
+  }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.55; }
+}
