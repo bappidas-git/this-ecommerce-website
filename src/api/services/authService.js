@@ -9,6 +9,12 @@ export const authService = {
   logout: () => http.post(ENDPOINTS.auth.logout).then(unwrap),
   forgot: (payload) => http.post(ENDPOINTS.auth.forgot, payload).then(unwrap),
   reset: (payload) => http.post(ENDPOINTS.auth.reset, payload).then(unwrap),
+  updateProfile: (payload) => http.patch(ENDPOINTS.auth.profile, payload).then(unwrap),
+  updatePassword: (payload) => http.post(ENDPOINTS.auth.password, payload).then(unwrap),
+  updatePreferences: (payload) =>
+    http.patch(ENDPOINTS.auth.preferences, payload).then(unwrap),
+  deleteAccount: (payload) =>
+    http.delete(ENDPOINTS.auth.deleteAccount, { data: payload }).then(unwrap),
   subscribe: (payload) =>
     new Promise((resolve) => {
       setTimeout(() => resolve({ data: { email: payload?.email, status: 'pending' } }), 400);

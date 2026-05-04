@@ -6,6 +6,10 @@ export const ENDPOINTS = Object.freeze({
     logout: '/auth/logout',
     forgot: '/auth/forgot',
     reset: '/auth/reset',
+    profile: '/auth/profile',
+    password: '/auth/password',
+    preferences: '/auth/preferences',
+    deleteAccount: '/auth/account',
   },
   products: {
     list: '/products',

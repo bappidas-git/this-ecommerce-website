@@ -1,0 +1,23 @@
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.checkList {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.row2 {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+@media (min-width: 600px) {
+  .row2 {
+    grid-template-columns: 1fr 1fr;
+  }
+}

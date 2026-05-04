@@ -283,6 +283,108 @@ app.post('/api/auth/logout', (_req, res) => {
   res.json(wrapItem({ ok: true }));
 });
 
+// Update profile (firstName, lastName, phone, dateOfBirth)
+app.patch('/api/auth/profile', requireAuth, (req, res) => {
+  const { firstName, lastName, phone, dateOfBirth } = req.body || {};
+  const errors = {};
+  if (firstName !== undefined && !String(firstName).trim()) {
+    errors.firstName = 'First name is required';
+  }
+  if (lastName !== undefined && !String(lastName).trim()) {
+    errors.lastName = 'Last name is required';
+  }
+  if (phone && !/^\+?[0-9\s\-()]{6,20}$/.test(String(phone))) {
+    errors.phone = 'Enter a valid phone number';
+  }
+  if (dateOfBirth && Number.isNaN(Date.parse(dateOfBirth))) {
+    errors.dateOfBirth = 'Enter a valid date';
+  }
+  if (Object.keys(errors).length) {
+    return res.status(422).json(errorEnvelope('Invalid input', errors));
+  }
+  const patch = {
+    ...(firstName !== undefined ? { firstName: String(firstName).trim() } : {}),
+    ...(lastName !== undefined ? { lastName: String(lastName).trim() } : {}),
+    ...(phone !== undefined ? { phone: phone || null } : {}),
+    ...(dateOfBirth !== undefined ? { dateOfBirth: dateOfBirth || null } : {}),
+    updatedAt: new Date().toISOString(),
+  };
+  db.get('users').find({ id: req.user.id }).assign(patch).write();
+  const updated = db.get('users').find({ id: req.user.id }).value();
+  res.json(wrapItem(sanitizeUser(updated)));
+});
+
+// Change password
+app.post('/api/auth/password', requireAuth, (req, res) => {
+  const { currentPassword, newPassword } = req.body || {};
+  const errors = {};
+  if (!currentPassword) errors.currentPassword = 'Current password is required';
+  if (!newPassword) errors.newPassword = 'New password is required';
+  else if (
+    newPassword.length < 8 ||
+    !/[a-z]/.test(newPassword) ||
+    !/[A-Z]/.test(newPassword) ||
+    !/\d/.test(newPassword)
+  ) {
+    errors.newPassword = 'Use 8+ characters with a number and a capital letter.';
+  }
+  if (Object.keys(errors).length) {
+    return res.status(422).json(errorEnvelope('Invalid input', errors));
+  }
+  const user = db.get('users').find({ id: req.user.id }).value();
+  if (!user || !verifyPassword(currentPassword, user.passwordHash)) {
+    return res
+      .status(422)
+      .json(errorEnvelope('Current password is incorrect', {
+        currentPassword: 'Current password is incorrect',
+      }));
+  }
+  db.get('users')
+    .find({ id: req.user.id })
+    .assign({
+      passwordHash: hashPassword(newPassword),
+      updatedAt: new Date().toISOString(),
+    })
+    .write();
+  const updated = db.get('users').find({ id: req.user.id }).value();
+  res.json(wrapItem({ user: sanitizeUser(updated), token: signToken(updated) }));
+});
+
+// Update preferences
+app.patch('/api/auth/preferences', requireAuth, (req, res) => {
+  const incoming = req.body || {};
+  const user = db.get('users').find({ id: req.user.id }).value();
+  const prev = user?.preferences || {};
+  const next = {
+    newsletter: Boolean(incoming.newsletter ?? prev.newsletter ?? false),
+    restockAlerts: Boolean(incoming.restockAlerts ?? prev.restockAlerts ?? false),
+    saleAlerts: Boolean(incoming.saleAlerts ?? prev.saleAlerts ?? false),
+    orderUpdates: true,
+    language: 'en',
+    currency: 'AED',
+  };
+  db.get('users')
+    .find({ id: req.user.id })
+    .assign({ preferences: next, updatedAt: new Date().toISOString() })
+    .write();
+  const updated = db.get('users').find({ id: req.user.id }).value();
+  res.json(wrapItem(sanitizeUser(updated)));
+});
+
+// Delete account
+app.delete('/api/auth/account', requireAuth, (req, res) => {
+  const { confirm } = req.body || {};
+  const user = db.get('users').find({ id: req.user.id }).value();
+  if (!user) return res.status(404).json(errorEnvelope('Account not found'));
+  if (!confirm || String(confirm).toLowerCase() !== String(user.email).toLowerCase()) {
+    return res.status(422).json(errorEnvelope('Confirmation does not match', {
+      confirm: 'Type your email exactly to confirm',
+    }));
+  }
+  db.get('users').remove({ id: req.user.id }).write();
+  res.json(wrapItem({ ok: true }));
+});
+
 // ============================================================================
 // SNAKE-CASE QUERY for everything under /api
 // ============================================================================

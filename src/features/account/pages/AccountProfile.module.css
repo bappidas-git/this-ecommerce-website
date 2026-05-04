@@ -1,0 +1,186 @@
+.layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+}
+
+.formCol {
+  min-width: 0;
+}
+
+.sideCol {
+  min-width: 0;
+}
+
+.row2 {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+.avatarCard {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 20px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-3);
+}
+
+.avatarImg {
+  width: 88px;
+  height: 88px;
+  border-radius: var(--radius-pill);
+  object-fit: cover;
+  background: var(--color-line);
+  flex-shrink: 0;
+}
+
+.avatarMeta {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+.avatarName {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  color: var(--color-ink);
+  line-height: 1.2;
+}
+
+.rolePill {
+  align-self: flex-start;
+  font-family: var(--font-ui);
+  font-size: 0.6875rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-emerald);
+  background: rgba(31, 64, 52, 0.1);
+  padding: 3px 10px;
+  border-radius: var(--radius-pill);
+}
+
+.divider {
+  border: 0;
+  border-top: 1px solid var(--color-line);
+  margin: 32px 0 20px;
+}
+
+.danger {
+  border-top: 1px solid var(--color-error);
+  background: var(--color-surface);
+  border-radius: var(--radius-3);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.dangerHead {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.dangerEyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--color-error);
+}
+
+.dangerIcon {
+  color: var(--color-error);
+}
+
+.dangerTitle {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  color: var(--color-ink);
+  line-height: 1.2;
+}
+
+.dangerCopy {
+  margin: 0;
+  font-family: var(--font-ui);
+  font-size: 0.9375rem;
+  color: var(--color-ink-2);
+  max-width: 60ch;
+}
+
+.dangerActions {
+  display: flex;
+  align-items: center;
+}
+
+.dangerBtn {
+  color: var(--color-error);
+}
+
+.dangerBtn:hover {
+  color: var(--color-error);
+  background-color: rgba(176, 56, 42, 0.06);
+}
+
+.dialogBody {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.dialogHint {
+  margin: 0;
+  font-family: var(--font-ui);
+  font-size: 0.9375rem;
+  color: var(--color-ink-2);
+}
+
+.dialogError {
+  margin: 0;
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  color: var(--color-error);
+}
+
+@media (min-width: 600px) {
+  .row2 {
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+}
+
+@media (min-width: 900px) {
+  .layout {
+    grid-template-columns: minmax(0, 1fr) minmax(220px, 280px);
+    gap: 24px;
+    align-items: start;
+  }
+
+  .avatarCard {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 24px;
+  }
+
+  .avatarImg {
+    width: 120px;
+    height: 120px;
+    align-self: center;
+  }
+
+  .avatarMeta {
+    align-items: center;
+    align-self: stretch;
+    text-align: center;
+  }
+
+  .rolePill {
+    align-self: center;
+  }
+}
