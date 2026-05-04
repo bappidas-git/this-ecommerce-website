@@ -670,6 +670,184 @@ app.post('/api/orders', requireAuth, (req, res) => {
 });
 
 // ============================================================================
+// ADDRESSES — scoped to the authenticated user
+// ============================================================================
+const EMIRATES = new Set([
+  'Abu Dhabi',
+  'Dubai',
+  'Sharjah',
+  'Ajman',
+  'Umm Al Quwain',
+  'Ras Al Khaimah',
+  'Fujairah',
+]);
+
+const validateAddress = (body, { partial = false } = {}) => {
+  const errors = {};
+  const requireField = (key, message) => {
+    if (!partial && !String(body?.[key] ?? '').trim()) {
+      errors[key] = message;
+    } else if (partial && body?.[key] !== undefined && !String(body[key]).trim()) {
+      errors[key] = message;
+    }
+  };
+  requireField('label', 'Label is required');
+  requireField('firstName', 'First name is required');
+  requireField('lastName', 'Last name is required');
+  requireField('phone', 'Phone is required');
+  requireField('line1', 'Address line is required');
+  requireField('city', 'City is required');
+  requireField('emirate', 'Emirate is required');
+
+  if (
+    body?.phone !== undefined &&
+    body.phone !== '' &&
+    !/^\+?[0-9\s\-()]{6,20}$/.test(String(body.phone))
+  ) {
+    errors.phone = 'Enter a valid phone number';
+  }
+  if (
+    body?.emirate !== undefined &&
+    body.emirate !== '' &&
+    !EMIRATES.has(String(body.emirate))
+  ) {
+    errors.emirate = 'Select a valid emirate';
+  }
+  if (
+    body?.country !== undefined &&
+    body.country !== '' &&
+    String(body.country).toUpperCase() !== 'AE'
+  ) {
+    errors.country = 'Only United Arab Emirates is supported';
+  }
+  return errors;
+};
+
+const ensureSingleDefault = (userId, defaultId) => {
+  const col = db.get('addresses');
+  col.value()
+    .filter((a) => a.userId === userId && a.id !== defaultId && a.isDefault)
+    .forEach((a) => {
+      col.find({ id: a.id }).assign({ isDefault: false }).write();
+    });
+};
+
+app.get('/api/addresses', requireAuth, (req, res) => {
+  const items = db
+    .get('addresses')
+    .value()
+    .filter((a) => a.userId === req.user.id)
+    .sort((a, b) => Number(b.isDefault) - Number(a.isDefault) || a.id - b.id);
+  res.json(wrapList(items, { page: 1, perPage: items.length || 1, total: items.length }));
+});
+
+app.post('/api/addresses', requireAuth, (req, res) => {
+  const errors = validateAddress(req.body || {});
+  if (Object.keys(errors).length) {
+    return res.status(422).json(errorEnvelope('Invalid input', errors));
+  }
+  const userAddresses = db
+    .get('addresses')
+    .value()
+    .filter((a) => a.userId === req.user.id);
+  const lastId = db.get('addresses').value().reduce((m, a) => Math.max(m, a.id), 0);
+  const isFirst = userAddresses.length === 0;
+  const isDefault = isFirst || Boolean(req.body?.isDefault);
+  const next = {
+    id: lastId + 1,
+    userId: req.user.id,
+    label: String(req.body.label).trim(),
+    firstName: String(req.body.firstName).trim(),
+    lastName: String(req.body.lastName).trim(),
+    phone: String(req.body.phone).trim(),
+    line1: String(req.body.line1).trim(),
+    line2: req.body.line2 ? String(req.body.line2).trim() : '',
+    city: String(req.body.city).trim(),
+    emirate: String(req.body.emirate).trim(),
+    country: req.body.country ? String(req.body.country).toUpperCase() : 'AE',
+    isDefault,
+  };
+  db.get('addresses').push(next).write();
+  if (isDefault) ensureSingleDefault(req.user.id, next.id);
+  res.status(201).json(wrapItem(next));
+});
+
+app.patch('/api/addresses/:id', requireAuth, (req, res) => {
+  const id = Number(req.params.id);
+  const existing = db.get('addresses').find({ id }).value();
+  if (!existing || existing.userId !== req.user.id) {
+    return res.status(404).json(errorEnvelope('Address not found'));
+  }
+  const errors = validateAddress(req.body || {}, { partial: true });
+  if (Object.keys(errors).length) {
+    return res.status(422).json(errorEnvelope('Invalid input', errors));
+  }
+  const patch = {};
+  for (const key of [
+    'label',
+    'firstName',
+    'lastName',
+    'phone',
+    'line1',
+    'line2',
+    'city',
+    'emirate',
+  ]) {
+    if (req.body?.[key] !== undefined) patch[key] = String(req.body[key]).trim();
+  }
+  if (req.body?.country !== undefined) {
+    patch.country = String(req.body.country).toUpperCase();
+  }
+  if (req.body?.isDefault !== undefined) {
+    patch.isDefault = Boolean(req.body.isDefault);
+  }
+  db.get('addresses').find({ id }).assign(patch).write();
+  if (patch.isDefault) ensureSingleDefault(req.user.id, id);
+  const updated = db.get('addresses').find({ id }).value();
+  res.json(wrapItem(updated));
+});
+
+app.delete('/api/addresses/:id', requireAuth, (req, res) => {
+  const id = Number(req.params.id);
+  const existing = db.get('addresses').find({ id }).value();
+  if (!existing || existing.userId !== req.user.id) {
+    return res.status(404).json(errorEnvelope('Address not found'));
+  }
+  const userAddresses = db
+    .get('addresses')
+    .value()
+    .filter((a) => a.userId === req.user.id);
+  if (existing.isDefault && userAddresses.length <= 1) {
+    return res
+      .status(409)
+      .json(errorEnvelope('Add another address before removing your default.'));
+  }
+  db.get('addresses').remove({ id }).write();
+  if (existing.isDefault) {
+    const next = db
+      .get('addresses')
+      .value()
+      .find((a) => a.userId === req.user.id);
+    if (next) {
+      db.get('addresses').find({ id: next.id }).assign({ isDefault: true }).write();
+    }
+  }
+  res.json(wrapItem({ ok: true }));
+});
+
+app.post('/api/addresses/:id/default', requireAuth, (req, res) => {
+  const id = Number(req.params.id);
+  const existing = db.get('addresses').find({ id }).value();
+  if (!existing || existing.userId !== req.user.id) {
+    return res.status(404).json(errorEnvelope('Address not found'));
+  }
+  db.get('addresses').find({ id }).assign({ isDefault: true }).write();
+  ensureSingleDefault(req.user.id, id);
+  const updated = db.get('addresses').find({ id }).value();
+  res.json(wrapItem(updated));
+});
+
+// ============================================================================
 // ADMIN GATE + REPORTS  (must come before /api/admin json-server proxy)
 // ============================================================================
 const ADMIN_ROLES = ['admin', 'manager', 'viewer'];

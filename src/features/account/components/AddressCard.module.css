@@ -1,0 +1,93 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 20px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-3);
+  min-height: 100%;
+}
+
+.head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.label {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  line-height: 1.2;
+  color: var(--color-ink);
+}
+
+.defaultChip {
+  flex-shrink: 0;
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-style: normal;
+  font-family: var(--font-ui);
+  font-size: 0.9375rem;
+  color: var(--color-ink-2);
+  line-height: 1.5;
+}
+
+.name {
+  margin: 0;
+  color: var(--color-ink);
+  font-weight: 500;
+}
+
+.line {
+  margin: 0;
+}
+
+.phone {
+  margin: 6px 0 0;
+}
+
+.phone a {
+  color: var(--color-ink);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+}
+
+.phone a:hover,
+.phone a:focus-visible {
+  border-bottom-color: var(--color-brass);
+  color: var(--color-ink);
+}
+
+.error {
+  margin: 0;
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  color: var(--color-error);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px;
+  margin-top: auto;
+  padding-top: 8px;
+  border-top: 1px solid var(--color-line);
+}
+
+.danger {
+  color: var(--color-error);
+  margin-left: auto;
+}
+
+.danger:hover {
+  color: var(--color-error);
+  background-color: rgba(176, 56, 42, 0.06);
+}
