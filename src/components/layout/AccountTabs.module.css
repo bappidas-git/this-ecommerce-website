@@ -1,0 +1,78 @@
+.tabs {
+  position: sticky;
+  top: 72px;
+  z-index: 5;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  background: var(--color-bg);
+  border-bottom: 1px solid var(--color-line);
+  margin: 0 -16px 16px;
+  padding: 0 16px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.tabs::-webkit-scrollbar {
+  display: none;
+}
+
+.list {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  white-space: nowrap;
+}
+
+.item {
+  display: inline-flex;
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 16px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--color-line);
+  background: transparent;
+  color: var(--color-ink-2);
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: background 180ms var(--motion-ease), color 180ms var(--motion-ease),
+    border-color 180ms var(--motion-ease);
+}
+
+.pill:hover {
+  color: var(--color-ink);
+  border-color: var(--color-ink-2);
+}
+
+.pill:focus-visible {
+  outline: 2px solid var(--color-brass);
+  outline-offset: 2px;
+}
+
+.pillActive {
+  background: var(--color-brass);
+  border-color: var(--color-brass);
+  color: var(--color-bg);
+}
+
+.pillActive:hover {
+  background: var(--color-brass-2);
+  border-color: var(--color-brass-2);
+  color: var(--color-bg);
+}
+
+@media (min-width: 900px) {
+  .tabs {
+    display: none;
+  }
+}
