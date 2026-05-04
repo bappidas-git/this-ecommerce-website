@@ -248,6 +248,22 @@ export function AuthProvider({ children }) {
     setUser((prev) => (prev ? { ...prev, ...patch } : prev));
   }, []);
 
+  const rotateToken = useCallback((nextToken) => {
+    if (!nextToken) return;
+    writeToken(nextToken);
+    safeSet(() => setToken(nextToken));
+  }, [safeSet]);
+
+  const clearSession = useCallback(() => {
+    writeToken(null);
+    safeSet(() => {
+      setUser(null);
+      setToken(null);
+      setError(null);
+    });
+    emit(AUTH_LOGOUT_EVENT, { reason: 'manual' });
+  }, [safeSet]);
+
   const isAuthenticated = Boolean(user && token);
 
   const value = useMemo(
@@ -264,6 +280,8 @@ export function AuthProvider({ children }) {
       forgot,
       reset,
       updateUser,
+      rotateToken,
+      clearSession,
     }),
     [
       user,
@@ -278,6 +296,8 @@ export function AuthProvider({ children }) {
       forgot,
       reset,
       updateUser,
+      rotateToken,
+      clearSession,
     ],
   );
 
