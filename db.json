@@ -73,7 +73,7 @@
       "name": "Vases",
       "description": "Sculptural vessels in marble, glass, brass, and stoneware.",
       "parentId": null,
-      "image": "https://placehold.co/720x960/1F4034/3a5d4f?text=THIS+Interiors&font=playfair",
+      "image": "https://res.cloudinary.com/dn9gyaiik/image/upload/v1777871728/Vases_onvdli.png",
       "sortOrder": 10
     },
     {
@@ -82,7 +82,7 @@
       "name": "Lamps",
       "description": "Quiet lighting — table, floor and pendant pieces.",
       "parentId": null,
-      "image": "https://placehold.co/720x960/1F4034/3a5d4f?text=THIS+Interiors&font=playfair",
+      "image": "https://res.cloudinary.com/dn9gyaiik/image/upload/v1777871727/Lamps_cxgbsi.png",
       "sortOrder": 20
     },
     {
@@ -91,7 +91,7 @@
       "name": "Cushions & Throws",
       "description": "Linen, velvet, and cashmere comfort for sofa and bed.",
       "parentId": null,
-      "image": "https://placehold.co/720x960/1F4034/3a5d4f?text=THIS+Interiors&font=playfair",
+      "image": "https://res.cloudinary.com/dn9gyaiik/image/upload/v1777871726/Cushions_bjhqex.png",
       "sortOrder": 30
     },
     {
@@ -100,7 +100,7 @@
       "name": "Wall Art",
       "description": "Limited prints, framed studies, and architectural plates.",
       "parentId": null,
-      "image": "https://placehold.co/720x960/1F4034/3a5d4f?text=THIS+Interiors&font=playfair",
+      "image": "https://res.cloudinary.com/dn9gyaiik/image/upload/v1777871726/Wall-Arts_wxvpy2.png",
       "sortOrder": 40
     },
     {

@@ -8,31 +8,11 @@ import { PATHS } from '../../../../routes/paths.js';
 import useSettings from '../../../../hooks/useSettings.js';
 import styles from './Hero.module.css';
 
-// Editorial gradient + soft noise — no overlaid text so the headline reads cleanly.
-const HERO_FALLBACK_SVG =
-  "data:image/svg+xml;charset=utf-8," +
-  encodeURIComponent(`<?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice">
-  <defs>
-    <radialGradient id="g" cx="32%" cy="38%" r="80%">
-      <stop offset="0%" stop-color="#2A584A"/>
-      <stop offset="55%" stop-color="#1F4034"/>
-      <stop offset="100%" stop-color="#102820"/>
-    </radialGradient>
-    <linearGradient id="ray" x1="0" y1="1" x2="1" y2="0">
-      <stop offset="0%" stop-color="#C9A973" stop-opacity="0"/>
-      <stop offset="100%" stop-color="#C9A973" stop-opacity="0.18"/>
-    </linearGradient>
-  </defs>
-  <rect width="100%" height="100%" fill="url(#g)"/>
-  <ellipse cx="1180" cy="180" rx="520" ry="180" fill="url(#ray)"/>
-  <ellipse cx="240" cy="780" rx="600" ry="200" fill="#0E2018" opacity="0.55"/>
-  <circle cx="1320" cy="640" r="180" fill="#C9A973" fill-opacity="0.05"/>
-  <circle cx="1320" cy="640" r="110" fill="#C9A973" fill-opacity="0.05"/>
-</svg>`);
+const HERO_IMAGE =
+  'https://res.cloudinary.com/dn9gyaiik/image/upload/v1777871734/Hero-Image_feu2v1.png';
 
 const DEFAULTS = Object.freeze({
-  heroImage: HERO_FALLBACK_SVG,
+  heroImage: HERO_IMAGE,
   heroEyebrow: 'A Studio in Dubai',
   heroTitle: 'Pieces that quiet a room.',
   heroKicker:
