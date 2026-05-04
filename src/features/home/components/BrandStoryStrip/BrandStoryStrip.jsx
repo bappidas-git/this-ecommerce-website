@@ -11,8 +11,8 @@ import styles from './BrandStoryStrip.module.css';
 
 // Cream-on-brass so the panels stay readable against the emerald section bg.
 const STORY_IMAGES = [
-  'https://placehold.co/720x900/F7F3ED/B8924F?text=The+Atelier&font=playfair',
-  'https://placehold.co/720x900/F7F3ED/B8924F?text=Hand+Finished&font=playfair',
+  'https://res.cloudinary.com/dn9gyaiik/image/upload/v1777872857/atlier_kjtbcg.png',
+  'https://res.cloudinary.com/dn9gyaiik/image/upload/v1777872967/hand-made_xyrl56.png',
 ];
 
 const ROTATE_INTERVAL = 6000;
@@ -59,9 +59,9 @@ function BrandStoryStrip() {
               Slow making, in a Dubai studio.
             </h2>
             <p className={styles.kicker}>
-              Each piece is finished by hand in our atelier — drawn from quiet rituals,
-              honest materials, and the rooms we keep returning to. We make a little
-              less, so each object can mean a little more.
+              Each piece is finished by hand in our atelier — drawn from quiet rituals, honest
+              materials, and the rooms we keep returning to. We make a little less, so each object
+              can mean a little more.
             </p>
             <div className={styles.cta}>
               <AppButton variant="primary" to={PATHS.about} className={styles.ctaButton}>
