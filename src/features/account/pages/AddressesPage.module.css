@@ -1,0 +1,99 @@
+.header {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.descriptor {
+  margin: 0;
+  font-family: var(--font-ui);
+  font-size: 0.9375rem;
+  color: var(--color-ink-2);
+  max-width: 56ch;
+}
+
+.addBtn {
+  align-self: stretch;
+}
+
+.grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+.gridItem {
+  display: flex;
+}
+
+.gridItem > * {
+  flex: 1 1 auto;
+}
+
+.loaderWrap,
+.errorWrap {
+  padding: 48px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.errorWrap p {
+  margin: 0;
+  font-family: var(--font-ui);
+  color: var(--color-error);
+}
+
+.confirmBody {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.confirmLabel {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 1.125rem;
+  color: var(--color-ink);
+}
+
+.confirmTag {
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-brass);
+}
+
+.confirmSummary {
+  margin: 0;
+  font-family: var(--font-ui);
+  font-size: 0.9375rem;
+  color: var(--color-ink-2);
+}
+
+@media (min-width: 600px) {
+  .header {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+  }
+
+  .addBtn {
+    align-self: auto;
+  }
+}
+
+@media (min-width: 900px) {
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+  }
+}
