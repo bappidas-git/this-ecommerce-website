@@ -18,12 +18,12 @@ function PriceTag({ value, compareAt, size = 'md', currency, className, ...rest 
 
   return (
     <span className={classes} {...rest}>
+      <span className={styles.price}>{formatCurrency(value, resolvedCurrency)}</span>
       {hasDiscount ? (
         <span className={styles.compare} aria-label="Original price">
           {formatCurrency(compareAt, resolvedCurrency)}
         </span>
       ) : null}
-      <span className={styles.price}>{formatCurrency(value, resolvedCurrency)}</span>
       {hasDiscount && savePct > 0 ? (
         <span className={styles.save} aria-label={`Save ${savePct} percent`}>
           Save {savePct}%

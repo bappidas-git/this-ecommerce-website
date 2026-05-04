@@ -10,10 +10,7 @@ function CategoryTile({ category, index = 0, span }) {
   const slug = category?.slug ?? '';
   const name = category?.name ?? 'Category';
   const fallback = getProductPlaceholder(name, 900, 1100);
-  // Treat known-bad placeholder URLs as missing so we use the local SVG instead
-  // of pulling in placehold.co text overlays that fight the tile copy.
-  const remote = category?.image && !/placehold\.co/.test(category.image) ? category.image : '';
-  const image = remote || fallback;
+  const image = category?.image || fallback;
 
   const styleVars = span
     ? {

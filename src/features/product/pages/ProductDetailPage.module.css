@@ -61,6 +61,13 @@
   scroll-margin-top: 96px;
 }
 
+.notFoundCtas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+}
+
 .srOnly {
   position: absolute;
   width: 1px;
