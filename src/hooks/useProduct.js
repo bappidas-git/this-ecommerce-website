@@ -15,12 +15,12 @@ export function useProduct(slug) {
   const [error, setError] = useState(null);
   const mountedRef = useRef(true);
 
-  useEffect(
-    () => () => {
+  useEffect(() => {
+    mountedRef.current = true;
+    return () => {
       mountedRef.current = false;
-    },
-    [],
-  );
+    };
+  }, []);
 
   useEffect(() => {
     if (!slug) {
