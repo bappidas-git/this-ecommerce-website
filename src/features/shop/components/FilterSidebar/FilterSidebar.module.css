@@ -7,11 +7,27 @@
     display: block;
     position: sticky;
     top: 96px;
-    width: 280px;
+    width: 100%;
     max-height: calc(100vh - 120px);
     overflow-y: auto;
+    overscroll-behavior: contain;
     padding-right: 12px;
     align-self: start;
+    /* Subtle bottom fade hints at more content below the fold. */
+    mask-image: linear-gradient(
+      to bottom,
+      transparent 0,
+      #000 12px,
+      #000 calc(100% - 24px),
+      transparent 100%
+    );
+    -webkit-mask-image: linear-gradient(
+      to bottom,
+      transparent 0,
+      #000 12px,
+      #000 calc(100% - 24px),
+      transparent 100%
+    );
   }
 }
 

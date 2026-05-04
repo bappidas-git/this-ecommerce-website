@@ -4,6 +4,7 @@ import { motion, useReducedMotion } from 'framer-motion';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import StarRoundedIcon from '@mui/icons-material/StarRounded';
+import ShoppingBagOutlinedIcon from '@mui/icons-material/ShoppingBagOutlined';
 
 import AppBadge from '../../common/AppBadge/AppBadge.jsx';
 import AppIconButton from '../../common/AppIconButton/AppIconButton.jsx';
@@ -12,6 +13,8 @@ import PriceTag from '../../common/PriceTag.jsx';
 
 import { PATHS } from '../../../routes/paths.js';
 import { WishlistContext } from '../../../context/WishlistContext.jsx';
+import { CartContext } from '../../../context/CartContext.jsx';
+import { getProductPlaceholder, handleImageError } from '../../../utils/imageFallback.js';
 import styles from './ProductCard.module.css';
 
 /**
@@ -52,6 +55,7 @@ function ProductCard({
 }) {
   const reduceMotion = useReducedMotion();
   const wishlistCtx = useContext(WishlistContext);
+  const cartCtx = useContext(CartContext);
   const wishlistedControlled = typeof isWishlisted === 'boolean';
   const [internalWishlisted, setInternalWishlisted] = useState(false);
   const ctxWishlisted =
@@ -86,12 +90,18 @@ function ProductCard({
 
   const isCompact = density === 'compact';
   const isSoldOut = typeof stock === 'number' && stock <= 0;
-  const primaryImage = images[0];
+  const fallbackImage = getProductPlaceholder(name || 'THIS Interiors');
+  const primaryImage = images[0] || fallbackImage;
   const secondaryImage = images[1];
   const hasSecondary = Boolean(secondaryImage) && secondaryImage !== primaryImage;
   const badges = buildBadges(product);
   const productHref = slug ? PATHS.product(slug) : '#';
-  const showQuickAdd = typeof onQuickAdd === 'function';
+  // When no explicit handler is provided, fall back to cart context so the
+  // shop & home rails can add to bag without prop wiring at every level.
+  const handlerQuickAdd = typeof onQuickAdd === 'function' ? onQuickAdd : null;
+  const cartQuickAdd = !handlerQuickAdd && cartCtx ? (p) => cartCtx.addItem(p, 1) : null;
+  const effectiveQuickAdd = handlerQuickAdd || cartQuickAdd;
+  const showQuickAdd = Boolean(effectiveQuickAdd);
 
   const handleWishlistClick = (event) => {
     event.preventDefault();
@@ -116,8 +126,8 @@ function ProductCard({
   const handleQuickAddClick = (event) => {
     event.preventDefault();
     event.stopPropagation();
-    if (typeof onQuickAdd === 'function') {
-      onQuickAdd(product);
+    if (typeof effectiveQuickAdd === 'function') {
+      effectiveQuickAdd(product);
     }
   };
 
@@ -142,18 +152,13 @@ function ProductCard({
     <motion.article className={rootClasses} {...motionProps}>
       <Link to={productHref} aria-label={name} className={styles.cardLink}>
         <div className={styles.imageArea}>
-          {primaryImage ? (
-            <img
-              src={primaryImage}
-              alt={name}
-              loading="lazy"
-              className={`${styles.image} ${styles.imagePrimary}`}
-            />
-          ) : (
-            <div className={styles.imagePlaceholder} aria-hidden="true">
-              {name?.[0] || 'T'}
-            </div>
-          )}
+          <img
+            src={primaryImage}
+            alt={name}
+            loading="lazy"
+            className={`${styles.image} ${styles.imagePrimary}`}
+            onError={(e) => handleImageError(e, name)}
+          />
 
           {hasSecondary ? (
             <img
@@ -162,6 +167,7 @@ function ProductCard({
               aria-hidden="true"
               loading="lazy"
               className={`${styles.image} ${styles.imageSecondary}`}
+              onError={(e) => handleImageError(e, name)}
             />
           ) : null}
         </div>
@@ -217,48 +223,13 @@ function ProductCard({
           {wishlisted ? <FavoriteIcon fontSize="small" /> : <FavoriteBorderIcon fontSize="small" />}
         </AppIconButton>
 
-        {isSoldOut ? (
-          <div className={styles.quickAddWrap}>
-            <span className={styles.soldOutPill} role="status">
-              Sold out
-            </span>
-          </div>
-        ) : overlayAction ? (
-          <div className={styles.quickAddWrap}>
-            <button
-              type="button"
-              className={styles.quickAdd}
-              aria-label={overlayAction.ariaLabel || overlayAction.label}
-              onClick={(event) => {
-                event.preventDefault();
-                event.stopPropagation();
-                if (typeof overlayAction.onClick === 'function') {
-                  overlayAction.onClick(product);
-                }
-              }}
-            >
-              {overlayAction.label}
-            </button>
-          </div>
-        ) : showQuickAdd ? (
-          <div className={styles.quickAddWrap}>
-            <button
-              type="button"
-              className={styles.quickAdd}
-              aria-label={`Add ${name} to cart`}
-              onClick={handleQuickAddClick}
-            >
-              Quick add
-            </button>
-          </div>
-        ) : null}
       </div>
 
       {overlayAction && !isSoldOut ? (
-        <div className={styles.touchQuickAddWrap}>
+        <div className={styles.cardActions}>
           <button
             type="button"
-            className={styles.touchQuickAdd}
+            className={styles.addBag}
             aria-label={overlayAction.ariaLabel || overlayAction.label}
             onClick={(event) => {
               event.preventDefault();
@@ -268,19 +239,29 @@ function ProductCard({
               }
             }}
           >
-            {overlayAction.label}
+            <ShoppingBagOutlinedIcon
+              fontSize="inherit"
+              className={styles.addBagIcon}
+              aria-hidden="true"
+            />
+            <span>{overlayAction.label}</span>
           </button>
         </div>
       ) : showQuickAdd || isSoldOut ? (
-        <div className={styles.touchQuickAddWrap}>
+        <div className={styles.cardActions}>
           <button
             type="button"
-            className={styles.touchQuickAdd}
+            className={styles.addBag}
             disabled={isSoldOut}
-            aria-label={isSoldOut ? `${name} is sold out` : `Add ${name} to cart`}
+            aria-label={isSoldOut ? `${name} is sold out` : `Add ${name} to bag`}
             onClick={isSoldOut ? undefined : handleQuickAddClick}
           >
-            {isSoldOut ? 'Sold out' : 'Quick add'}
+            <ShoppingBagOutlinedIcon
+              fontSize="inherit"
+              className={styles.addBagIcon}
+              aria-hidden="true"
+            />
+            <span>{isSoldOut ? 'Sold out' : 'Add to bag'}</span>
           </button>
         </div>
       ) : null}

@@ -21,6 +21,7 @@ import PdpSkeleton from '../components/PdpSkeleton/PdpSkeleton.jsx';
 
 import useProduct from '../../../hooks/useProduct.js';
 import useCategories from '../../../hooks/useCategories.js';
+import { useCart } from '../../../context/CartContext.jsx';
 import { PATHS } from '../../../routes/paths.js';
 import { formatCurrency } from '../../../utils/format.js';
 
@@ -74,6 +75,7 @@ function ProductDetailPage() {
   const navigate = useNavigate();
   const { data: product, isLoading, isNotFound, isError } = useProduct(slug);
   const { items: categories } = useCategories();
+  const { addItem } = useCart();
 
   const buyboxAnchorRef = useRef(null);
 
@@ -91,7 +93,8 @@ function ProductDetailPage() {
   }, [product, category]);
 
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: 'instant' in window ? 'instant' : 'auto' });
+    // 'instant' is not a valid ScrollBehavior in all browsers — use 'auto' for parity.
+    window.scrollTo({ top: 0, behavior: 'auto' });
   }, [slug]);
 
   const canonical = `/products/${slug}`;
@@ -107,18 +110,7 @@ function ProductDetailPage() {
 
   const handleAddToCart = (item, quantity) => {
     if (!item) return;
-    if (typeof window !== 'undefined') {
-      window.dispatchEvent(
-        new CustomEvent('ti:cart:add', {
-          detail: {
-            productId: item.id,
-            quantity,
-            price: item.price,
-            name: item.name,
-          },
-        }),
-      );
-    }
+    addItem(item, Math.max(1, Number(quantity) || 1));
   };
 
   const breadcrumbItems = useMemo(() => {
