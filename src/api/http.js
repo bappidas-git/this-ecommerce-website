@@ -62,6 +62,10 @@ http.interceptors.request.use((config) => {
 http.interceptors.response.use(
   (response) => response,
   (err) => {
+    // Preserve cancellation errors so callers can detect aborts (e.g. React
+    // StrictMode effect cleanups). Normalizing strips the name/code that
+    // identifies them as cancels, which surfaces them as real errors.
+    if (axios.isCancel(err)) throw err;
     const status = err?.response?.status;
     if (status === 401) {
       dispatchAuthExpired(err?.config?.url);
