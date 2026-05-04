@@ -6,6 +6,7 @@
   height: 100%;
   background-color: var(--color-surface);
   border-radius: 14px;
+  border: 1px solid #e1e1e1;
   padding: 0;
   font-family: var(--font-ui);
   transition:
@@ -175,7 +176,9 @@
 }
 
 .addBag:focus-visible {
-  box-shadow: 0 0 0 2px var(--color-bg), 0 0 0 4px var(--color-brass);
+  box-shadow:
+    0 0 0 2px var(--color-bg),
+    0 0 0 4px var(--color-brass);
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -226,7 +229,7 @@
   gap: 6px;
   min-width: 0;
   flex: 1 1 auto;
-  padding: 16px 4px 8px;
+  padding: 16px 12px;
   /* Reserve enough vertical space for: eyebrow + 2 lines of name + rating + price.
      Keeps cards aligned in a grid even when one is sold out / on sale / unrated. */
   min-height: 132px;

@@ -1,11 +1,15 @@
 .root {
   position: sticky;
-  top: 72px;
+  top: 120px;
   z-index: 5;
   background-color: var(--color-surface);
   border-bottom: 1px solid transparent;
-  transition: border-color 200ms var(--motion-ease), box-shadow 200ms var(--motion-ease);
+  transition:
+    border-color 200ms var(--motion-ease),
+    box-shadow 200ms var(--motion-ease);
   margin-bottom: 24px;
+  border-radius: 8px;
+  padding-top: 8px;
 }
 
 .scrolled {
@@ -23,8 +27,8 @@
   flex-wrap: wrap;
   width: 100%;
   max-width: 100%;
-  min-height: 56px;
-  padding: 8px 0;
+  min-height: 60px;
+  padding: 8px 20px;
   font-family: var(--font-ui);
 }
 
@@ -94,7 +98,7 @@
   display: inline-flex;
   border: 1px solid var(--color-line);
   border-radius: var(--radius-2);
-  overflow: hidden;
+  /* overflow: hidden; */
 }
 
 .viewBtn {
@@ -106,7 +110,9 @@
   justify-content: center;
   cursor: pointer;
   color: var(--color-ink-2);
-  transition: background-color 160ms var(--motion-ease), color 160ms var(--motion-ease);
+  transition:
+    background-color 160ms var(--motion-ease),
+    color 160ms var(--motion-ease);
 }
 
 .viewBtn:hover {
