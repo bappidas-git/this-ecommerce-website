@@ -1,0 +1,61 @@
+.root {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: 1fr;
+  align-items: end;
+  padding: 16px;
+  background: var(--admin-surface, #16201D);
+  border: 1px solid var(--admin-line, #243030);
+  border-radius: var(--radius-md, 14px);
+  margin-bottom: 16px;
+}
+
+.searchCell,
+.filterCell {
+  min-width: 0;
+}
+
+.priceCell {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  min-width: 0;
+}
+
+.resetBtn {
+  appearance: none;
+  background: transparent;
+  border: 0;
+  color: var(--color-brass, #B8924F);
+  font-family: var(--font-ui);
+  font-size: 0.8125rem;
+  cursor: pointer;
+  padding: 6px 8px;
+  border-radius: 6px;
+  justify-self: start;
+}
+
+.resetBtn:hover,
+.resetBtn:focus-visible {
+  color: var(--color-brass-2, #9A7836);
+  text-decoration: underline;
+  outline: none;
+}
+
+@media (min-width: 640px) {
+  .root {
+    grid-template-columns: 1.4fr 1fr 1fr;
+  }
+  .searchCell {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (min-width: 1024px) {
+  .root {
+    grid-template-columns: 1.6fr 1fr 1fr 1fr 1.4fr auto;
+  }
+  .searchCell {
+    grid-column: auto;
+  }
+}
