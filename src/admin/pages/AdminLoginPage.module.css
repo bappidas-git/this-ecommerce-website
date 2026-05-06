@@ -1,0 +1,189 @@
+.page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--color-surface);
+  color: var(--color-ink);
+}
+
+.split {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.left {
+  background: var(--color-emerald);
+  color: var(--color-bg);
+  padding: 32px 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 22vh;
+}
+
+.right {
+  flex: 1;
+  background: var(--color-surface);
+  padding: 40px 24px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.wordmark {
+  font-family: var(--font-ui);
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-bg);
+  margin: 0 0 12px;
+}
+
+.divider {
+  height: 1px;
+  width: 56px;
+  background: var(--color-brass);
+  border: 0;
+  margin: 0 0 20px;
+}
+
+.quote {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(1.5rem, 4vw, 1.75rem);
+  line-height: 1.2;
+  color: var(--color-bg);
+  margin: 0;
+  max-width: 520px;
+}
+
+.quoteAttribution {
+  margin-top: 16px;
+  font-family: var(--font-ui);
+  font-size: 12px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--color-rose);
+}
+
+.formWrap {
+  width: 100%;
+  max-width: 380px;
+  display: flex;
+  flex-direction: column;
+}
+
+.chip {
+  align-self: flex-start;
+  display: inline-block;
+  background: var(--color-emerald);
+  color: var(--color-bg);
+  font-family: var(--font-ui);
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border-radius: var(--radius-pill);
+  margin-bottom: 16px;
+}
+
+.title {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(1.75rem, 4vw, 2.25rem);
+  line-height: 1.1;
+  color: var(--color-ink);
+  margin: 0 0 8px;
+}
+
+.subtitle {
+  font-family: var(--font-ui);
+  color: var(--color-ink-2);
+  margin: 0 0 24px;
+  font-size: 14px;
+}
+
+.alert {
+  margin-bottom: 16px;
+}
+
+.lockNotice {
+  margin: 0 0 16px;
+  padding: 12px 14px;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-2);
+  background: var(--color-bg);
+  color: var(--color-ink-2);
+  font-family: var(--font-ui);
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.lockCountdown {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  color: var(--color-ink);
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.field :global(.MuiOutlinedInput-root) {
+  height: 56px;
+}
+
+.field :global(.MuiInputBase-input) {
+  font-family: var(--font-ui);
+}
+
+.submit {
+  margin-top: 8px;
+  height: 56px;
+}
+
+.helpRow {
+  margin-top: 20px;
+  font-family: var(--font-ui);
+  font-size: 13px;
+  color: var(--color-ink-2);
+}
+
+.footer {
+  padding: 16px 24px;
+  border-top: 1px solid var(--color-line);
+  font-family: var(--font-ui);
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  color: var(--color-muted);
+  text-align: center;
+}
+
+.footerNumeric {
+  font-family: var(--font-mono);
+}
+
+@media (min-width: 768px) {
+  .split {
+    flex-direction: row;
+  }
+
+  .left {
+    flex: 0 0 60%;
+    min-height: auto;
+    padding: 64px;
+  }
+
+  .right {
+    flex: 0 0 40%;
+    padding: 64px;
+    align-items: center;
+  }
+
+  .quote {
+    font-size: 36px;
+  }
+}
