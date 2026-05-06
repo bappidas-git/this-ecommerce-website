@@ -50,7 +50,19 @@ export const http = axios.create({
   headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
 });
 
+const buildOfflineError = () => {
+  const offline = new Error('You appear to be offline.');
+  offline.status = 0;
+  offline.message = 'You appear to be offline.';
+  offline.errors = null;
+  offline.isOffline = true;
+  return offline;
+};
+
 http.interceptors.request.use((config) => {
+  if (typeof navigator !== 'undefined' && navigator.onLine === false) {
+    return Promise.reject(buildOfflineError());
+  }
   const token = tokenForUrl(config.url);
   if (token) {
     config.headers = config.headers || {};
@@ -66,6 +78,7 @@ http.interceptors.response.use(
     // StrictMode effect cleanups). Normalizing strips the name/code that
     // identifies them as cancels, which surfaces them as real errors.
     if (axios.isCancel(err)) throw err;
+    if (err?.isOffline) throw err;
     const status = err?.response?.status;
     if (status === 401) {
       dispatchAuthExpired(err?.config?.url);

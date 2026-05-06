@@ -9,6 +9,7 @@ import Seo from '../../../components/common/Seo.jsx';
 import { useCart } from '../../../context/CartContext.jsx';
 import { useCheckout } from '../../../context/CheckoutContext.jsx';
 import { useToast } from '../../../context/ToastContext.jsx';
+import useOnlineStatus from '../../../hooks/useOnlineStatus.js';
 import { formatCurrency } from '../../../utils/format.js';
 import { PATHS } from '../../../routes/paths.js';
 
@@ -81,6 +82,7 @@ function CheckoutReviewPage() {
   const checkout = useCheckout();
   const { state: cartState, clear: clearCart, clearCoupon } = useCart();
   const toast = useToast();
+  const { online } = useOnlineStatus();
 
   const [agreed, setAgreed] = useState(false);
   const [submitError, setSubmitError] = useState(null);
@@ -241,9 +243,10 @@ function CheckoutReviewPage() {
           <AppButton
             variant="primary"
             onClick={handlePlaceOrder}
-            disabled={!agreed || cartState.items.length === 0}
+            disabled={!agreed || cartState.items.length === 0 || !online}
             loading={checkout.isPlacingOrder}
             className={styles.primaryBtn}
+            title={!online ? 'Reconnect to place your order.' : undefined}
           >
             {checkout.isPlacingOrder ? 'Placing order…' : 'Place order'}
           </AppButton>

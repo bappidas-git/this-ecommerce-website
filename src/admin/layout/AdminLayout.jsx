@@ -13,6 +13,8 @@ import { AdminUIProvider, useAdminUI } from '../context/AdminUIContext.jsx';
 import useSessionExpiredHandler from '../../hooks/useSessionExpiredHandler.js';
 import useScrollToTop from '../../hooks/useScrollToTop.js';
 
+import ErrorBoundary from '../../components/common/ErrorBoundary.jsx';
+
 import AdminSidebar from './AdminSidebar.jsx';
 import AdminTopbar from './AdminTopbar.jsx';
 
@@ -46,7 +48,9 @@ function AdminShell() {
         <AdminTopbar />
         <main id="main" className={styles.main}>
           <Container maxWidth="xl" className={styles.container}>
-            <Outlet />
+            <ErrorBoundary>
+              <Outlet />
+            </ErrorBoundary>
           </Container>
         </main>
       </div>

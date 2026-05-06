@@ -1,5 +1,6 @@
 import { useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import Tooltip from '@mui/material/Tooltip';
 import CloseIcon from '@mui/icons-material/Close';
 import LocalOfferOutlinedIcon from '@mui/icons-material/LocalOfferOutlined';
 import AppButton from '../../../components/common/AppButton/AppButton.jsx';
@@ -7,6 +8,7 @@ import AppTextField from '../../../components/common/AppTextField/AppTextField.j
 import Chip from '../../../components/common/Chip/Chip.jsx';
 import couponService from '../../../api/services/couponService.js';
 import { getApiErrorMessage } from '../../../hooks/useApiError.js';
+import useOnlineStatus from '../../../hooks/useOnlineStatus.js';
 import { couponCodeField } from '../../../utils/validators.js';
 import styles from './CouponInput.module.css';
 
@@ -18,6 +20,7 @@ function CouponInput({ couponCode, subtotal, items, onApply, onClear }) {
   const [error, setError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const inputRef = useRef(null);
+  const { online } = useOnlineStatus();
 
   const handleToggle = () => {
     setOpen((prev) => !prev);
@@ -144,16 +147,25 @@ function CouponInput({ couponCode, subtotal, items, onApply, onClear }) {
                 className={styles.input}
                 disabled={isSubmitting}
               />
-              <AppButton
-                type="submit"
-                variant="secondary"
-                size="medium"
-                loading={isSubmitting}
-                disabled={isSubmitting}
-                className={styles.applyButton}
+              <Tooltip
+                title={!online ? 'Reconnect to apply your code.' : ''}
+                disableHoverListener={online}
+                disableFocusListener={online}
+                disableTouchListener={online}
               >
-                Apply
-              </AppButton>
+                <span>
+                  <AppButton
+                    type="submit"
+                    variant="secondary"
+                    size="medium"
+                    loading={isSubmitting}
+                    disabled={isSubmitting || !online}
+                    className={styles.applyButton}
+                  >
+                    Apply
+                  </AppButton>
+                </span>
+              </Tooltip>
             </div>
           </motion.form>
         ) : null}
