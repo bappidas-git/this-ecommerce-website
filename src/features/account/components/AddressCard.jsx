@@ -18,6 +18,7 @@ function AddressCard({
   onSetDefault,
   isBusy = false,
   inlineError = null,
+  readOnly = false,
 }) {
   if (!address) return null;
   const country = COUNTRY_NAMES[address.country] || address.country || '';
@@ -61,35 +62,37 @@ function AddressCard({
         </p>
       ) : null}
 
-      <footer className={styles.actions}>
-        <AppButton
-          variant="ghost"
-          size="small"
-          onClick={onEdit}
-          disabled={isBusy}
-        >
-          Edit
-        </AppButton>
-        {address.isDefault ? null : (
+      {readOnly ? null : (
+        <footer className={styles.actions}>
           <AppButton
             variant="ghost"
             size="small"
-            onClick={onSetDefault}
+            onClick={onEdit}
             disabled={isBusy}
           >
-            Set as default
+            Edit
           </AppButton>
-        )}
-        <AppButton
-          variant="ghost"
-          size="small"
-          onClick={onDelete}
-          disabled={isBusy}
-          className={styles.danger}
-        >
-          Delete
-        </AppButton>
-      </footer>
+          {address.isDefault ? null : (
+            <AppButton
+              variant="ghost"
+              size="small"
+              onClick={onSetDefault}
+              disabled={isBusy}
+            >
+              Set as default
+            </AppButton>
+          )}
+          <AppButton
+            variant="ghost"
+            size="small"
+            onClick={onDelete}
+            disabled={isBusy}
+            className={styles.danger}
+          >
+            Delete
+          </AppButton>
+        </footer>
+      )}
     </article>
   );
 }

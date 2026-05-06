@@ -2256,6 +2256,246 @@ app.post('/api/admin/orders/:id/refund', adminGate, (req, res) => {
   return res.json(wrapItem(enrichAdminOrderDetail(updated)));
 });
 
+// ============================================================================
+// ADMIN CUSTOMERS
+// ============================================================================
+const buildCustomerSummary = (user) => {
+  const userOrders = db
+    .get('orders')
+    .value()
+    .filter((o) => Number(o.userId) === Number(user.id));
+  const billable = userOrders.filter((o) => o.status !== 'cancelled');
+  const ordersCount = billable.length;
+  const lifetimeValue = round(
+    billable.reduce((sum, o) => sum + (Number(o.total) || 0), 0),
+  );
+  const aov = ordersCount ? round(lifetimeValue / ordersCount) : 0;
+  const lastOrderAt = userOrders.reduce((acc, o) => {
+    const t = Date.parse(o.createdAt) || 0;
+    return t > acc ? t : acc;
+  }, 0);
+  const fullName = `${user.firstName || ''} ${user.lastName || ''}`.trim() ||
+    user.email ||
+    'Customer';
+  return {
+    id: user.id,
+    name: fullName,
+    firstName: user.firstName || '',
+    lastName: user.lastName || '',
+    email: user.email,
+    phone: user.phone || null,
+    avatar: user.avatar || null,
+    role: user.role || 'customer',
+    isActive: user.isActive !== false,
+    disabled: user.isActive === false,
+    newsletterOptIn: user.newsletterOptIn === true,
+    joinedAt: user.createdAt || null,
+    lastSeenAt: user.lastSeenAt || user.updatedAt || null,
+    lastOrderAt: lastOrderAt ? new Date(lastOrderAt).toISOString() : null,
+    ordersCount,
+    lifetimeValue,
+    aov,
+    currency: 'AED',
+  };
+};
+
+const findCustomerOr404 = (req, res) => {
+  const id = Number(req.params.id);
+  const user = db.get('users').find({ id }).value();
+  if (!user || user.role !== 'customer') {
+    res.status(404).json(errorEnvelope('Customer not found'));
+    return null;
+  }
+  return user;
+};
+
+app.get('/api/admin/customers', adminGate, (req, res) => {
+  const q = req.query;
+  const search = String(q.q || '').trim().toLowerCase();
+  const hasOrders = isTrue(q.has_orders);
+  const newsletter = isTrue(q.newsletter);
+
+  const users = db.get('users').value().filter((u) => u.role === 'customer');
+  let rows = users.map(buildCustomerSummary);
+
+  if (search) {
+    rows = rows.filter((r) => {
+      const hay = `${r.name} ${r.email}`.toLowerCase();
+      return hay.includes(search);
+    });
+  }
+  if (hasOrders) rows = rows.filter((r) => r.ordersCount > 0);
+  if (newsletter) rows = rows.filter((r) => r.newsletterOptIn === true);
+
+  const sortBy = q.sort_by || 'joinedAt';
+  const sortDir = String(q.sort_dir || 'desc').toLowerCase() === 'asc' ? 1 : -1;
+  rows.sort((a, b) => {
+    const av = a[sortBy];
+    const bv = b[sortBy];
+    if (av === bv) return 0;
+    if (av == null) return 1;
+    if (bv == null) return -1;
+    return av > bv ? sortDir : -sortDir;
+  });
+
+  const total = rows.length;
+  const page = Math.max(1, Number(q._page) || Number(q.page) || 1);
+  const perPage = Math.max(1, Number(q._limit) || Number(q.per_page) || 25);
+  const start = (page - 1) * perPage;
+  const slice = rows.slice(start, start + perPage);
+
+  const envelope = wrapList(slice, { page, perPage, total });
+  envelope.meta.total = total;
+  return res.json(envelope);
+});
+
+const enrichCustomerDetail = (user) => {
+  const summary = buildCustomerSummary(user);
+  const addresses = db
+    .get('addresses')
+    .value()
+    .filter((a) => Number(a.userId) === Number(user.id));
+  const orders = db
+    .get('orders')
+    .value()
+    .filter((o) => Number(o.userId) === Number(user.id))
+    .map((o) => ({
+      id: o.id,
+      number: o.number,
+      status: o.status,
+      paymentStatus: o.paymentStatus,
+      paymentMethod: o.paymentMethod,
+      total: o.total,
+      currency: o.currency,
+      itemsCount: (o.items || []).reduce(
+        (n, it) => n + (Number(it.quantity) || 0),
+        0,
+      ),
+      createdAt: o.createdAt,
+    }))
+    .sort((a, b) => Date.parse(b.createdAt) - Date.parse(a.createdAt));
+  const reviews = db
+    .get('reviews')
+    .value()
+    .filter((r) => Number(r.userId) === Number(user.id))
+    .map((r) => {
+      const product = db.get('products').find({ id: r.productId }).value();
+      return {
+        id: r.id,
+        productId: r.productId,
+        productName: product?.name || null,
+        productSlug: product?.slug || null,
+        rating: r.rating,
+        title: r.title,
+        body: r.body,
+        status: r.status,
+        verifiedPurchase: r.verifiedPurchase === true,
+        createdAt: r.createdAt,
+      };
+    })
+    .sort((a, b) => Date.parse(b.createdAt) - Date.parse(a.createdAt));
+
+  const usersById = new Map(db.get('users').value().map((u) => [u.id, u]));
+  const notesAuthor = (id) => {
+    const u = usersById.get(Number(id));
+    if (!u) return { id: null, name: 'Staff', role: 'admin' };
+    return {
+      id: u.id,
+      name: `${u.firstName || ''} ${u.lastName || ''}`.trim() || u.email || 'Staff',
+      role: u.role || 'admin',
+    };
+  };
+  const rawNotes = Array.isArray(user.adminNotes) ? user.adminNotes : [];
+  const notes = rawNotes
+    .map((n) => ({
+      id: n.id,
+      body: n.body,
+      author: notesAuthor(n.authorId),
+      createdAt: n.createdAt,
+    }))
+    .sort((a, b) => Date.parse(b.createdAt) - Date.parse(a.createdAt));
+
+  return {
+    ...summary,
+    addresses,
+    orders,
+    reviews,
+    notes,
+    stats: {
+      lifetimeValue: summary.lifetimeValue,
+      ordersCount: summary.ordersCount,
+      aov: summary.aov,
+      lastOrderAt: summary.lastOrderAt,
+    },
+  };
+};
+
+app.get('/api/admin/customers/:id', adminGate, (req, res) => {
+  const user = findCustomerOr404(req, res);
+  if (!user) return undefined;
+  return res.json(wrapItem(enrichCustomerDetail(user)));
+});
+
+app.post('/api/admin/customers/:id/notes', adminGate, (req, res) => {
+  const user = findCustomerOr404(req, res);
+  if (!user) return undefined;
+
+  const body = typeof req.body?.body === 'string' ? req.body.body.trim() : '';
+  if (!body) {
+    return res
+      .status(422)
+      .json(errorEnvelope('Note body is required', { body: 'required' }));
+  }
+  if (body.length > 800) {
+    return res
+      .status(422)
+      .json(errorEnvelope('Note is too long', { body: 'max_800' }));
+  }
+
+  const now = new Date().toISOString();
+  const notes = Array.isArray(user.adminNotes) ? [...user.adminNotes] : [];
+  const lastId = notes.reduce((m, n) => Math.max(m, Number(n.id) || 0), 0);
+  notes.push({
+    id: lastId + 1,
+    authorId: req.user.id,
+    body,
+    createdAt: now,
+  });
+  db.get('users')
+    .find({ id: user.id })
+    .assign({ adminNotes: notes, updatedAt: now })
+    .write();
+
+  const updated = db.get('users').find({ id: user.id }).value();
+  return res.json(wrapItem(enrichCustomerDetail(updated)));
+});
+
+app.post('/api/admin/customers/:id/password-reset', adminGate, (req, res) => {
+  const user = findCustomerOr404(req, res);
+  if (!user) return undefined;
+  const now = new Date().toISOString();
+  db.get('users')
+    .find({ id: user.id })
+    .assign({ passwordResetSentAt: now, updatedAt: now })
+    .write();
+  return res.json(
+    wrapItem({ id: user.id, sent: true, sentAt: now, email: user.email }),
+  );
+});
+
+app.post('/api/admin/customers/:id/disable', adminGate, (req, res) => {
+  const user = findCustomerOr404(req, res);
+  if (!user) return undefined;
+  const disabled = req.body?.disabled !== false;
+  const now = new Date().toISOString();
+  db.get('users')
+    .find({ id: user.id })
+    .assign({ isActive: !disabled, updatedAt: now })
+    .write();
+  const updated = db.get('users').find({ id: user.id }).value();
+  return res.json(wrapItem(enrichCustomerDetail(updated)));
+});
+
 // /api/admin/* → role gate, then proxy to json-server router under stripped path.
 app.use('/api/admin', adminGate, router);
 
