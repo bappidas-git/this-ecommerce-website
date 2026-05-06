@@ -1952,10 +1952,111 @@ app.get('/api/admin/orders', adminGate, (req, res) => {
   return res.json(envelope);
 });
 
-app.post('/api/admin/orders/:id/status', adminGate, (req, res) => {
+// Detail-shape enrichment for the admin order page. Adds author info to notes
+// and statusHistory, synthesises a baseline history when an order has none.
+const enrichAdminOrderDetail = (order) => {
+  if (!order) return null;
+  const users = db.get('users').value();
+  const usersById = new Map(users.map((u) => [u.id, u]));
+  const author = (id) => {
+    const u = usersById.get(Number(id));
+    if (!u) return null;
+    return {
+      id: u.id,
+      name: `${u.firstName || ''} ${u.lastName || ''}`.trim() || u.email || 'User',
+      email: u.email || null,
+      role: u.role || 'admin',
+    };
+  };
+
+  const customer = author(order.userId);
+
+  let statusHistory = Array.isArray(order.statusHistory) ? [...order.statusHistory] : [];
+  if (!statusHistory.length) {
+    statusHistory = [{
+      id: 1,
+      from: null,
+      to: order.status || 'pending',
+      note: '',
+      authorId: null,
+      createdAt: order.createdAt,
+    }];
+  }
+  statusHistory = statusHistory
+    .map((h) => ({
+      id: h.id,
+      from: h.from || null,
+      to: h.to,
+      note: h.note || '',
+      author: author(h.authorId),
+      createdAt: h.createdAt,
+    }))
+    .sort((a, b) => Date.parse(a.createdAt) - Date.parse(b.createdAt));
+
+  const notes = (Array.isArray(order.notes) ? order.notes : [])
+    .map((n) => ({
+      id: n.id,
+      body: n.body,
+      author: author(n.authorId),
+      isInternal: n.isInternal !== false,
+      createdAt: n.createdAt,
+    }))
+    .sort((a, b) => Date.parse(b.createdAt) - Date.parse(a.createdAt));
+
+  const paymentEvents = Array.isArray(order.paymentEvents) ? order.paymentEvents : [];
+
+  return {
+    id: order.id,
+    number: order.number,
+    userId: order.userId,
+    customer,
+    items: order.items || [],
+    itemsCount: (order.items || []).reduce(
+      (s, it) => s + (Number(it.quantity) || 0),
+      0,
+    ),
+    subtotal: Number(order.subtotal) || 0,
+    discount: Number(order.discount) || 0,
+    tax: Number(order.tax) || 0,
+    total: Number(order.total) || 0,
+    refundedAmount: Number(order.refundedAmount) || 0,
+    currency: order.currency || 'AED',
+    couponCode: order.couponCode || null,
+    paymentMethod: order.paymentMethod || null,
+    paymentStatus: order.paymentStatus || null,
+    paymentReference: order.paymentReference || null,
+    transactionId: order.transactionId || null,
+    paymentEvents,
+    status: order.status,
+    statusHistory,
+    notes,
+    shippingAddress: order.shippingAddress || null,
+    billingAddress: order.billingAddress || null,
+    createdAt: order.createdAt,
+    updatedAt: order.updatedAt,
+  };
+};
+
+const findOrderOr404 = (req, res) => {
   const id = Number(req.params.id);
   const order = db.get('orders').find({ id }).value();
-  if (!order) return res.status(404).json(errorEnvelope('Order not found'));
+  if (!order) {
+    res.status(404).json(errorEnvelope('Order not found'));
+    return null;
+  }
+  return order;
+};
+
+app.get('/api/admin/orders/:id', adminGate, (req, res) => {
+  const order = findOrderOr404(req, res);
+  if (!order) return undefined;
+  return res.json(wrapItem(enrichAdminOrderDetail(order)));
+});
+
+app.post('/api/admin/orders/:id/status', adminGate, (req, res) => {
+  const order = findOrderOr404(req, res);
+  if (!order) return undefined;
+  const id = order.id;
 
   const next = String(req.body?.status || '').toLowerCase();
   if (!ORDER_STATUS_VALUES.has(next)) {
@@ -1979,37 +2080,180 @@ app.post('/api/admin/orders/:id/status', adminGate, (req, res) => {
   }
 
   const now = new Date().toISOString();
-  const notes = Array.isArray(order.notes) ? [...order.notes] : [];
-  if (noteBody) {
-    const lastId = notes.reduce((m, n) => Math.max(m, Number(n.id) || 0), 0);
-    notes.push({
-      id: lastId + 1,
-      authorId: req.user.id,
-      body: noteBody,
-      createdAt: now,
-      isInternal: true,
-    });
-  }
+  const history = Array.isArray(order.statusHistory) ? [...order.statusHistory] : [];
+  const lastId = history.reduce((m, h) => Math.max(m, Number(h.id) || 0), 0);
+  history.push({
+    id: lastId + 1,
+    from: order.status,
+    to: next,
+    note: noteBody || '',
+    authorId: req.user.id,
+    createdAt: now,
+  });
 
-  // If transitioning to cancelled, restock items (mirrors storefront cancel)
+  // If transitioning to cancelled, restock items via inventory_log entries.
   if (next === 'cancelled' && order.status !== 'cancelled') {
+    const logCol = db.get('inventory_log');
+    let nextLogId = logCol.value().reduce((m, l) => Math.max(m, l.id || 0), 0) + 1;
     for (const it of order.items || []) {
+      const qty = Number(it.quantity) || 0;
+      if (!qty) continue;
       db.get('products')
         .find({ id: it.productId })
-        .update('stock', (s) => Math.max(0, Number(s) || 0) + Number(it.quantity || 0))
+        .update('stock', (s) => Math.max(0, Number(s) || 0) + qty)
+        .write();
+      logCol
+        .push({
+          id: nextLogId++,
+          productId: it.productId,
+          delta: qty,
+          reason: 'order_cancelled',
+          note: `Restocked from cancelled order ${order.number}`,
+          userId: req.user.id,
+          createdAt: now,
+        })
         .write();
     }
   }
 
   db.get('orders')
     .find({ id })
-    .assign({ status: next, notes, updatedAt: now })
+    .assign({ status: next, statusHistory: history, updatedAt: now })
     .write();
 
-  const users = db.get('users').value();
-  const usersById = new Map(users.map((u) => [u.id, u]));
   const updated = db.get('orders').find({ id }).value();
-  return res.json(wrapItem(decorateAdminOrderRow(updated, usersById)));
+  return res.json(wrapItem(enrichAdminOrderDetail(updated)));
+});
+
+app.post('/api/admin/orders/:id/notes', adminGate, (req, res) => {
+  const order = findOrderOr404(req, res);
+  if (!order) return undefined;
+  const id = order.id;
+
+  const body = typeof req.body?.body === 'string' ? req.body.body.trim() : '';
+  if (!body) {
+    return res.status(422).json(errorEnvelope('Note body is required', { body: 'required' }));
+  }
+  if (body.length > 800) {
+    return res.status(422).json(errorEnvelope('Note is too long', { body: 'max_800' }));
+  }
+
+  const now = new Date().toISOString();
+  const notes = Array.isArray(order.notes) ? [...order.notes] : [];
+  const lastId = notes.reduce((m, n) => Math.max(m, Number(n.id) || 0), 0);
+  notes.push({
+    id: lastId + 1,
+    authorId: req.user.id,
+    body,
+    isInternal: req.body?.isInternal !== false,
+    createdAt: now,
+  });
+  db.get('orders').find({ id }).assign({ notes, updatedAt: now }).write();
+
+  const updated = db.get('orders').find({ id }).value();
+  return res.json(wrapItem(enrichAdminOrderDetail(updated)));
+});
+
+app.post('/api/admin/orders/:id/mark-paid', adminGate, (req, res) => {
+  const order = findOrderOr404(req, res);
+  if (!order) return undefined;
+  const id = order.id;
+
+  if (order.paymentStatus === 'paid') {
+    return res.status(409).json(errorEnvelope('Order is already paid', {
+      paymentStatus: 'already_paid',
+    }));
+  }
+  if (!['cod', 'bank_transfer'].includes(order.paymentMethod)) {
+    return res.status(409).json(errorEnvelope(
+      'Mark-as-paid is only available for COD or bank transfer orders.',
+      { paymentMethod: 'unsupported' },
+    ));
+  }
+
+  const reference = typeof req.body?.reference === 'string'
+    ? req.body.reference.trim().slice(0, 64)
+    : '';
+  const now = new Date().toISOString();
+  const events = Array.isArray(order.paymentEvents) ? [...order.paymentEvents] : [];
+  const lastId = events.reduce((m, e) => Math.max(m, Number(e.id) || 0), 0);
+  events.push({
+    id: lastId + 1,
+    type: 'mark_paid',
+    amount: Number(order.total) || 0,
+    reference,
+    authorId: req.user.id,
+    createdAt: now,
+  });
+
+  db.get('orders').find({ id }).assign({
+    paymentStatus: 'paid',
+    paymentReference: reference || order.paymentReference || null,
+    paymentEvents: events,
+    updatedAt: now,
+  }).write();
+
+  const updated = db.get('orders').find({ id }).value();
+  return res.json(wrapItem(enrichAdminOrderDetail(updated)));
+});
+
+app.post('/api/admin/orders/:id/refund', adminGate, (req, res) => {
+  const order = findOrderOr404(req, res);
+  if (!order) return undefined;
+  const id = order.id;
+
+  if (order.paymentStatus !== 'paid' && order.paymentStatus !== 'refunded') {
+    return res.status(409).json(errorEnvelope(
+      'Only paid orders can be refunded.',
+      { paymentStatus: 'not_paid' },
+    ));
+  }
+
+  const total = Number(order.total) || 0;
+  const alreadyRefunded = Number(order.refundedAmount) || 0;
+  const requested = req.body?.amount === undefined || req.body?.amount === null
+    ? total - alreadyRefunded
+    : Number(req.body.amount);
+  if (!Number.isFinite(requested) || requested <= 0) {
+    return res.status(422).json(errorEnvelope('Refund amount must be greater than zero', {
+      amount: 'invalid',
+    }));
+  }
+  const remaining = round(total - alreadyRefunded);
+  if (requested > remaining + 0.001) {
+    return res.status(422).json(errorEnvelope(
+      `Refund cannot exceed remaining balance (${remaining}).`,
+      { amount: 'exceeds_remaining' },
+    ));
+  }
+  const reason = typeof req.body?.reason === 'string'
+    ? req.body.reason.trim().slice(0, 280)
+    : '';
+
+  const now = new Date().toISOString();
+  const events = Array.isArray(order.paymentEvents) ? [...order.paymentEvents] : [];
+  const lastId = events.reduce((m, e) => Math.max(m, Number(e.id) || 0), 0);
+  events.push({
+    id: lastId + 1,
+    type: 'refund',
+    amount: round(requested),
+    reason,
+    authorId: req.user.id,
+    createdAt: now,
+  });
+
+  const newRefunded = round(alreadyRefunded + requested);
+  const fullyRefunded = newRefunded >= remaining + alreadyRefunded - 0.001;
+
+  db.get('orders').find({ id }).assign({
+    paymentStatus: fullyRefunded ? 'refunded' : 'paid',
+    refundedAmount: newRefunded,
+    paymentEvents: events,
+    updatedAt: now,
+  }).write();
+
+  const updated = db.get('orders').find({ id }).value();
+  return res.json(wrapItem(enrichAdminOrderDetail(updated)));
 });
 
 // /api/admin/* → role gate, then proxy to json-server router under stripped path.
