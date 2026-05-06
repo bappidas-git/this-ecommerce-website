@@ -25,6 +25,21 @@ const MOCK_SETTINGS = Object.freeze({
     tiktok: 'https://tiktok.com/@thisinteriors',
     facebook: 'https://facebook.com/thisinteriors',
   },
+  payment: {
+    cardEnabled: true,
+    codEnabled: true,
+    bankTransferEnabled: true,
+    codFee: 15,
+    currency: 'AED',
+    bankDetails: {
+      bankName: 'Emirates NBD',
+      accountName: 'THIS Interiors Trading LLC',
+      accountNumber: '0123 4567 8901 2345',
+      iban: 'AE12 0260 0010 1234 5678 901',
+      swift: 'EBILAEAD',
+      reference: 'Use your order number as the transfer reference.',
+    },
+  },
 });
 
 export function useSettings() {
