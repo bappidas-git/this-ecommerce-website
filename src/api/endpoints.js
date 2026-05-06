@@ -53,6 +53,8 @@ export const ENDPOINTS = Object.freeze({
   admin: {
     login: '/admin/auth/login',
     me: '/admin/auth/me',
+    logout: '/admin/auth/logout',
+    profile: '/admin/auth/profile',
     products: '/admin/products',
     productById: (id) => `/admin/products/${id}`,
     categories: '/admin/categories',

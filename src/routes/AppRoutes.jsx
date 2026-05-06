@@ -166,31 +166,127 @@ function AppRoutes() {
           </AdminAuthProvider>
         }
       />
-      <Route
-        path="admin"
-        element={
-          <AdminAuthProvider>
-            <RequireAdmin>
-              <AdminLayout />
+      <Route path="admin" element={<AdminLayout />}>
+        <Route
+          index
+          element={
+            <RequireAdmin area="dashboard">
+              <AdminDashboard />
             </RequireAdmin>
-          </AdminAuthProvider>
-        }
-      >
-        <Route index element={<AdminDashboard />} />
-        <Route path="products" element={<AdminProducts />} />
-        <Route path="products/new" element={<AdminProductNew />} />
-        <Route path="products/:id" element={<AdminProductEdit />} />
-        <Route path="categories" element={<AdminCategories />} />
-        <Route path="inventory" element={<AdminInventory />} />
-        <Route path="orders" element={<AdminOrders />} />
-        <Route path="orders/:id" element={<AdminOrderDetail />} />
-        <Route path="customers" element={<AdminCustomers />} />
-        <Route path="customers/:id" element={<AdminCustomerDetail />} />
-        <Route path="reviews" element={<AdminReviews />} />
-        <Route path="coupons" element={<AdminCoupons />} />
-        <Route path="settings" element={<AdminSettings />} />
-        <Route path="reports" element={<AdminReports />} />
-        <Route path="users" element={<AdminUsers />} />
+          }
+        />
+        <Route
+          path="products"
+          element={
+            <RequireAdmin area="products">
+              <AdminProducts />
+            </RequireAdmin>
+          }
+        />
+        <Route
+          path="products/new"
+          element={
+            <RequireAdmin area="products">
+              <AdminProductNew />
+            </RequireAdmin>
+          }
+        />
+        <Route
+          path="products/:id"
+          element={
+            <RequireAdmin area="products">
+              <AdminProductEdit />
+            </RequireAdmin>
+          }
+        />
+        <Route
+          path="categories"
+          element={
+            <RequireAdmin area="categories">
+              <AdminCategories />
+            </RequireAdmin>
+          }
+        />
+        <Route
+          path="inventory"
+          element={
+            <RequireAdmin area="inventory">
+              <AdminInventory />
+            </RequireAdmin>
+          }
+        />
+        <Route
+          path="orders"
+          element={
+            <RequireAdmin area="orders">
+              <AdminOrders />
+            </RequireAdmin>
+          }
+        />
+        <Route
+          path="orders/:id"
+          element={
+            <RequireAdmin area="orders">
+              <AdminOrderDetail />
+            </RequireAdmin>
+          }
+        />
+        <Route
+          path="customers"
+          element={
+            <RequireAdmin area="customers">
+              <AdminCustomers />
+            </RequireAdmin>
+          }
+        />
+        <Route
+          path="customers/:id"
+          element={
+            <RequireAdmin area="customers">
+              <AdminCustomerDetail />
+            </RequireAdmin>
+          }
+        />
+        <Route
+          path="reviews"
+          element={
+            <RequireAdmin area="reviews">
+              <AdminReviews />
+            </RequireAdmin>
+          }
+        />
+        <Route
+          path="coupons"
+          element={
+            <RequireAdmin area="coupons">
+              <AdminCoupons />
+            </RequireAdmin>
+          }
+        />
+        <Route
+          path="settings"
+          element={
+            <RequireAdmin area="settings">
+              <AdminSettings />
+            </RequireAdmin>
+          }
+        />
+        <Route
+          path="reports"
+          element={
+            <RequireAdmin area="reports">
+              <AdminReports />
+            </RequireAdmin>
+          }
+        />
+        <Route
+          path="users"
+          element={
+            <RequireAdmin area="users">
+              <AdminUsers />
+            </RequireAdmin>
+          }
+        />
       </Route>
 
       <Route path="*" element={<NotFound />} />
