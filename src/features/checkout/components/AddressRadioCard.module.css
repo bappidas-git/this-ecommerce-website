@@ -1,0 +1,147 @@
+.card {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 16px;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-3);
+  background: var(--color-surface);
+  transition:
+    border-color 180ms var(--motion-ease),
+    background-color 180ms var(--motion-ease),
+    box-shadow 180ms var(--motion-ease);
+  cursor: pointer;
+  position: relative;
+}
+
+.card:hover {
+  border-color: var(--color-brass);
+}
+
+.card:focus-within {
+  outline: 2px solid var(--color-brass);
+  outline-offset: 2px;
+}
+
+.cardSelected {
+  border: 2px solid var(--color-brass);
+  background: rgba(184, 146, 79, 0.06);
+  padding: 15px;
+}
+
+.cardAdd {
+  border-style: dashed;
+}
+
+.cardAdd.cardSelected {
+  border-style: solid;
+}
+
+.radio {
+  margin-top: -6px;
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+  font-family: var(--font-ui);
+  color: var(--color-ink-2);
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+.headRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 4px;
+}
+
+.label {
+  font-family: var(--font-display);
+  color: var(--color-ink);
+  font-size: 18px;
+  letter-spacing: -0.01em;
+}
+
+.defaultChip {
+  background: rgba(184, 146, 79, 0.16) !important;
+  color: var(--color-brass-2) !important;
+  border-color: var(--color-brass) !important;
+}
+
+.name {
+  margin: 0;
+  color: var(--color-ink);
+  font-weight: 500;
+}
+
+.line {
+  margin: 0;
+  color: var(--color-ink-2);
+}
+
+.phone {
+  margin: 4px 0 0;
+  color: var(--color-muted);
+  font-size: 13px;
+}
+
+.editLink {
+  appearance: none;
+  background: transparent;
+  border: 0;
+  padding: 4px 6px;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--color-brass-2);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+  align-self: flex-start;
+}
+
+.editLink:hover {
+  color: var(--color-ink);
+}
+
+.addRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.addIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-pill);
+  background: rgba(184, 146, 79, 0.14);
+  color: var(--color-brass-2);
+  flex-shrink: 0;
+}
+
+.addText {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.addTitle {
+  font-family: var(--font-display);
+  color: var(--color-ink);
+  font-size: 18px;
+  letter-spacing: -0.01em;
+}
+
+.addHint {
+  color: var(--color-muted);
+  font-size: 13px;
+}

@@ -1,0 +1,150 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  width: 100%;
+  max-width: 720px;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.sectionHeader {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.kicker {
+  font-size: 13px;
+  color: var(--color-muted);
+  font-family: var(--font-ui);
+}
+
+.title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 28px;
+  letter-spacing: -0.01em;
+  color: var(--color-ink);
+}
+
+.subtitle {
+  margin: 0;
+  font-family: var(--font-ui);
+  font-size: 13px;
+  color: var(--color-muted);
+}
+
+.subhead {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 22px;
+  color: var(--color-ink);
+  letter-spacing: -0.01em;
+}
+
+.contactCard {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 20px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-3);
+}
+
+.contactNote {
+  font-size: 12px;
+  color: var(--color-muted);
+  margin: -4px 0 0;
+  line-height: 1.4;
+}
+
+.row2 {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+@media (min-width: 600px) {
+  .row2 {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.savedList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.newAddressBlock {
+  margin-top: 16px;
+  padding: 20px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-3);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.formGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.billingToggle {
+  padding: 16px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-3);
+}
+
+.errorBanner {
+  padding: 12px 14px;
+  background: rgba(176, 56, 42, 0.08);
+  border: 1px solid var(--color-error);
+  border-radius: var(--radius-2);
+  color: var(--color-error);
+  font-size: 13px;
+}
+
+.loaderWrap {
+  display: flex;
+  justify-content: center;
+  padding: 24px;
+}
+
+.footer {
+  display: flex;
+  flex-direction: column-reverse;
+  gap: 12px;
+  padding-top: 16px;
+  border-top: 1px solid var(--color-line);
+}
+
+.footer .primaryBtn,
+.footer .ghostBtn {
+  width: 100%;
+}
+
+@media (min-width: 600px) {
+  .footer {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .footer .primaryBtn,
+  .footer .ghostBtn {
+    width: auto;
+  }
+}
