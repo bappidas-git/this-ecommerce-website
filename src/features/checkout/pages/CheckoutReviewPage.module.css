@@ -1,0 +1,252 @@
+.page {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+  max-width: 720px;
+}
+
+.sectionHeader {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.kicker {
+  font-size: 13px;
+  color: var(--color-muted);
+  font-family: var(--font-ui);
+}
+
+.title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 28px;
+  letter-spacing: -0.01em;
+  color: var(--color-ink);
+}
+
+.card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-3);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.cardTitle {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 20px;
+  color: var(--color-ink);
+  letter-spacing: -0.01em;
+}
+
+.editLink {
+  font-family: var(--font-ui);
+  font-size: 13px;
+  color: var(--color-brass-2);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.editLink:hover {
+  color: var(--color-brass);
+}
+
+.cardBody {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-family: var(--font-ui);
+  color: var(--color-ink);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.muted {
+  margin: 0;
+  color: var(--color-muted);
+  font-size: 13px;
+}
+
+.items {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.item {
+  display: grid;
+  grid-template-columns: 56px 1fr auto;
+  gap: 12px;
+  align-items: center;
+}
+
+.thumb {
+  width: 56px;
+  height: 72px;
+  object-fit: cover;
+  border-radius: var(--radius-2);
+  border: 1px solid var(--color-line);
+}
+
+.itemMeta {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.itemName {
+  margin: 0;
+  font-size: 14px;
+  color: var(--color-ink);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.itemQty {
+  margin: 0;
+  font-size: 12px;
+  color: var(--color-muted);
+}
+
+.itemPrice {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--color-ink);
+  white-space: nowrap;
+}
+
+.address {
+  font-style: normal;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.sameAs {
+  margin: 0;
+  font-size: 14px;
+  color: var(--color-ink-2);
+  font-style: italic;
+}
+
+.paymentLabel {
+  margin: 0;
+  font-size: 14px;
+  color: var(--color-ink);
+  font-weight: 500;
+}
+
+.notes {
+  margin: 0;
+  font-size: 14px;
+  color: var(--color-ink-2);
+  white-space: pre-wrap;
+}
+
+.couponRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.removeBtn {
+  background: none;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-pill);
+  padding: 4px 12px;
+  font-family: var(--font-ui);
+  font-size: 12px;
+  color: var(--color-ink-2);
+  cursor: pointer;
+  transition: border-color 180ms var(--motion-ease), color 180ms var(--motion-ease);
+}
+
+.removeBtn:hover:not(:disabled) {
+  border-color: var(--color-brass);
+  color: var(--color-brass-2);
+}
+
+.removeBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.terms {
+  padding: 16px 4px 0;
+}
+
+.termsLink {
+  color: var(--color-brass-2);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.termsLink:hover {
+  color: var(--color-brass);
+}
+
+.errorBanner {
+  padding: 12px 14px;
+  background: rgba(176, 56, 42, 0.08);
+  border: 1px solid var(--color-error);
+  border-radius: var(--radius-2);
+  color: var(--color-error);
+  font-size: 13px;
+}
+
+.footer {
+  display: flex;
+  flex-direction: column-reverse;
+  gap: 12px;
+  padding-top: 16px;
+  border-top: 1px solid var(--color-line);
+}
+
+.footer .primaryBtn,
+.footer .ghostBtn {
+  width: 100%;
+}
+
+@media (min-width: 600px) {
+  .footer {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .footer .ghostBtn {
+    width: auto;
+  }
+  .footer .primaryBtn {
+    width: 280px;
+  }
+}
+
+.loaderOverlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(247, 243, 237, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-3);
+  pointer-events: none;
+}

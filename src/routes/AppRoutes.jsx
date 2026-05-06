@@ -34,8 +34,8 @@ import NotFound from '../features/static/pages/NotFound.jsx';
 
 import CheckoutAddress from '../features/checkout/pages/CheckoutAddressPage.jsx';
 import CheckoutPayment from '../features/checkout/pages/CheckoutPaymentPage.jsx';
-import CheckoutReview from '../features/checkout/pages/CheckoutReview.jsx';
-import OrderConfirmation from '../features/checkout/pages/OrderConfirmation.jsx';
+import CheckoutReview from '../features/checkout/pages/CheckoutReviewPage.jsx';
+import OrderConfirmation from '../features/checkout/pages/CheckoutConfirmationPage.jsx';
 
 import AccountProfile from '../features/account/pages/AccountProfile.jsx';
 import OrdersListPage from '../features/account/pages/OrdersListPage.jsx';

@@ -10,6 +10,10 @@ export const orderService = {
   create: (payload) => http.post(ENDPOINTS.orders.create, payload).then(unwrap),
   cancel: (id) => http.post(ENDPOINTS.orders.cancel(id)).then(unwrap),
   reorder: (id) => http.post(ENDPOINTS.orders.reorder(id)).then(unwrap),
+  // Link a guest order to a freshly created account. The mock backend doesn't
+  // implement this endpoint yet — resolve immediately so post-purchase
+  // registration stays smooth in dev. Swap to a real endpoint when available.
+  linkToUser: (id) => Promise.resolve({ id, linked: true }),
 };
 
 export default orderService;
