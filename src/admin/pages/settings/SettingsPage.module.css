@@ -1,0 +1,238 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 24px;
+}
+
+@media (min-width: 768px) {
+  .page {
+    padding: 32px;
+  }
+}
+
+.layout {
+  display: grid;
+  gap: 24px;
+}
+
+@media (min-width: 1024px) {
+  .layout {
+    grid-template-columns: 220px minmax(0, 1fr);
+    align-items: flex-start;
+  }
+}
+
+.tabsRail {
+  position: relative;
+}
+
+@media (min-width: 1024px) {
+  .tabsRail {
+    position: sticky;
+    top: calc(var(--admin-topbar-height, 64px) + 24px);
+  }
+}
+
+.tabsHorizontal {
+  border-bottom: 1px solid var(--admin-line);
+}
+
+.tabsVertical {
+  border-right: 1px solid var(--admin-line);
+}
+
+.tabsVertical :global(.MuiTabs-indicator) {
+  left: 0;
+  width: 2px;
+  background: var(--admin-ink);
+}
+
+.tab {
+  text-transform: none;
+  font-family: var(--font-ui);
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  color: var(--admin-muted);
+  align-items: flex-start;
+  min-height: 40px;
+  padding: 10px 16px;
+}
+
+@media (min-width: 1024px) {
+  .tab {
+    justify-content: flex-start;
+    text-align: left;
+  }
+}
+
+.tab:global(.Mui-selected) {
+  color: var(--admin-ink);
+}
+
+.formArea {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 0;
+}
+
+.formGrid {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 768px) {
+  .formGrid2 {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.formActions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  position: sticky;
+  bottom: 0;
+  background: var(--admin-bg);
+  padding: 12px 0;
+  border-top: 1px solid var(--admin-line);
+  margin-top: 8px;
+}
+
+.dirtyPill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  border-radius: 999px;
+  background: rgba(184, 134, 43, 0.12);
+  color: #B8862B;
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.dirtyDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: #B8862B;
+}
+
+.previewWrap {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.previewLabel {
+  margin: 0;
+  font-family: var(--font-ui);
+  font-size: 0.6875rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--admin-muted);
+}
+
+.announcementPreview {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #1B1A17;
+  color: #F7F3ED;
+  padding: 10px 16px;
+  border-radius: var(--radius-2);
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  letter-spacing: 0.02em;
+  text-align: center;
+  border: 1px solid var(--admin-line);
+}
+
+.announcementPreviewMuted {
+  background: var(--admin-surface);
+  color: var(--admin-muted);
+  font-style: italic;
+}
+
+.logoPreview {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  background: #F7F3ED;
+  color: #1B1A17;
+  padding: 16px 20px;
+  border-radius: var(--radius-2);
+  border: 1px solid var(--admin-line);
+}
+
+.logoWordmark {
+  font-family: var(--font-display);
+  font-size: 1.75rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+
+.logoFavicon {
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  object-fit: cover;
+  background: #FFFFFF;
+}
+
+.swatch {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-mono, 'JetBrains Mono', monospace);
+  font-size: 0.8125rem;
+}
+
+.swatchDot {
+  width: 18px;
+  height: 18px;
+  border-radius: 999px;
+  border: 1px solid var(--admin-line);
+}
+
+.helpText {
+  margin: 0;
+  font-family: var(--font-ui);
+  font-size: 0.8125rem;
+  color: var(--admin-muted);
+  line-height: 1.5;
+}
+
+.lockedNote {
+  font-style: italic;
+  color: var(--admin-muted);
+}
+
+.subFields {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-left: 16px;
+  border-left: 2px solid var(--admin-line);
+}
+
+.skeleton {
+  min-height: 120px;
+  background: var(--admin-surface);
+  border-radius: var(--radius-3);
+  animation: pulse 1.4s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 0.9; }
+}
