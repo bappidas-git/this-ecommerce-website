@@ -1,5 +1,5 @@
 import { useEffect, useMemo } from 'react';
-import { FormProvider, useForm } from 'react-hook-form';
+import { FormProvider, useForm, useFormContext } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 
@@ -29,7 +29,7 @@ export const COUNTRY_OPTIONS = [
   { value: 'BH', label: 'Bahrain', disabled: true },
 ];
 
-const FIELD_ORDER = [
+export const ADDRESS_FIELD_ORDER = [
   'label',
   'firstName',
   'lastName',
@@ -44,7 +44,7 @@ const FIELD_ORDER = [
 
 const PHONE_REGEX = /^\+?[0-9\s\-()]{6,20}$/;
 
-const schema = yup
+export const addressSchema = yup
   .object({
     label: yup
       .string()
@@ -88,18 +88,146 @@ const schema = yup
   })
   .required();
 
-const buildDefaults = (initial) => ({
-  label: initial?.label || '',
-  firstName: initial?.firstName || '',
-  lastName: initial?.lastName || '',
-  phone: initial?.phone || '+971 ',
-  line1: initial?.line1 || '',
-  line2: initial?.line2 || '',
-  city: initial?.city || '',
-  emirate: initial?.emirate || '',
-  country: initial?.country || 'AE',
-  isDefault: Boolean(initial?.isDefault),
+export const addressSchemaNoLabel = addressSchema.shape({
+  label: yup.string().trim().max(40, 'Keep the label under 40 characters.').default(''),
 });
+
+export function buildAddressDefaults(initial) {
+  return {
+    label: initial?.label || '',
+    firstName: initial?.firstName || '',
+    lastName: initial?.lastName || '',
+    phone: initial?.phone || '+971 ',
+    line1: initial?.line1 || '',
+    line2: initial?.line2 || '',
+    city: initial?.city || '',
+    emirate: initial?.emirate || '',
+    country: initial?.country || 'AE',
+    isDefault: Boolean(initial?.isDefault),
+  };
+}
+
+export function normaliseAddressPayload(values) {
+  return {
+    label: (values.label || '').trim(),
+    firstName: values.firstName.trim(),
+    lastName: values.lastName.trim(),
+    phone: values.phone.trim(),
+    line1: values.line1.trim(),
+    line2: values.line2 ? values.line2.trim() : '',
+    city: values.city.trim(),
+    emirate: values.emirate,
+    country: values.country,
+    isDefault: Boolean(values.isDefault),
+  };
+}
+
+export function AddressFormFields({
+  lockDefault = false,
+  hideLabel = false,
+  hideDefaultToggle = false,
+  fieldIdPrefix,
+}) {
+  const prefix = fieldIdPrefix ? `${fieldIdPrefix}-` : '';
+  return (
+    <>
+      {hideLabel ? null : (
+        <AppTextField
+          name="label"
+          label="Label"
+          placeholder="Home, Office, Studio…"
+          autoComplete="off"
+          required
+          id={`${prefix}label`}
+        />
+      )}
+
+      <div className={styles.row2}>
+        <AppTextField
+          name="firstName"
+          label="First name"
+          autoComplete="given-name"
+          required
+          id={`${prefix}firstName`}
+        />
+        <AppTextField
+          name="lastName"
+          label="Last name"
+          autoComplete="family-name"
+          required
+          id={`${prefix}lastName`}
+        />
+      </div>
+
+      <AppTextField
+        name="phone"
+        label="Phone"
+        type="tel"
+        autoComplete="tel"
+        required
+        placeholder="+971 50 000 0000"
+        id={`${prefix}phone`}
+      />
+
+      <AppTextField
+        name="line1"
+        label="Address line 1"
+        autoComplete="address-line1"
+        required
+        placeholder="Villa / building, street"
+        id={`${prefix}line1`}
+      />
+      <AppTextField
+        name="line2"
+        label="Address line 2"
+        autoComplete="address-line2"
+        optional
+        placeholder="Area, landmark"
+        id={`${prefix}line2`}
+      />
+
+      <div className={styles.row2}>
+        <AppTextField
+          name="city"
+          label="City"
+          autoComplete="address-level2"
+          required
+          id={`${prefix}city`}
+        />
+        <AppSelect
+          name="emirate"
+          label="Emirate"
+          options={EMIRATE_OPTIONS}
+          required
+          placeholder="Select an emirate"
+          id={`${prefix}emirate`}
+        />
+      </div>
+
+      <AppSelect
+        name="country"
+        label="Country"
+        options={COUNTRY_OPTIONS}
+        disabled
+        helperText="Shipping is currently limited to the UAE."
+        id={`${prefix}country`}
+      />
+
+      {hideDefaultToggle ? null : (
+        <AppCheckbox
+          name="isDefault"
+          label="Set as default delivery address"
+          disabled={lockDefault}
+          description={
+            lockDefault
+              ? 'This is your only address, so it must remain default.'
+              : undefined
+          }
+        />
+      )}
+    </>
+  );
+}
 
 function AddressForm({
   initial,
@@ -108,10 +236,10 @@ function AddressForm({
   submitLabel = 'Save address',
   lockDefault = false,
 }) {
-  const defaultValues = useMemo(() => buildDefaults(initial), [initial]);
+  const defaultValues = useMemo(() => buildAddressDefaults(initial), [initial]);
 
   const methods = useForm({
-    resolver: yupResolver(schema),
+    resolver: yupResolver(addressSchema),
     mode: 'onTouched',
     defaultValues,
   });
@@ -130,23 +258,12 @@ function AddressForm({
 
   useEffect(() => {
     if (!submitCount) return;
-    const first = FIELD_ORDER.find((name) => errors[name]);
+    const first = ADDRESS_FIELD_ORDER.find((name) => errors[name]);
     if (first) setFocus(first);
   }, [errors, setFocus, submitCount]);
 
   const submit = handleSubmit(async (values) => {
-    const payload = {
-      label: values.label.trim(),
-      firstName: values.firstName.trim(),
-      lastName: values.lastName.trim(),
-      phone: values.phone.trim(),
-      line1: values.line1.trim(),
-      line2: values.line2 ? values.line2.trim() : '',
-      city: values.city.trim(),
-      emirate: values.emirate,
-      country: values.country,
-      isDefault: Boolean(values.isDefault),
-    };
+    const payload = normaliseAddressPayload(values);
     try {
       await onSubmit?.(payload);
     } catch (err) {
@@ -154,7 +271,7 @@ function AddressForm({
       let mapped = false;
       if (fieldErrors && typeof fieldErrors === 'object') {
         for (const key of Object.keys(fieldErrors)) {
-          if (!FIELD_ORDER.includes(key)) continue;
+          if (!ADDRESS_FIELD_ORDER.includes(key)) continue;
           const raw = fieldErrors[key];
           const message = Array.isArray(raw) ? raw[0] : raw;
           if (!message) continue;
@@ -178,87 +295,7 @@ function AddressForm({
         noValidate
         onSubmit={submit}
       >
-        <AppTextField
-          name="label"
-          label="Label"
-          placeholder="Home, Office, Studio…"
-          autoComplete="off"
-          required
-        />
-
-        <div className={styles.row2}>
-          <AppTextField
-            name="firstName"
-            label="First name"
-            autoComplete="given-name"
-            required
-          />
-          <AppTextField
-            name="lastName"
-            label="Last name"
-            autoComplete="family-name"
-            required
-          />
-        </div>
-
-        <AppTextField
-          name="phone"
-          label="Phone"
-          type="tel"
-          autoComplete="tel"
-          required
-          placeholder="+971 50 000 0000"
-        />
-
-        <AppTextField
-          name="line1"
-          label="Address line 1"
-          autoComplete="address-line1"
-          required
-          placeholder="Villa / building, street"
-        />
-        <AppTextField
-          name="line2"
-          label="Address line 2"
-          autoComplete="address-line2"
-          optional
-          placeholder="Area, landmark"
-        />
-
-        <div className={styles.row2}>
-          <AppTextField
-            name="city"
-            label="City"
-            autoComplete="address-level2"
-            required
-          />
-          <AppSelect
-            name="emirate"
-            label="Emirate"
-            options={EMIRATE_OPTIONS}
-            required
-            placeholder="Select an emirate"
-          />
-        </div>
-
-        <AppSelect
-          name="country"
-          label="Country"
-          options={COUNTRY_OPTIONS}
-          disabled
-          helperText="Shipping is currently limited to the UAE."
-        />
-
-        <AppCheckbox
-          name="isDefault"
-          label="Set as default delivery address"
-          disabled={lockDefault}
-          description={
-            lockDefault
-              ? 'This is your only address, so it must remain default.'
-              : undefined
-          }
-        />
+        <AddressFormFields lockDefault={lockDefault} />
 
         <div className={styles.actions}>
           {onCancel ? (
@@ -275,4 +312,5 @@ function AddressForm({
   );
 }
 
+export { useFormContext };
 export default AddressForm;

@@ -32,7 +32,7 @@ import Terms from '../features/static/pages/Terms.jsx';
 import ShippingReturns from '../features/static/pages/ShippingReturns.jsx';
 import NotFound from '../features/static/pages/NotFound.jsx';
 
-import CheckoutAddress from '../features/checkout/pages/CheckoutAddress.jsx';
+import CheckoutAddress from '../features/checkout/pages/CheckoutAddressPage.jsx';
 import CheckoutPayment from '../features/checkout/pages/CheckoutPayment.jsx';
 import CheckoutReview from '../features/checkout/pages/CheckoutReview.jsx';
 import OrderConfirmation from '../features/checkout/pages/OrderConfirmation.jsx';
