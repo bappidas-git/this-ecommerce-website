@@ -1349,6 +1349,104 @@ app.get('/api/admin/reports/inventory-turnover', adminGate, (_req, res) => {
   res.json(wrapItem(list));
 });
 
+// ----- Categories: reorder + reassign ---------------------------------------
+const normalizeSortOrders = (parentId) => {
+  const siblings = db
+    .get('categories')
+    .value()
+    .filter((c) => (c.parentId ?? null) === (parentId ?? null))
+    .slice()
+    .sort((a, b) => (a.sortOrder ?? 0) - (b.sortOrder ?? 0));
+  siblings.forEach((c, idx) => {
+    db
+      .get('categories')
+      .find({ id: c.id })
+      .assign({ sortOrder: (idx + 1) * 10 })
+      .write();
+  });
+  return db
+    .get('categories')
+    .value()
+    .filter((c) => (c.parentId ?? null) === (parentId ?? null))
+    .slice()
+    .sort((a, b) => (a.sortOrder ?? 0) - (b.sortOrder ?? 0));
+};
+
+app.post('/api/admin/categories/:id/move', adminGate, (req, res) => {
+  const id = Number(req.params.id);
+  const direction = String(req.body?.direction || '').toLowerCase();
+  const target = db.get('categories').find({ id }).value();
+  if (!target) return res.status(404).json(errorEnvelope('Category not found'));
+  if (direction !== 'up' && direction !== 'down') {
+    return res
+      .status(422)
+      .json(errorEnvelope('Direction must be "up" or "down"', { direction: 'invalid' }));
+  }
+  const siblings = normalizeSortOrders(target.parentId ?? null);
+  const idx = siblings.findIndex((c) => c.id === id);
+  const swapIdx = direction === 'up' ? idx - 1 : idx + 1;
+  if (idx < 0 || swapIdx < 0 || swapIdx >= siblings.length) {
+    return res.json(wrapItem(siblings));
+  }
+  const a = siblings[idx];
+  const b = siblings[swapIdx];
+  db.get('categories').find({ id: a.id }).assign({ sortOrder: b.sortOrder }).write();
+  db.get('categories').find({ id: b.id }).assign({ sortOrder: a.sortOrder }).write();
+  const updated = normalizeSortOrders(target.parentId ?? null);
+  res.json(wrapItem(updated));
+});
+
+app.post('/api/admin/categories/:id/reassign', adminGate, (req, res) => {
+  const fromId = Number(req.params.id);
+  const toId = req.body?.toId == null ? null : Number(req.body.toId);
+  const from = db.get('categories').find({ id: fromId }).value();
+  if (!from) return res.status(404).json(errorEnvelope('Category not found'));
+  if (toId !== null) {
+    const to = db.get('categories').find({ id: toId }).value();
+    if (!to) {
+      return res
+        .status(422)
+        .json(errorEnvelope('Target category not found', { toId: 'invalid' }));
+    }
+    if (toId === fromId) {
+      return res
+        .status(422)
+        .json(errorEnvelope('Cannot reassign to itself', { toId: 'invalid' }));
+    }
+    // prevent moving into own descendant
+    const isDescendant = (candidateId) => {
+      if (candidateId === fromId) return true;
+      const c = db.get('categories').find({ id: candidateId }).value();
+      if (!c || c.parentId == null) return false;
+      return isDescendant(c.parentId);
+    };
+    if (isDescendant(toId)) {
+      return res
+        .status(422)
+        .json(errorEnvelope('Cannot reassign to a descendant', { toId: 'invalid' }));
+    }
+  }
+  let movedProducts = 0;
+  let movedCategories = 0;
+  db.get('products')
+    .value()
+    .forEach((p) => {
+      if (p.categoryId === fromId) {
+        db.get('products').find({ id: p.id }).assign({ categoryId: toId }).write();
+        movedProducts += 1;
+      }
+    });
+  db.get('categories')
+    .value()
+    .forEach((c) => {
+      if (c.parentId === fromId) {
+        db.get('categories').find({ id: c.id }).assign({ parentId: toId }).write();
+        movedCategories += 1;
+      }
+    });
+  res.json(wrapItem({ movedProducts, movedCategories }));
+});
+
 // /api/admin/* → role gate, then proxy to json-server router under stripped path.
 app.use('/api/admin', adminGate, router);
 

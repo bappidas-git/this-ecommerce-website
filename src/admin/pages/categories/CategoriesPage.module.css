@@ -1,0 +1,42 @@
+.layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+.treeCard {
+  min-height: 360px;
+}
+
+.treeBody {
+  padding: 0;
+}
+
+.editorCard {
+  padding: 24px;
+  border: 1px solid var(--admin-line, #243030);
+  min-height: 320px;
+}
+
+.editorDesktop {
+  min-width: 0;
+}
+
+.deleteBody {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.deleteHint {
+  color: var(--color-success, #3f6b4f);
+  font-size: 0.875rem;
+  margin: 0;
+}
+
+@media (min-width: 1024px) {
+  .layout {
+    grid-template-columns: 5fr 7fr;
+    align-items: start;
+  }
+}
