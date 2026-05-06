@@ -8,6 +8,10 @@ export const adminReviewService = {
   getById: (id) => http.get(ENDPOINTS.admin.reviewById(id)).then(unwrap),
   update: (id, payload) =>
     http.patch(ENDPOINTS.admin.reviewById(id), payload).then(unwrap),
+  bulkUpdate: ({ ids, status }) =>
+    http
+      .post(`${ENDPOINTS.admin.reviews}/bulk`, { ids, status })
+      .then(unwrapList),
   remove: (id) => http.delete(ENDPOINTS.admin.reviewById(id)).then(unwrap),
 };
 
