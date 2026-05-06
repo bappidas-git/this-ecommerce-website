@@ -1,4 +1,12 @@
-import { createContext, useCallback, useContext, useMemo, useState } from 'react';
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
+import { useLocation } from 'react-router-dom';
 
 const UIContext = createContext(null);
 
@@ -13,6 +21,28 @@ export function UIProvider({ children }) {
   const closeCart = useCallback(() => setCartOpen(false), []);
   const openSearch = useCallback(() => setSearchOpen(true), []);
   const closeSearch = useCallback(() => setSearchOpen(false), []);
+  const toggleSearch = useCallback(() => setSearchOpen((v) => !v), []);
+
+  // Cmd/Ctrl+K opens the global search overlay.
+  useEffect(() => {
+    const onKeyDown = (event) => {
+      const key = event.key?.toLowerCase();
+      if ((event.metaKey || event.ctrlKey) && key === 'k') {
+        event.preventDefault();
+        setSearchOpen(true);
+      }
+    };
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, []);
+
+  // Close transient overlays on route change.
+  const location = useLocation();
+  useEffect(() => {
+    setSearchOpen(false);
+    setCartOpen(false);
+    setMobileNavOpen(false);
+  }, [location.pathname, location.search]);
 
   const value = useMemo(
     () => ({
@@ -25,6 +55,7 @@ export function UIProvider({ children }) {
       isSearchOpen,
       openSearch,
       closeSearch,
+      toggleSearch,
     }),
     [
       isMobileNavOpen,
@@ -36,6 +67,7 @@ export function UIProvider({ children }) {
       isSearchOpen,
       openSearch,
       closeSearch,
+      toggleSearch,
     ]
   );
 

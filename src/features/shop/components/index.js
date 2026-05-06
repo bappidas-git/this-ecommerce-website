@@ -7,3 +7,4 @@ export { default as ProductGrid } from './ProductGrid/ProductGrid.jsx';
 export { default as PaginationBar } from './PaginationBar/PaginationBar.jsx';
 export { default as MobileFilterSheet } from './MobileFilterSheet/MobileFilterSheet.jsx';
 export { default as MobileSortSheet } from './MobileSortSheet/MobileSortSheet.jsx';
+export { default as ProductBrowser } from './ProductBrowser/ProductBrowser.jsx';
