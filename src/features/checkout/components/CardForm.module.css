@@ -1,0 +1,75 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.encryptNote {
+  margin: 0;
+  font-size: 12px;
+  color: var(--color-muted);
+  font-family: var(--font-ui);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+.fullRow {
+  grid-column: 1 / -1;
+}
+
+.halfRow {
+  grid-column: 1 / -1;
+}
+
+@media (min-width: 768px) {
+  .grid {
+    grid-template-columns: 1fr 1fr;
+  }
+  .halfRow {
+    grid-column: auto;
+  }
+}
+
+.fieldWithBadge {
+  position: relative;
+}
+
+.brandBadge {
+  position: absolute;
+  top: 14px;
+  right: 12px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  padding: 4px 8px;
+  border-radius: var(--radius-1);
+  background: rgba(184, 146, 79, 0.14);
+  color: var(--color-brass-2);
+  border: 1px solid var(--color-brass);
+  text-transform: uppercase;
+  pointer-events: none;
+  user-select: none;
+}
+
+.brand_visa {
+  background: rgba(31, 64, 52, 0.08);
+  color: var(--color-emerald);
+  border-color: var(--color-emerald);
+}
+
+.brand_mastercard {
+  background: rgba(176, 56, 42, 0.08);
+  color: var(--color-error);
+  border-color: var(--color-error);
+}
+
+.brand_amex {
+  background: rgba(31, 64, 52, 0.08);
+  color: var(--color-emerald);
+  border-color: var(--color-emerald);
+}
