@@ -22,6 +22,9 @@ import {
   formValuesToPayload,
   generateCouponCode,
 } from '../../features/coupons/couponSchema.js';
+import useApiFormError from '../../../hooks/useApiFormError.js';
+import useFocusFirstInvalid from '../../../hooks/useFocusFirstInvalid.js';
+import { getApiErrorMessage } from '../../../hooks/useApiError.js';
 
 import styles from './CouponFormDialog.module.css';
 
@@ -69,9 +72,11 @@ function CouponFormDialog({
     defaultValues: defaults,
     mode: 'onBlur',
   });
-  const { control, register, handleSubmit, reset, setValue, setError, formState } =
-    methods;
+  const { control, register, handleSubmit, reset, setValue, formState } = methods;
   const { errors, isSubmitting } = formState;
+
+  const onApiError = useApiFormError(methods);
+  useFocusFirstInvalid(methods);
 
   const [topError, setTopError] = useState(null);
 
@@ -124,16 +129,11 @@ function CouponFormDialog({
       await onSubmit(payload);
     } catch (err) {
       const fieldErrors = err?.errors || err?.response?.data?.errors || null;
-      if (fieldErrors && typeof fieldErrors === 'object') {
-        Object.entries(fieldErrors).forEach(([field, message]) => {
-          setError(field, { type: 'server', message: String(message) });
-        });
+      if (fieldErrors && typeof fieldErrors === 'object' && Object.keys(fieldErrors).length > 0) {
+        onApiError({ ...err, errors: fieldErrors });
+        return;
       }
-      const message =
-        err?.message ||
-        err?.response?.data?.message ||
-        'Could not save coupon.';
-      setTopError(message);
+      setTopError(getApiErrorMessage(err) || 'Could not save coupon.');
     }
   };
 
@@ -258,6 +258,7 @@ function CouponFormDialog({
               <AppTextField
                 label="Max redemptions"
                 type="number"
+                optional
                 inputProps={{ min: 1, step: 1 }}
                 {...register('maxRedemptions')}
                 error={errors.maxRedemptions?.message}

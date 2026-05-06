@@ -6,30 +6,31 @@ import { ArrowRight } from 'lucide-react';
 import { authService } from '../../api/services/authService.js';
 import { useToast } from '../../context/ToastContext.jsx';
 import { getApiErrorMessage } from '../../hooks/useApiError.js';
+import useApiFormError from '../../hooks/useApiFormError.js';
+import useFocusFirstInvalid from '../../hooks/useFocusFirstInvalid.js';
+import { emailField } from '../../utils/validators.js';
 import styles from './NewsletterForm.module.css';
 
-const schema = yup.object({
-  email: yup
-    .string()
-    .trim()
-    .required('Please enter your email address.')
-    .email('Please enter a valid email address.'),
-});
+const schema = yup.object({ email: emailField() });
 
 function NewsletterForm({ tone = 'dark', hint, ariaLabel = 'Subscribe to our newsletter' }) {
   const { brand, error: toastError } = useToast();
   const inputId = useId();
   const errorId = useId();
+  const methods = useForm({
+    resolver: yupResolver(schema),
+    defaultValues: { email: '' },
+    mode: 'onSubmit',
+  });
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors, isSubmitting },
-  } = useForm({
-    resolver: yupResolver(schema),
-    defaultValues: { email: '' },
-    mode: 'onSubmit',
-  });
+  } = methods;
+
+  const onApiError = useApiFormError(methods);
+  useFocusFirstInvalid(methods, ['email']);
 
   const onSubmit = async (values) => {
     try {
@@ -39,6 +40,10 @@ function NewsletterForm({ tone = 'dark', hint, ariaLabel = 'Subscribe to our new
       brand('Thank you — confirmation in your inbox shortly.');
       reset();
     } catch (err) {
+      if (err?.errors && typeof err.errors === 'object' && Object.keys(err.errors).length > 0) {
+        onApiError(err);
+        return;
+      }
       toastError(getApiErrorMessage(err) || 'We could not subscribe you just now. Please try again.');
     }
   };

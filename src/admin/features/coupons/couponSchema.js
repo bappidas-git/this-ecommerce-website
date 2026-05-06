@@ -1,5 +1,7 @@
 import * as yup from 'yup';
 
+import { priceField, quantityField } from '../../../utils/validators.js';
+
 export const COUPON_CODE_RE = /^[A-Z0-9]{3,20}$/;
 
 export const couponEmptyDefaults = {
@@ -20,48 +22,45 @@ export const couponSchema = yup.object({
     .string()
     .trim()
     .transform((v) => (v ? String(v).toUpperCase() : v))
-    .required('Code is required')
-    .matches(COUPON_CODE_RE, '3–20 uppercase letters or digits'),
+    .required('Please enter a code.')
+    .matches(COUPON_CODE_RE, 'Use 3 to 20 uppercase letters or digits.'),
   type: yup
     .string()
-    .oneOf(['percent', 'fixed'], 'Choose a discount type')
-    .required('Type is required'),
+    .oneOf(['percent', 'fixed'], 'Please choose a discount type.')
+    .required('Please choose a discount type.'),
   value: yup
     .number()
-    .typeError('Value is required')
-    .required('Value is required')
+    .typeError('Please enter a value.')
+    .required('Please enter a value.')
     .when('type', {
       is: 'percent',
       then: (s) =>
-        s.min(1, 'Percent must be 1–100').max(100, 'Percent must be 1–100'),
-      otherwise: (s) => s.min(1, 'Fixed must be at least 1 AED'),
+        s
+          .min(1, 'Percent must be between 1 and 100.')
+          .max(100, 'Percent must be between 1 and 100.'),
+      otherwise: (s) => s.min(1, 'Fixed amount must be at least 1 AED.'),
     }),
-  minSubtotal: yup
-    .number()
+  minSubtotal: priceField({ required: false, label: 'minimum subtotal' })
     .transform((v, o) => (o === '' || o == null ? 0 : v))
-    .min(0, 'Must be ≥ 0')
     .default(0),
-  maxRedemptions: yup
-    .number()
+  maxRedemptions: quantityField({ required: false, label: 'max redemptions', min: 1 })
     .transform((v, o) => (o === '' || o == null ? null : v))
-    .nullable()
-    .integer('Must be an integer')
-    .min(1, 'Must be ≥ 1'),
+    .nullable(),
   startsAt: yup
     .string()
-    .required('Start date is required')
-    .test('valid-date', 'Invalid date', (v) =>
+    .required('Please choose a start date.')
+    .test('valid-date', 'Please enter a valid date.', (v) =>
       v ? !Number.isNaN(Date.parse(v)) : false,
     ),
   endsAt: yup
     .string()
-    .required('End date is required')
-    .test('valid-date', 'Invalid date', (v) =>
+    .required('Please choose an end date.')
+    .test('valid-date', 'Please enter a valid date.', (v) =>
       v ? !Number.isNaN(Date.parse(v)) : false,
     )
     .test(
       'after-start',
-      'End must be after start',
+      'The end date must be after the start date.',
       function (value) {
         const { startsAt } = this.parent;
         if (!value || !startsAt) return true;
@@ -77,7 +76,7 @@ export const couponSchema = yup.object({
     .of(yup.number())
     .when('appliesTo', {
       is: (v) => v === 'categories' || v === 'products',
-      then: (s) => s.min(1, 'Select at least one target'),
+      then: (s) => s.min(1, 'Please select at least one target.'),
       otherwise: (s) => s.transform(() => []),
     }),
   isActive: yup.boolean().default(true),

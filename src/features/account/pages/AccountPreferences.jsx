@@ -10,6 +10,8 @@ import Seo from '../../../components/common/Seo.jsx';
 import { useAuth } from '../../../context/AuthContext.jsx';
 import { useToast } from '../../../context/ToastContext.jsx';
 import { getApiErrorMessage } from '../../../hooks/useApiError.js';
+import useApiFormError from '../../../hooks/useApiFormError.js';
+import useFocusFirstInvalid from '../../../hooks/useFocusFirstInvalid.js';
 import authService from '../../../api/services/authService.js';
 
 import styles from './AccountPreferences.module.css';
@@ -42,6 +44,9 @@ function AccountPreferences() {
     formState: { isDirty, isSubmitting, isSubmitSuccessful },
   } = methods;
 
+  const onApiError = useApiFormError(methods);
+  useFocusFirstInvalid(methods);
+
   useEffect(() => {
     reset(defaults);
   }, [defaults, reset]);
@@ -70,6 +75,10 @@ function AccountPreferences() {
     } catch (err) {
       // rollback
       if (prev) updateUser({ preferences: prev });
+      if (err?.errors && typeof err.errors === 'object' && Object.keys(err.errors).length > 0) {
+        onApiError(err);
+        return;
+      }
       toast.error(getApiErrorMessage(err) || 'Could not save preferences.');
     }
   };

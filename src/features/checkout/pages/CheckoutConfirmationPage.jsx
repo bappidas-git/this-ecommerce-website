@@ -22,6 +22,9 @@ import { readLastOrder } from '../../../context/CheckoutContext.jsx';
 import { useToast } from '../../../context/ToastContext.jsx';
 import orderService from '../../../api/services/orderService.js';
 import { getApiErrorMessage } from '../../../hooks/useApiError.js';
+import useApiFormError from '../../../hooks/useApiFormError.js';
+import useFocusFirstInvalid from '../../../hooks/useFocusFirstInvalid.js';
+import { nameField, passwordField } from '../../../utils/validators.js';
 import { formatCurrency } from '../../../utils/format.js';
 import { PATHS } from '../../../routes/paths.js';
 
@@ -37,17 +40,8 @@ const PAYMENT_LABELS = {
 };
 
 const registerSchema = yup.object({
-  firstName: yup
-    .string()
-    .trim()
-    .required('First name is required.')
-    .min(2, 'Use at least 2 characters.')
-    .max(40),
-  password: yup
-    .string()
-    .required('Choose a password.')
-    .min(8, 'Use at least 8 characters.')
-    .max(72),
+  firstName: nameField({ label: 'first name', min: 2, max: 40 }),
+  password: passwordField({ min: 8 }).max(72, 'Please keep your password under 72 characters.'),
 });
 
 function fullName(address) {
@@ -467,6 +461,9 @@ function GuestCreateAccount({ email, orderId, registerUser, toast, onLinked }) {
   const [done, setDone] = useState(false);
   const [serverError, setServerError] = useState(null);
 
+  const onApiError = useApiFormError(methods);
+  useFocusFirstInvalid(methods, ['firstName', 'password']);
+
   const onSubmit = useCallback(
     async (values) => {
       setServerError(null);
@@ -488,13 +485,17 @@ function GuestCreateAccount({ email, orderId, registerUser, toast, onLinked }) {
         setDone(true);
         if (typeof onLinked === 'function') onLinked(null);
       } catch (err) {
+        if (err?.errors && typeof err.errors === 'object' && Object.keys(err.errors).length > 0) {
+          onApiError(err);
+          return;
+        }
         const message =
           getApiErrorMessage(err) ||
           'Could not create your account. Please try again.';
         setServerError(message);
       }
     },
-    [registerUser, email, orderId, toast, onLinked],
+    [registerUser, email, orderId, toast, onLinked, onApiError],
   );
 
   if (done) {

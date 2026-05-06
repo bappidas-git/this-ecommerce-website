@@ -15,6 +15,9 @@ import EmptyState from '../../../components/common/EmptyState/EmptyState.jsx';
 
 import { useAuth } from '../../../context/AuthContext.jsx';
 import { getApiErrorMessage } from '../../../hooks/useApiError.js';
+import useApiFormError from '../../../hooks/useApiFormError.js';
+import useFocusFirstInvalid from '../../../hooks/useFocusFirstInvalid.js';
+import { passwordField } from '../../../utils/validators.js';
 import { queueToast, queueBanner } from '../../../utils/toastQueue.js';
 import { PATHS } from '../../../routes/paths.js';
 
@@ -24,13 +27,7 @@ const FIELD_ORDER = ['password', 'confirmPassword'];
 
 const schema = yup
   .object({
-    password: yup
-      .string()
-      .required('Please choose a password.')
-      .min(8, 'Use at least 8 characters.')
-      .matches(/[a-z]/, 'Add a lowercase letter.')
-      .matches(/[A-Z]/, 'Add an uppercase letter.')
-      .matches(/\d/, 'Add a number.'),
+    password: passwordField(),
     confirmPassword: yup
       .string()
       .required('Please confirm your password.')
@@ -60,20 +57,16 @@ function ResetPasswordPage() {
 
   const {
     handleSubmit,
-    setError,
     setFocus,
-    formState: { isSubmitting, errors, submitCount },
+    formState: { isSubmitting },
   } = methods;
+
+  const onApiError = useApiFormError(methods);
+  useFocusFirstInvalid(methods, FIELD_ORDER);
 
   useEffect(() => {
     if (token) setFocus('password');
   }, [token, setFocus]);
-
-  useEffect(() => {
-    if (!submitCount) return;
-    const firstInvalid = FIELD_ORDER.find((name) => errors[name]);
-    if (firstInvalid) setFocus(firstInvalid);
-  }, [errors, setFocus, submitCount]);
 
   if (!token) {
     return (
@@ -119,22 +112,10 @@ function ResetPasswordPage() {
       const status = err?.status;
       const fieldErrors = err?.errors;
 
-      let mapped = false;
-      if (fieldErrors && typeof fieldErrors === 'object') {
-        for (const key of Object.keys(fieldErrors)) {
-          const raw = fieldErrors[key];
-          const message = Array.isArray(raw) ? raw[0] : raw;
-          if (!message) continue;
-          setError(
-            key,
-            { type: 'server', message: String(message) },
-            { shouldFocus: !mapped },
-          );
-          mapped = true;
-        }
+      if (fieldErrors && typeof fieldErrors === 'object' && Object.keys(fieldErrors).length > 0) {
+        onApiError(err);
+        return;
       }
-
-      if (mapped) return;
 
       if (status === 410 || status === 400) {
         setServerError(

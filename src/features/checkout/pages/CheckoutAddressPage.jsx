@@ -24,25 +24,18 @@ import { useCheckout } from '../../../context/CheckoutContext.jsx';
 import { useToast } from '../../../context/ToastContext.jsx';
 import addressService from '../../../api/services/addressService.js';
 import { getApiErrorMessage } from '../../../hooks/useApiError.js';
+import useApiFormError from '../../../hooks/useApiFormError.js';
+import useFocusFirstInvalid from '../../../hooks/useFocusFirstInvalid.js';
+import { emailField, phoneField } from '../../../utils/validators.js';
 import { PATHS } from '../../../routes/paths.js';
 
 import styles from './CheckoutAddressPage.module.css';
 
-const PHONE_REGEX = /^\+?[0-9\s\-()]{6,20}$/;
-
 const NEW_ADDRESS_VALUE = 'new';
 
 const guestExtras = {
-  contactEmail: yup
-    .string()
-    .trim()
-    .email('Please enter a valid email address.')
-    .required('Email is required.'),
-  contactPhone: yup
-    .string()
-    .trim()
-    .required('Phone number is required.')
-    .matches(PHONE_REGEX, 'Enter a valid international number.'),
+  contactEmail: emailField(),
+  contactPhone: phoneField({ label: 'phone' }),
   saveContact: yup.boolean().default(true),
 };
 
@@ -129,6 +122,10 @@ function CheckoutAddressPage() {
     reValidateMode: 'onChange',
     defaultValues: { ...billingDefaults, label: billingDefaults.label || 'Billing' },
   });
+
+  const onShippingApiError = useApiFormError(shippingForm);
+  useFocusFirstInvalid(shippingForm, ADDRESS_FIELD_ORDER);
+  useFocusFirstInvalid(billingForm, ADDRESS_FIELD_ORDER);
 
   const [billingSame, setBillingSame] = useState(checkout.billingSameAsShipping);
 
@@ -228,8 +225,11 @@ function CheckoutAddressPage() {
         toast.success('Address updated.');
         setEditingAddress(null);
       } catch (err) {
+        if (err?.errors && typeof err.errors === 'object' && Object.keys(err.errors).length > 0) {
+          // Let the embedded AddressForm map the field errors via useApiFormError.
+          throw err;
+        }
         setEditError(getApiErrorMessage(err) || 'Could not save changes.');
-        if (err?.errors) throw err;
       } finally {
         setIsSavingEdit(false);
       }
@@ -290,6 +290,10 @@ function CheckoutAddressPage() {
             }
             await refreshAddresses();
           } catch (err) {
+            if (err?.errors && typeof err.errors === 'object' && Object.keys(err.errors).length > 0) {
+              onShippingApiError(err);
+              return;
+            }
             setSubmitError(
               getApiErrorMessage(err) || 'Could not save your address. Please try again.',
             );
@@ -326,6 +330,7 @@ function CheckoutAddressPage() {
     checkout,
     focusFirstError,
     isGuest,
+    onShippingApiError,
     refreshAddresses,
     selectedId,
     shippingForm,

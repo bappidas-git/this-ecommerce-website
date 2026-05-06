@@ -14,6 +14,9 @@ import Seo from '../../components/common/Seo.jsx';
 
 import { useAdminAuth } from '../context/AdminAuthContext.jsx';
 import { getApiErrorMessage } from '../../hooks/useApiError.js';
+import useApiFormError from '../../hooks/useApiFormError.js';
+import useFocusFirstInvalid from '../../hooks/useFocusFirstInvalid.js';
+import { emailField } from '../../utils/validators.js';
 import { PATHS } from '../../routes/paths.js';
 
 import styles from './AdminLoginPage.module.css';
@@ -24,11 +27,7 @@ const LOCK_MS = 60 * 1000;
 
 const schema = yup
   .object({
-    email: yup
-      .string()
-      .trim()
-      .required('Please enter your email.')
-      .email("That email doesn't look right."),
+    email: emailField(),
     password: yup.string().required('Please enter your password.').min(1),
   })
   .required();
@@ -138,15 +137,12 @@ function AdminLoginPage() {
     formState: { isSubmitting, errors },
   } = methods;
 
+  const onApiError = useApiFormError(methods);
+  useFocusFirstInvalid(methods, ['email', 'password']);
+
   useEffect(() => {
     if (!isLocked) setFocus('email');
   }, [isLocked, setFocus]);
-
-  useEffect(() => {
-    const fieldOrder = ['email', 'password'];
-    const firstInvalid = fieldOrder.find((name) => errors[name]);
-    if (firstInvalid) setFocus(firstInvalid);
-  }, [errors, setFocus]);
 
   const recordFailure = useCallback(() => {
     const next = { count: attempts.count + 1, lockedUntil: 0 };
@@ -172,6 +168,10 @@ function AdminLoginPage() {
       navigate(redirectTarget, { replace: true });
     } catch (err) {
       recordFailure();
+      if (err?.errors && typeof err.errors === 'object' && Object.keys(err.errors).length > 0) {
+        onApiError(err);
+        return;
+      }
       const message =
         err?.status === 401
           ? "That email and password don't match. Please try again."

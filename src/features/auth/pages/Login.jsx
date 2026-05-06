@@ -15,7 +15,10 @@ import Seo from '../../../components/common/Seo.jsx';
 import { useAuth } from '../../../context/AuthContext.jsx';
 import { useToast } from '../../../context/ToastContext.jsx';
 import { getApiErrorMessage } from '../../../hooks/useApiError.js';
+import useApiFormError from '../../../hooks/useApiFormError.js';
+import useFocusFirstInvalid from '../../../hooks/useFocusFirstInvalid.js';
 import { drainBannerQueue } from '../../../utils/toastQueue.js';
+import { emailField } from '../../../utils/validators.js';
 import { PATHS } from '../../../routes/paths.js';
 
 import styles from './Login.module.css';
@@ -39,11 +42,7 @@ function consumeLoginBanner() {
 
 const schema = yup
   .object({
-    email: yup
-      .string()
-      .trim()
-      .required('Please enter your email.')
-      .email("That email doesn't look right."),
+    email: emailField(),
     password: yup.string().required('Please enter your password.').min(1),
     remember: yup.boolean(),
   })
@@ -96,8 +95,11 @@ function Login() {
   const {
     handleSubmit,
     setFocus,
-    formState: { isSubmitting, errors },
+    formState: { isSubmitting },
   } = methods;
+
+  const onApiError = useApiFormError(methods);
+  useFocusFirstInvalid(methods, ['email', 'password']);
 
   useEffect(() => {
     if (!prefilledEmail) {
@@ -106,14 +108,6 @@ function Login() {
       setFocus('password');
     }
   }, [prefilledEmail, setFocus]);
-
-  useEffect(() => {
-    const fieldOrder = ['email', 'password'];
-    const firstInvalid = fieldOrder.find((name) => errors[name]);
-    if (firstInvalid) {
-      setFocus(firstInvalid);
-    }
-  }, [errors, setFocus]);
 
   const onSubmit = async (values) => {
     setServerError(null);
@@ -126,6 +120,10 @@ function Login() {
       toast.success(`Welcome back, ${firstName}`);
       navigate(redirectTarget, { replace: true });
     } catch (err) {
+      if (err?.errors && typeof err.errors === 'object') {
+        onApiError(err);
+        return;
+      }
       const message =
         err?.status === 401
           ? 'That email and password don’t match. Please try again.'

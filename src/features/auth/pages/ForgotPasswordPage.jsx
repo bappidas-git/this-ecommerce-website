@@ -13,6 +13,9 @@ import Seo from '../../../components/common/Seo.jsx';
 
 import { useAuth } from '../../../context/AuthContext.jsx';
 import { getApiErrorMessage } from '../../../hooks/useApiError.js';
+import useApiFormError from '../../../hooks/useApiFormError.js';
+import useFocusFirstInvalid from '../../../hooks/useFocusFirstInvalid.js';
+import { emailField } from '../../../utils/validators.js';
 import { PATHS } from '../../../routes/paths.js';
 
 import styles from './ForgotPasswordPage.module.css';
@@ -20,15 +23,7 @@ import styles from './ForgotPasswordPage.module.css';
 const COOLDOWN_KEY = 'ti_forgot_cooldown';
 const COOLDOWN_SECONDS = 60;
 
-const schema = yup
-  .object({
-    email: yup
-      .string()
-      .trim()
-      .required('Please enter your email.')
-      .email("That email doesn't look right."),
-  })
-  .required();
+const schema = yup.object({ email: emailField() }).required();
 
 function readCooldown() {
   if (typeof window === 'undefined') return null;
@@ -158,17 +153,15 @@ function ForgotPasswordPage() {
   const {
     handleSubmit,
     setFocus,
-    formState: { isSubmitting, errors, submitCount },
+    formState: { isSubmitting },
   } = methods;
+
+  const onApiError = useApiFormError(methods);
+  useFocusFirstInvalid(methods, ['email']);
 
   useEffect(() => {
     if (!confirmedEmail) setFocus('email');
   }, [confirmedEmail, setFocus]);
-
-  useEffect(() => {
-    if (!submitCount) return;
-    if (errors.email) setFocus('email');
-  }, [errors, setFocus, submitCount]);
 
   const sendForEmail = useCallback(
     async (email) => {
@@ -183,6 +176,10 @@ function ForgotPasswordPage() {
         setServerError(null);
         return true;
       } catch (err) {
+        if (err?.errors && typeof err.errors === 'object') {
+          onApiError(err);
+          return false;
+        }
         const message =
           err?.status === 429
             ? 'You’ve requested too many resets. Please wait a moment and try again.'
@@ -191,7 +188,7 @@ function ForgotPasswordPage() {
         return false;
       }
     },
-    [forgot],
+    [forgot, onApiError],
   );
 
   const onSubmit = async (values) => {

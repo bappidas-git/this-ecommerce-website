@@ -124,11 +124,13 @@ function RefundDialog({ open, onClose, onSubmit, order, isSaving }) {
   const handleSubmit = () => {
     const value = type === 'full' ? remaining : Number(amount);
     if (!Number.isFinite(value) || value <= 0) {
-      setError('Enter a refund amount greater than zero');
+      setError('Please enter a refund amount greater than zero.');
       return;
     }
     if (value > remaining + 0.001) {
-      setError(`Cannot exceed remaining ${formatCurrency(remaining, order?.currency)}`);
+      setError(
+        `Refund cannot exceed the remaining ${formatCurrency(remaining, order?.currency)}.`,
+      );
       return;
     }
     onSubmit({ amount: value, reason: reason.trim() });

@@ -43,11 +43,11 @@ function InternalNotesTimeline({ notes, canWrite, onAdd, isSaving }) {
     e.preventDefault();
     const trimmed = body.trim();
     if (!trimmed) {
-      setError('Note cannot be empty');
+      setError('Please write a note before posting.');
       return;
     }
     if (trimmed.length > NOTE_LIMIT) {
-      setError(`Keep notes under ${NOTE_LIMIT} characters`);
+      setError(`Please keep notes under ${NOTE_LIMIT} characters.`);
       return;
     }
     setError('');

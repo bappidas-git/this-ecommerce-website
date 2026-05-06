@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
@@ -12,6 +11,9 @@ import PasswordStrengthMeter from '../../auth/components/PasswordStrengthMeter.j
 import { useAuth } from '../../../context/AuthContext.jsx';
 import { useToast } from '../../../context/ToastContext.jsx';
 import { getApiErrorMessage } from '../../../hooks/useApiError.js';
+import useApiFormError from '../../../hooks/useApiFormError.js';
+import useFocusFirstInvalid from '../../../hooks/useFocusFirstInvalid.js';
+import { passwordField } from '../../../utils/validators.js';
 import authService from '../../../api/services/authService.js';
 
 import styles from './AccountPassword.module.css';
@@ -21,13 +23,7 @@ const FIELD_ORDER = ['currentPassword', 'newPassword', 'confirmPassword'];
 const schema = yup
   .object({
     currentPassword: yup.string().required('Please enter your current password.'),
-    newPassword: yup
-      .string()
-      .required('Please choose a new password.')
-      .min(8, 'Use at least 8 characters.')
-      .matches(/[a-z]/, 'Add a lowercase letter.')
-      .matches(/[A-Z]/, 'Add an uppercase letter.')
-      .matches(/\d/, 'Add a number.'),
+    newPassword: passwordField({ label: 'new password' }),
     confirmPassword: yup
       .string()
       .required('Please confirm your new password.')
@@ -53,16 +49,11 @@ function AccountPassword() {
   const {
     handleSubmit,
     reset,
-    setError,
-    setFocus,
-    formState: { isDirty, isSubmitting, isSubmitSuccessful, errors, submitCount },
+    formState: { isDirty, isSubmitting, isSubmitSuccessful },
   } = methods;
 
-  useEffect(() => {
-    if (!submitCount) return;
-    const first = FIELD_ORDER.find((name) => errors[name]);
-    if (first) setFocus(first);
-  }, [errors, setFocus, submitCount]);
+  const onApiError = useApiFormError(methods);
+  useFocusFirstInvalid(methods, FIELD_ORDER);
 
   const onSubmit = async (values) => {
     try {
@@ -77,24 +68,11 @@ function AccountPassword() {
       );
       toast.success("Password updated. You'll stay signed in.");
     } catch (err) {
-      const fieldErrors = err?.errors;
-      let mapped = false;
-      if (fieldErrors && typeof fieldErrors === 'object') {
-        for (const key of Object.keys(fieldErrors)) {
-          const raw = fieldErrors[key];
-          const message = Array.isArray(raw) ? raw[0] : raw;
-          if (!message) continue;
-          setError(
-            key,
-            { type: 'server', message: String(message) },
-            { shouldFocus: !mapped },
-          );
-          mapped = true;
-        }
+      if (err?.errors && typeof err.errors === 'object' && Object.keys(err.errors).length > 0) {
+        onApiError(err);
+        return;
       }
-      if (!mapped) {
-        toast.error(getApiErrorMessage(err) || 'Could not update password.');
-      }
+      toast.error(getApiErrorMessage(err) || 'Could not update password.');
     }
   };
 

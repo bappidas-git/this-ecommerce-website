@@ -12,6 +12,8 @@ import AppButton from '../../../components/common/AppButton/AppButton.jsx';
 import AppTextField from '../../../components/common/AppTextField/AppTextField.jsx';
 import AppSwitch from '../../../components/common/AppSwitch/AppSwitch.jsx';
 import AppSelect from '../../../components/common/AppSelect/AppSelect.jsx';
+import useApiFormError from '../../../hooks/useApiFormError.js';
+import useFocusFirstInvalid from '../../../hooks/useFocusFirstInvalid.js';
 
 import {
   generalSchema,
@@ -36,11 +38,26 @@ function FormShell({
   const { handleSubmit, formState, reset } = methods;
   const { isDirty } = formState;
 
+  const onApiError = useApiFormError(methods);
+  useFocusFirstInvalid(methods);
+
+  const wrappedSubmit = async (values) => {
+    try {
+      await onSubmit(values);
+    } catch (err) {
+      if (err?.errors && typeof err.errors === 'object' && Object.keys(err.errors).length > 0) {
+        onApiError(err);
+        return;
+      }
+      throw err;
+    }
+  };
+
   return (
     <FormProvider {...methods}>
       <form
         className={styles.formArea}
-        onSubmit={handleSubmit(onSubmit)}
+        onSubmit={handleSubmit(wrappedSubmit)}
         noValidate
       >
         {topError ? <Alert severity="error">{topError}</Alert> : null}
@@ -152,6 +169,7 @@ export function GeneralTab({ initial, onSave, canWrite, isSaving, topError }) {
           <AppTextField
             name="supportPhone"
             label="Support phone"
+            optional
             disabled={isDisabled}
           />
           <AppSelect
@@ -168,6 +186,7 @@ export function GeneralTab({ initial, onSave, canWrite, isSaving, topError }) {
         <AppTextField
           name="address"
           label="Studio address"
+          optional
           multiline
           minRows={2}
           disabled={isDisabled}
@@ -175,6 +194,7 @@ export function GeneralTab({ initial, onSave, canWrite, isSaving, topError }) {
         <AppTextField
           name="openingHours"
           label="Opening hours"
+          optional
           multiline
           minRows={3}
           helperText="One line per row. Format: Monday – Friday: 10:00 – 19:00"
@@ -183,6 +203,7 @@ export function GeneralTab({ initial, onSave, canWrite, isSaving, topError }) {
         <AppTextField
           name="mapEmbedUrl"
           label="Map embed URL"
+          optional
           placeholder="https://www.google.com/maps?…&output=embed"
           disabled={isDisabled}
         />
@@ -251,6 +272,7 @@ export function BrandingTab({ initial, onSave, canWrite, isSaving, topError }) {
           <AppTextField
             name="faviconUrl"
             label="Favicon URL"
+            optional
             placeholder={DEFAULT_FAVICON}
             disabled={isDisabled}
           />
@@ -281,6 +303,7 @@ export function BrandingTab({ initial, onSave, canWrite, isSaving, topError }) {
         <AppTextField
           name="ogImageUrl"
           label="OG image URL"
+          optional
           placeholder={DEFAULT_OG}
           helperText="Used when storefront pages don't supply their own."
           disabled={isDisabled}
@@ -359,6 +382,7 @@ export function HomepageTab({
         <AppTextField
           name="heroSubtitle"
           label="Hero subtitle"
+          optional
           multiline
           minRows={2}
           disabled={isDisabled}
@@ -367,11 +391,13 @@ export function HomepageTab({
           <AppTextField
             name="heroCta"
             label="Call-to-action label"
+            optional
             disabled={isDisabled}
           />
           <AppTextField
             name="heroImage"
             label="Hero image URL"
+            optional
             placeholder="https://placehold.co/1600x900/E5DED2/1B1A17"
             disabled={isDisabled}
           />
@@ -524,12 +550,14 @@ export function AnnouncementTab({
         <AppTextField
           name="text"
           label="Announcement text"
+          optional
           disabled={isDisabled || !isActive}
           inputProps={{ maxLength: 180 }}
         />
         <AppTextField
           name="link"
-          label="Link (optional)"
+          label="Link"
+          optional
           placeholder="/shop or https://…"
           disabled={isDisabled || !isActive}
         />
@@ -619,17 +647,20 @@ export function PaymentTab({ initial, onSave, canWrite, isSaving, topError }) {
             <AppTextField
               name="bankDetails.bankName"
               label="Bank name"
+              optional
               disabled={isDisabled}
             />
             <AppTextField
               name="bankDetails.accountName"
               label="Account name"
+              optional
               disabled={isDisabled}
             />
           </div>
           <AppTextField
             name="bankDetails.iban"
             label="IBAN"
+            optional
             disabled={isDisabled}
           />
         </AdminCard>
@@ -668,24 +699,28 @@ export function SocialTab({ initial, onSave, canWrite, isSaving, topError }) {
         <AppTextField
           name="instagram"
           label="Instagram URL"
+          optional
           placeholder="https://instagram.com/…"
           disabled={isDisabled}
         />
         <AppTextField
           name="pinterest"
           label="Pinterest URL"
+          optional
           placeholder="https://pinterest.com/…"
           disabled={isDisabled}
         />
         <AppTextField
           name="facebook"
           label="Facebook URL"
+          optional
           placeholder="https://facebook.com/…"
           disabled={isDisabled}
         />
         <AppTextField
           name="tiktok"
           label="TikTok URL"
+          optional
           placeholder="https://tiktok.com/@…"
           disabled={isDisabled}
         />
@@ -728,6 +763,7 @@ export function EmailsTab({ initial, onSave, canWrite, isSaving, topError }) {
         <AppTextField
           name="welcome"
           label="Welcome email"
+          optional
           multiline
           minRows={3}
           disabled={isDisabled}
@@ -735,6 +771,7 @@ export function EmailsTab({ initial, onSave, canWrite, isSaving, topError }) {
         <AppTextField
           name="orderConfirmation"
           label="Order confirmation"
+          optional
           multiline
           minRows={3}
           disabled={isDisabled}
@@ -742,6 +779,7 @@ export function EmailsTab({ initial, onSave, canWrite, isSaving, topError }) {
         <AppTextField
           name="shipped"
           label="Order shipped"
+          optional
           multiline
           minRows={3}
           disabled={isDisabled}
@@ -749,6 +787,7 @@ export function EmailsTab({ initial, onSave, canWrite, isSaving, topError }) {
         <AppTextField
           name="refund"
           label="Refund issued"
+          optional
           multiline
           minRows={3}
           disabled={isDisabled}
