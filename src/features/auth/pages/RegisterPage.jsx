@@ -16,6 +16,9 @@ import Seo from '../../../components/common/Seo.jsx';
 import { useAuth } from '../../../context/AuthContext.jsx';
 import { useToast } from '../../../context/ToastContext.jsx';
 import { getApiErrorMessage } from '../../../hooks/useApiError.js';
+import useApiFormError from '../../../hooks/useApiFormError.js';
+import useFocusFirstInvalid from '../../../hooks/useFocusFirstInvalid.js';
+import { emailField, nameField, passwordField } from '../../../utils/validators.js';
 import { PATHS } from '../../../routes/paths.js';
 
 import styles from './RegisterPage.module.css';
@@ -31,30 +34,10 @@ const FIELD_ORDER = [
 
 const schema = yup
   .object({
-    firstName: yup
-      .string()
-      .trim()
-      .required('Please enter your first name.')
-      .min(1)
-      .max(50, 'Please keep first name under 50 characters.'),
-    lastName: yup
-      .string()
-      .trim()
-      .required('Please enter your last name.')
-      .min(1)
-      .max(50, 'Please keep last name under 50 characters.'),
-    email: yup
-      .string()
-      .trim()
-      .required('Please enter your email.')
-      .email("That email doesn't look right."),
-    password: yup
-      .string()
-      .required('Please choose a password.')
-      .min(8, 'Use at least 8 characters.')
-      .matches(/[a-z]/, 'Add a lowercase letter.')
-      .matches(/[A-Z]/, 'Add an uppercase letter.')
-      .matches(/\d/, 'Add a number.'),
+    firstName: nameField({ label: 'first name', max: 50 }),
+    lastName: nameField({ label: 'last name', max: 50 }),
+    email: emailField(),
+    password: passwordField(),
     confirmPassword: yup
       .string()
       .required('Please confirm your password.')
@@ -109,18 +92,15 @@ function RegisterPage() {
     handleSubmit,
     setError,
     setFocus,
-    formState: { isSubmitting, errors, submitCount },
+    formState: { isSubmitting },
   } = methods;
+
+  const onApiError = useApiFormError(methods);
+  useFocusFirstInvalid(methods, FIELD_ORDER);
 
   useEffect(() => {
     setFocus('firstName');
   }, [setFocus]);
-
-  useEffect(() => {
-    if (!submitCount) return;
-    const firstInvalid = FIELD_ORDER.find((name) => errors[name]);
-    if (firstInvalid) setFocus(firstInvalid);
-  }, [errors, setFocus, submitCount]);
 
   const onSubmit = async (values) => {
     setServerError(null);
@@ -141,27 +121,25 @@ function RegisterPage() {
       navigate(redirectTarget, { replace: true });
     } catch (err) {
       const fieldErrors = err?.errors;
-      let mapped = false;
       if (fieldErrors && typeof fieldErrors === 'object') {
-        for (const key of Object.keys(fieldErrors)) {
-          const raw = fieldErrors[key];
-          const message = Array.isArray(raw) ? raw[0] : raw;
-          if (!message) continue;
-          const friendly =
-            key === 'email' && message === 'taken'
-              ? 'That email is already registered. Try signing in.'
-              : String(message);
-          setError(key, { type: 'server', message: friendly }, { shouldFocus: !mapped });
-          mapped = true;
+        const emailRaw = fieldErrors.email;
+        const emailMsg = Array.isArray(emailRaw) ? emailRaw[0] : emailRaw;
+        if (emailMsg === 'taken') {
+          setError(
+            'email',
+            { type: 'server', message: 'That email is already registered. Try signing in.' },
+            { shouldFocus: true },
+          );
+          return;
         }
+        onApiError(err);
+        return;
       }
-      if (!mapped) {
-        const message =
-          err?.status === 409
-            ? 'That email is already registered. Try signing in.'
-            : getApiErrorMessage(err) || 'Registration failed. Please try again.';
-        setServerError(message);
-      }
+      const message =
+        err?.status === 409
+          ? 'That email is already registered. Try signing in.'
+          : getApiErrorMessage(err) || 'Registration failed. Please try again.';
+      setServerError(message);
     }
   };
 

@@ -7,6 +7,9 @@ import AppTextField from '../../../components/common/AppTextField/AppTextField.j
 import AppSelect from '../../../components/common/AppSelect/AppSelect.jsx';
 import AppCheckbox from '../../../components/common/AppCheckbox/AppCheckbox.jsx';
 import AppButton from '../../../components/common/AppButton/AppButton.jsx';
+import useApiFormError from '../../../hooks/useApiFormError.js';
+import useFocusFirstInvalid from '../../../hooks/useFocusFirstInvalid.js';
+import { nameField, phoneField } from '../../../utils/validators.js';
 
 import styles from './AddressForm.module.css';
 
@@ -42,40 +45,26 @@ export const ADDRESS_FIELD_ORDER = [
   'isDefault',
 ];
 
-const PHONE_REGEX = /^\+?[0-9\s\-()]{6,20}$/;
-
 export const addressSchema = yup
   .object({
     label: yup
       .string()
       .trim()
       .required('Give this address a label, e.g. "Home" or "Office".')
-      .max(40, 'Keep the label under 40 characters.'),
-    firstName: yup
-      .string()
-      .trim()
-      .required('Please enter a first name.')
-      .max(50, 'Keep first name under 50 characters.'),
-    lastName: yup
-      .string()
-      .trim()
-      .required('Please enter a last name.')
-      .max(50, 'Keep last name under 50 characters.'),
-    phone: yup
-      .string()
-      .trim()
-      .required('Phone number is required.')
-      .matches(PHONE_REGEX, 'Enter a valid international number.'),
+      .max(40, 'Please keep the label under 40 characters.'),
+    firstName: nameField({ label: 'first name', max: 50 }),
+    lastName: nameField({ label: 'last name', max: 50 }),
+    phone: phoneField({ label: 'phone' }),
     line1: yup
       .string()
       .trim()
       .required('Please enter the street address.')
-      .max(120, 'Keep the address under 120 characters.'),
+      .max(120, 'Please keep the address under 120 characters.'),
     line2: yup
       .string()
       .trim()
-      .max(120, 'Keep the address under 120 characters.'),
-    city: yup.string().trim().required('City is required.'),
+      .max(120, 'Please keep the address under 120 characters.'),
+    city: yup.string().trim().required('Please enter a city.'),
     emirate: yup
       .string()
       .required('Please choose an emirate.')
@@ -89,7 +78,11 @@ export const addressSchema = yup
   .required();
 
 export const addressSchemaNoLabel = addressSchema.shape({
-  label: yup.string().trim().max(40, 'Keep the label under 40 characters.').default(''),
+  label: yup
+    .string()
+    .trim()
+    .max(40, 'Please keep the label under 40 characters.')
+    .default(''),
 });
 
 export function buildAddressDefaults(initial) {
@@ -247,20 +240,15 @@ function AddressForm({
   const {
     handleSubmit,
     reset,
-    setError,
-    setFocus,
-    formState: { isSubmitting, errors, submitCount },
+    formState: { isSubmitting },
   } = methods;
+
+  const onApiError = useApiFormError(methods);
+  useFocusFirstInvalid(methods, ADDRESS_FIELD_ORDER);
 
   useEffect(() => {
     reset(defaultValues);
   }, [defaultValues, reset]);
-
-  useEffect(() => {
-    if (!submitCount) return;
-    const first = ADDRESS_FIELD_ORDER.find((name) => errors[name]);
-    if (first) setFocus(first);
-  }, [errors, setFocus, submitCount]);
 
   const submit = handleSubmit(async (values) => {
     const payload = normaliseAddressPayload(values);
@@ -268,22 +256,17 @@ function AddressForm({
       await onSubmit?.(payload);
     } catch (err) {
       const fieldErrors = err?.errors;
-      let mapped = false;
-      if (fieldErrors && typeof fieldErrors === 'object') {
-        for (const key of Object.keys(fieldErrors)) {
-          if (!ADDRESS_FIELD_ORDER.includes(key)) continue;
-          const raw = fieldErrors[key];
-          const message = Array.isArray(raw) ? raw[0] : raw;
-          if (!message) continue;
-          setError(
-            key,
-            { type: 'server', message: String(message) },
-            { shouldFocus: !mapped },
-          );
-          mapped = true;
-        }
+      const mappable =
+        fieldErrors && typeof fieldErrors === 'object'
+          ? Object.keys(fieldErrors).filter((k) => ADDRESS_FIELD_ORDER.includes(k))
+          : [];
+      if (mappable.length > 0) {
+        const filtered = {};
+        for (const k of mappable) filtered[k] = fieldErrors[k];
+        onApiError({ ...err, errors: filtered });
+        return;
       }
-      if (!mapped) throw err;
+      throw err;
     }
   });
 

@@ -8,6 +8,9 @@ import AppButton from '../../../components/common/AppButton/AppButton.jsx';
 import AppTextField from '../../../components/common/AppTextField/AppTextField.jsx';
 import AppSelect from '../../../components/common/AppSelect/AppSelect.jsx';
 import AppSwitch from '../../../components/common/AppSwitch/AppSwitch.jsx';
+import useApiFormError from '../../../hooks/useApiFormError.js';
+import useFocusFirstInvalid from '../../../hooks/useFocusFirstInvalid.js';
+import { slugField, urlField } from '../../../utils/validators.js';
 
 import styles from './CategoryEditor.module.css';
 
@@ -15,18 +18,18 @@ const DEFAULT_IMAGE =
   'https://placehold.co/720x720/E5DED2/1B1A17?text=THIS+Interiors&font=playfair';
 
 const schema = yup.object({
-  name: yup.string().trim().required('Name is required').max(80),
-  slug: yup
+  name: yup
     .string()
     .trim()
-    .required('Slug is required')
-    .matches(
-      /^[a-z0-9]+(?:-[a-z0-9]+)*$/,
-      'Use lowercase letters, numbers, and hyphens only',
-    )
-    .max(80),
-  description: yup.string().trim().max(500).default(''),
-  image: yup.string().trim().url('Enter a valid URL').required('Image URL is required'),
+    .required('Please enter a name.')
+    .max(80, 'Please keep the name under 80 characters.'),
+  slug: slugField({ max: 80 }),
+  description: yup
+    .string()
+    .trim()
+    .max(500, 'Please keep the description under 500 characters.')
+    .default(''),
+  image: urlField({ required: true, label: 'image URL' }),
   parentId: yup
     .mixed()
     .transform((v) => (v === '' || v === undefined || v === null ? null : Number(v)))
@@ -85,6 +88,9 @@ function CategoryEditor({
   });
   const { handleSubmit, reset, formState, watch, setValue, getValues } = methods;
 
+  const onApiError = useApiFormError(methods);
+  useFocusFirstInvalid(methods);
+
   useEffect(() => {
     reset(initialValues);
   }, [initialValues, reset]);
@@ -112,7 +118,7 @@ function CategoryEditor({
     ];
   }, [categories, excludedIds]);
 
-  const submit = handleSubmit((values) => {
+  const submit = handleSubmit(async (values) => {
     const payload = {
       name: values.name.trim(),
       slug: values.slug.trim(),
@@ -125,7 +131,15 @@ function CategoryEditor({
       sortOrder: Number(values.sortOrder) || 0,
       isActive: Boolean(values.isActive),
     };
-    return onSubmit(payload);
+    try {
+      return await onSubmit(payload);
+    } catch (err) {
+      if (err?.errors && typeof err.errors === 'object' && Object.keys(err.errors).length > 0) {
+        onApiError(err);
+        return undefined;
+      }
+      throw err;
+    }
   });
 
   const isSubmitting = formState.isSubmitting;
@@ -157,6 +171,7 @@ function CategoryEditor({
           <AppTextField
             name="description"
             label="Description"
+            optional
             multiline
             minRows={3}
             disabled={disabled}

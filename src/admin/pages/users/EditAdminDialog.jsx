@@ -8,6 +8,10 @@ import AppDialog from '../../../components/common/AppDialog/AppDialog.jsx';
 import AppButton from '../../../components/common/AppButton/AppButton.jsx';
 import AppTextField from '../../../components/common/AppTextField/AppTextField.jsx';
 import AppSelect from '../../../components/common/AppSelect/AppSelect.jsx';
+import useApiFormError from '../../../hooks/useApiFormError.js';
+import useFocusFirstInvalid from '../../../hooks/useFocusFirstInvalid.js';
+import { getApiErrorMessage } from '../../../hooks/useApiError.js';
+import { nameField } from '../../../utils/validators.js';
 
 import styles from './UsersPage.module.css';
 
@@ -18,14 +22,19 @@ const ROLE_OPTIONS = [
 ];
 
 const editSchema = yup.object({
-  name: yup.string().trim().required('Name is required.'),
+  name: nameField({ label: 'name', min: 1, max: 80 }),
   role: yup
     .string()
-    .oneOf(['admin', 'manager', 'viewer'], 'Choose a role.')
-    .required('Choose a role.'),
+    .oneOf(['admin', 'manager', 'viewer'], 'Please choose a role.')
+    .required('Please choose a role.'),
 });
 
 function EditAdminDialog({ open, user, onClose, onSave, isLastAdmin }) {
+  const methods = useForm({
+    resolver: yupResolver(editSchema),
+    defaultValues: { name: '', role: 'viewer' },
+    mode: 'onBlur',
+  });
   const {
     control,
     register,
@@ -33,11 +42,10 @@ function EditAdminDialog({ open, user, onClose, onSave, isLastAdmin }) {
     reset,
     setError,
     formState: { errors, isSubmitting },
-  } = useForm({
-    resolver: yupResolver(editSchema),
-    defaultValues: { name: '', role: 'viewer' },
-    mode: 'onBlur',
-  });
+  } = methods;
+
+  const onApiError = useApiFormError(methods);
+  useFocusFirstInvalid(methods, ['name', 'role']);
 
   const [topError, setTopError] = useState(null);
 
@@ -70,12 +78,11 @@ function EditAdminDialog({ open, user, onClose, onSave, isLastAdmin }) {
       onClose?.();
     } catch (err) {
       const fieldErrors = err?.errors;
-      if (fieldErrors && typeof fieldErrors === 'object') {
-        Object.entries(fieldErrors).forEach(([field, message]) => {
-          setError(field, { type: 'server', message: String(message) });
-        });
+      if (fieldErrors && typeof fieldErrors === 'object' && Object.keys(fieldErrors).length > 0) {
+        onApiError(err);
+        return;
       }
-      setTopError(err?.message || 'Could not save changes.');
+      setTopError(getApiErrorMessage(err) || 'Could not save changes.');
     }
   };
 

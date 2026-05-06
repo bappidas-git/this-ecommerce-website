@@ -1,5 +1,13 @@
 import * as yup from 'yup';
 
+import {
+  priceField,
+  quantityField,
+  slugField as sharedSlugField,
+  urlField as sharedUrlField,
+  SLUG_PATTERN as SHARED_SLUG_PATTERN,
+} from '../../../utils/validators.js';
+
 export const STATUS_OPTIONS = [
   { value: 'active', label: 'Active' },
   { value: 'draft', label: 'Draft' },
@@ -32,40 +40,34 @@ export const DEFAULT_IMAGE_ROWS = [
   },
 ];
 
-export const SLUG_PATTERN = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
+export const SLUG_PATTERN = SHARED_SLUG_PATTERN;
 const URL_PATTERN = /^https?:\/\/.+/i;
 
 export const productSchema = yup.object({
   name: yup
     .string()
     .trim()
-    .required('Name is required')
-    .min(2, 'Name must be at least 2 characters')
-    .max(120, 'Name must be 120 characters or fewer'),
-  slug: yup
+    .required('Please enter a name.')
+    .min(2, 'Please use at least 2 characters.')
+    .max(120, 'Please keep the name under 120 characters.'),
+  slug: sharedSlugField({ max: 140 }),
+  description: yup
     .string()
-    .trim()
-    .required('Slug is required')
-    .matches(SLUG_PATTERN, 'Use lowercase letters, numbers, and hyphens')
-    .max(140, 'Slug is too long'),
-  description: yup.string().max(8000, 'Description is too long').default(''),
+    .max(8000, 'Please keep the description under 8000 characters.')
+    .default(''),
   tags: yup.array().of(yup.string().trim()).default([]),
 
-  price: yup
-    .number()
-    .typeError('Price must be a number')
-    .min(0, 'Price cannot be negative')
-    .required('Price is required'),
+  price: priceField({ label: 'price' }),
   compareAtPrice: yup
     .number()
-    .typeError('Must be a number')
+    .typeError('Please enter a number.')
     .nullable()
     .transform((value, original) =>
       original === '' || original === null || original === undefined ? null : value,
     )
     .test(
       'gte-price',
-      'Compare-at price must be greater than or equal to price',
+      'Compare-at price must be greater than or equal to price.',
       function (value) {
         if (value === null || value === undefined) return true;
         const { price } = this.parent;
@@ -83,63 +85,55 @@ export const productSchema = yup.object({
     .array()
     .of(
       yup.object({
-        url: yup
-          .string()
-          .trim()
-          .required('URL is required')
-          .matches(URL_PATTERN, 'Must be an http(s) URL'),
-        alt: yup.string().max(160, 'Alt text is too long').default(''),
+        url: sharedUrlField({ required: true, label: 'image URL' }).matches(
+          URL_PATTERN,
+          'Please use an http(s) URL.',
+        ),
+        alt: yup.string().max(160, 'Please keep alt text under 160 characters.').default(''),
       }),
     )
-    .min(1, 'Add at least one image')
+    .min(1, 'Please add at least one image.')
     .default([]),
 
-  sku: yup.string().trim().required('SKU is required').max(64, 'SKU is too long'),
-  stock: yup
-    .number()
-    .typeError('Stock must be a number')
-    .integer('Stock must be a whole number')
-    .min(0, 'Stock cannot be negative')
-    .required('Stock is required'),
-  lowStockThreshold: yup
-    .number()
-    .typeError('Threshold must be a number')
-    .integer('Threshold must be a whole number')
-    .min(0, 'Threshold cannot be negative')
-    .default(5),
+  sku: yup
+    .string()
+    .trim()
+    .required('Please enter a SKU.')
+    .max(64, 'Please keep the SKU under 64 characters.'),
+  stock: quantityField({ label: 'stock' }),
+  lowStockThreshold: quantityField({ required: false, label: 'threshold' }).default(5),
   allowBackorder: yup.boolean().default(false),
 
   attributes: yup
     .array()
     .of(
       yup.object({
-        key: yup.string().trim().max(40, 'Key is too long').default(''),
-        value: yup.string().trim().max(240, 'Value is too long').default(''),
+        key: yup
+          .string()
+          .trim()
+          .max(40, 'Please keep keys under 40 characters.')
+          .default(''),
+        value: yup
+          .string()
+          .trim()
+          .max(240, 'Please keep values under 240 characters.')
+          .default(''),
       }),
     )
     .default([]),
 
   seo: yup
     .object({
-      metaTitle: yup.string().max(60, 'Keep meta title under 60 characters').default(''),
+      metaTitle: yup
+        .string()
+        .max(60, 'Please keep the meta title under 60 characters.')
+        .default(''),
       metaDescription: yup
         .string()
-        .max(160, 'Keep meta description under 160 characters')
+        .max(160, 'Please keep the meta description under 160 characters.')
         .default(''),
-      ogImage: yup
-        .string()
-        .trim()
-        .test('og-url', 'Must be an http(s) URL', (v) =>
-          !v ? true : URL_PATTERN.test(v),
-        )
-        .default(''),
-      canonical: yup
-        .string()
-        .trim()
-        .test('canonical-url', 'Must be an http(s) URL', (v) =>
-          !v ? true : URL_PATTERN.test(v),
-        )
-        .default(''),
+      ogImage: sharedUrlField({ required: false, label: 'OG image URL' }).default(''),
+      canonical: sharedUrlField({ required: false, label: 'canonical URL' }).default(''),
     })
     .default({}),
 

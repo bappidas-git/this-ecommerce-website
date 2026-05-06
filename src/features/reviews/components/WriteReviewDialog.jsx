@@ -14,6 +14,8 @@ import Rating from '../../../components/common/Rating/Rating.jsx';
 import { PATHS } from '../../../routes/paths.js';
 import { useAuth } from '../../../context/AuthContext.jsx';
 import useHasPurchased from '../../../hooks/useHasPurchased.js';
+import useApiFormError from '../../../hooks/useApiFormError.js';
+import useFocusFirstInvalid from '../../../hooks/useFocusFirstInvalid.js';
 
 import styles from './WriteReviewDialog.module.css';
 
@@ -21,22 +23,22 @@ const schema = yup
   .object({
     rating: yup
       .number()
-      .typeError('Pick a rating')
-      .required('Pick a rating')
-      .min(1, 'Pick a rating')
+      .typeError('Please pick a rating.')
+      .required('Please pick a rating.')
+      .min(1, 'Please pick a rating.')
       .max(5),
     title: yup
       .string()
       .trim()
-      .required('Add a short title')
-      .min(4, 'Title must be at least 4 characters')
-      .max(100, 'Title must be 100 characters or fewer'),
+      .required('Please add a short title.')
+      .min(4, 'Please use at least 4 characters.')
+      .max(100, 'Please keep the title under 100 characters.'),
     body: yup
       .string()
       .trim()
-      .required('Tell us a little more')
-      .min(10, 'Please write at least 10 characters')
-      .max(800, 'Please keep it under 800 characters'),
+      .required('Please share a little more.')
+      .min(10, 'Please write at least 10 characters.')
+      .max(800, 'Please keep it under 800 characters.'),
   })
   .required();
 
@@ -80,6 +82,9 @@ function WriteReviewDialog({ open, onClose, productId, productName, onSubmit }) 
 
   const bodyValue = watch('body');
 
+  const onApiError = useApiFormError(methods);
+  useFocusFirstInvalid(methods, ['rating', 'title', 'body']);
+
   useEffect(() => {
     if (open) {
       reset({ rating: 0, title: '', body: '' });
@@ -91,12 +96,13 @@ function WriteReviewDialog({ open, onClose, productId, productName, onSubmit }) 
       await onSubmit({ ...values, productId });
     } catch (err) {
       const apiErrors = err?.errors || err?.response?.data?.errors;
-      if (apiErrors && typeof apiErrors === 'object') {
-        Object.entries(apiErrors).forEach(([name, message]) => {
-          if (['rating', 'title', 'body'].includes(name)) {
-            setError(name, { type: 'server', message: String(message) });
-          }
-        });
+      const known = apiErrors
+        ? Object.keys(apiErrors).filter((k) => ['rating', 'title', 'body'].includes(k))
+        : [];
+      if (known.length > 0) {
+        const filtered = {};
+        for (const k of known) filtered[k] = apiErrors[k];
+        onApiError({ ...err, errors: filtered });
         return;
       }
       setError('root.serverError', {

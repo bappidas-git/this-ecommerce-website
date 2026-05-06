@@ -21,7 +21,10 @@ import AppButton from '../../../components/common/AppButton/AppButton.jsx';
 import Seo from '../../../components/common/Seo.jsx';
 import { contactService } from '../../../api/services/contactService.js';
 import { getApiErrorMessage } from '../../../hooks/useApiError.js';
+import useApiFormError from '../../../hooks/useApiFormError.js';
+import useFocusFirstInvalid from '../../../hooks/useFocusFirstInvalid.js';
 import useSettings from '../../../hooks/useSettings.js';
+import { emailField, nameField } from '../../../utils/validators.js';
 import { PATHS } from '../../../routes/paths.js';
 
 import styles from './ContactPage.module.css';
@@ -50,16 +53,8 @@ const FAQ_RAIL = [
 
 const schema = yup
   .object({
-    name: yup
-      .string()
-      .trim()
-      .required('Please share your name.')
-      .min(2, 'Please share your full name.'),
-    email: yup
-      .string()
-      .trim()
-      .required('Please share an email so we can reply.')
-      .email("That email doesn't look right."),
+    name: nameField({ label: 'name', min: 2, max: 80 }),
+    email: emailField(),
     subject: yup
       .string()
       .oneOf(SUBJECT_OPTIONS.map((o) => o.value))
@@ -67,7 +62,7 @@ const schema = yup
     orderNumber: yup
       .string()
       .trim()
-      .max(40, 'Order number is too long.')
+      .max(40, 'Please keep your order number under 40 characters.')
       .nullable()
       .transform((v) => (v === '' ? null : v)),
     message: yup
@@ -122,6 +117,16 @@ function ContactPage() {
   });
   const { handleSubmit, formState: { isSubmitting }, reset } = methods;
 
+  const onApiError = useApiFormError(methods);
+  useFocusFirstInvalid(methods, [
+    'name',
+    'email',
+    'subject',
+    'orderNumber',
+    'message',
+    'acceptsContact',
+  ]);
+
   const onSubmit = async (values) => {
     setServerError(null);
     try {
@@ -135,6 +140,10 @@ function ContactPage() {
       });
       setSubmitted(true);
     } catch (err) {
+      if (err?.errors && typeof err.errors === 'object' && Object.keys(err.errors).length > 0) {
+        onApiError(err);
+        return;
+      }
       setServerError(getApiErrorMessage(err) || 'Something went wrong. Please try again.');
     }
   };

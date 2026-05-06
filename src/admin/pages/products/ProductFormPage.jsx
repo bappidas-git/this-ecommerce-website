@@ -16,7 +16,10 @@ import useAdminBreadcrumbs from '../../hooks/useAdminBreadcrumbs.js';
 import useCanAdminAccess from '../../hooks/useCanAdminAccess.js';
 import { useToast } from '../../../context/ToastContext.jsx';
 import { useCategories } from '../../../hooks/useCategories.js';
+import useApiFormError from '../../../hooks/useApiFormError.js';
+import useFocusFirstInvalid from '../../../hooks/useFocusFirstInvalid.js';
 import { adminProductService } from '../../../api/services/admin/adminProductService.js';
+import { getApiErrorMessage } from '../../../hooks/useApiError.js';
 import { PATHS } from '../../../routes/paths.js';
 
 import GeneralSection from './sections/GeneralSection.jsx';
@@ -59,11 +62,12 @@ function ProductFormPage() {
   const {
     handleSubmit,
     reset,
-    setError,
-    setFocus,
     formState,
     watch,
   } = methods;
+
+  const onApiError = useApiFormError(methods);
+  useFocusFirstInvalid(methods);
 
   const name = watch('name');
   const status = watch('status');
@@ -124,30 +128,6 @@ function ProductFormPage() {
     navigate(PATHS.admin.products);
   }, [navigate]);
 
-  const applyServerErrors = useCallback(
-    (err) => {
-      const fieldErrors = err?.errors || null;
-      let firstField = null;
-      if (fieldErrors && typeof fieldErrors === 'object') {
-        for (const [field, message] of Object.entries(fieldErrors)) {
-          const msg = Array.isArray(message) ? message[0] : message;
-          setError(field, { type: 'server', message: String(msg || 'Invalid') });
-          if (!firstField) firstField = field;
-        }
-      }
-      if (firstField) {
-        try {
-          setFocus(firstField);
-        } catch {
-          /* field may not be registered (e.g. nested) */
-        }
-      }
-      const general = !fieldErrors || Object.keys(fieldErrors).length === 0;
-      setTopError(general ? err?.message || 'Could not save product.' : null);
-    },
-    [setError, setFocus],
-  );
-
   const onSubmit = handleSubmit(async (values) => {
     setTopError(null);
     const payload = formValuesToPayload(values);
@@ -168,11 +148,12 @@ function ProductFormPage() {
         navigate(PATHS.admin.productEdit(newId), { replace: true });
       }
     } catch (err) {
-      if (err?.status === 422) {
-        applyServerErrors(err);
-      } else {
-        setTopError(err?.message || 'Could not save product.');
+      const fieldErrors = err?.errors;
+      if (fieldErrors && typeof fieldErrors === 'object' && Object.keys(fieldErrors).length > 0) {
+        onApiError(err);
+        return;
       }
+      setTopError(getApiErrorMessage(err) || 'Could not save product.');
     }
   });
 

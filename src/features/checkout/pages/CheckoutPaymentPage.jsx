@@ -13,6 +13,9 @@ import PaymentMethodCard from '../components/PaymentMethodCard.jsx';
 import { useCheckout } from '../../../context/CheckoutContext.jsx';
 import { useSettings } from '../../../hooks/useSettings.js';
 import { getApiErrorMessage } from '../../../hooks/useApiError.js';
+import useApiFormError from '../../../hooks/useApiFormError.js';
+import useFocusFirstInvalid from '../../../hooks/useFocusFirstInvalid.js';
+import { nameField } from '../../../utils/validators.js';
 
 import { luhnCheck, isExpiryValid, lastFourOf, detectBrand } from '../components/cardUtils.js';
 
@@ -24,34 +27,33 @@ const cardSchema = yup.object({
   cardNumber: yup
     .string()
     .transform((v) => String(v || '').replace(/\D+/g, ''))
-    .required('Card number is required.')
-    .test('length', 'Card number must be 13–19 digits.', (v) => {
+    .required('Please enter your card number.')
+    .test('length', 'Card number must be 13 to 19 digits.', (v) => {
       const len = (v || '').length;
       return len >= 13 && len <= 19;
     })
-    .test('luhn', 'That card number doesn’t look right.', (v) => luhnCheck(v || '')),
-  cardName: yup
-    .string()
-    .trim()
-    .required('Name on card is required.')
-    .min(2, 'Use at least 2 characters.')
-    .max(80, 'Keep it under 80 characters.')
-    .matches(NAME_REGEX, 'Use letters, spaces, hyphens or apostrophes only.'),
+    .test('luhn', "That card number doesn't look right.", (v) => luhnCheck(v || '')),
+  cardName: nameField({ label: 'name on card', min: 2, max: 80 }).matches(
+    NAME_REGEX,
+    'Use letters, spaces, hyphens or apostrophes only.',
+  ),
   expiry: yup
     .string()
-    .required('Expiry is required.')
-    .test('format', 'Use MM/YY.', (v) => /^\d{2}\/\d{2}$|^\d{4}$/.test(String(v || '').trim()))
+    .required('Please enter the expiry date.')
+    .test('format', 'Use the MM/YY format.', (v) =>
+      /^\d{2}\/\d{2}$|^\d{4}$/.test(String(v || '').trim()),
+    )
     .test('not-expired', 'This card has expired.', (v) => isExpiryValid(v || '')),
   cvv: yup
     .string()
     .transform((v) => String(v || '').replace(/\D+/g, ''))
-    .required('CVV is required.')
-    .matches(/^\d{3,4}$/, 'CVV must be 3 or 4 digits.'),
+    .required('Please enter the security code.')
+    .matches(/^\d{3,4}$/, 'The security code is 3 or 4 digits.'),
   saveCard: yup.boolean().default(false),
 });
 
 const notesSchema = yup.object({
-  notes: yup.string().max(280, 'Keep notes under 280 characters.').default(''),
+  notes: yup.string().max(280, 'Please keep notes under 280 characters.').default(''),
 });
 
 const METHOD_VALUES = Object.freeze({
@@ -116,6 +118,10 @@ function CheckoutPaymentPage() {
   const [submitError, setSubmitError] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  const onCardApiError = useApiFormError(cardForm);
+  useFocusFirstInvalid(cardForm, ['cardNumber', 'cardName', 'expiry', 'cvv']);
+  useFocusFirstInvalid(notesForm, ['notes']);
+
   const handleSubmit = useCallback(async () => {
     setSubmitError(null);
     setServerErrors(null);
@@ -174,14 +180,24 @@ function CheckoutPaymentPage() {
       checkout.goNext();
     } catch (err) {
       const data = err?.errors;
-      if (data && typeof data === 'object') {
+      if (data && typeof data === 'object' && Object.keys(data).length > 0) {
         setServerErrors(data);
+        if (effectiveMethod === METHOD_VALUES.card) onCardApiError(err);
       }
       setSubmitError(getApiErrorMessage(err) || 'Could not save payment details.');
     } finally {
       setIsSubmitting(false);
     }
-  }, [cardForm, notesForm, effectiveMethod, checkout, payment.codFee, payment.currency, payment.bankDetails]);
+  }, [
+    cardForm,
+    notesForm,
+    effectiveMethod,
+    checkout,
+    payment.codFee,
+    payment.currency,
+    payment.bankDetails,
+    onCardApiError,
+  ]);
 
   if (enabledMethods.length === 0) {
     return (

@@ -10,6 +10,10 @@ import AppDialog from '../../../components/common/AppDialog/AppDialog.jsx';
 import AppButton from '../../../components/common/AppButton/AppButton.jsx';
 import AppTextField from '../../../components/common/AppTextField/AppTextField.jsx';
 import AppSelect from '../../../components/common/AppSelect/AppSelect.jsx';
+import useApiFormError from '../../../hooks/useApiFormError.js';
+import useFocusFirstInvalid from '../../../hooks/useFocusFirstInvalid.js';
+import { getApiErrorMessage } from '../../../hooks/useApiError.js';
+import { emailField, nameField } from '../../../utils/validators.js';
 
 import styles from './UsersPage.module.css';
 
@@ -20,16 +24,12 @@ const ROLE_OPTIONS = [
 ];
 
 const inviteSchema = yup.object({
-  name: yup.string().trim().required('Name is required.'),
-  email: yup
-    .string()
-    .trim()
-    .email('Enter a valid email address.')
-    .required('Email is required.'),
+  name: nameField({ label: 'name', min: 1, max: 80 }),
+  email: emailField(),
   role: yup
     .string()
-    .oneOf(['admin', 'manager', 'viewer'], 'Choose a role.')
-    .required('Choose a role.'),
+    .oneOf(['admin', 'manager', 'viewer'], 'Please choose a role.')
+    .required('Please choose a role.'),
 });
 
 const DEFAULTS = { name: '', email: '', role: 'viewer' };
@@ -37,18 +37,21 @@ const DEFAULTS = { name: '', email: '', role: 'viewer' };
 const isDev = Boolean(import.meta.env?.DEV);
 
 function InviteAdminDialog({ open, onClose, onInvite }) {
+  const methods = useForm({
+    resolver: yupResolver(inviteSchema),
+    defaultValues: DEFAULTS,
+    mode: 'onBlur',
+  });
   const {
     control,
     register,
     handleSubmit,
     reset,
-    setError,
     formState: { errors, isSubmitting },
-  } = useForm({
-    resolver: yupResolver(inviteSchema),
-    defaultValues: DEFAULTS,
-    mode: 'onBlur',
-  });
+  } = methods;
+
+  const onApiError = useApiFormError(methods);
+  useFocusFirstInvalid(methods, ['name', 'email', 'role']);
 
   const [topError, setTopError] = useState(null);
   const [credentials, setCredentials] = useState(null);
@@ -75,12 +78,11 @@ function InviteAdminDialog({ open, onClose, onInvite }) {
       });
     } catch (err) {
       const fieldErrors = err?.errors;
-      if (fieldErrors && typeof fieldErrors === 'object') {
-        Object.entries(fieldErrors).forEach(([field, message]) => {
-          setError(field, { type: 'server', message: String(message) });
-        });
+      if (fieldErrors && typeof fieldErrors === 'object' && Object.keys(fieldErrors).length > 0) {
+        onApiError(err);
+        return;
       }
-      setTopError(err?.message || 'Could not send the invite.');
+      setTopError(getApiErrorMessage(err) || 'Could not send the invite.');
     }
   };
 
