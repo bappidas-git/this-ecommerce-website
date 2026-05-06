@@ -2496,6 +2496,189 @@ app.post('/api/admin/customers/:id/disable', adminGate, (req, res) => {
   return res.json(wrapItem(enrichCustomerDetail(updated)));
 });
 
+// ---------- admin reviews moderation -------------------------------------------------
+const REVIEW_STATUSES = new Set(['pending', 'published', 'rejected']);
+
+const buildAdminReviewSummary = (r) => {
+  const product = db.get('products').find({ id: r.productId }).value();
+  const user = db.get('users').find({ id: r.userId }).value();
+  const reviewerName = user
+    ? `${user.firstName || ''} ${user.lastName || ''}`.trim() || user.email || 'Customer'
+    : 'Customer';
+  const initials = user
+    ? `${(user.firstName || '?')[0] || '?'}${(user.lastName || '')[0] || ''}`.toUpperCase()
+    : '?';
+  const productImage =
+    (Array.isArray(product?.images) && product.images[0]) ||
+    `https://placehold.co/120x120/E5DED2/1B1A17?text=${encodeURIComponent(
+      product?.name?.slice(0, 2) || 'TI',
+    )}&font=playfair`;
+  const order = db
+    .get('orders')
+    .value()
+    .find(
+      (o) =>
+        Number(o.userId) === Number(r.userId) &&
+        Array.isArray(o.items) &&
+        o.items.some((it) => Number(it.productId) === Number(r.productId)),
+    );
+  return {
+    id: r.id,
+    productId: r.productId,
+    productName: product?.name || null,
+    productSlug: product?.slug || null,
+    productImage,
+    userId: r.userId,
+    reviewer: {
+      id: r.userId,
+      name: reviewerName,
+      email: user?.email || null,
+      avatar:
+        user?.avatar ||
+        `https://placehold.co/80x80/B8924F/F7F3ED?text=${encodeURIComponent(initials)}&font=playfair`,
+    },
+    rating: Number(r.rating) || 0,
+    title: r.title || '',
+    body: r.body || '',
+    status: r.status || 'pending',
+    verifiedPurchase: r.verifiedPurchase === true,
+    helpfulCount: Number(r.helpfulCount) || 0,
+    orderId: order?.id || null,
+    orderNumber: order?.number || null,
+    createdAt: r.createdAt,
+    updatedAt: r.updatedAt || r.createdAt,
+  };
+};
+
+const adminReviewCounts = () => {
+  const all = db.get('reviews').value();
+  const counts = { pending: 0, published: 0, rejected: 0 };
+  for (const r of all) {
+    const s = r.status || 'pending';
+    if (counts[s] != null) counts[s] += 1;
+  }
+  return counts;
+};
+
+app.get('/api/admin/reviews', adminGate, (req, res) => {
+  const q = req.query;
+  const search = String(q.q || '').trim().toLowerCase();
+  const status = q.status ? String(q.status) : '';
+  const ratings = toArray(q.ratings)
+    .map((n) => Number(n))
+    .filter((n) => n >= 1 && n <= 5);
+  const verifiedOnly = q.verified_only != null && isTrue(q.verified_only);
+  const dateFrom = q.date_from ? Date.parse(q.date_from) : null;
+  const dateTo = q.date_to ? Date.parse(q.date_to) : null;
+  const sortBy = String(q.sort_by || 'createdAt');
+  const sortDir = String(q.sort_dir || 'desc').toLowerCase() === 'asc' ? 1 : -1;
+
+  let rows = db.get('reviews').value().map(buildAdminReviewSummary);
+
+  if (status && REVIEW_STATUSES.has(status)) {
+    rows = rows.filter((r) => r.status === status);
+  }
+  if (search) {
+    rows = rows.filter((r) => {
+      const hay = `${r.title} ${r.body} ${r.productName || ''} ${r.reviewer.name}`.toLowerCase();
+      return hay.includes(search);
+    });
+  }
+  if (ratings.length) {
+    rows = rows.filter((r) => ratings.includes(Number(r.rating)));
+  }
+  if (verifiedOnly) {
+    rows = rows.filter((r) => r.verifiedPurchase === true);
+  }
+  if (dateFrom) {
+    rows = rows.filter((r) => Date.parse(r.createdAt) >= dateFrom);
+  }
+  if (dateTo) {
+    rows = rows.filter((r) => Date.parse(r.createdAt) <= dateTo);
+  }
+
+  rows.sort((a, b) => {
+    const av = a[sortBy];
+    const bv = b[sortBy];
+    if (av === bv) return 0;
+    if (av == null) return 1;
+    if (bv == null) return -1;
+    if (sortBy === 'createdAt' || sortBy === 'updatedAt') {
+      return (Date.parse(av) - Date.parse(bv)) * sortDir;
+    }
+    return av > bv ? sortDir : -sortDir;
+  });
+
+  const total = rows.length;
+  const page = Math.max(1, Number(q._page) || Number(q.page) || 1);
+  const perPage = Math.max(1, Number(q._limit) || Number(q.per_page) || 25);
+  const start = (page - 1) * perPage;
+  const slice = rows.slice(start, start + perPage);
+
+  const envelope = wrapList(slice, { page, perPage, total });
+  envelope.meta.total = total;
+  envelope.meta.counts = adminReviewCounts();
+  return res.json(envelope);
+});
+
+app.get('/api/admin/reviews/:id', adminGate, (req, res) => {
+  const id = Number(req.params.id);
+  const r = db.get('reviews').find({ id }).value();
+  if (!r) return res.status(404).json(errorEnvelope('Review not found'));
+  return res.json(wrapItem(buildAdminReviewSummary(r)));
+});
+
+app.patch('/api/admin/reviews/:id', adminGate, (req, res) => {
+  const id = Number(req.params.id);
+  const r = db.get('reviews').find({ id }).value();
+  if (!r) return res.status(404).json(errorEnvelope('Review not found'));
+  const patch = {};
+  if (req.body?.status) {
+    const next = String(req.body.status);
+    if (!REVIEW_STATUSES.has(next)) {
+      return res
+        .status(422)
+        .json(errorEnvelope('Invalid status', { status: 'invalid' }));
+    }
+    patch.status = next;
+  }
+  patch.updatedAt = new Date().toISOString();
+  db.get('reviews').find({ id }).assign(patch).write();
+  const updated = db.get('reviews').find({ id }).value();
+  return res.json(wrapItem(buildAdminReviewSummary(updated)));
+});
+
+app.post('/api/admin/reviews/bulk', adminGate, (req, res) => {
+  const ids = Array.isArray(req.body?.ids) ? req.body.ids.map((n) => Number(n)) : [];
+  const status = req.body?.status ? String(req.body.status) : '';
+  if (!ids.length) {
+    return res.status(422).json(errorEnvelope('No reviews selected', { ids: 'required' }));
+  }
+  if (!REVIEW_STATUSES.has(status)) {
+    return res.status(422).json(errorEnvelope('Invalid status', { status: 'invalid' }));
+  }
+  const now = new Date().toISOString();
+  const updated = [];
+  for (const id of ids) {
+    const r = db.get('reviews').find({ id }).value();
+    if (!r) continue;
+    db.get('reviews')
+      .find({ id })
+      .assign({ status, updatedAt: now })
+      .write();
+    updated.push(buildAdminReviewSummary(db.get('reviews').find({ id }).value()));
+  }
+  return res.json(wrapList(updated, { page: 1, perPage: updated.length, total: updated.length }));
+});
+
+app.delete('/api/admin/reviews/:id', adminGate, (req, res) => {
+  const id = Number(req.params.id);
+  const r = db.get('reviews').find({ id }).value();
+  if (!r) return res.status(404).json(errorEnvelope('Review not found'));
+  db.get('reviews').remove({ id }).write();
+  return res.json(wrapItem({ id, deleted: true }));
+});
+
 // /api/admin/* → role gate, then proxy to json-server router under stripped path.
 app.use('/api/admin', adminGate, router);
 

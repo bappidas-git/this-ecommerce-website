@@ -1,0 +1,223 @@
+.tabs {
+  border-bottom: 1px solid var(--admin-line, var(--color-line));
+  margin-bottom: 16px;
+  min-height: 44px;
+}
+
+.tabs :global(.MuiTabs-flexContainer) {
+  gap: 8px;
+}
+
+.tab {
+  text-transform: none !important;
+  font-family: var(--font-ui, 'Inter', system-ui, sans-serif) !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.01em !important;
+  color: var(--color-ink-2, var(--admin-ink-2)) !important;
+  min-height: 44px !important;
+  padding: 8px 4px !important;
+  font-size: 0.9375rem !important;
+}
+
+.tab:global(.Mui-selected) {
+  color: var(--color-brass) !important;
+  font-weight: 600 !important;
+}
+
+.tabIndicator {
+  background-color: var(--color-brass) !important;
+  height: 2px !important;
+}
+
+.tabLabel {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.tabChip {
+  height: 20px !important;
+  font-family: var(--font-mono, 'JetBrains Mono', monospace) !important;
+  font-size: 0.6875rem !important;
+  background: color-mix(in srgb, var(--color-brass) 18%, transparent) !important;
+  color: var(--color-brass) !important;
+}
+
+.tabLabel :global(.MuiChip-label) {
+  padding: 0 8px !important;
+}
+
+.toolbar {
+  display: grid;
+  grid-template-columns: minmax(220px, 1fr) auto auto auto auto auto;
+  gap: 12px;
+  align-items: center;
+  padding: 12px 0;
+  margin-bottom: 12px;
+}
+
+.searchCell {
+  min-width: 0;
+}
+
+.ratingCell {
+  display: flex;
+  gap: 6px;
+}
+
+.ratingChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  border: 1px solid var(--admin-line, var(--color-line));
+  background: var(--color-surface);
+  color: var(--color-ink-2, var(--admin-ink-2));
+  padding: 4px 10px;
+  border-radius: var(--radius-pill, 999px);
+  font-family: var(--font-mono, 'JetBrains Mono', monospace);
+  font-size: 0.8125rem;
+  cursor: pointer;
+  transition: background 160ms ease, border-color 160ms ease, color 160ms ease;
+}
+
+.ratingChip:hover {
+  border-color: color-mix(in srgb, var(--color-brass) 50%, var(--color-line));
+}
+
+.ratingChipOn {
+  background: color-mix(in srgb, var(--color-brass) 16%, transparent);
+  border-color: var(--color-brass);
+  color: var(--color-brass);
+}
+
+.toggleCell {
+  display: flex;
+  align-items: center;
+}
+
+.dateCell {
+  display: flex;
+  gap: 8px;
+}
+
+.sortCell {
+  min-width: 180px;
+}
+
+.resetBtn {
+  background: none;
+  border: none;
+  color: var(--color-brass);
+  cursor: pointer;
+  font-family: var(--font-ui);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  padding: 4px 8px;
+}
+
+.resetBtn:hover {
+  text-decoration: underline;
+}
+
+.selectAllRow {
+  padding: 4px 4px 8px;
+}
+
+.selectAllLabel {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.8125rem;
+  color: var(--color-ink-2, var(--admin-ink-2));
+  cursor: pointer;
+}
+
+.listWrap {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  position: relative;
+  min-height: 200px;
+}
+
+.progress {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.listItem {
+  display: block;
+}
+
+.bulkBar {
+  position: sticky;
+  bottom: 16px;
+  z-index: 5;
+  margin-top: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  background: var(--color-ink);
+  color: var(--color-surface);
+  padding: 12px 16px;
+  border-radius: var(--radius-md, 14px);
+  box-shadow: 0 12px 32px rgba(27, 26, 23, 0.18);
+}
+
+.bulkCount {
+  font-family: var(--font-mono, 'JetBrains Mono', monospace);
+  font-size: 0.875rem;
+  letter-spacing: 0.02em;
+}
+
+.bulkActions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.rejectBulk {
+  color: var(--color-rose) !important;
+}
+
+@media (max-width: 1024px) {
+  .toolbar {
+    grid-template-columns: 1fr 1fr;
+  }
+  .searchCell {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 600px) {
+  .toolbar {
+    grid-template-columns: 1fr;
+  }
+  .ratingCell {
+    flex-wrap: wrap;
+  }
+  .dateCell {
+    grid-column: 1 / -1;
+  }
+  .bulkBar {
+    bottom: 8px;
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .bulkActions {
+    justify-content: stretch;
+  }
+}
