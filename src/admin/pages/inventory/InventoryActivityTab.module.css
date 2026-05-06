@@ -1,0 +1,107 @@
+.toolbar {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: 1fr;
+  align-items: end;
+  padding: 16px;
+  background: var(--admin-surface, #16201D);
+  border: 1px solid var(--admin-line, #243030);
+  border-radius: var(--radius-md, 14px);
+  margin-bottom: 16px;
+}
+
+.searchCell,
+.filterCell {
+  min-width: 0;
+}
+
+@media (min-width: 640px) {
+  .toolbar { grid-template-columns: 1.4fr 1fr 1fr 1fr; }
+  .searchCell { grid-column: 1 / -1; }
+}
+@media (min-width: 1024px) {
+  .toolbar { grid-template-columns: 1.6fr 1fr 1fr 1fr; }
+  .searchCell { grid-column: auto; }
+}
+
+.gridWrap {
+  width: 100%;
+  height: 600px;
+  background: var(--admin-surface, #16201D);
+  border-radius: var(--radius-md, 14px);
+  position: relative;
+}
+
+.errorWrap {
+  padding: 32px 16px;
+}
+
+.muted {
+  color: var(--admin-ink-2, #C9C2B4);
+  font-family: var(--font-ui);
+  font-size: 0.8125rem;
+}
+
+.nameLink {
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  color: var(--admin-ink, #F7F3ED);
+  white-space: normal;
+  line-height: 1.3;
+  display: block;
+}
+
+.nameLink:hover {
+  color: var(--color-brass, #B8924F);
+}
+
+.delta {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-family: var(--font-mono, 'JetBrains Mono', monospace);
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.deltaUp {
+  color: var(--color-success, #3F6B4F);
+}
+
+.deltaDown {
+  color: var(--color-error, #B0382A);
+}
+
+.note {
+  display: inline-block;
+  max-width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: var(--admin-ink-2, #C9C2B4);
+  font-family: var(--font-ui);
+  font-size: 0.8125rem;
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 32px 16px;
+  background: var(--admin-surface, #16201D);
+}
+
+.loadingOverlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.loadingOverlay :global(.MuiLinearProgress-root) {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+}

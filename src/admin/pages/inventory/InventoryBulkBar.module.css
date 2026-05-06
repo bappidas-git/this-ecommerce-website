@@ -1,0 +1,50 @@
+.root {
+  position: sticky;
+  top: 0;
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 10px 16px;
+  background: var(--color-brass, #B8924F);
+  color: var(--color-bg, #F7F3ED);
+  border-radius: var(--radius-md, 14px);
+  margin-bottom: 12px;
+  box-shadow: 0 8px 20px rgba(15, 18, 14, 0.18);
+}
+
+.label {
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  letter-spacing: 0.01em;
+}
+
+.label strong {
+  font-family: var(--font-mono, 'JetBrains Mono', monospace);
+  font-weight: 700;
+  margin-right: 6px;
+}
+
+.actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ghostBtn {
+  color: var(--color-bg, #F7F3ED) !important;
+}
+
+.ghostBtn:hover {
+  background: rgba(247, 243, 237, 0.12) !important;
+}
+
+.primaryBtn {
+  background: var(--color-ink, #1B1A17) !important;
+  color: var(--color-bg, #F7F3ED) !important;
+}
+
+.primaryBtn:hover {
+  background: var(--color-ink-2, #4A453E) !important;
+}

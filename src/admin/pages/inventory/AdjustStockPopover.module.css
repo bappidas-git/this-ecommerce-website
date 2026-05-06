@@ -1,0 +1,107 @@
+.paper {
+  width: min(360px, calc(100vw - 32px));
+  background: var(--admin-surface, #FFFFFF);
+  color: var(--admin-ink, #1B1A17);
+  border: 1px solid var(--admin-line, #E5DED2);
+  border-radius: var(--radius-md, 14px);
+  box-shadow: 0 16px 32px rgba(15, 18, 14, 0.18);
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--admin-line, #E5DED2);
+}
+
+.eyebrow {
+  margin: 0;
+  font-family: var(--font-ui);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--admin-muted, #8C8678);
+}
+
+.title {
+  margin: 0;
+  font-family: var(--font-display, 'Cormorant Garamond', serif);
+  font-size: 1.25rem;
+  line-height: 1.2;
+  color: var(--admin-ink);
+  font-weight: 500;
+}
+
+.meta {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-ui);
+  font-size: 0.8125rem;
+  color: var(--admin-ink-2, #4A453E);
+}
+
+.sku {
+  font-family: var(--font-mono, 'JetBrains Mono', monospace);
+  font-size: 0.75rem;
+  letter-spacing: 0.02em;
+  color: var(--admin-muted, #8C8678);
+}
+
+.dot {
+  color: var(--admin-muted, #8C8678);
+}
+
+.meta strong {
+  font-family: var(--font-mono, 'JetBrains Mono', monospace);
+  font-weight: 700;
+  margin-left: 4px;
+  color: var(--admin-ink);
+}
+
+.field {
+  display: block;
+}
+
+.summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 12px;
+  background: rgba(184, 146, 79, 0.08);
+  border: 1px solid rgba(184, 146, 79, 0.24);
+  border-radius: var(--radius-sm, 8px);
+}
+
+.summaryLabel {
+  font-family: var(--font-ui);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--admin-muted, #8C8678);
+}
+
+.summaryValue {
+  font-family: var(--font-mono, 'JetBrains Mono', monospace);
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--color-brass, #B8924F);
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  padding-top: 4px;
+}
