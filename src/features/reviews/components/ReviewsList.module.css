@@ -1,0 +1,19 @@
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.loadingWrap {
+  padding: 32px 0;
+  display: flex;
+  justify-content: center;
+}
+
+.loadMoreWrap {
+  display: flex;
+  justify-content: center;
+  padding: 24px 0 8px;
+}
