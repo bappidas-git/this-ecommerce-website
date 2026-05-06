@@ -51,7 +51,7 @@ import AdminProductForm from '../admin/pages/products/ProductFormPage.jsx';
 import AdminCategories from '../admin/pages/categories/CategoriesPage.jsx';
 import AdminInventory from '../admin/pages/inventory/InventoryPage.jsx';
 import AdminOrders from '../admin/pages/orders/OrdersListPage.jsx';
-import AdminOrderDetail from '../admin/pages/AdminOrderDetail.jsx';
+import AdminOrderDetail from '../admin/pages/orders/OrderDetailPage.jsx';
 import AdminCustomers from '../admin/pages/AdminCustomers.jsx';
 import AdminCustomerDetail from '../admin/pages/AdminCustomerDetail.jsx';
 import AdminReviews from '../admin/pages/AdminReviews.jsx';
