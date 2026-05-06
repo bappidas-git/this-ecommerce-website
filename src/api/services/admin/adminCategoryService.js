@@ -10,6 +10,14 @@ export const adminCategoryService = {
   update: (id, payload) =>
     http.patch(ENDPOINTS.admin.categoryById(id), payload).then(unwrap),
   remove: (id) => http.delete(ENDPOINTS.admin.categoryById(id)).then(unwrap),
+  move: (id, { direction }) =>
+    http
+      .post(`${ENDPOINTS.admin.categoryById(id)}/move`, { direction })
+      .then(unwrap),
+  reassign: (fromId, toId) =>
+    http
+      .post(`${ENDPOINTS.admin.categoryById(fromId)}/reassign`, { toId })
+      .then(unwrap),
 };
 
 export default adminCategoryService;
