@@ -18,6 +18,7 @@ import RecentlyViewedRail, {
 } from '../components/RecentlyViewedRail/RecentlyViewedRail.jsx';
 import StickyAddBar from '../components/StickyAddBar/StickyAddBar.jsx';
 import PdpSkeleton from '../components/PdpSkeleton/PdpSkeleton.jsx';
+import ReviewsSection from '../../reviews/components/ReviewsSection.jsx';
 
 import useProduct from '../../../hooks/useProduct.js';
 import useCategories from '../../../hooks/useCategories.js';
@@ -53,6 +54,8 @@ function buildJsonLd({ product, category, canonical }) {
           '@type': 'AggregateRating',
           ratingValue: product.rating,
           reviewCount: product.reviewCount ?? 0,
+          bestRating: 5,
+          worstRating: 1,
         }
       : undefined;
 
@@ -228,10 +231,10 @@ function ProductDetailPage() {
           <div className={styles.accordionsWrap}>
             <ProductAccordions product={product} />
           </div>
-
-          <div id="reviews" className={styles.reviewsAnchor} aria-hidden="true" />
         </Container>
       </Section>
+
+      <ReviewsSection product={product} />
 
       <RelatedRail productId={product.id} />
       <RecentlyViewedRail currentProductId={product.id} />

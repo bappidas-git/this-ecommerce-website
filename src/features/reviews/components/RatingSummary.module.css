@@ -1,0 +1,105 @@
+.root {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+  align-items: center;
+}
+
+.headline {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.score {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 56px;
+  line-height: 1;
+  color: var(--color-ink);
+  letter-spacing: -0.01em;
+}
+
+.outOf {
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+}
+
+.stars {
+  margin-top: 4px;
+}
+
+.caption {
+  margin: 0;
+  color: var(--color-ink-2);
+  font-size: 14px;
+}
+
+.bars {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 36px 1fr 36px;
+  align-items: center;
+  gap: 12px;
+}
+
+.starLabel {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  color: var(--color-ink-2);
+  font-size: 13px;
+}
+
+.starIcon {
+  font-size: 16px;
+  color: var(--color-brass);
+}
+
+.starNumber {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+}
+
+.track {
+  display: block;
+  position: relative;
+  height: 6px;
+  border-radius: 999px;
+  background: var(--color-line);
+  overflow: hidden;
+}
+
+.fill {
+  display: block;
+  height: 100%;
+  background: var(--color-brass);
+  border-radius: 999px;
+  transition: width 240ms ease;
+}
+
+.pct {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  text-align: right;
+  color: var(--color-muted);
+}
+
+@media (min-width: 720px) {
+  .root {
+    grid-template-columns: minmax(180px, 220px) 1fr;
+    gap: 48px;
+  }
+}

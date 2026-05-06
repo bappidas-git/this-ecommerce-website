@@ -25,6 +25,7 @@ export const ENDPOINTS = Object.freeze({
     list: '/reviews',
     create: '/reviews',
     byId: (id) => `/reviews/${id}`,
+    helpful: (id) => `/reviews/${id}/helpful`,
   },
   orders: {
     list: '/orders',
@@ -32,6 +33,7 @@ export const ENDPOINTS = Object.freeze({
     create: '/orders',
     cancel: (id) => `/orders/${id}/cancel`,
     reorder: (id) => `/orders/${id}/reorder`,
+    hasPurchased: '/orders/has-purchased',
   },
   addresses: {
     list: '/addresses',

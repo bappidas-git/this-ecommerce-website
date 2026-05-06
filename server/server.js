@@ -812,6 +812,176 @@ app.post('/api/orders/:id/reorder', requireAuth, (req, res) => {
   res.json(wrapItem({ items: added, skipped }));
 });
 
+// GET /api/orders/has-purchased?product_id=  — has the current user bought this?
+app.get('/api/orders/has-purchased', requireAuth, (req, res) => {
+  const productId = Number(req.query.product_id || req.query.productId);
+  if (!productId) {
+    return res.status(422).json(errorEnvelope('product_id is required'));
+  }
+  const orders = db
+    .get('orders')
+    .value()
+    .filter((o) => o.userId === req.user.id && o.status !== 'cancelled');
+  const hasPurchased = orders.some((o) =>
+    (o.items || []).some((it) => Number(it.productId) === productId),
+  );
+  res.json(wrapItem({ productId, hasPurchased }));
+});
+
+// ============================================================================
+// REVIEWS — public list, authed create + helpful toggle
+// ============================================================================
+const REVIEW_SORTS = {
+  most_helpful: (a, b) =>
+    (Number(b.helpfulCount) || 0) - (Number(a.helpfulCount) || 0) ||
+    Date.parse(b.createdAt) - Date.parse(a.createdAt),
+  newest: (a, b) => Date.parse(b.createdAt) - Date.parse(a.createdAt),
+  highest_rated: (a, b) =>
+    (Number(b.rating) || 0) - (Number(a.rating) || 0) ||
+    Date.parse(b.createdAt) - Date.parse(a.createdAt),
+  lowest_rated: (a, b) =>
+    (Number(a.rating) || 0) - (Number(b.rating) || 0) ||
+    Date.parse(b.createdAt) - Date.parse(a.createdAt),
+};
+
+const decorateReview = (r) => {
+  const user = db.get('users').find({ id: r.userId }).value();
+  const initials = user
+    ? `${(user.firstName || '?')[0] || '?'}${(user.lastName || '')[0] || ''}`.toUpperCase()
+    : '?';
+  const reviewerName = user
+    ? `${user.firstName || ''} ${user.lastName ? `${user.lastName[0]}.` : ''}`.trim()
+    : 'Customer';
+  const address = db
+    .get('addresses')
+    .value()
+    .find((a) => a.userId === r.userId && a.isDefault);
+  const city = address?.city || (user?.id === 4 ? 'Dubai' : 'Abu Dhabi');
+  const country = address?.country === 'AE' ? 'UAE' : address?.country || 'UAE';
+  return {
+    ...r,
+    helpfulCount: Number(r.helpfulCount) || 0,
+    reviewer: {
+      id: r.userId,
+      name: reviewerName,
+      initials,
+      avatar:
+        user?.avatar ||
+        `https://placehold.co/80x80/B8924F/F7F3ED?text=${encodeURIComponent(initials)}&font=playfair`,
+      location: { city, country },
+    },
+  };
+};
+
+app.get('/api/reviews', (req, res) => {
+  const q = req.query;
+  const productId = Number(q.product_id || q.productId);
+  let items = db.get('reviews').value();
+
+  if (productId) {
+    items = items.filter((r) => Number(r.productId) === productId);
+  }
+  const status = q.status ? String(q.status) : 'published';
+  if (status !== 'all') {
+    items = items.filter((r) => (r.status || 'published') === status);
+  }
+  const ratings = toArray(q.ratings)
+    .map((n) => Number(n))
+    .filter((n) => n >= 1 && n <= 5);
+  if (ratings.length) {
+    items = items.filter((r) => ratings.includes(Number(r.rating)));
+  }
+  if (q.verified_only != null && isTrue(q.verified_only)) {
+    items = items.filter((r) => Boolean(r.verifiedPurchase));
+  }
+
+  const sortKey = String(q.review_sort || q.sort_by || 'most_helpful');
+  const sorter = REVIEW_SORTS[sortKey] || REVIEW_SORTS.most_helpful;
+  items = [...items].sort(sorter);
+
+  const total = items.length;
+  const page = Math.max(1, Number(q._page) || 1);
+  const perPage = Math.max(1, Number(q._limit) || 10);
+  const start = (page - 1) * perPage;
+  const slice = items.slice(start, start + perPage).map(decorateReview);
+  res.json(wrapList(slice, { page, perPage, total }));
+});
+
+app.post('/api/reviews', requireAuth, (req, res) => {
+  const { productId, rating, title, body } = req.body || {};
+  const errors = {};
+  const pid = Number(productId);
+  if (!pid) errors.productId = 'Product is required';
+  const r = Number(rating);
+  if (!Number.isFinite(r) || r < 1 || r > 5) errors.rating = 'Pick a rating from 1 to 5';
+  const t = String(title || '').trim();
+  if (!t) errors.title = 'Title is required';
+  else if (t.length < 4) errors.title = 'Title is too short';
+  else if (t.length > 100) errors.title = 'Title is too long';
+  const b = String(body || '').trim();
+  if (!b) errors.body = 'Tell us a little more';
+  else if (b.length < 10) errors.body = 'Please write at least 10 characters';
+  else if (b.length > 800) errors.body = 'Please keep it under 800 characters';
+  if (Object.keys(errors).length) {
+    return res.status(422).json(errorEnvelope('Invalid input', errors));
+  }
+
+  const product = db.get('products').find({ id: pid }).value();
+  if (!product) {
+    return res.status(404).json(errorEnvelope('Product not found'));
+  }
+
+  const verifiedPurchase = db
+    .get('orders')
+    .value()
+    .some(
+      (o) =>
+        o.userId === req.user.id &&
+        o.status !== 'cancelled' &&
+        (o.items || []).some((it) => Number(it.productId) === pid),
+    );
+  if (!verifiedPurchase) {
+    return res
+      .status(403)
+      .json(errorEnvelope('Reviews are open to verified buyers.'));
+  }
+
+  const reviewsCol = db.get('reviews');
+  const lastId = reviewsCol.value().reduce((m, x) => Math.max(m, x.id || 0), 0);
+  const next = {
+    id: lastId + 1,
+    productId: pid,
+    userId: req.user.id,
+    rating: r,
+    title: t,
+    body: b,
+    status: 'pending',
+    verifiedPurchase: true,
+    helpfulCount: 0,
+    helpfulBy: [],
+    createdAt: new Date().toISOString(),
+  };
+  reviewsCol.push(next).write();
+  res.status(201).json(wrapItem(decorateReview(next)));
+});
+
+app.post('/api/reviews/:id/helpful', requireAuth, (req, res) => {
+  const id = Number(req.params.id);
+  const review = db.get('reviews').find({ id }).value();
+  if (!review) return res.status(404).json(errorEnvelope('Review not found'));
+  const helpfulBy = Array.isArray(review.helpfulBy) ? [...review.helpfulBy] : [];
+  const has = helpfulBy.includes(req.user.id);
+  const next = has
+    ? helpfulBy.filter((uid) => uid !== req.user.id)
+    : [...helpfulBy, req.user.id];
+  db.get('reviews')
+    .find({ id })
+    .assign({ helpfulBy: next, helpfulCount: next.length })
+    .write();
+  const updated = db.get('reviews').find({ id }).value();
+  res.json(wrapItem(decorateReview(updated)));
+});
+
 // ============================================================================
 // ADDRESSES — scoped to the authenticated user
 // ============================================================================

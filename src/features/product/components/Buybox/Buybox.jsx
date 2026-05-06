@@ -46,6 +46,29 @@ function StockIndicator({ stock }) {
   );
 }
 
+function scrollToReviews(focusSelector) {
+  if (typeof window === 'undefined') return;
+  const reviews = document.getElementById('reviews');
+  if (!reviews) return;
+  reviews.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  if (window.history && typeof window.history.replaceState === 'function') {
+    window.history.replaceState(null, '', '#reviews');
+  } else {
+    window.location.hash = '#reviews';
+  }
+  if (focusSelector) {
+    const target = reviews.querySelector(focusSelector);
+    if (target && typeof target.focus === 'function') {
+      window.setTimeout(() => target.focus({ preventScroll: true }), 320);
+    }
+  }
+}
+
+function handleReviewsAnchor(e, selector) {
+  if (e && typeof e.preventDefault === 'function') e.preventDefault();
+  scrollToReviews(selector);
+}
+
 function Buybox({ product, category, onAddToCart, onWishlistToggle, isWishlisted = false }) {
   const [quantity, setQuantity] = useState(1);
   const [isAdding, setIsAdding] = useState(false);
@@ -105,7 +128,11 @@ function Buybox({ product, category, onAddToCart, onWishlistToggle, isWishlisted
 
       <div className={styles.ratingRow}>
         {rating !== null ? (
-          <a className={styles.ratingLink} href="#reviews">
+          <a
+            className={styles.ratingLink}
+            href="#reviews"
+            onClick={handleReviewsAnchor}
+          >
             <StarRoundedIcon className={styles.ratingStar} aria-hidden="true" />
             <span className={styles.ratingValue}>{rating.toFixed(1)}</span>
             <span className={styles.ratingCount}>
@@ -115,8 +142,19 @@ function Buybox({ product, category, onAddToCart, onWishlistToggle, isWishlisted
         ) : (
           <span className={styles.ratingMuted}>No reviews yet</span>
         )}
-        <a href="#reviews" className={styles.reviewsLink}>
+        <a
+          href="#reviews"
+          className={styles.reviewsLink}
+          onClick={handleReviewsAnchor}
+        >
           Read all reviews
+        </a>
+        <a
+          href="#reviews"
+          className={styles.writeReviewLink}
+          onClick={(e) => handleReviewsAnchor(e, '.write-cta')}
+        >
+          Write a review
         </a>
       </div>
 

@@ -90,6 +90,23 @@
   outline: none;
 }
 
+.writeReviewLink {
+  font-family: var(--font-ui);
+  font-size: 13px;
+  color: var(--color-ink-2);
+  text-decoration: none;
+  border-bottom: 1px solid var(--color-line);
+  padding-bottom: 1px;
+  transition: color 160ms ease, border-color 160ms ease;
+}
+
+.writeReviewLink:hover,
+.writeReviewLink:focus-visible {
+  color: var(--color-brass-2);
+  border-color: currentColor;
+  outline: none;
+}
+
 .summary {
   margin: 0;
   color: var(--color-ink-2);
