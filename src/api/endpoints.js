@@ -66,6 +66,7 @@ export const ENDPOINTS = Object.freeze({
     inventoryActivity: '/admin/inventory/activity',
     orders: '/admin/orders',
     orderById: (id) => `/admin/orders/${id}`,
+    orderStatus: (id) => `/admin/orders/${id}/status`,
     customers: '/admin/customers',
     customerById: (id) => `/admin/customers/${id}`,
     reviews: '/admin/reviews',
