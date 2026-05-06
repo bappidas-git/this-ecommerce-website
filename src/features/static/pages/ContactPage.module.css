@@ -1,0 +1,240 @@
+.intro {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 32px;
+}
+
+.introTitle {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(2rem, 4.5vw, 3rem);
+  line-height: 1.1;
+  margin: 0;
+  color: var(--color-ink);
+}
+
+.introKicker {
+  margin: 0;
+  color: var(--color-ink-2);
+  max-width: 56ch;
+  line-height: 1.6;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 32px;
+  align-items: start;
+}
+
+@media (min-width: 900px) {
+  .layout {
+    grid-template-columns: 5fr 7fr;
+    gap: 48px;
+  }
+}
+
+/* ----- INFO CARD ----- */
+.infoCard {
+  background: var(--color-surface);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-3);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.infoTitle {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 1.5rem;
+  margin: 0;
+  color: var(--color-ink);
+}
+
+.infoBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.infoLabel {
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+  margin: 0;
+}
+
+.infoValue {
+  margin: 0;
+  color: var(--color-ink);
+  line-height: 1.55;
+}
+
+.infoLink {
+  color: var(--color-ink);
+  text-decoration: none;
+  border-bottom: 1px solid var(--color-line);
+  transition: border-color 200ms ease;
+}
+
+.infoLink:hover,
+.infoLink:focus-visible {
+  border-color: var(--color-brass);
+}
+
+.hours {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.hoursRow {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  font-size: 0.95rem;
+  color: var(--color-ink-2);
+}
+
+.mapFrame {
+  width: 100%;
+  height: 240px;
+  border: 0;
+  border-radius: var(--radius-2);
+  display: block;
+  background: var(--color-line);
+}
+
+/* ----- FORM CARD ----- */
+.formCard {
+  background: var(--color-surface);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-3);
+  padding: 28px 24px;
+}
+
+@media (min-width: 700px) {
+  .formCard {
+    padding: 32px;
+  }
+}
+
+.formTitle {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  margin: 0 0 8px;
+  color: var(--color-ink);
+}
+
+.formKicker {
+  margin: 0 0 24px;
+  color: var(--color-ink-2);
+  line-height: 1.55;
+}
+
+.formGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+@media (min-width: 700px) {
+  .formGrid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .fullRow {
+    grid-column: 1 / -1;
+  }
+}
+
+.fieldNote {
+  margin: 4px 0 0;
+  font-size: 0.8125rem;
+  color: var(--color-muted);
+  line-height: 1.4;
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 24px;
+}
+
+.serverError {
+  margin-bottom: 16px;
+}
+
+/* ----- CONFIRMATION ----- */
+.confirmationCard {
+  background: var(--color-surface);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-3);
+  padding: 40px 28px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: center;
+}
+
+.confirmationTitle {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  margin: 0;
+  color: var(--color-ink);
+}
+
+.confirmationKicker {
+  margin: 0;
+  color: var(--color-ink-2);
+  max-width: 48ch;
+  line-height: 1.6;
+}
+
+.resetLink {
+  background: none;
+  border: 0;
+  padding: 0;
+  font-family: var(--font-ui);
+  font-size: 0.95rem;
+  color: var(--color-brass-2);
+  cursor: pointer;
+  border-bottom: 1px solid var(--color-brass);
+  margin-top: 8px;
+}
+
+.resetLink:hover,
+.resetLink:focus-visible {
+  color: var(--color-brass);
+}
+
+/* ----- FAQ RAIL ----- */
+.faqRail {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.faqLink {
+  display: inline-block;
+  margin-top: 16px;
+  color: var(--color-brass-2);
+  border-bottom: 1px solid var(--color-brass);
+  padding-bottom: 1px;
+}
+
+.faqLink:hover,
+.faqLink:focus-visible {
+  color: var(--color-brass);
+}

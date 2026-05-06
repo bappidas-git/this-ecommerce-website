@@ -3,6 +3,16 @@ import { useMemo } from 'react';
 const MOCK_SETTINGS = Object.freeze({
   general: {
     storeName: 'THIS Interiors',
+    address: 'Studio 14, Alserkal Avenue, Al Quoz 1, Dubai, UAE',
+    email: 'studio@thisinteriors.com',
+    phone: '+971 4 000 0000',
+    openingHours: [
+      { label: 'Monday – Friday', value: '10:00 – 19:00' },
+      { label: 'Saturday', value: '11:00 – 18:00' },
+      { label: 'Sunday', value: 'By appointment' },
+    ],
+    mapEmbedUrl:
+      'https://www.google.com/maps?q=Alserkal+Avenue,+Al+Quoz+1,+Dubai&output=embed',
   },
   branding: {
     logoText: 'THIS Interiors',

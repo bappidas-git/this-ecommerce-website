@@ -506,6 +506,33 @@ app.get('/api/categories/:slug', (req, res) => {
   res.json(wrapItem(item));
 });
 
+// POST /api/contact — log a contact enquiry, return { ok: true }
+app.post('/api/contact', (req, res) => {
+  const body = req.body || {};
+  const errors = {};
+  if (!body.name || String(body.name).trim().length < 2) errors.name = 'Name is required';
+  if (!body.email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(body.email)))
+    errors.email = 'A valid email is required';
+  if (!body.message || String(body.message).trim().length < 10)
+    errors.message = 'Message must be at least 10 characters';
+  if (body.acceptsContact !== true) errors.acceptsContact = 'Consent is required';
+
+  if (Object.keys(errors).length) {
+    return res.status(422).json(errorEnvelope('Please review the form', errors));
+  }
+
+  console.log('[contact] enquiry received:', {
+    name: body.name,
+    email: body.email,
+    subject: body.subject || 'general',
+    orderNumber: body.orderNumber || null,
+    messageLength: String(body.message).length,
+    receivedAt: new Date().toISOString(),
+  });
+
+  res.json(wrapItem({ ok: true }));
+});
+
 // POST /api/coupons/validate
 app.post('/api/coupons/validate', (req, res) => {
   const { code, subtotal = 0 } = req.body || {};
