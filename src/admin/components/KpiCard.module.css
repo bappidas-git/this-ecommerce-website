@@ -1,0 +1,90 @@
+.card {
+  background: var(--admin-surface);
+  border: 1px solid var(--admin-line);
+  border-radius: var(--radius-3);
+  padding: 18px 20px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-height: 148px;
+  min-width: 0;
+}
+
+.head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  min-width: 0;
+}
+
+.eyebrow {
+  margin: 0;
+  font-family: var(--font-ui);
+  font-size: 0.6875rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--admin-muted);
+}
+
+.value {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: clamp(1.5rem, 2vw, 1.875rem);
+  letter-spacing: 0.005em;
+  color: var(--admin-ink);
+  line-height: 1.1;
+  font-variant-numeric: tabular-nums;
+}
+
+.delta {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  border-radius: var(--radius-pill);
+  padding: 3px 8px 3px 6px;
+  font-family: var(--font-ui);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: 0.02em;
+}
+
+.deltaIcon {
+  font-size: 0.875rem;
+}
+
+.deltaUp {
+  background: color-mix(in srgb, var(--color-success) 24%, transparent);
+  color: #b8d8c1;
+}
+
+.deltaDown {
+  background: color-mix(in srgb, var(--color-error) 26%, transparent);
+  color: #f0b8b1;
+}
+
+.deltaFlat {
+  background: color-mix(in srgb, var(--admin-muted) 22%, transparent);
+  color: var(--admin-ink-2);
+}
+
+.spark {
+  height: 48px;
+  width: 100%;
+  margin-top: auto;
+}
+
+.sparkEmpty {
+  height: 48px;
+  width: 100%;
+  margin-top: auto;
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--color-brass) 8%, transparent) 0%,
+    transparent 100%
+  );
+  border-radius: var(--radius-1);
+}

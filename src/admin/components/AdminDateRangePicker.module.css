@@ -1,0 +1,82 @@
+.root {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: flex-end;
+}
+
+.presets {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  justify-content: flex-end;
+}
+
+.chip {
+  appearance: none;
+  border: 1px solid var(--admin-line);
+  background: transparent;
+  color: var(--admin-ink-2);
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  border-radius: var(--radius-pill);
+  padding: 6px 12px;
+  cursor: pointer;
+  transition:
+    background 160ms var(--motion-ease),
+    color 160ms var(--motion-ease),
+    border-color 160ms var(--motion-ease);
+}
+
+.chip:hover {
+  color: var(--admin-ink);
+  border-color: color-mix(in srgb, var(--color-brass) 60%, var(--admin-line));
+}
+
+.chip:focus-visible {
+  outline: 2px solid var(--color-brass);
+  outline-offset: 2px;
+}
+
+.chipActive {
+  background: var(--admin-ink);
+  color: var(--admin-bg);
+  border-color: var(--admin-ink);
+}
+
+.chipActive:hover {
+  color: var(--admin-bg);
+  border-color: var(--admin-ink);
+}
+
+.inputs {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.field {
+  width: 150px;
+}
+
+.separator {
+  color: var(--admin-muted);
+  font-family: var(--font-ui);
+}
+
+@media (max-width: 600px) {
+  .root {
+    align-items: flex-start;
+    width: 100%;
+  }
+  .presets {
+    justify-content: flex-start;
+  }
+  .field {
+    width: 100%;
+    flex: 1 1 140px;
+  }
+}
