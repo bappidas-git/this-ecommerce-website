@@ -29,6 +29,35 @@ const inRange = (iso, start, end) => {
   return t >= start.getTime() && t <= end.getTime();
 };
 
+const isoDate = (d) => {
+  if (!d) return undefined;
+  const x = d instanceof Date ? d : new Date(d);
+  if (Number.isNaN(x.getTime())) return undefined;
+  return x.toISOString().slice(0, 10);
+};
+
+/**
+ * Normalises the standard params every report block sends to the backend.
+ * Inputs are camelCase; `buildUrl` will snake_case them for the wire.
+ */
+export const buildReportParams = ({
+  start,
+  end,
+  comparePrevious,
+  granularity,
+  limit,
+} = {}) => {
+  const out = {};
+  const s = isoDate(start);
+  const e = isoDate(end);
+  if (s) out.startDate = s;
+  if (e) out.endDate = e;
+  if (comparePrevious) out.comparePrevious = true;
+  if (granularity) out.granularity = granularity;
+  if (limit) out.limit = limit;
+  return out;
+};
+
 const aggregateOrdersByStatus = (orders) => {
   const buckets = {
     pending: 0,

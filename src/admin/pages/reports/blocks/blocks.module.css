@@ -1,0 +1,225 @@
+.headerActions {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.exportLink {
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-brass);
+  background: none;
+  border: none;
+  border-bottom: 1px solid transparent;
+  cursor: pointer;
+  padding: 0;
+  transition: border-color 160ms var(--motion-ease);
+}
+
+.exportLink:hover,
+.exportLink:focus-visible {
+  border-bottom-color: var(--color-brass);
+  outline: none;
+}
+
+.exportLink:disabled {
+  color: var(--admin-muted);
+  cursor: not-allowed;
+}
+
+.granularity {
+  display: inline-flex;
+  border: 1px solid var(--admin-line);
+  border-radius: var(--radius-pill);
+  overflow: hidden;
+}
+
+.granularityChip {
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--admin-ink-2);
+  background: transparent;
+  border: none;
+  padding: 4px 10px;
+  cursor: pointer;
+  transition: background 160ms var(--motion-ease), color 160ms var(--motion-ease);
+}
+
+.granularityChip:hover {
+  background: color-mix(in srgb, var(--color-brass) 8%, transparent);
+}
+
+.granularityChipActive {
+  background: var(--admin-ink);
+  color: var(--admin-bg);
+}
+
+.granularityChipActive:hover {
+  background: var(--admin-ink);
+}
+
+.delta {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: 0.6875rem;
+  font-variant-numeric: tabular-nums;
+  padding: 2px 8px;
+  border-radius: var(--radius-pill);
+  letter-spacing: 0.02em;
+}
+
+.deltaUp {
+  color: var(--color-success);
+  background: color-mix(in srgb, var(--color-success) 14%, transparent);
+}
+
+.deltaDown {
+  color: var(--color-error);
+  background: color-mix(in srgb, var(--color-error) 14%, transparent);
+}
+
+.deltaFlat {
+  color: var(--admin-muted);
+  background: color-mix(in srgb, var(--admin-muted) 14%, transparent);
+}
+
+.tableWrap {
+  width: 100%;
+  overflow-x: auto;
+  max-height: 380px;
+  overflow-y: auto;
+}
+
+.tableWrap table {
+  width: 100%;
+}
+
+.tableWrap thead th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: var(--admin-surface);
+  font-family: var(--font-ui);
+  font-size: 0.6875rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--admin-muted);
+  font-weight: 600;
+  border-bottom: 1px solid var(--admin-line);
+}
+
+.numCell {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  font-weight: 500;
+  color: var(--admin-ink);
+}
+
+.rowLink {
+  cursor: pointer;
+}
+
+.rowLink:hover {
+  background: color-mix(in srgb, var(--color-brass) 6%, transparent);
+}
+
+.rank {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  font-size: 0.75rem;
+  color: var(--admin-muted);
+  width: 24px;
+}
+
+.codeCell {
+  font-family: var(--font-mono);
+  font-weight: 600;
+  font-size: 0.8125rem;
+  color: var(--admin-ink);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.statusActive {
+  font-family: var(--font-ui);
+  font-size: 0.6875rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--color-success);
+}
+
+.statusInactive {
+  font-family: var(--font-ui);
+  font-size: 0.6875rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--admin-muted);
+}
+
+.empty {
+  padding: 28px 16px;
+  text-align: center;
+  font-family: var(--font-ui);
+  color: var(--admin-muted);
+  font-size: 0.875rem;
+}
+
+.chartWrap {
+  width: 100%;
+}
+
+.chartLegend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-top: 6px;
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  color: var(--admin-ink-2);
+}
+
+.legendSwatch {
+  display: inline-block;
+  width: 14px;
+  height: 2px;
+  margin-right: 6px;
+  vertical-align: middle;
+  background: var(--color-brass);
+}
+
+.legendSwatchPrev {
+  background: transparent;
+  border-top: 2px dotted var(--color-emerald);
+}
+
+.barName {
+  font-family: var(--font-ui);
+  font-size: 0.8125rem;
+  color: var(--admin-ink);
+}
+
+.daysCover {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  font-weight: 500;
+  color: var(--admin-ink);
+}
+
+.daysCoverWarning {
+  color: var(--color-warning);
+}
+
+.daysCoverDanger {
+  color: var(--color-error);
+}
