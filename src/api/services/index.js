@@ -8,6 +8,7 @@ export { wishlistService } from './wishlistService.js';
 export { couponService } from './couponService.js';
 export { settingsService } from './settingsService.js';
 export { paymentService } from './paymentService.js';
+export { contactService } from './contactService.js';
 
 export { adminAuthService } from './admin/adminAuthService.js';
 export { adminProductService } from './admin/adminProductService.js';

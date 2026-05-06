@@ -1,0 +1,267 @@
+/* ----- HERO ----- */
+.hero {
+  position: relative;
+  width: 100%;
+  height: 50vh;
+  min-height: 420px;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.heroImage {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  z-index: 0;
+}
+
+.heroOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(27, 26, 23, 0.15), rgba(27, 26, 23, 0.55));
+  z-index: 1;
+}
+
+.heroInner {
+  position: relative;
+  z-index: 2;
+  height: 100%;
+  display: flex;
+  align-items: flex-end;
+  padding-bottom: 56px;
+  color: var(--color-bg);
+}
+
+.heroContent {
+  max-width: 720px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.heroTitle {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(2.5rem, 6vw, 4.5rem);
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+  margin: 0;
+  color: var(--color-bg);
+}
+
+.heroKicker {
+  font-family: var(--font-ui);
+  font-size: 1rem;
+  line-height: 1.6;
+  margin: 0;
+  max-width: 56ch;
+  color: var(--color-bg);
+  opacity: 0.92;
+}
+
+@media (min-width: 900px) {
+  .hero {
+    height: 70vh;
+    min-height: 560px;
+  }
+
+  .heroInner {
+    padding-bottom: 80px;
+  }
+}
+
+/* ----- STORY ----- */
+.storyGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 32px;
+  align-items: start;
+}
+
+.storyImageWrap {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  border-radius: var(--radius-3);
+  overflow: hidden;
+  background: var(--color-line);
+  outline: 1px solid var(--color-brass);
+  outline-offset: -8px;
+}
+
+.storyImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.storyText {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.storyTitle {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(1.75rem, 3vw, 2.25rem);
+  line-height: 1.1;
+  margin: 0 0 4px;
+  color: var(--color-ink);
+}
+
+.storyParagraph {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.7;
+  color: var(--color-ink-2);
+  max-width: 60ch;
+}
+
+@media (min-width: 900px) {
+  .storyGrid {
+    grid-template-columns: 5fr 6fr;
+    gap: 64px;
+  }
+}
+
+/* ----- PILLARS ----- */
+.pillars {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+.pillarCard {
+  background: var(--color-surface);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-3);
+  padding: 28px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.pillarNumber {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 1.5rem;
+  color: var(--color-brass);
+  letter-spacing: 0.04em;
+}
+
+.pillarTitle {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 1.5rem;
+  margin: 0;
+  color: var(--color-ink);
+}
+
+.pillarKicker {
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--color-ink-2);
+}
+
+@media (min-width: 900px) {
+  .pillars {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+}
+
+/* ----- COUNTERS ----- */
+.counters {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 32px 16px;
+  text-align: left;
+}
+
+.counterItem {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  color: var(--color-bg);
+}
+
+.counterValue {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(2.5rem, 6vw, 4rem);
+  line-height: 1;
+  color: var(--color-bg);
+  font-variant-numeric: tabular-nums;
+}
+
+.counterLabel {
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-bg);
+  opacity: 0.85;
+}
+
+@media (min-width: 900px) {
+  .counters {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+  }
+}
+
+/* ----- PRESS ----- */
+.pressGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  align-items: center;
+}
+
+.pressLogo {
+  width: 100%;
+  height: auto;
+  max-height: 56px;
+  object-fit: contain;
+  opacity: 0.65;
+  filter: grayscale(1);
+  transition: opacity 200ms ease;
+}
+
+.pressLogo:hover {
+  opacity: 1;
+}
+
+@media (min-width: 700px) {
+  .pressGrid {
+    grid-template-columns: repeat(5, 1fr);
+    gap: 24px;
+  }
+}
+
+/* ----- CTA STRIP ----- */
+.ctaStrip {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 20px;
+}
+
+.ctaTitle {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(1.75rem, 3vw, 2.25rem);
+  margin: 0;
+  color: var(--color-ink);
+  max-width: 24ch;
+}
+
+.ctaKicker {
+  margin: 0;
+  color: var(--color-ink-2);
+  max-width: 56ch;
+}

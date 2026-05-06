@@ -24,8 +24,8 @@ import RegisterPage from '../features/auth/pages/RegisterPage.jsx';
 import ForgotPasswordPage from '../features/auth/pages/ForgotPasswordPage.jsx';
 import ResetPasswordPage from '../features/auth/pages/ResetPasswordPage.jsx';
 
-import About from '../features/static/pages/About.jsx';
-import Contact from '../features/static/pages/Contact.jsx';
+import AboutPage from '../features/static/pages/AboutPage.jsx';
+import ContactPage from '../features/static/pages/ContactPage.jsx';
 import Faq from '../features/static/pages/Faq.jsx';
 import Privacy from '../features/static/pages/Privacy.jsx';
 import Terms from '../features/static/pages/Terms.jsx';
@@ -87,8 +87,8 @@ function AppRoutes() {
         <Route path="forgot-password" element={<ForgotPasswordPage />} />
         <Route path="reset-password" element={<ResetPasswordPage />} />
 
-        <Route path="about" element={<About />} />
-        <Route path="contact" element={<Contact />} />
+        <Route path="about" element={<AboutPage />} />
+        <Route path="contact" element={<ContactPage />} />
         <Route path="faq" element={<Faq />} />
         <Route path="privacy" element={<Privacy />} />
         <Route path="terms" element={<Terms />} />
