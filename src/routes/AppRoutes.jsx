@@ -50,7 +50,7 @@ import AdminProducts from '../admin/pages/products/ProductsListPage.jsx';
 import AdminProductForm from '../admin/pages/products/ProductFormPage.jsx';
 import AdminCategories from '../admin/pages/categories/CategoriesPage.jsx';
 import AdminInventory from '../admin/pages/inventory/InventoryPage.jsx';
-import AdminOrders from '../admin/pages/AdminOrders.jsx';
+import AdminOrders from '../admin/pages/orders/OrdersListPage.jsx';
 import AdminOrderDetail from '../admin/pages/AdminOrderDetail.jsx';
 import AdminCustomers from '../admin/pages/AdminCustomers.jsx';
 import AdminCustomerDetail from '../admin/pages/AdminCustomerDetail.jsx';

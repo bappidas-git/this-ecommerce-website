@@ -1,0 +1,113 @@
+.headerActions {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.gridWrap {
+  width: 100%;
+  height: 640px;
+  background: var(--admin-surface, #16201D);
+  border-radius: var(--radius-md, 14px);
+  position: relative;
+}
+
+.errorWrap {
+  padding: 32px 16px;
+}
+
+.numberLink {
+  font-family: var(--font-mono, 'JetBrains Mono', monospace);
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--admin-ink, #F7F3ED);
+}
+
+.numberLink:hover {
+  color: var(--color-brass, #B8924F);
+}
+
+.muted {
+  color: var(--admin-ink-2, #C9C2B4);
+  font-size: 0.875rem;
+}
+
+.mono {
+  font-family: var(--font-mono, 'JetBrains Mono', monospace);
+  font-size: 0.8125rem;
+  letter-spacing: 0.02em;
+  color: var(--admin-ink, #F7F3ED);
+}
+
+.totalMono {
+  font-family: var(--font-mono, 'JetBrains Mono', monospace);
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  color: var(--admin-ink, #F7F3ED);
+}
+
+.customerCell {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  line-height: 1.2;
+  min-width: 0;
+}
+
+.customerName {
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--admin-ink, #F7F3ED);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.customerEmail {
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  color: var(--admin-muted, #8C8678);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.rowActions {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.iconBtn {
+  color: var(--admin-ink-2, #C9C2B4);
+}
+
+.iconBtn:hover {
+  color: var(--color-brass, #B8924F);
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 32px 16px;
+  background: var(--admin-surface, #16201D);
+}
+
+.loadingOverlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.loadingOverlay :global(.MuiLinearProgress-root) {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+}

@@ -1772,6 +1772,246 @@ app.post('/api/admin/inventory/:id/adjust', adminGate, (req, res) => {
   );
 });
 
+// ----- Admin orders: list (with filters/CSV) + status update with state machine
+const ORDER_STATUS_TRANSITIONS = {
+  pending: ['confirmed', 'cancelled'],
+  confirmed: ['preparing', 'cancelled'],
+  preparing: ['ready', 'cancelled'],
+  ready: ['completed', 'cancelled'],
+  completed: [],
+  cancelled: [],
+};
+
+const PAYMENT_METHODS = new Set(['card', 'cod', 'bank_transfer']);
+const PAYMENT_STATUSES = new Set(['paid', 'pending', 'refunded', 'failed']);
+const ORDER_STATUS_VALUES = new Set(Object.keys(ORDER_STATUS_TRANSITIONS));
+
+const decorateAdminOrderRow = (order, usersById) => {
+  const u = usersById.get(order.userId);
+  const fullName = u
+    ? `${u.firstName || ''} ${u.lastName || ''}`.trim()
+    : (order.shippingAddress
+      ? `${order.shippingAddress.firstName || ''} ${order.shippingAddress.lastName || ''}`.trim()
+      : '');
+  return {
+    id: order.id,
+    number: order.number,
+    userId: order.userId,
+    customerName: fullName || null,
+    customerEmail: u?.email || null,
+    itemsCount: Array.isArray(order.items)
+      ? order.items.reduce((s, it) => s + (Number(it.quantity) || 0), 0)
+      : 0,
+    total: Number(order.total) || 0,
+    currency: order.currency || 'AED',
+    paymentMethod: order.paymentMethod || null,
+    paymentStatus: order.paymentStatus || null,
+    status: order.status || null,
+    couponCode: order.couponCode || null,
+    createdAt: order.createdAt,
+    updatedAt: order.updatedAt,
+  };
+};
+
+const filterAdminOrders = (req) => {
+  const q = req.query;
+  const search = String(req.snakeFilters?.q || q.q || '').trim().toLowerCase();
+  const statuses = toArray(q.status).map((s) => String(s).toLowerCase()).filter((s) => ORDER_STATUS_VALUES.has(s));
+  const paymentMethod = q.paymentMethod || q.payment_method || '';
+  const paymentStatus = q.paymentStatus || q.payment_status || '';
+  const fromTs = q.from ? Date.parse(q.from) : NaN;
+  const toTs = q.to ? Date.parse(q.to) : NaN;
+
+  const users = db.get('users').value();
+  const usersById = new Map(users.map((u) => [u.id, u]));
+
+  let rows = db.get('orders').value().map((o) => decorateAdminOrderRow(o, usersById));
+
+  if (statuses.length) {
+    rows = rows.filter((r) => statuses.includes(r.status));
+  }
+  if (paymentMethod && paymentMethod !== 'all' && PAYMENT_METHODS.has(paymentMethod)) {
+    rows = rows.filter((r) => r.paymentMethod === paymentMethod);
+  }
+  if (paymentStatus && paymentStatus !== 'all' && PAYMENT_STATUSES.has(paymentStatus)) {
+    rows = rows.filter((r) => r.paymentStatus === paymentStatus);
+  }
+  if (search) {
+    rows = rows.filter((r) => {
+      const hay = [
+        r.number || '',
+        r.customerName || '',
+        r.customerEmail || '',
+      ]
+        .join(' ')
+        .toLowerCase();
+      return hay.includes(search);
+    });
+  }
+  if (!Number.isNaN(fromTs)) {
+    rows = rows.filter((r) => Date.parse(r.createdAt) >= fromTs);
+  }
+  if (!Number.isNaN(toTs)) {
+    rows = rows.filter((r) => Date.parse(r.createdAt) <= toTs + 86400000);
+  }
+
+  return rows;
+};
+
+const buildAdminOrderStats = (rows) => {
+  const todayKey = new Date().toISOString().slice(0, 10);
+  const weekAgo = Date.now() - 7 * 24 * 60 * 60 * 1000;
+  let todayRevenue = 0;
+  let todayOrders = 0;
+  let pendingFulfilment = 0;
+  let cancelledThisWeek = 0;
+  for (const r of rows) {
+    const ts = Date.parse(r.createdAt);
+    if (dayKey(r.createdAt) === todayKey && r.status !== 'cancelled') {
+      todayRevenue = round(todayRevenue + r.total);
+      todayOrders += 1;
+    }
+    if (['pending', 'confirmed', 'preparing', 'ready'].includes(r.status)) {
+      pendingFulfilment += 1;
+    }
+    if (r.status === 'cancelled' && ts >= weekAgo) {
+      cancelledThisWeek += 1;
+    }
+  }
+  return { todayRevenue, todayOrders, pendingFulfilment, cancelledThisWeek };
+};
+
+const csvCell = (value) => {
+  if (value === null || value === undefined) return '';
+  const s = String(value);
+  if (/[",\n]/.test(s)) return `"${s.replace(/"/g, '""')}"`;
+  return s;
+};
+
+app.get('/api/admin/orders', adminGate, (req, res) => {
+  const q = req.query;
+  const rows = filterAdminOrders(req);
+
+  const sortBy = q.sort_by || q._sort || 'createdAt';
+  const sortDir = (q.sort_dir || q._order || 'desc').toLowerCase() === 'asc' ? 1 : -1;
+  const sorted = [...rows].sort((a, b) => {
+    const av = a[sortBy];
+    const bv = b[sortBy];
+    if (av === bv) return 0;
+    if (av == null) return 1;
+    if (bv == null) return -1;
+    return av > bv ? sortDir : -sortDir;
+  });
+
+  const stats = buildAdminOrderStats(sorted);
+  const format = String(q.format || '').toLowerCase();
+
+  if (format === 'csv') {
+    const headers = [
+      'number',
+      'date',
+      'customer_name',
+      'customer_email',
+      'status',
+      'payment_status',
+      'payment_method',
+      'items_count',
+      'total',
+      'currency',
+    ];
+    const lines = [headers.join(',')];
+    for (const r of sorted) {
+      lines.push([
+        csvCell(r.number),
+        csvCell(r.createdAt),
+        csvCell(r.customerName),
+        csvCell(r.customerEmail),
+        csvCell(r.status),
+        csvCell(r.paymentStatus),
+        csvCell(r.paymentMethod),
+        csvCell(r.itemsCount),
+        csvCell(r.total),
+        csvCell(r.currency),
+      ].join(','));
+    }
+    const filename = `orders-${new Date().toISOString().slice(0, 10)}.csv`;
+    res.setHeader('Content-Type', 'text/csv; charset=utf-8');
+    res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
+    return res.send(lines.join('\n'));
+  }
+
+  const total = sorted.length;
+  const page = Math.max(1, Number(q._page) || 1);
+  const perPage = Math.max(1, Number(q._limit) || 25);
+  const start = (page - 1) * perPage;
+  const slice = sorted.slice(start, start + perPage);
+
+  const envelope = wrapList(slice, { page, perPage, total });
+  envelope.meta.total = total;
+  envelope.meta.stats = stats;
+  return res.json(envelope);
+});
+
+app.post('/api/admin/orders/:id/status', adminGate, (req, res) => {
+  const id = Number(req.params.id);
+  const order = db.get('orders').find({ id }).value();
+  if (!order) return res.status(404).json(errorEnvelope('Order not found'));
+
+  const next = String(req.body?.status || '').toLowerCase();
+  if (!ORDER_STATUS_VALUES.has(next)) {
+    return res.status(422).json(errorEnvelope('Invalid status', { status: 'invalid' }));
+  }
+  const allowed = ORDER_STATUS_TRANSITIONS[order.status] || [];
+  if (!allowed.includes(next)) {
+    return res
+      .status(409)
+      .json(errorEnvelope(`Cannot move ${order.status} → ${next}`, {
+        status: 'invalid_transition',
+        from: order.status,
+        to: next,
+        allowed,
+      }));
+  }
+
+  const noteBody = typeof req.body?.note === 'string' ? req.body.note.trim() : '';
+  if (noteBody.length > 280) {
+    return res.status(422).json(errorEnvelope('Note is too long', { note: 'max_280' }));
+  }
+
+  const now = new Date().toISOString();
+  const notes = Array.isArray(order.notes) ? [...order.notes] : [];
+  if (noteBody) {
+    const lastId = notes.reduce((m, n) => Math.max(m, Number(n.id) || 0), 0);
+    notes.push({
+      id: lastId + 1,
+      authorId: req.user.id,
+      body: noteBody,
+      createdAt: now,
+      isInternal: true,
+    });
+  }
+
+  // If transitioning to cancelled, restock items (mirrors storefront cancel)
+  if (next === 'cancelled' && order.status !== 'cancelled') {
+    for (const it of order.items || []) {
+      db.get('products')
+        .find({ id: it.productId })
+        .update('stock', (s) => Math.max(0, Number(s) || 0) + Number(it.quantity || 0))
+        .write();
+    }
+  }
+
+  db.get('orders')
+    .find({ id })
+    .assign({ status: next, notes, updatedAt: now })
+    .write();
+
+  const users = db.get('users').value();
+  const usersById = new Map(users.map((u) => [u.id, u]));
+  const updated = db.get('orders').find({ id }).value();
+  return res.json(wrapItem(decorateAdminOrderRow(updated, usersById)));
+});
+
 // /api/admin/* → role gate, then proxy to json-server router under stripped path.
 app.use('/api/admin', adminGate, router);
 
