@@ -58,7 +58,7 @@ import AdminReviews from '../admin/pages/reviews/ReviewsModerationPage.jsx';
 import AdminCoupons from '../admin/pages/coupons/CouponsListPage.jsx';
 import AdminSettings from '../admin/pages/settings/SettingsPage.jsx';
 import AdminReports from '../admin/pages/AdminReports.jsx';
-import AdminUsers from '../admin/pages/AdminUsers.jsx';
+import AdminUsers from '../admin/pages/users/UsersPage.jsx';
 
 import KitchenSink from './KitchenSink.jsx';
 import KitchenSinkProducts from './KitchenSinkProducts.jsx';

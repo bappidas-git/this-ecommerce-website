@@ -1,0 +1,383 @@
+.layout {
+  display: grid;
+  gap: 20px;
+  grid-template-columns: 1fr;
+  align-items: start;
+}
+
+@media (min-width: 1100px) {
+  .layout {
+    grid-template-columns: minmax(0, 1fr) 320px;
+  }
+}
+
+.gridCard {
+  background: var(--admin-surface, #16201D);
+  border: 1px solid var(--admin-line, #243030);
+  border-radius: var(--radius-md, 14px);
+  overflow: hidden;
+}
+
+.gridWrap {
+  width: 100%;
+  min-height: 520px;
+  position: relative;
+}
+
+.errorWrap {
+  padding: 24px 16px;
+}
+
+.avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 999px;
+  display: block;
+  object-fit: cover;
+  border: 1px solid var(--admin-line, #243030);
+}
+
+.nameBtn {
+  appearance: none;
+  background: transparent;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  font: inherit;
+  text-align: left;
+  color: var(--admin-ink, #F7F3ED);
+  font-family: var(--font-ui);
+  font-size: 0.9375rem;
+  font-weight: 500;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.nameBtn:hover,
+.nameBtn:focus-visible {
+  color: var(--color-brass, #B8924F);
+  text-decoration: underline;
+  outline: none;
+}
+
+.muted {
+  color: var(--admin-ink-2, #C9C2B4);
+  font-size: 0.875rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.mono {
+  font-family: var(--font-mono, 'JetBrains Mono', monospace);
+  font-size: 0.8125rem;
+  letter-spacing: 0.02em;
+  color: var(--admin-ink, #F7F3ED);
+}
+
+.iconBtn {
+  color: var(--admin-ink-2, #C9C2B4);
+}
+
+.iconBtn:hover {
+  color: var(--color-brass, #B8924F);
+}
+
+.menuIcon {
+  margin-right: 8px;
+  color: var(--admin-muted, #8C8678);
+}
+
+.disabledRow {
+  opacity: 0.6;
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 32px 16px;
+  background: var(--admin-surface, #16201D);
+}
+
+.loadingOverlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.loadingOverlay :global(.MuiLinearProgress-root) {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+}
+
+/* Status / role chips */
+.chip {
+  font-family: var(--font-ui);
+  font-size: 0.6875rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  font-weight: 600;
+  border: 1px solid transparent;
+  line-height: 1;
+}
+
+.chipRoleAdmin {
+  color: var(--color-emerald, #1F4034);
+  background: rgba(31, 64, 52, 0.14);
+  border-color: rgba(31, 64, 52, 0.3);
+}
+
+.chipRoleManager {
+  color: var(--color-brass-2, #9A7836);
+  background: rgba(184, 146, 79, 0.16);
+  border-color: rgba(184, 146, 79, 0.32);
+}
+
+.chipRoleViewer {
+  color: var(--admin-ink-2, #C9C2B4);
+  background: rgba(140, 134, 120, 0.18);
+  border-color: rgba(140, 134, 120, 0.3);
+}
+
+.chipStatusActive {
+  color: var(--color-success, #3F6B4F);
+  background: rgba(63, 107, 79, 0.16);
+  border-color: rgba(63, 107, 79, 0.34);
+}
+
+.chipStatusInvited {
+  color: var(--color-warning, #B8862B);
+  background: rgba(184, 134, 43, 0.16);
+  border-color: rgba(184, 134, 43, 0.34);
+}
+
+.chipStatusDisabled {
+  color: var(--color-error, #B0382A);
+  background: rgba(176, 56, 42, 0.14);
+  border-color: rgba(176, 56, 42, 0.3);
+}
+
+/* Roles reference panel */
+.rolesPanel {
+  background: var(--admin-surface, #16201D);
+  border: 1px solid var(--admin-line, #243030);
+  border-radius: var(--radius-md, 14px);
+  padding: 20px;
+  position: relative;
+}
+
+@media (min-width: 1100px) {
+  .rolesPanel {
+    position: sticky;
+    top: 24px;
+  }
+}
+
+.rolesHeader {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--admin-line, #243030);
+  position: relative;
+}
+
+.rolesHeader::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -1px;
+  height: 2px;
+  width: 36px;
+  background: var(--color-brass, #B8924F);
+}
+
+.rolesEyebrow {
+  font-family: var(--font-ui);
+  font-size: 0.6875rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-brass, #B8924F);
+}
+
+.rolesTitle {
+  font-family: var(--font-display, 'Cormorant Garamond', serif);
+  font-size: 1.4rem;
+  font-weight: 500;
+  color: var(--admin-ink, #F7F3ED);
+  margin: 0;
+}
+
+.rolesIntro {
+  color: var(--admin-ink-2, #C9C2B4);
+  font-size: 0.875rem;
+  margin: 0;
+}
+
+.rolesTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.8125rem;
+}
+
+.rolesTable th,
+.rolesTable td {
+  text-align: left;
+  padding: 8px 6px;
+  border-bottom: 1px solid var(--admin-line, #243030);
+  vertical-align: top;
+}
+
+.rolesTable th {
+  font-family: var(--font-ui);
+  font-size: 0.6875rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--admin-muted, #8C8678);
+  font-weight: 600;
+}
+
+.rolesTable td {
+  color: var(--admin-ink-2, #C9C2B4);
+}
+
+.rolesTable tr:last-child td {
+  border-bottom: 0;
+}
+
+.rolesAreasCell {
+  font-family: var(--font-mono, 'JetBrains Mono', monospace);
+  font-size: 0.75rem;
+  letter-spacing: 0.02em;
+  color: var(--admin-ink, #F7F3ED);
+  word-break: break-word;
+}
+
+.rolesCountCell {
+  font-family: var(--font-mono, 'JetBrains Mono', monospace);
+  font-variant-numeric: tabular-nums;
+  font-size: 0.8125rem;
+  color: var(--admin-ink, #F7F3ED);
+}
+
+.rolesWriteYes {
+  color: var(--color-success, #3F6B4F);
+  font-weight: 600;
+}
+
+.rolesWriteNo {
+  color: var(--admin-muted, #8C8678);
+}
+
+.rolesFooter {
+  margin-top: 14px;
+  font-size: 0.75rem;
+  color: var(--admin-muted, #8C8678);
+  line-height: 1.5;
+}
+
+/* Dialog forms */
+.inviteForm {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.topError {
+  margin-bottom: 4px;
+}
+
+.inviteResult {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.inviteResultLine {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin: 0;
+}
+
+.inviteResultLabel {
+  font-family: var(--font-ui);
+  font-size: 0.6875rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--admin-muted, #8C8678);
+}
+
+.inviteResultValue {
+  font-family: var(--font-ui);
+  font-size: 0.9375rem;
+  color: var(--admin-ink, #F7F3ED);
+}
+
+.inviteResultPwd {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.inviteResultMono {
+  font-family: var(--font-mono, 'JetBrains Mono', monospace);
+  font-size: 0.9rem;
+  background: rgba(184, 146, 79, 0.12);
+  border: 1px solid rgba(184, 146, 79, 0.32);
+  color: var(--admin-ink, #F7F3ED);
+  padding: 6px 10px;
+  border-radius: 6px;
+  letter-spacing: 0.04em;
+}
+
+.copyBtn {
+  color: var(--color-brass, #B8924F);
+}
+
+.copiedHint {
+  font-size: 0.75rem;
+  color: var(--color-success, #3F6B4F);
+}
+
+.inviteHelpAlert {
+  margin: 4px 0;
+}
+
+.inviteHint {
+  color: var(--admin-muted, #8C8678);
+  font-size: 0.8125rem;
+  margin: 0;
+}
+
+.lastAdminAlert {
+  margin: 4px 0;
+}
+
+.deleteBody {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.deleteHint {
+  color: var(--admin-ink-2, #C9C2B4);
+  font-size: 0.875rem;
+  margin: 0;
+}
+
+.deleteError {
+  color: var(--color-error, #B0382A);
+  font-size: 0.8125rem;
+  margin: 0;
+}
