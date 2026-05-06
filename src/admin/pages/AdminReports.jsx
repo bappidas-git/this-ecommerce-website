@@ -1,7 +1,7 @@
-import PageStub from '../../components/common/PageStub.jsx';
+import ReportsPage from './reports/ReportsPage.jsx';
 
 function AdminReports() {
-  return <PageStub name="Reports" eyebrow="Insights" tone="surface" />;
+  return <ReportsPage />;
 }
 
 export default AdminReports;
