@@ -1447,6 +1447,331 @@ app.post('/api/admin/categories/:id/reassign', adminGate, (req, res) => {
   res.json(wrapItem({ movedProducts, movedCategories }));
 });
 
+// ----- Inventory: levels, inline updates, bulk save, adjust, activity log -----
+const DEFAULT_LOW_STOCK_THRESHOLD = 5;
+const VALID_INVENTORY_REASONS = new Set([
+  'restock',
+  'damage',
+  'recount',
+  'manual_correction',
+  'manual_adjustment',
+  'return',
+  'order_fulfillment',
+  'other',
+]);
+
+const deriveInventoryStatus = (stock, threshold) => {
+  const s = Number(stock) || 0;
+  const t = Number.isFinite(Number(threshold)) ? Number(threshold) : DEFAULT_LOW_STOCK_THRESHOLD;
+  if (s <= 0) return 'out';
+  if (s <= t) return 'low';
+  return 'healthy';
+};
+
+const decorateInventoryRow = (product, categoriesById) => {
+  const threshold = Number.isFinite(Number(product.lowStockThreshold))
+    ? Number(product.lowStockThreshold)
+    : DEFAULT_LOW_STOCK_THRESHOLD;
+  return {
+    id: product.id,
+    productId: product.id,
+    name: product.name,
+    sku: product.sku || null,
+    slug: product.slug || null,
+    image: (product.images && product.images[0]) || null,
+    categoryId: product.categoryId,
+    categoryName: categoriesById.get(product.categoryId)?.name || null,
+    stock: Number(product.stock) || 0,
+    lowStockThreshold: threshold,
+    status: deriveInventoryStatus(product.stock, threshold),
+    updatedAt: product.updatedAt || null,
+  };
+};
+
+const buildInventoryStats = (rows) => {
+  const stats = { totalSkus: rows.length, out: 0, low: 0, healthy: 0 };
+  for (const r of rows) {
+    if (r.status === 'out') stats.out += 1;
+    else if (r.status === 'low') stats.low += 1;
+    else stats.healthy += 1;
+  }
+  return stats;
+};
+
+app.get('/api/admin/inventory/activity', adminGate, (req, res) => {
+  const q = req.query;
+  const search = String(req.snakeFilters?.q || q.q || '').trim().toLowerCase();
+  const productIdFilter = (q.productId || q.product_id)
+    ? Number(q.productId || q.product_id)
+    : null;
+  const reasonFilter = q.reason ? String(q.reason).toLowerCase() : null;
+
+  const products = db.get('products').value();
+  const productsById = new Map(products.map((p) => [p.id, p]));
+  const users = db.get('users').value();
+  const usersById = new Map(users.map((u) => [u.id, u]));
+
+  let log = db.get('inventory_log').value().slice();
+
+  if (productIdFilter) log = log.filter((l) => Number(l.productId) === productIdFilter);
+  if (reasonFilter) log = log.filter((l) => String(l.reason).toLowerCase() === reasonFilter);
+  if (q.from) {
+    const fromTs = Date.parse(q.from);
+    if (!Number.isNaN(fromTs)) log = log.filter((l) => Date.parse(l.createdAt) >= fromTs);
+  }
+  if (q.to) {
+    const toTs = Date.parse(q.to);
+    if (!Number.isNaN(toTs)) log = log.filter((l) => Date.parse(l.createdAt) <= toTs + 86400000);
+  }
+  if (search) {
+    log = log.filter((l) => {
+      const p = productsById.get(l.productId);
+      const hay = [p?.name || '', p?.sku || '', l.note || '', l.reason || '']
+        .join(' ')
+        .toLowerCase();
+      return hay.includes(search);
+    });
+  }
+
+  log = log.sort((a, b) => Date.parse(b.createdAt) - Date.parse(a.createdAt));
+
+  const total = log.length;
+  const page = Math.max(1, Number(q._page) || 1);
+  const perPage = Math.max(1, Number(q._limit) || 25);
+  const start = (page - 1) * perPage;
+  const slice = log.slice(start, start + perPage).map((l) => {
+    const p = productsById.get(l.productId);
+    const u = usersById.get(l.userId);
+    const userName = u ? `${u.firstName || ''} ${u.lastName || ''}`.trim() : null;
+    return {
+      id: l.id,
+      productId: l.productId,
+      productName: p?.name || null,
+      productSlug: p?.slug || null,
+      productSku: p?.sku || null,
+      delta: Number(l.delta) || 0,
+      reason: l.reason || null,
+      note: l.note || '',
+      userId: l.userId || null,
+      userName: userName || null,
+      createdAt: l.createdAt,
+    };
+  });
+
+  const activityEnvelope = wrapList(slice, { page, perPage, total });
+  activityEnvelope.meta.total = total;
+  res.json(activityEnvelope);
+});
+
+app.get('/api/admin/inventory', adminGate, (req, res) => {
+  const q = req.query;
+  const search = String(req.snakeFilters?.q || q.q || '').trim().toLowerCase();
+  const categoryId = q.categoryId ? Number(q.categoryId) : null;
+  const status = q.status ? String(q.status).toLowerCase() : null;
+
+  const categories = db.get('categories').value();
+  const categoriesById = new Map(categories.map((c) => [c.id, c]));
+
+  const products = db.get('products').value();
+  let rows = products.map((p) => decorateInventoryRow(p, categoriesById));
+  const stats = buildInventoryStats(rows);
+
+  if (categoryId) rows = rows.filter((r) => Number(r.categoryId) === categoryId);
+  if (status && status !== 'all') rows = rows.filter((r) => r.status === status);
+  if (search) {
+    rows = rows.filter((r) => {
+      const hay = [r.name || '', r.sku || ''].join(' ').toLowerCase();
+      return hay.includes(search);
+    });
+  }
+
+  const sortBy = q.sort_by || q._sort || 'updatedAt';
+  const sortDir = (q.sort_dir || q._order || 'desc').toLowerCase() === 'asc' ? 1 : -1;
+  rows = [...rows].sort((a, b) => {
+    const av = a[sortBy];
+    const bv = b[sortBy];
+    if (av === bv) return 0;
+    if (av == null) return 1;
+    if (bv == null) return -1;
+    return av > bv ? sortDir : -sortDir;
+  });
+
+  const total = rows.length;
+  const page = Math.max(1, Number(q._page) || 1);
+  const perPage = Math.max(1, Number(q._limit) || 25);
+  const start = (page - 1) * perPage;
+  const slice = rows.slice(start, start + perPage);
+
+  const envelope = wrapList(slice, { page, perPage, total });
+  envelope.meta.total = total;
+  envelope.meta.stats = stats;
+  res.json(envelope);
+});
+
+app.patch('/api/admin/inventory/:id', adminGate, (req, res) => {
+  const id = Number(req.params.id);
+  const product = db.get('products').find({ id }).value();
+  if (!product) return res.status(404).json(errorEnvelope('Product not found'));
+
+  const errors = {};
+  const patch = {};
+
+  if (req.body?.stock !== undefined) {
+    const n = Number(req.body.stock);
+    if (!Number.isFinite(n) || n < 0) errors.stock = 'Stock must be 0 or greater';
+    else patch.stock = Math.floor(n);
+  }
+  if (req.body?.lowStockThreshold !== undefined) {
+    const n = Number(req.body.lowStockThreshold);
+    if (!Number.isFinite(n) || n < 0) errors.lowStockThreshold = 'Threshold must be 0 or greater';
+    else patch.lowStockThreshold = Math.floor(n);
+  }
+  if (Object.keys(errors).length) {
+    return res.status(422).json(errorEnvelope('Invalid input', errors));
+  }
+
+  const now = new Date().toISOString();
+  patch.updatedAt = now;
+  db.get('products').find({ id }).assign(patch).write();
+
+  // Log a stock movement when stock value changed via inline edit
+  if (patch.stock !== undefined && patch.stock !== Number(product.stock)) {
+    const logCol = db.get('inventory_log');
+    const logId = logCol.value().reduce((m, l) => Math.max(m, l.id || 0), 0) + 1;
+    logCol
+      .push({
+        id: logId,
+        productId: id,
+        delta: patch.stock - Number(product.stock || 0),
+        reason: 'recount',
+        note: 'Inline stock edit',
+        userId: req.user?.id || null,
+        createdAt: now,
+      })
+      .write();
+  }
+
+  const updated = db.get('products').find({ id }).value();
+  const categories = db.get('categories').value();
+  const categoriesById = new Map(categories.map((c) => [c.id, c]));
+  res.json(wrapItem(decorateInventoryRow(updated, categoriesById)));
+});
+
+app.post('/api/admin/inventory/bulk', adminGate, (req, res) => {
+  const items = Array.isArray(req.body?.items) ? req.body.items : [];
+  if (!items.length) {
+    return res.status(422).json(errorEnvelope('No items to update', { items: 'required' }));
+  }
+
+  const now = new Date().toISOString();
+  const productsCol = db.get('products');
+  const logCol = db.get('inventory_log');
+  let nextLogId = logCol.value().reduce((m, l) => Math.max(m, l.id || 0), 0);
+  const updatedRows = [];
+  const failures = [];
+
+  for (const item of items) {
+    const id = Number(item?.productId ?? item?.id);
+    const product = productsCol.find({ id }).value();
+    if (!product) {
+      failures.push({ productId: id, error: 'not_found' });
+      continue;
+    }
+    const patch = { updatedAt: now };
+    if (item.stock !== undefined) {
+      const n = Number(item.stock);
+      if (!Number.isFinite(n) || n < 0) {
+        failures.push({ productId: id, error: 'invalid_stock' });
+        continue;
+      }
+      patch.stock = Math.floor(n);
+    }
+    if (item.lowStockThreshold !== undefined) {
+      const n = Number(item.lowStockThreshold);
+      if (!Number.isFinite(n) || n < 0) {
+        failures.push({ productId: id, error: 'invalid_threshold' });
+        continue;
+      }
+      patch.lowStockThreshold = Math.floor(n);
+    }
+    productsCol.find({ id }).assign(patch).write();
+
+    if (patch.stock !== undefined && patch.stock !== Number(product.stock)) {
+      nextLogId += 1;
+      logCol
+        .push({
+          id: nextLogId,
+          productId: id,
+          delta: patch.stock - Number(product.stock || 0),
+          reason: 'recount',
+          note: 'Bulk stock save',
+          userId: req.user?.id || null,
+          createdAt: now,
+        })
+        .write();
+    }
+    updatedRows.push(productsCol.find({ id }).value());
+  }
+
+  const categories = db.get('categories').value();
+  const categoriesById = new Map(categories.map((c) => [c.id, c]));
+  res.json(
+    wrapItem({
+      updated: updatedRows.map((p) => decorateInventoryRow(p, categoriesById)),
+      failures,
+    }),
+  );
+});
+
+app.post('/api/admin/inventory/:id/adjust', adminGate, (req, res) => {
+  const id = Number(req.params.id);
+  const product = db.get('products').find({ id }).value();
+  if (!product) return res.status(404).json(errorEnvelope('Product not found'));
+
+  const errors = {};
+  const delta = Number(req.body?.delta);
+  const reasonRaw = String(req.body?.reason || '').toLowerCase();
+  const note = req.body?.note ? String(req.body.note).slice(0, 200) : '';
+
+  if (!Number.isFinite(delta) || delta === 0) {
+    errors.delta = 'Delta is required and must be non-zero';
+  }
+  if (!VALID_INVENTORY_REASONS.has(reasonRaw)) {
+    errors.reason = 'Choose a valid reason';
+  }
+  if (Object.keys(errors).length) {
+    return res.status(422).json(errorEnvelope('Invalid input', errors));
+  }
+
+  const nextStock = Math.max(0, Math.floor(Number(product.stock || 0) + delta));
+  const now = new Date().toISOString();
+  db.get('products').find({ id }).assign({ stock: nextStock, updatedAt: now }).write();
+
+  const logCol = db.get('inventory_log');
+  const logId = logCol.value().reduce((m, l) => Math.max(m, l.id || 0), 0) + 1;
+  const logEntry = {
+    id: logId,
+    productId: id,
+    delta: Math.floor(delta),
+    reason: reasonRaw,
+    note,
+    userId: req.user?.id || null,
+    createdAt: now,
+  };
+  logCol.push(logEntry).write();
+
+  const updated = db.get('products').find({ id }).value();
+  const categories = db.get('categories').value();
+  const categoriesById = new Map(categories.map((c) => [c.id, c]));
+
+  res.json(
+    wrapItem({
+      row: decorateInventoryRow(updated, categoriesById),
+      log: logEntry,
+    }),
+  );
+});
+
 // /api/admin/* → role gate, then proxy to json-server router under stripped path.
 app.use('/api/admin', adminGate, router);
 

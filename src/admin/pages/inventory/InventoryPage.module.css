@@ -1,0 +1,136 @@
+.headerActions {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.tabs {
+  border-bottom: 1px solid var(--admin-line, #243030);
+  margin-bottom: 16px;
+  min-height: 40px;
+}
+
+.tabs :global(.MuiTabs-flexContainer) {
+  gap: 4px;
+}
+
+.tab {
+  min-height: 40px !important;
+  padding: 8px 16px !important;
+  font-family: var(--font-ui) !important;
+  font-size: 0.8125rem !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.06em !important;
+  text-transform: uppercase !important;
+  color: var(--admin-muted, #8C8678) !important;
+}
+
+.tab:global(.Mui-selected) {
+  color: var(--color-brass, #B8924F) !important;
+}
+
+.tabsIndicator {
+  background-color: var(--color-brass, #B8924F) !important;
+  height: 2px !important;
+}
+
+.gridWrap {
+  width: 100%;
+  height: 640px;
+  background: var(--admin-surface, #16201D);
+  border-radius: var(--radius-md, 14px);
+  position: relative;
+}
+
+.errorWrap {
+  padding: 32px 16px;
+}
+
+.thumb {
+  width: 40px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 4px;
+  background: var(--admin-line, #243030);
+  display: block;
+}
+
+.nameCell {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  line-height: 1.25;
+  min-width: 0;
+}
+
+.nameText {
+  font-family: var(--font-ui);
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: var(--admin-ink, #F7F3ED);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.sku {
+  font-family: var(--font-mono, 'JetBrains Mono', monospace);
+  font-size: 0.75rem;
+  color: var(--admin-muted, #8C8678);
+  letter-spacing: 0.02em;
+}
+
+.mono {
+  font-family: var(--font-mono, 'JetBrains Mono', monospace);
+  font-size: 0.875rem;
+  color: var(--admin-ink, #F7F3ED);
+  letter-spacing: 0.02em;
+}
+
+.muted {
+  color: var(--admin-ink-2, #C9C2B4);
+  font-size: 0.875rem;
+}
+
+.dirtyCell {
+  background-color: rgba(184, 146, 79, 0.10);
+  box-shadow: inset 0 -2px 0 0 var(--color-brass, #B8924F);
+}
+
+.rowActions {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.iconBtn {
+  color: var(--admin-ink-2, #C9C2B4) !important;
+}
+
+.iconBtn:hover {
+  color: var(--color-brass, #B8924F) !important;
+  background-color: rgba(184, 146, 79, 0.08) !important;
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 32px 16px;
+  background: var(--admin-surface, #16201D);
+}
+
+.loadingOverlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.loadingOverlay :global(.MuiLinearProgress-root) {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+}
