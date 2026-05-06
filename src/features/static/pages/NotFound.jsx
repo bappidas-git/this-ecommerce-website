@@ -1,9 +1,9 @@
 import { Link } from 'react-router-dom';
-import { Helmet } from 'react-helmet-async';
 import { motion } from 'framer-motion';
 import Button from '@mui/material/Button';
 import Section from '../../../components/common/Section.jsx';
 import Container from '../../../components/common/Container.jsx';
+import Seo from '../../../components/common/Seo.jsx';
 import { PATHS } from '../../../routes/paths.js';
 import styles from './ErrorPage.module.css';
 
@@ -16,9 +16,7 @@ const fade = {
 function NotFound() {
   return (
     <>
-      <Helmet>
-        <title>Page not found — THIS Interiors</title>
-      </Helmet>
+      <Seo title="Page not found — THIS Interiors" noindex />
       <Section tone="cream">
         <Container gutter>
           <div className={styles.wrap}>

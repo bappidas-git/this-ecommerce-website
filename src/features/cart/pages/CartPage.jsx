@@ -1,11 +1,11 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { Helmet } from 'react-helmet-async';
 import Alert from '@mui/material/Alert';
 import { AnimatePresence, motion } from 'framer-motion';
 
 import Container from '../../../components/common/Container.jsx';
 import Section from '../../../components/common/Section.jsx';
 import Eyebrow from '../../../components/common/Eyebrow.jsx';
+import Seo from '../../../components/common/Seo.jsx';
 import ProductRail from '../../../components/product/ProductRail/ProductRail.jsx';
 import CartItemsTable from '../components/CartItemsTable.jsx';
 import OrderSummary from '../components/OrderSummary.jsx';
@@ -165,10 +165,7 @@ function CartPage() {
 
   return (
     <>
-      <Helmet>
-        <title>Your bag | THIS Interiors</title>
-        <meta name="robots" content="noindex" />
-      </Helmet>
+      <Seo title="Your bag | THIS Interiors" noindex />
 
       <Section tone="cream" className={styles.section}>
         <Container gutter>

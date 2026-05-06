@@ -1,5 +1,4 @@
 import { useEffect } from 'react';
-import { Helmet } from 'react-helmet-async';
 import { FormProvider, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
@@ -7,6 +6,7 @@ import * as yup from 'yup';
 import useAccountSection from '../hooks/useAccountSection.js';
 import SettingsCard from '../components/SettingsCard.jsx';
 import AppTextField from '../../../components/common/AppTextField/AppTextField.jsx';
+import Seo from '../../../components/common/Seo.jsx';
 import PasswordStrengthMeter from '../../auth/components/PasswordStrengthMeter.jsx';
 
 import { useAuth } from '../../../context/AuthContext.jsx';
@@ -100,9 +100,7 @@ function AccountPassword() {
 
   return (
     <>
-      <Helmet>
-        <title>Password · My Account · THIS Interiors</title>
-      </Helmet>
+      <Seo title="Password · My Account · THIS Interiors" noindex />
       <FormProvider {...methods}>
         <SettingsCard
           title="Change password"

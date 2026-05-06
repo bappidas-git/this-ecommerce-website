@@ -1,6 +1,5 @@
-import { Helmet } from 'react-helmet-async';
-
 import Container from '../../../components/common/Container.jsx';
+import Seo from '../../../components/common/Seo.jsx';
 
 import ShopHeader from '../components/ShopHeader/ShopHeader.jsx';
 import ProductBrowser from '../components/ProductBrowser/ProductBrowser.jsx';
@@ -48,17 +47,11 @@ function ShopPage() {
 
   return (
     <div className={styles.page}>
-      <Helmet>
-        <title>{seoTitle}</title>
-        <meta name="description" content={seoDescription} />
-        <link
-          rel="canonical"
-          href={lockedCategory ? `/shop/${lockedCategory.slug}` : '/shop'}
-        />
-        <meta property="og:title" content={seoTitle} />
-        <meta property="og:description" content={seoDescription} />
-        <meta property="og:type" content="website" />
-      </Helmet>
+      <Seo
+        title={seoTitle}
+        description={seoDescription}
+        canonical={lockedCategory ? `/shop/${lockedCategory.slug}` : '/shop'}
+      />
 
       <ShopHeader category={lockedCategory} />
 

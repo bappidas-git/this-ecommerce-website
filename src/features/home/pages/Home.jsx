@@ -1,4 +1,4 @@
-import { Helmet } from 'react-helmet-async';
+import Seo from '../../../components/common/Seo.jsx';
 
 import Hero from '../components/Hero/Hero.jsx';
 import CategoryMosaic from '../components/CategoryMosaic/CategoryMosaic.jsx';
@@ -17,20 +17,12 @@ const SEO_OG_IMAGE =
 function Home() {
   return (
     <>
-      <Helmet>
-        <title>{SEO_TITLE}</title>
-        <meta name="description" content={SEO_DESCRIPTION} />
-        <link rel="canonical" href="/" />
-        <meta property="og:title" content={SEO_TITLE} />
-        <meta property="og:description" content={SEO_DESCRIPTION} />
-        <meta property="og:type" content="website" />
-        <meta property="og:image" content={SEO_OG_IMAGE} />
-        <meta property="og:url" content="/" />
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content={SEO_TITLE} />
-        <meta name="twitter:description" content={SEO_DESCRIPTION} />
-        <meta name="twitter:image" content={SEO_OG_IMAGE} />
-      </Helmet>
+      <Seo
+        title={SEO_TITLE}
+        description={SEO_DESCRIPTION}
+        canonical="/"
+        image={SEO_OG_IMAGE}
+      />
       <Hero />
       <CategoryMosaic />
       <NewArrivals />

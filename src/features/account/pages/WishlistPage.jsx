@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { Helmet } from 'react-helmet-async';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+
+import Seo from '../../../components/common/Seo.jsx';
 
 import { useToast } from '../../../context/ToastContext.jsx';
 
@@ -239,10 +240,7 @@ function WishlistPage({ variant = 'standalone' }) {
 
   const content = (
     <>
-      <Helmet>
-        <title>Your wishlist | THIS Interiors</title>
-        <meta name="robots" content="noindex" />
-      </Helmet>
+      <Seo title="Your wishlist | THIS Interiors" noindex />
 
       {headerNode}
       {body}

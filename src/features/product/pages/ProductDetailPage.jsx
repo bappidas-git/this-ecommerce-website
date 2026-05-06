@@ -1,6 +1,5 @@
 import { useEffect, useMemo, useRef } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Helmet } from 'react-helmet-async';
 
 import AppButton from '../../../components/common/AppButton/AppButton.jsx';
 import Breadcrumbs from '../../../components/common/Breadcrumbs/Breadcrumbs.jsx';
@@ -8,6 +7,7 @@ import Container from '../../../components/common/Container.jsx';
 import EmptyState from '../../../components/common/EmptyState/EmptyState.jsx';
 import ErrorState from '../../../components/common/ErrorState/ErrorState.jsx';
 import Section from '../../../components/common/Section.jsx';
+import Seo from '../../../components/common/Seo.jsx';
 
 import Gallery from '../components/Gallery/Gallery.jsx';
 import Buybox from '../components/Buybox/Buybox.jsx';
@@ -145,10 +145,7 @@ function ProductDetailPage() {
     return (
       <Section tone="cream">
         <Container gutter>
-          <Helmet>
-            <title>Piece not found · THIS Interiors</title>
-            <meta name="robots" content="noindex" />
-          </Helmet>
+          <Seo title="Piece not found · THIS Interiors" noindex />
           <EmptyState
             title="This piece isn’t available."
             description="It may have moved on to a new home, or the link could be out of date."
@@ -188,25 +185,17 @@ function ProductDetailPage() {
 
   return (
     <>
-      <Helmet>
-        <title>{seoTitle}</title>
-        <meta name="description" content={seoDescription} />
-        <link rel="canonical" href={canonical} />
-        <meta property="og:title" content={seoTitle} />
-        <meta property="og:description" content={seoDescription} />
-        <meta property="og:type" content="product" />
-        <meta property="og:image" content={ogImage} />
-        <meta property="og:url" content={canonical} />
+      <Seo
+        title={seoTitle}
+        description={seoDescription}
+        canonical={canonical}
+        image={ogImage}
+        type="product"
+        jsonLd={jsonLd}
+      >
         <meta property="product:price:amount" content={String(product.price)} />
         <meta property="product:price:currency" content={product.currency || 'AED'} />
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content={seoTitle} />
-        <meta name="twitter:description" content={seoDescription} />
-        <meta name="twitter:image" content={ogImage} />
-        {jsonLd ? (
-          <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>
-        ) : null}
-      </Helmet>
+      </Seo>
 
       <Section tone="cream" className={styles.topSection}>
         <Container gutter>
