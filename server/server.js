@@ -2897,6 +2897,98 @@ app.delete('/api/admin/coupons/:id', adminGate, (req, res) => {
   return res.json(wrapItem({ id, deleted: true }));
 });
 
+// ============================================================================
+// SETTINGS — singleton document with group keys
+// ============================================================================
+const URL_REGEX = /^https?:\/\/[^\s]+$/i;
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+const SETTINGS_VALIDATORS = {
+  general: (g, errors) => {
+    if (!g.storeName || !String(g.storeName).trim())
+      errors['general.storeName'] = 'Store name is required';
+    if (g.supportEmail && !EMAIL_REGEX.test(String(g.supportEmail)))
+      errors['general.supportEmail'] = 'Enter a valid email';
+    if (g.mapEmbedUrl && !URL_REGEX.test(String(g.mapEmbedUrl)))
+      errors['general.mapEmbedUrl'] = 'Enter a valid URL';
+  },
+  branding: (b, errors) => {
+    if (b.faviconUrl && !URL_REGEX.test(String(b.faviconUrl)))
+      errors['branding.faviconUrl'] = 'Enter a valid URL';
+    if (b.ogImageUrl && !URL_REGEX.test(String(b.ogImageUrl)))
+      errors['branding.ogImageUrl'] = 'Enter a valid URL';
+  },
+  homepage: (h, errors) => {
+    if (h.heroImage && !URL_REGEX.test(String(h.heroImage)))
+      errors['homepage.heroImage'] = 'Enter a valid URL';
+  },
+  announcement: (_a, _errors) => {
+    /* free-form */
+  },
+  payment: (_p, _errors) => {
+    /* free-form */
+  },
+  social: (s, errors) => {
+    ['instagram', 'pinterest', 'facebook', 'tiktok'].forEach((k) => {
+      if (s[k] && !URL_REGEX.test(String(s[k])))
+        errors[`social.${k}`] = 'Enter a valid URL';
+    });
+  },
+  emails: (_e, _errors) => {
+    /* free-form */
+  },
+};
+
+const SETTINGS_GROUPS = new Set(Object.keys(SETTINGS_VALIDATORS));
+
+function readSettings() {
+  return db.get('settings').value() || {};
+}
+
+function publicSettings() {
+  const s = readSettings();
+  // Public consumers see everything except internal email templates.
+  // Email templates are admin-facing copy and not exposed publicly.
+  const { emails: _emails, ...rest } = s;
+  return rest;
+}
+
+app.get('/api/settings', (_req, res) => {
+  return res.json(wrapItem(publicSettings()));
+});
+
+app.get('/api/admin/settings', adminGate, (_req, res) => {
+  return res.json(wrapItem(readSettings()));
+});
+
+app.patch('/api/admin/settings', adminGate, (req, res) => {
+  const body = req.body && typeof req.body === 'object' ? req.body : {};
+  const errors = {};
+
+  for (const [group, value] of Object.entries(body)) {
+    if (!SETTINGS_GROUPS.has(group)) continue;
+    if (!value || typeof value !== 'object') {
+      errors[group] = 'Invalid payload';
+      continue;
+    }
+    SETTINGS_VALIDATORS[group](value, errors);
+  }
+
+  if (Object.keys(errors).length) {
+    return res.status(422).json(errorEnvelope('Invalid settings', errors));
+  }
+
+  const current = readSettings();
+  const next = { ...current };
+  for (const [group, value] of Object.entries(body)) {
+    if (!SETTINGS_GROUPS.has(group)) continue;
+    next[group] = { ...(current[group] || {}), ...value };
+  }
+
+  db.set('settings', next).write();
+  return res.json(wrapItem(readSettings()));
+});
+
 // /api/admin/* → role gate, then proxy to json-server router under stripped path.
 app.use('/api/admin', adminGate, router);
 
