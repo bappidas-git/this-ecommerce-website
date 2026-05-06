@@ -46,7 +46,7 @@ import AccountPreferences from '../features/account/pages/AccountPreferences.jsx
 
 import AdminLoginPage from '../admin/pages/AdminLoginPage.jsx';
 import AdminDashboard from '../admin/pages/AdminDashboard.jsx';
-import AdminProducts from '../admin/pages/AdminProducts.jsx';
+import AdminProducts from '../admin/pages/products/ProductsListPage.jsx';
 import AdminProductNew from '../admin/pages/AdminProductNew.jsx';
 import AdminProductEdit from '../admin/pages/AdminProductEdit.jsx';
 import AdminCategories from '../admin/pages/AdminCategories.jsx';

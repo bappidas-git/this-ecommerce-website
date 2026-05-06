@@ -10,6 +10,32 @@ export const adminProductService = {
   update: (id, payload) =>
     http.patch(ENDPOINTS.admin.productById(id), payload).then(unwrap),
   remove: (id) => http.delete(ENDPOINTS.admin.productById(id)).then(unwrap),
+  archive: (id) =>
+    http.patch(ENDPOINTS.admin.productById(id), { status: 'archived' }).then(unwrap),
+  unarchive: (id) =>
+    http.patch(ENDPOINTS.admin.productById(id), { status: 'active' }).then(unwrap),
+  bulkArchive: (ids = []) =>
+    Promise.all(
+      ids.map((id) =>
+        http.patch(ENDPOINTS.admin.productById(id), { status: 'archived' }),
+      ),
+    ),
+  bulkUnarchive: (ids = []) =>
+    Promise.all(
+      ids.map((id) =>
+        http.patch(ENDPOINTS.admin.productById(id), { status: 'active' }),
+      ),
+    ),
+  bulkSetCategory: (ids = [], categoryId) =>
+    Promise.all(
+      ids.map((id) =>
+        http.patch(ENDPOINTS.admin.productById(id), { categoryId }),
+      ),
+    ),
+  bulkRemove: (ids = []) =>
+    Promise.all(ids.map((id) => http.delete(ENDPOINTS.admin.productById(id)))),
+  duplicate: (id) =>
+    http.post(`${ENDPOINTS.admin.productById(id)}/duplicate`).then(unwrap),
 };
 
 export default adminProductService;
