@@ -1,11 +1,11 @@
 import { useEffect, useMemo } from 'react';
-import { Helmet } from 'react-helmet-async';
 import { FormProvider, useForm } from 'react-hook-form';
 
 import useAccountSection from '../hooks/useAccountSection.js';
 import SettingsCard from '../components/SettingsCard.jsx';
 import AppCheckbox from '../../../components/common/AppCheckbox/AppCheckbox.jsx';
 import AppTextField from '../../../components/common/AppTextField/AppTextField.jsx';
+import Seo from '../../../components/common/Seo.jsx';
 
 import { useAuth } from '../../../context/AuthContext.jsx';
 import { useToast } from '../../../context/ToastContext.jsx';
@@ -76,9 +76,7 @@ function AccountPreferences() {
 
   return (
     <>
-      <Helmet>
-        <title>Preferences · My Account · THIS Interiors</title>
-      </Helmet>
+      <Seo title="Preferences · My Account · THIS Interiors" noindex />
       <FormProvider {...methods}>
         <div className={styles.stack}>
           <SettingsCard

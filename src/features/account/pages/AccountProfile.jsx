@@ -1,6 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Helmet } from 'react-helmet-async';
 import { FormProvider, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
@@ -12,6 +11,7 @@ import AppTextField from '../../../components/common/AppTextField/AppTextField.j
 import AppButton from '../../../components/common/AppButton/AppButton.jsx';
 import AppDialog from '../../../components/common/AppDialog/AppDialog.jsx';
 import Eyebrow from '../../../components/common/Eyebrow.jsx';
+import Seo from '../../../components/common/Seo.jsx';
 
 import { useAuth } from '../../../context/AuthContext.jsx';
 import { useToast } from '../../../context/ToastContext.jsx';
@@ -364,9 +364,7 @@ function AccountProfile() {
 
   return (
     <>
-      <Helmet>
-        <title>Profile · My Account · THIS Interiors</title>
-      </Helmet>
+      <Seo title="Profile · My Account · THIS Interiors" noindex />
       <div className={styles.layout}>
         <div className={styles.formCol}>
           {user ? <ProfileForm user={user} /> : null}

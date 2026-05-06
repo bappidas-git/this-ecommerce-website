@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from 'react';
-import { Helmet } from 'react-helmet-async';
 import { motion, useInView, useReducedMotion } from 'framer-motion';
 
 import Section from '../../../components/common/Section.jsx';
@@ -8,7 +7,6 @@ import Eyebrow from '../../../components/common/Eyebrow.jsx';
 import SectionHeader from '../../../components/common/SectionHeader.jsx';
 import AppButton from '../../../components/common/AppButton/AppButton.jsx';
 import Seo from '../../../components/common/Seo.jsx';
-import useSettings from '../../../hooks/useSettings.js';
 import { PATHS } from '../../../routes/paths.js';
 
 import styles from './AboutPage.module.css';
@@ -104,51 +102,13 @@ const fadeUp = {
 };
 
 function AboutPage() {
-  const { data: settings } = useSettings();
-  const storeName = settings?.general?.storeName || 'THIS Interiors';
-  const supportEmail = settings?.general?.email || 'studio@thisinteriors.com';
-  const supportPhone = settings?.general?.phone || '+971 4 000 0000';
-  const address = settings?.general?.address || 'Dubai, United Arab Emirates';
-
-  const orgJsonLd = {
-    '@context': 'https://schema.org',
-    '@type': 'Organization',
-    name: storeName,
-    url: typeof window !== 'undefined' ? window.location.origin : 'https://thisinteriors.com',
-    email: supportEmail,
-    telephone: supportPhone,
-    address: {
-      '@type': 'PostalAddress',
-      streetAddress: address,
-      addressLocality: 'Dubai',
-      addressCountry: 'AE',
-    },
-    sameAs: [
-      settings?.social?.instagram,
-      settings?.social?.pinterest,
-      settings?.social?.facebook,
-    ].filter(Boolean),
-  };
-
   return (
     <>
       <Seo
         title="About THIS Interiors"
         description="A small Dubai atelier making considered, hand‑finished pieces in marble, brass, linen and stone — designed to outlast trends."
-      >
-        <meta property="og:title" content="About THIS Interiors" />
-        <meta
-          property="og:description"
-          content="A small Dubai atelier making considered, hand‑finished pieces — designed to outlast trends."
-        />
-        <meta
-          property="og:image"
-          content="https://placehold.co/1200x630/1F4034/F7F3ED?text=THIS+Interiors&font=cormorant"
-        />
-      </Seo>
-      <Helmet>
-        <script type="application/ld+json">{JSON.stringify(orgJsonLd)}</script>
-      </Helmet>
+        image="https://placehold.co/1200x630/1F4034/F7F3ED?text=THIS+Interiors&font=cormorant"
+      />
 
       {/* HERO */}
       <section

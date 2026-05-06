@@ -35,6 +35,14 @@ const MOCK_SETTINGS = Object.freeze({
     tiktok: 'https://tiktok.com/@thisinteriors',
     facebook: 'https://facebook.com/thisinteriors',
   },
+  legal: {
+    privacyUpdatedAt: '2026-04-01',
+    termsUpdatedAt: '2026-04-01',
+    shippingUpdatedAt: '2026-04-01',
+    governingLaw: 'United Arab Emirates',
+    companyName: 'THIS Interiors Trading LLC',
+    contactEmail: 'studio@thisinteriors.com',
+  },
   payment: {
     cardEnabled: true,
     codEnabled: true,

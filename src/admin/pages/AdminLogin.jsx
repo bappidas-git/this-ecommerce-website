@@ -1,17 +1,15 @@
-import { Helmet } from 'react-helmet-async';
 import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import { adminTheme } from '../../theme/index.js';
 import Section from '../../components/common/Section.jsx';
 import Container from '../../components/common/Container.jsx';
+import Seo from '../../components/common/Seo.jsx';
 
 function AdminLogin() {
   return (
     <ThemeProvider theme={adminTheme}>
       <CssBaseline />
-      <Helmet>
-        <title>Admin sign in — THIS Interiors</title>
-      </Helmet>
+      <Seo title="Admin sign in — THIS Interiors" noindex />
       <Section tone="surface">
         <Container gutter maxWidth="sm">
           <p

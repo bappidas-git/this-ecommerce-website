@@ -1,0 +1,227 @@
+.header {
+  padding-top: 32px;
+}
+
+.headerInner {
+  max-width: 760px;
+}
+
+.title {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(2.25rem, 4vw, 3.25rem);
+  line-height: 1.08;
+  letter-spacing: -0.01em;
+  margin: 12px 0 8px;
+  color: var(--color-ink);
+}
+
+.kicker {
+  font-family: var(--font-ui);
+  color: var(--color-ink-2);
+  font-size: 1.05rem;
+  line-height: 1.6;
+  max-width: 56ch;
+  margin: 0 0 24px;
+}
+
+.searchWrap {
+  position: relative;
+  max-width: 560px;
+  margin-top: 20px;
+}
+
+.searchInput {
+  width: 100%;
+  padding: 14px 16px 14px 44px;
+  border: 1px solid var(--color-line);
+  background: var(--color-surface);
+  border-radius: var(--radius-pill);
+  font-family: var(--font-ui);
+  font-size: 1rem;
+  color: var(--color-ink);
+  transition: border-color 180ms var(--motion-ease), box-shadow 180ms var(--motion-ease);
+}
+
+.searchInput::placeholder {
+  color: var(--color-muted);
+}
+
+.searchInput:focus {
+  outline: none;
+  border-color: var(--color-brass);
+  box-shadow: 0 0 0 3px rgba(184, 146, 79, 0.18);
+}
+
+.searchIcon {
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--color-muted);
+  display: inline-flex;
+}
+
+.searchMeta {
+  font-family: var(--font-ui);
+  color: var(--color-muted);
+  font-size: 0.875rem;
+  margin-top: 10px;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 32px;
+  margin-top: 32px;
+}
+
+.toc {
+  display: none;
+}
+
+.tocList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.tocLink {
+  display: block;
+  padding: 8px 12px;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-ui);
+  font-size: 0.9375rem;
+  color: var(--color-ink-2);
+  border-left: 2px solid transparent;
+  transition: color 180ms var(--motion-ease), background 180ms var(--motion-ease),
+    border-color 180ms var(--motion-ease);
+}
+
+.tocLink:hover,
+.tocLink:focus-visible {
+  color: var(--color-ink);
+  background: var(--color-surface);
+  border-left-color: var(--color-brass);
+  outline: none;
+}
+
+.tocHeading {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+  margin: 0 0 12px 12px;
+}
+
+.body {
+  min-width: 0;
+}
+
+.group {
+  margin-bottom: 40px;
+  scroll-margin-top: 96px;
+}
+
+.groupTitle {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(1.6rem, 2.5vw, 2rem);
+  letter-spacing: -0.005em;
+  color: var(--color-ink);
+  margin: 0 0 4px;
+}
+
+.groupKicker {
+  font-family: var(--font-ui);
+  color: var(--color-muted);
+  font-size: 0.9375rem;
+  margin: 0 0 16px;
+}
+
+.empty {
+  font-family: var(--font-ui);
+  color: var(--color-muted);
+  padding: 32px 0;
+  text-align: center;
+}
+
+.highlight {
+  background: rgba(184, 146, 79, 0.18);
+  color: var(--color-brass-2);
+  padding: 0 2px;
+  border-radius: 3px;
+}
+
+@media (min-width: 1024px) {
+  .layout {
+    grid-template-columns: 240px 1fr;
+    gap: 56px;
+  }
+
+  .toc {
+    display: block;
+    position: sticky;
+    top: 96px;
+    align-self: start;
+    max-height: calc(100vh - 120px);
+    overflow-y: auto;
+  }
+}
+
+/* MUI Accordion brass underline tweak via global selectors scoped through wrap */
+.accordionWrap :global(.MuiAccordion-root) {
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--color-line);
+  border-radius: 0;
+  box-shadow: none;
+  margin: 0;
+  transition: border-color 220ms var(--motion-ease);
+}
+
+.accordionWrap :global(.MuiAccordion-root::before) {
+  display: none;
+}
+
+.accordionWrap :global(.MuiAccordion-root.Mui-expanded) {
+  border-bottom-color: var(--color-brass);
+  margin: 0;
+}
+
+.accordionWrap :global(.MuiAccordionSummary-root) {
+  padding: 18px 0;
+  min-height: 0;
+}
+
+.accordionWrap :global(.MuiAccordionSummary-content) {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 1.125rem;
+  color: var(--color-ink);
+}
+
+.accordionWrap :global(.MuiAccordionSummary-content.Mui-expanded) {
+  margin: 0;
+}
+
+.accordionWrap :global(.MuiAccordionDetails-root) {
+  padding: 0 0 20px;
+  font-family: var(--font-ui);
+  color: var(--color-ink-2);
+  font-size: 0.9375rem;
+  line-height: 1.7;
+  max-width: 72ch;
+}
+
+.accordionWrap :global(.MuiAccordionDetails-root p) {
+  margin: 0 0 10px;
+}
+
+.accordionWrap :global(.MuiCollapse-root) {
+  transition-duration: 220ms !important;
+}

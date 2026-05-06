@@ -1,11 +1,11 @@
 import { useEffect, useMemo } from 'react';
-import { Helmet } from 'react-helmet-async';
 import { Navigate, useNavigate, useSearchParams } from 'react-router-dom';
 
 import Container from '../../../components/common/Container.jsx';
 import EmptyState from '../../../components/common/EmptyState/EmptyState.jsx';
 import AppButton from '../../../components/common/AppButton/AppButton.jsx';
 import Chip from '../../../components/common/Chip/Chip.jsx';
+import Seo from '../../../components/common/Seo.jsx';
 
 import ProductBrowser from '../../shop/components/ProductBrowser/ProductBrowser.jsx';
 import useShopState from '../../shop/state/useShopState.js';
@@ -109,10 +109,7 @@ function SearchPage() {
 
   return (
     <div className={styles.page}>
-      <Helmet>
-        <title>{seoTitle}</title>
-        <meta name="robots" content="noindex" />
-      </Helmet>
+      <Seo title={seoTitle} noindex />
 
       <Container gutter>
         <header className={styles.header}>
