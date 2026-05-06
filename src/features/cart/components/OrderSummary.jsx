@@ -18,6 +18,7 @@ function OrderSummary({
   currency,
   itemCount,
   couponCode,
+  cartItems,
   onApplyCoupon,
   onClearCoupon,
   disabled = false,
@@ -32,6 +33,7 @@ function OrderSummary({
       <CouponInput
         couponCode={couponCode}
         subtotal={subtotal}
+        items={cartItems}
         onApply={onApplyCoupon}
         onClear={onClearCoupon}
       />

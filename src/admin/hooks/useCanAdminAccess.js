@@ -23,6 +23,7 @@ const PERMS = {
     'orders',
     'customers',
     'reviews',
+    'coupons',
     'reports',
   ],
 };

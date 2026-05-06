@@ -8,7 +8,7 @@ import Chip from '../../../components/common/Chip/Chip.jsx';
 import couponService from '../../../api/services/couponService.js';
 import styles from './CouponInput.module.css';
 
-function CouponInput({ couponCode, subtotal, onApply, onClear }) {
+function CouponInput({ couponCode, subtotal, items, onApply, onClear }) {
   const [open, setOpen] = useState(Boolean(couponCode));
   const [code, setCode] = useState('');
   const [error, setError] = useState('');
@@ -29,13 +29,27 @@ function CouponInput({ couponCode, subtotal, onApply, onClear }) {
     setIsSubmitting(true);
     setError('');
     try {
-      const data = await couponService.validate(trimmed, subtotal);
+      const data = await couponService.validate(trimmed, subtotal, items);
       const payload = data?.data || data || {};
-      onApply?.({
-        code: payload.code || trimmed,
-        type: payload.type || payload.discountType || 'fixed',
-        value: payload.value ?? payload.amount ?? payload.discountValue ?? 0,
-      });
+      const isScoped = payload.appliesTo && payload.appliesTo !== 'all';
+      onApply?.(
+        isScoped
+          ? {
+              code: payload.code || trimmed,
+              type: 'fixed',
+              value: Number(payload.discount) || 0,
+            }
+          : {
+              code: payload.code || trimmed,
+              type: payload.type || payload.discountType || 'fixed',
+              value:
+                payload.value ??
+                payload.amount ??
+                payload.discountValue ??
+                Number(payload.discount) ??
+                0,
+            },
+      );
       setCode('');
     } catch (err) {
       const message =

@@ -220,6 +220,7 @@ function CartPage() {
                 currency={currency}
                 itemCount={itemCount}
                 couponCode={state.couponCode}
+                cartItems={state.items}
                 onApplyCoupon={handleApplyCoupon}
                 onClearCoupon={handleClearCoupon}
               />
