@@ -390,24 +390,40 @@ export function CartProvider({ children }) {
       const trimmed = String(code || '').trim();
       if (!trimmed) return null;
       try {
-        const result = await couponService.validate(trimmed, state.subtotal);
-        const data = result?.data || result || {};
-        dispatch({
-          type: ACTIONS.APPLY_COUPON,
-          payload: {
-            code: data.code || trimmed,
-            type: data.type || data.discountType || 'fixed',
-            value: data.value ?? data.amount ?? data.discountValue ?? 0,
-          },
-        });
-        success(data.message || `Coupon ${trimmed} applied`);
+        const items = state.items.map((it) => ({
+          productId: it.productId,
+          quantity: it.qty,
+          lineTotal: Number(it.price) * Number(it.qty),
+        }));
+        const data = await couponService.validate(trimmed, state.subtotal, items);
+        const isScoped = data?.appliesTo && data.appliesTo !== 'all';
+        // Scope-restricted coupons are stored as a fixed precomputed discount
+        // so the discount only applies to eligible items, not the full subtotal.
+        const payload = isScoped
+          ? {
+              code: data.code || trimmed,
+              type: 'fixed',
+              value: Number(data.discount) || 0,
+            }
+          : {
+              code: data?.code || trimmed,
+              type: data?.type || 'fixed',
+              value:
+                data?.value ??
+                data?.amount ??
+                data?.discountValue ??
+                Number(data?.discount) ??
+                0,
+            };
+        dispatch({ type: ACTIONS.APPLY_COUPON, payload });
+        success(data?.message || `Coupon ${trimmed} applied`);
         return data;
       } catch (err) {
         toastError(getApiErrorMessage(err) || 'Coupon could not be applied');
         return null;
       }
     },
-    [state.subtotal, success, toastError],
+    [state.items, state.subtotal, success, toastError],
   );
 
   const clearCoupon = useCallback(() => {

@@ -534,33 +534,66 @@ app.post('/api/contact', (req, res) => {
 });
 
 // POST /api/coupons/validate
+// Body: { code, subtotal, items?: [{ productId, quantity, lineTotal? }] }
+// When `items` is provided and the coupon scope is `categories` or `products`,
+// the discount is computed only on the matching items' subtotal.
 app.post('/api/coupons/validate', (req, res) => {
-  const { code, subtotal = 0 } = req.body || {};
+  const { code, subtotal = 0, items = [] } = req.body || {};
   const coupon = db
     .get('coupons')
     .find({ code: String(code || '').toUpperCase() })
     .value();
-  const fail = (message) =>
-    res.json(wrapItem({ valid: false, code, type: null, discount: 0, message }));
+  const fail = (message, status = 422) =>
+    res
+      .status(status)
+      .json(errorEnvelope(message, { code: 'invalid' }));
 
   if (!coupon || !coupon.isActive) return fail('Coupon is invalid');
   if (Date.parse(coupon.endsAt) < Date.now()) return fail('Coupon has expired');
-  if (Date.parse(coupon.startsAt) > Date.now()) return fail('Coupon is not yet active');
+  if (Date.parse(coupon.startsAt) > Date.now())
+    return fail('Coupon is not yet active');
   if (coupon.redeemedCount >= coupon.maxRedemptions)
     return fail('Coupon is fully redeemed');
   if (Number(subtotal) < coupon.minSubtotal)
     return fail(`Minimum subtotal AED ${coupon.minSubtotal}`);
 
+  // Scope-aware eligible subtotal
+  let eligibleSubtotal = Number(subtotal);
+  const scope = coupon.appliesTo || 'all';
+  const targetIds = Array.isArray(coupon.targetIds) ? coupon.targetIds : [];
+  if (scope !== 'all' && Array.isArray(items) && items.length) {
+    const productsCol = db.get('products').value();
+    eligibleSubtotal = items.reduce((sum, it) => {
+      const p = productsCol.find((x) => x.id === Number(it.productId));
+      if (!p) return sum;
+      const matches =
+        scope === 'products'
+          ? targetIds.includes(p.id)
+          : targetIds.includes(p.categoryId);
+      if (!matches) return sum;
+      const qty = Math.max(1, Number(it.quantity) || 1);
+      const line = Number(it.lineTotal) || round(Number(p.price) * qty);
+      return sum + line;
+    }, 0);
+    if (eligibleSubtotal <= 0)
+      return fail('Coupon does not apply to any items in your bag');
+  }
+
   const discount =
     coupon.type === 'percent'
-      ? round((Number(subtotal) * coupon.value) / 100)
-      : Math.min(coupon.value, Number(subtotal));
+      ? round((eligibleSubtotal * coupon.value) / 100)
+      : Math.min(coupon.value, eligibleSubtotal);
+
   res.json(
     wrapItem({
       valid: true,
       code: coupon.code,
       type: coupon.type,
+      value: coupon.value,
       discount,
+      appliesTo: scope,
+      targetIds,
+      eligibleSubtotal: round(eligibleSubtotal),
       message: 'Coupon applied',
     }),
   );
@@ -2676,6 +2709,191 @@ app.delete('/api/admin/reviews/:id', adminGate, (req, res) => {
   const r = db.get('reviews').find({ id }).value();
   if (!r) return res.status(404).json(errorEnvelope('Review not found'));
   db.get('reviews').remove({ id }).write();
+  return res.json(wrapItem({ id, deleted: true }));
+});
+
+// ---------- Admin coupons ---------------------------------------------------
+const COUPON_CODE_RE = /^[A-Z0-9]{3,20}$/;
+
+const validateCouponPayload = (body, { partial = false } = {}) => {
+  const errors = {};
+  const out = {};
+
+  if (!partial || body.code !== undefined) {
+    const code = String(body.code || '').toUpperCase().trim();
+    if (!COUPON_CODE_RE.test(code))
+      errors.code = '3–20 uppercase letters or digits';
+    else out.code = code;
+  }
+  if (!partial || body.type !== undefined) {
+    const type = String(body.type || '').toLowerCase();
+    if (type !== 'percent' && type !== 'fixed')
+      errors.type = 'Type must be percent or fixed';
+    else out.type = type;
+  }
+  if (!partial || body.value !== undefined) {
+    const value = Number(body.value);
+    if (!Number.isFinite(value)) errors.value = 'Value is required';
+    else if ((out.type || body.type) === 'percent' && (value < 1 || value > 100))
+      errors.value = 'Percent must be 1–100';
+    else if ((out.type || body.type) === 'fixed' && value < 1)
+      errors.value = 'Fixed must be at least 1 AED';
+    else out.value = value;
+  }
+  if (!partial || body.minSubtotal !== undefined) {
+    const v = body.minSubtotal == null || body.minSubtotal === ''
+      ? 0
+      : Number(body.minSubtotal);
+    if (!Number.isFinite(v) || v < 0) errors.minSubtotal = 'Must be ≥ 0';
+    else out.minSubtotal = v;
+  }
+  if (!partial || body.maxRedemptions !== undefined) {
+    const v = body.maxRedemptions == null || body.maxRedemptions === ''
+      ? null
+      : Number(body.maxRedemptions);
+    if (v !== null && (!Number.isInteger(v) || v < 1))
+      errors.maxRedemptions = 'Must be an integer ≥ 1';
+    else out.maxRedemptions = v == null ? 999999 : v;
+  }
+  if (!partial || body.startsAt !== undefined) {
+    const t = body.startsAt ? Date.parse(body.startsAt) : NaN;
+    if (!Number.isFinite(t)) errors.startsAt = 'Start date is required';
+    else out.startsAt = new Date(t).toISOString();
+  }
+  if (!partial || body.endsAt !== undefined) {
+    const t = body.endsAt ? Date.parse(body.endsAt) : NaN;
+    if (!Number.isFinite(t)) errors.endsAt = 'End date is required';
+    else out.endsAt = new Date(t).toISOString();
+  }
+  if (out.startsAt && out.endsAt && Date.parse(out.endsAt) <= Date.parse(out.startsAt))
+    errors.endsAt = 'End must be after start';
+  if (!partial || body.appliesTo !== undefined) {
+    const a = String(body.appliesTo || 'all').toLowerCase();
+    if (!['all', 'categories', 'products'].includes(a))
+      errors.appliesTo = 'Invalid scope';
+    else out.appliesTo = a;
+  }
+  if (!partial || body.targetIds !== undefined) {
+    const ids = Array.isArray(body.targetIds)
+      ? body.targetIds.map((n) => Number(n)).filter((n) => Number.isInteger(n))
+      : [];
+    out.targetIds = ids;
+    if ((out.appliesTo || 'all') !== 'all' && ids.length === 0)
+      errors.targetIds = 'Select at least one target';
+  }
+  if (!partial || body.isActive !== undefined) {
+    out.isActive = Boolean(body.isActive);
+  }
+
+  return { out, errors };
+};
+
+app.get('/api/admin/coupons', adminGate, (req, res) => {
+  const q = req.query || {};
+  const search = String(q.q || '').trim().toLowerCase();
+  const status = q.status ? String(q.status).toLowerCase() : '';
+  const type = q.type ? String(q.type).toLowerCase() : '';
+  const sortBy = String(q.sort_by || 'startsAt');
+  const sortDir = String(q.sort_dir || 'desc').toLowerCase() === 'asc' ? 1 : -1;
+
+  const now = Date.now();
+  const computeStatus = (c) => {
+    if (!c.isActive) return 'disabled';
+    if (Date.parse(c.endsAt) < now) return 'expired';
+    if (Date.parse(c.startsAt) > now) return 'scheduled';
+    if ((c.redeemedCount || 0) >= (c.maxRedemptions || Infinity))
+      return 'out_of_uses';
+    return 'active';
+  };
+
+  let rows = db.get('coupons').value().map((c) => ({
+    ...c,
+    status: computeStatus(c),
+  }));
+
+  if (search) rows = rows.filter((c) => c.code.toLowerCase().includes(search));
+  if (status) rows = rows.filter((c) => c.status === status);
+  if (type) rows = rows.filter((c) => c.type === type);
+
+  rows.sort((a, b) => {
+    const av = a[sortBy];
+    const bv = b[sortBy];
+    if (av === bv) return 0;
+    if (av == null) return 1;
+    if (bv == null) return -1;
+    if (sortBy === 'startsAt' || sortBy === 'endsAt') {
+      return (Date.parse(av) - Date.parse(bv)) * sortDir;
+    }
+    return av > bv ? sortDir : -sortDir;
+  });
+
+  const total = rows.length;
+  const page = Math.max(1, Number(q._page) || Number(q.page) || 1);
+  const perPage = Math.max(1, Number(q._limit) || Number(q.per_page) || 25);
+  const start = (page - 1) * perPage;
+  const slice = rows.slice(start, start + perPage);
+
+  const counts = rows.reduce(
+    (acc, c) => ({ ...acc, [c.status]: (acc[c.status] || 0) + 1 }),
+    {},
+  );
+  const envelope = wrapList(slice, { page, perPage, total });
+  envelope.meta.total = total;
+  envelope.meta.counts = counts;
+  return res.json(envelope);
+});
+
+app.get('/api/admin/coupons/:id', adminGate, (req, res) => {
+  const id = Number(req.params.id);
+  const c = db.get('coupons').find({ id }).value();
+  if (!c) return res.status(404).json(errorEnvelope('Coupon not found'));
+  return res.json(wrapItem(c));
+});
+
+app.post('/api/admin/coupons', adminGate, (req, res) => {
+  const { out, errors } = validateCouponPayload(req.body || {});
+  if (Object.keys(errors).length)
+    return res.status(422).json(errorEnvelope('Invalid coupon', errors));
+  const exists = db.get('coupons').find({ code: out.code }).value();
+  if (exists)
+    return res
+      .status(409)
+      .json(errorEnvelope('Code already exists', { code: 'taken' }));
+  const lastId = db.get('coupons').value().reduce((m, c) => Math.max(m, c.id || 0), 0);
+  const created = {
+    id: lastId + 1,
+    redeemedCount: 0,
+    targetIds: [],
+    ...out,
+  };
+  db.get('coupons').push(created).write();
+  return res.status(201).json(wrapItem(created));
+});
+
+app.patch('/api/admin/coupons/:id', adminGate, (req, res) => {
+  const id = Number(req.params.id);
+  const existing = db.get('coupons').find({ id }).value();
+  if (!existing) return res.status(404).json(errorEnvelope('Coupon not found'));
+  const merged = { ...existing, ...req.body };
+  const { out, errors } = validateCouponPayload(merged, { partial: false });
+  if (Object.keys(errors).length)
+    return res.status(422).json(errorEnvelope('Invalid coupon', errors));
+  if (out.code !== existing.code) {
+    const taken = db.get('coupons').find({ code: out.code }).value();
+    if (taken && taken.id !== id)
+      return res
+        .status(409)
+        .json(errorEnvelope('Code already exists', { code: 'taken' }));
+  }
+  db.get('coupons').find({ id }).assign(out).write();
+  return res.json(wrapItem(db.get('coupons').find({ id }).value()));
+});
+
+app.delete('/api/admin/coupons/:id', adminGate, (req, res) => {
+  const id = Number(req.params.id);
+  const c = db.get('coupons').find({ id }).value();
+  if (!c) return res.status(404).json(errorEnvelope('Coupon not found'));
+  db.get('coupons').remove({ id }).write();
   return res.json(wrapItem({ id, deleted: true }));
 });
 

@@ -55,7 +55,7 @@ import AdminOrderDetail from '../admin/pages/orders/OrderDetailPage.jsx';
 import AdminCustomers from '../admin/pages/customers/CustomersListPage.jsx';
 import AdminCustomerDetail from '../admin/pages/customers/CustomerDetailPage.jsx';
 import AdminReviews from '../admin/pages/reviews/ReviewsModerationPage.jsx';
-import AdminCoupons from '../admin/pages/AdminCoupons.jsx';
+import AdminCoupons from '../admin/pages/coupons/CouponsListPage.jsx';
 import AdminSettings from '../admin/pages/AdminSettings.jsx';
 import AdminReports from '../admin/pages/AdminReports.jsx';
 import AdminUsers from '../admin/pages/AdminUsers.jsx';

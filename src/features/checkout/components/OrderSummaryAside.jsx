@@ -17,7 +17,7 @@ function SummaryRow({ label, value, accent }) {
 }
 
 function OrderSummaryAside({ variant = 'aside' }) {
-  const { state, applyCoupon, clearCoupon } = useCart();
+  const { state, setCoupon, clearCoupon } = useCart();
   const { pathname } = useLocation();
   const isReview = pathname.includes('/review') || pathname.includes('/confirmation');
   const currency = state.items[0]?.currency || 'AED';
@@ -59,7 +59,8 @@ function OrderSummaryAside({ variant = 'aside' }) {
       <CouponInput
         couponCode={state.couponCode}
         subtotal={state.subtotal}
-        onApply={applyCoupon}
+        items={state.items}
+        onApply={setCoupon}
         onClear={clearCoupon}
       />
 
