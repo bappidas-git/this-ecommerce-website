@@ -44,7 +44,7 @@ import AddressesPage from '../features/account/pages/AddressesPage.jsx';
 import AccountPassword from '../features/account/pages/AccountPassword.jsx';
 import AccountPreferences from '../features/account/pages/AccountPreferences.jsx';
 
-import AdminLogin from '../admin/pages/AdminLogin.jsx';
+import AdminLoginPage from '../admin/pages/AdminLoginPage.jsx';
 import AdminDashboard from '../admin/pages/AdminDashboard.jsx';
 import AdminProducts from '../admin/pages/AdminProducts.jsx';
 import AdminProductNew from '../admin/pages/AdminProductNew.jsx';
@@ -162,7 +162,7 @@ function AppRoutes() {
         path="admin/login"
         element={
           <AdminAuthProvider>
-            <AdminLogin />
+            <AdminLoginPage />
           </AdminAuthProvider>
         }
       />
