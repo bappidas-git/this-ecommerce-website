@@ -2,6 +2,7 @@ import { Outlet } from 'react-router-dom';
 import Header from './Header/index.js';
 import Footer from './Footer/Footer.jsx';
 import MiniCartDrawer from './MiniCartDrawer/MiniCartDrawer.jsx';
+import SearchOverlay from '../../features/search/components/SearchOverlay/SearchOverlay.jsx';
 import { CartProvider } from '../../context/CartContext.jsx';
 import { WishlistProvider } from '../../context/WishlistContext.jsx';
 import { UIProvider } from '../../context/UIContext.jsx';
@@ -27,6 +28,7 @@ function MainLayout() {
             <Footer />
           </div>
           <MiniCartDrawer />
+          <SearchOverlay />
         </UIProvider>
       </WishlistProvider>
     </CartProvider>
