@@ -10,8 +10,11 @@ import {
 import { useNavigate } from 'react-router-dom';
 import { PATHS } from '../routes/paths.js';
 import { useToast } from './ToastContext.jsx';
+import orderService from '../api/services/orderService.js';
+import paymentService from '../api/services/paymentService.js';
 
 const STORAGE_KEY = 'ti_checkout';
+const LAST_ORDER_KEY = 'ti_last_order';
 const TTL_MS = 24 * 60 * 60 * 1000;
 
 const STEP_INDEX = Object.freeze({
@@ -88,20 +91,21 @@ function reducer(state, action) {
   }
 }
 
-const REQUIRED_ADDRESS_FIELDS = [
-  'fullName',
-  'phone',
-  'line1',
-  'city',
-  'country',
-];
+const REQUIRED_ADDRESS_FIELDS = ['phone', 'line1', 'city', 'country'];
+
+function isFilled(value) {
+  if (typeof value === 'string') return value.trim().length > 0;
+  return Boolean(value);
+}
 
 function validateAddress(address) {
   if (!address || typeof address !== 'object') return false;
-  return REQUIRED_ADDRESS_FIELDS.every((key) => {
-    const v = address[key];
-    return typeof v === 'string' ? v.trim().length > 0 : Boolean(v);
-  });
+  const hasName =
+    isFilled(address.fullName) ||
+    isFilled(address.firstName) ||
+    isFilled(address.lastName);
+  if (!hasName) return false;
+  return REQUIRED_ADDRESS_FIELDS.every((key) => isFilled(address[key]));
 }
 
 function validatePayment(payment) {
@@ -156,6 +160,35 @@ function clearPersisted() {
     window.sessionStorage.removeItem(STORAGE_KEY);
   } catch {
     /* ignore */
+  }
+}
+
+function writeLastOrder(order) {
+  if (typeof window === 'undefined' || !order || !order.id) return;
+  try {
+    window.sessionStorage.setItem(
+      `${LAST_ORDER_KEY}_${order.id}`,
+      JSON.stringify({ order, savedAt: Date.now() }),
+    );
+  } catch {
+    /* ignore */
+  }
+}
+
+export function readLastOrder(id) {
+  if (typeof window === 'undefined' || !id) return null;
+  try {
+    const raw = window.sessionStorage.getItem(`${LAST_ORDER_KEY}_${id}`);
+    if (!raw) return null;
+    const parsed = JSON.parse(raw);
+    if (!parsed || typeof parsed !== 'object') return null;
+    if (parsed.savedAt && Date.now() - parsed.savedAt > TTL_MS) {
+      window.sessionStorage.removeItem(`${LAST_ORDER_KEY}_${id}`);
+      return null;
+    }
+    return parsed.order || null;
+  } catch {
+    return null;
   }
 }
 
@@ -248,25 +281,88 @@ export function CheckoutProvider({ children }) {
   }, []);
 
   const placeOrder = useCallback(
-    async (placeFn) => {
+    async ({ cartState, clearCart } = {}) => {
       if (!validateAddress(state.address) || !validatePayment(state.payment)) {
-        dispatch({ type: ACTIONS.ERROR, payload: 'Please complete all checkout steps.' });
-        return null;
+        const message = 'Please complete all checkout steps.';
+        dispatch({ type: ACTIONS.ERROR, payload: message });
+        throw new Error(message);
       }
+      if (!cartState || !Array.isArray(cartState.items) || cartState.items.length === 0) {
+        const message = 'Your bag is empty.';
+        dispatch({ type: ACTIONS.ERROR, payload: message });
+        throw new Error(message);
+      }
+
       dispatch({ type: ACTIONS.PLACING });
+
       try {
-        const result = typeof placeFn === 'function' ? await placeFn() : null;
-        dispatch({ type: ACTIONS.PLACED });
-        return result;
-      } catch (err) {
-        dispatch({
-          type: ACTIONS.ERROR,
-          payload: err?.message || 'Could not place your order. Please try again.',
+        const currency = cartState.items[0]?.currency || 'AED';
+
+        // 1) Process payment first when card — fail loudly on rejection so we
+        // never create an order without funds.
+        if (state.payment.method === 'card') {
+          const paymentResult = await paymentService.processPayment({
+            method: 'card',
+            brand: state.payment.brand,
+            last4: state.payment.last4,
+            cardName: state.payment.cardName,
+            expiry: state.payment.expiry,
+            amount: cartState.total,
+            currency,
+          });
+          if (!paymentResult || paymentResult.ok === false) {
+            const message =
+              paymentResult?.message ||
+              'Your card was declined. Try a different card or method.';
+            throw new Error(message);
+          }
+        }
+
+        // 2) Create the order
+        const order = await orderService.create({
+          items: cartState.items.map((it) => ({
+            productId: it.productId,
+            quantity: it.qty,
+          })),
+          shippingAddress: state.address,
+          billingAddress: state.billingSameAsShipping ? null : state.billingAddress,
+          paymentMethod: state.payment.method,
+          paymentStatus: state.payment.paymentStatus || null,
+          notes: state.notes ? [{ body: state.notes, source: 'customer' }] : [],
+          couponCode: cartState.couponCode || state.couponCode || null,
         });
+
+        // 3) Cache for refresh + guest fallback on the confirmation page
+        writeLastOrder(order);
+
+        // 4) Clear cart + checkout state, then navigate (replace history so
+        // Back doesn't return to the review page after success).
+        if (typeof clearCart === 'function') clearCart();
+        clearPersisted();
+        dispatch({ type: ACTIONS.RESET });
+
+        const orderId = order?.id ?? order?.number;
+        if (orderId != null) {
+          navigate(PATHS.orderConfirmation(orderId), { replace: true });
+        }
+
+        return order;
+      } catch (err) {
+        const message =
+          err?.message || 'Could not place your order. Please try again.';
+        dispatch({ type: ACTIONS.ERROR, payload: message });
         throw err;
       }
     },
-    [state.address, state.payment],
+    [
+      state.address,
+      state.billingAddress,
+      state.billingSameAsShipping,
+      state.payment,
+      state.notes,
+      state.couponCode,
+      navigate,
+    ],
   );
 
   const reset = useCallback(() => {
