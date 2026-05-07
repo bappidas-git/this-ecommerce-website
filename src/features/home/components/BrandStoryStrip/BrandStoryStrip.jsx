@@ -24,10 +24,17 @@ function BrandStoryStrip() {
   useEffect(() => {
     if (prefersReducedMotion) return undefined;
     if (STORY_IMAGES.length <= 1) return undefined;
-    const id = window.setInterval(() => {
-      setImageIndex((current) => (current + 1) % STORY_IMAGES.length);
-    }, ROTATE_INTERVAL);
-    return () => window.clearInterval(id);
+    let rafId = 0;
+    let last = performance.now();
+    const tick = (now) => {
+      if (now - last >= ROTATE_INTERVAL) {
+        setImageIndex((current) => (current + 1) % STORY_IMAGES.length);
+        last = now;
+      }
+      rafId = window.requestAnimationFrame(tick);
+    };
+    rafId = window.requestAnimationFrame(tick);
+    return () => window.cancelAnimationFrame(rafId);
   }, [prefersReducedMotion]);
 
   return (
@@ -42,6 +49,8 @@ function BrandStoryStrip() {
                   src={STORY_IMAGES[imageIndex]}
                   alt=""
                   className={styles.image}
+                  loading="lazy"
+                  decoding="async"
                   initial={prefersReducedMotion ? false : { opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={prefersReducedMotion ? undefined : { opacity: 0 }}

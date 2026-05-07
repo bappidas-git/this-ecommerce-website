@@ -1,0 +1,83 @@
+.page,
+.shop,
+.product,
+.account,
+.checkout,
+.admin {
+  width: 100%;
+  max-width: 1320px;
+  margin-inline: auto;
+  padding: clamp(16px, 4vw, 32px);
+  display: flex;
+  flex-direction: column;
+  gap: clamp(12px, 2vw, 20px);
+}
+
+.shopHeader {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.shopToolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+}
+
+.shopGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(12px, 2vw, 20px);
+  margin-top: 12px;
+}
+
+@media (min-width: 768px) {
+  .shopGrid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1024px) {
+  .shopGrid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.shopCard {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.product {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(16px, 3vw, 28px);
+}
+
+@media (min-width: 1024px) {
+  .product {
+    grid-template-columns: 1.1fr 0.9fr;
+    align-items: start;
+  }
+}
+
+.productMeta {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.adminGrid {
+  display: grid;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+  gap: 14px;
+}
+
+@media (min-width: 768px) {
+  .adminGrid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}

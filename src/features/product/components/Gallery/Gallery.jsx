@@ -159,6 +159,7 @@ function Gallery({ product }) {
             src={mainSrc}
             alt={`${altBase} — view ${active + 1}`}
             className={styles.mainImg}
+            decoding="async"
             onError={(e) => {
               markBroken(active);
               handleImageError(e, altBase);
@@ -223,6 +224,8 @@ function Gallery({ product }) {
             src={mainSrc}
             alt={`${altBase} — view ${active + 1}`}
             className={styles.lightboxImg}
+            loading="lazy"
+            decoding="async"
             onError={(e) => handleImageError(e, altBase)}
           />
 

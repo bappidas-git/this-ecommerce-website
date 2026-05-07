@@ -8,7 +8,7 @@ import { PATHS } from '../../../../routes/paths.js';
 import useSettings from '../../../../hooks/useSettings.js';
 import styles from './Hero.module.css';
 
-const HERO_IMAGE =
+export const HERO_IMAGE =
   'https://res.cloudinary.com/dn9gyaiik/image/upload/v1777871734/Hero-Image_feu2v1.png';
 
 const DEFAULTS = Object.freeze({

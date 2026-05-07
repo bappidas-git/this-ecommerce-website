@@ -160,6 +160,8 @@ function UserMenu() {
           className={styles.avatar}
           width={32}
           height={32}
+          loading="lazy"
+          decoding="async"
         />
         <span className={styles.userMeta}>
           <span className={styles.userName}>{name}</span>

@@ -15,7 +15,13 @@ function AuthShell({
   return (
     <div className={styles.shell}>
       <aside className={styles.media} aria-hidden="true">
-        <img src={imageSrc} alt={imageAlt} className={styles.mediaImg} />
+        <img
+          src={imageSrc}
+          alt={imageAlt}
+          className={styles.mediaImg}
+          loading="lazy"
+          decoding="async"
+        />
       </aside>
 
       <motion.section

@@ -63,6 +63,7 @@ function ShopHeader({ category, title, kicker, bannerImage }) {
                 alt=""
                 aria-hidden="true"
                 className={styles.heroBandImage}
+                decoding="async"
                 onError={(e) => handleImageError(e, 'THIS Interiors')}
               />
             </div>

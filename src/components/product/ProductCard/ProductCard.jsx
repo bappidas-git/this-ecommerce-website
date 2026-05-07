@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react';
+import { memo, useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, useReducedMotion } from 'framer-motion';
 import FavoriteIcon from '@mui/icons-material/Favorite';
@@ -311,6 +311,8 @@ function ProductCardSkeleton({ density = 'standard', showRating = true, classNam
   );
 }
 
-ProductCard.Skeleton = ProductCardSkeleton;
+const MemoProductCard = memo(ProductCard);
+MemoProductCard.Skeleton = ProductCardSkeleton;
+MemoProductCard.displayName = 'ProductCard';
 
-export default ProductCard;
+export default MemoProductCard;

@@ -1,3 +1,4 @@
+import { lazy, Suspense } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 
 import MainLayout from '../components/layout/MainLayout.jsx';
@@ -12,58 +13,103 @@ import RequireAuth from './RequireAuth.jsx';
 import RequireAdmin from './RequireAdmin.jsx';
 import { PATHS } from './paths.js';
 
+import RouteFallback from '../components/common/RouteFallback/RouteFallback.jsx';
+
 import Home from '../features/home/pages/Home.jsx';
-import ShopPage from '../features/shop/pages/ShopPage.jsx';
-import ProductDetailPage from '../features/product/pages/ProductDetailPage.jsx';
-import SearchPage from '../features/search/pages/SearchPage.jsx';
-import CartPage from '../features/cart/pages/CartPage.jsx';
-import WishlistPage from '../features/account/pages/WishlistPage.jsx';
 
-import Login from '../features/auth/pages/Login.jsx';
-import RegisterPage from '../features/auth/pages/RegisterPage.jsx';
-import ForgotPasswordPage from '../features/auth/pages/ForgotPasswordPage.jsx';
-import ResetPasswordPage from '../features/auth/pages/ResetPasswordPage.jsx';
+const ShopPage = lazy(() => import('../features/shop/pages/ShopPage.jsx'));
+const ProductDetailPage = lazy(() =>
+  import('../features/product/pages/ProductDetailPage.jsx'),
+);
+const SearchPage = lazy(() => import('../features/search/pages/SearchPage.jsx'));
+const CartPage = lazy(() => import('../features/cart/pages/CartPage.jsx'));
+const WishlistPage = lazy(() => import('../features/account/pages/WishlistPage.jsx'));
 
-import AboutPage from '../features/static/pages/AboutPage.jsx';
-import ContactPage from '../features/static/pages/ContactPage.jsx';
-import Faq from '../features/static/pages/Faq.jsx';
-import Privacy from '../features/static/pages/Privacy.jsx';
-import Terms from '../features/static/pages/Terms.jsx';
-import ShippingReturns from '../features/static/pages/ShippingReturns.jsx';
-import NotFound from '../features/static/pages/NotFound.jsx';
+const Login = lazy(() => import('../features/auth/pages/Login.jsx'));
+const RegisterPage = lazy(() => import('../features/auth/pages/RegisterPage.jsx'));
+const ForgotPasswordPage = lazy(() =>
+  import('../features/auth/pages/ForgotPasswordPage.jsx'),
+);
+const ResetPasswordPage = lazy(() =>
+  import('../features/auth/pages/ResetPasswordPage.jsx'),
+);
 
-import CheckoutAddress from '../features/checkout/pages/CheckoutAddressPage.jsx';
-import CheckoutPayment from '../features/checkout/pages/CheckoutPaymentPage.jsx';
-import CheckoutReview from '../features/checkout/pages/CheckoutReviewPage.jsx';
-import OrderConfirmation from '../features/checkout/pages/CheckoutConfirmationPage.jsx';
+const AboutPage = lazy(() => import('../features/static/pages/AboutPage.jsx'));
+const ContactPage = lazy(() => import('../features/static/pages/ContactPage.jsx'));
+const Faq = lazy(() => import('../features/static/pages/Faq.jsx'));
+const Privacy = lazy(() => import('../features/static/pages/Privacy.jsx'));
+const Terms = lazy(() => import('../features/static/pages/Terms.jsx'));
+const ShippingReturns = lazy(() =>
+  import('../features/static/pages/ShippingReturns.jsx'),
+);
+const NotFound = lazy(() => import('../features/static/pages/NotFound.jsx'));
 
-import AccountProfile from '../features/account/pages/AccountProfile.jsx';
-import OrdersListPage from '../features/account/pages/OrdersListPage.jsx';
-import OrderDetailPage from '../features/account/pages/OrderDetailPage.jsx';
-import AddressesPage from '../features/account/pages/AddressesPage.jsx';
-import AccountPassword from '../features/account/pages/AccountPassword.jsx';
-import AccountPreferences from '../features/account/pages/AccountPreferences.jsx';
+const CheckoutAddress = lazy(() =>
+  import('../features/checkout/pages/CheckoutAddressPage.jsx'),
+);
+const CheckoutPayment = lazy(() =>
+  import('../features/checkout/pages/CheckoutPaymentPage.jsx'),
+);
+const CheckoutReview = lazy(() =>
+  import('../features/checkout/pages/CheckoutReviewPage.jsx'),
+);
+const OrderConfirmation = lazy(() =>
+  import('../features/checkout/pages/CheckoutConfirmationPage.jsx'),
+);
 
-import AdminLoginPage from '../admin/pages/AdminLoginPage.jsx';
-import AdminDashboard from '../admin/pages/AdminDashboard.jsx';
-import AdminProducts from '../admin/pages/products/ProductsListPage.jsx';
-import AdminProductForm from '../admin/pages/products/ProductFormPage.jsx';
-import AdminCategories from '../admin/pages/categories/CategoriesPage.jsx';
-import AdminInventory from '../admin/pages/inventory/InventoryPage.jsx';
-import AdminOrders from '../admin/pages/orders/OrdersListPage.jsx';
-import AdminOrderDetail from '../admin/pages/orders/OrderDetailPage.jsx';
-import AdminCustomers from '../admin/pages/customers/CustomersListPage.jsx';
-import AdminCustomerDetail from '../admin/pages/customers/CustomerDetailPage.jsx';
-import AdminReviews from '../admin/pages/reviews/ReviewsModerationPage.jsx';
-import AdminCoupons from '../admin/pages/coupons/CouponsListPage.jsx';
-import AdminSettings from '../admin/pages/settings/SettingsPage.jsx';
-import AdminReports from '../admin/pages/AdminReports.jsx';
-import AdminUsers from '../admin/pages/users/UsersPage.jsx';
+const AccountProfile = lazy(() => import('../features/account/pages/AccountProfile.jsx'));
+const OrdersListPage = lazy(() => import('../features/account/pages/OrdersListPage.jsx'));
+const OrderDetailPage = lazy(() =>
+  import('../features/account/pages/OrderDetailPage.jsx'),
+);
+const AddressesPage = lazy(() => import('../features/account/pages/AddressesPage.jsx'));
+const AccountPassword = lazy(() =>
+  import('../features/account/pages/AccountPassword.jsx'),
+);
+const AccountPreferences = lazy(() =>
+  import('../features/account/pages/AccountPreferences.jsx'),
+);
 
-import KitchenSink from './KitchenSink.jsx';
-import KitchenSinkProducts from './KitchenSinkProducts.jsx';
+const AdminLoginPage = lazy(() => import('../admin/pages/AdminLoginPage.jsx'));
+const AdminDashboard = lazy(() => import('../admin/pages/AdminDashboard.jsx'));
+const AdminProducts = lazy(() =>
+  import('../admin/pages/products/ProductsListPage.jsx'),
+);
+const AdminProductForm = lazy(() =>
+  import('../admin/pages/products/ProductFormPage.jsx'),
+);
+const AdminCategories = lazy(() =>
+  import('../admin/pages/categories/CategoriesPage.jsx'),
+);
+const AdminInventory = lazy(() =>
+  import('../admin/pages/inventory/InventoryPage.jsx'),
+);
+const AdminOrders = lazy(() => import('../admin/pages/orders/OrdersListPage.jsx'));
+const AdminOrderDetail = lazy(() =>
+  import('../admin/pages/orders/OrderDetailPage.jsx'),
+);
+const AdminCustomers = lazy(() =>
+  import('../admin/pages/customers/CustomersListPage.jsx'),
+);
+const AdminCustomerDetail = lazy(() =>
+  import('../admin/pages/customers/CustomerDetailPage.jsx'),
+);
+const AdminReviews = lazy(() =>
+  import('../admin/pages/reviews/ReviewsModerationPage.jsx'),
+);
+const AdminCoupons = lazy(() => import('../admin/pages/coupons/CouponsListPage.jsx'));
+const AdminSettings = lazy(() => import('../admin/pages/settings/SettingsPage.jsx'));
+const AdminReports = lazy(() => import('../admin/pages/AdminReports.jsx'));
+const AdminUsers = lazy(() => import('../admin/pages/users/UsersPage.jsx'));
+
+const KitchenSink = lazy(() => import('./KitchenSink.jsx'));
+const KitchenSinkProducts = lazy(() => import('./KitchenSinkProducts.jsx'));
 
 const isDev = import.meta.env.DEV;
+
+const wrap = (variant, node) => (
+  <Suspense fallback={<RouteFallback variant={variant} />}>{node}</Suspense>
+);
 
 function AppRoutes() {
   return (
@@ -76,22 +122,22 @@ function AppRoutes() {
         }
       >
         <Route index element={<Home />} />
-        <Route path="shop" element={<ShopPage />} />
-        <Route path="shop/:slug" element={<ShopPage />} />
-        <Route path="product/:slug" element={<ProductDetailPage />} />
-        <Route path="search" element={<SearchPage />} />
-        <Route path="cart" element={<CartPage />} />
-        <Route path="wishlist" element={<WishlistPage />} />
+        <Route path="shop" element={wrap('shop', <ShopPage />)} />
+        <Route path="shop/:slug" element={wrap('shop', <ShopPage />)} />
+        <Route path="product/:slug" element={wrap('product', <ProductDetailPage />)} />
+        <Route path="search" element={wrap('shop', <SearchPage />)} />
+        <Route path="cart" element={wrap('page', <CartPage />)} />
+        <Route path="wishlist" element={wrap('shop', <WishlistPage />)} />
 
-        <Route path="forgot-password" element={<ForgotPasswordPage />} />
-        <Route path="reset-password" element={<ResetPasswordPage />} />
+        <Route path="forgot-password" element={wrap('page', <ForgotPasswordPage />)} />
+        <Route path="reset-password" element={wrap('page', <ResetPasswordPage />)} />
 
-        <Route path="about" element={<AboutPage />} />
-        <Route path="contact" element={<ContactPage />} />
-        <Route path="faq" element={<Faq />} />
-        <Route path="privacy" element={<Privacy />} />
-        <Route path="terms" element={<Terms />} />
-        <Route path="shipping-returns" element={<ShippingReturns />} />
+        <Route path="about" element={wrap('page', <AboutPage />)} />
+        <Route path="contact" element={wrap('page', <ContactPage />)} />
+        <Route path="faq" element={wrap('page', <Faq />)} />
+        <Route path="privacy" element={wrap('page', <Privacy />)} />
+        <Route path="terms" element={wrap('page', <Terms />)} />
+        <Route path="shipping-returns" element={wrap('page', <ShippingReturns />)} />
 
         <Route
           path="account"
@@ -102,17 +148,27 @@ function AppRoutes() {
           }
         >
           <Route index element={<Navigate to={PATHS.account.profile} replace />} />
-          <Route path="profile" element={<AccountProfile />} />
-          <Route path="orders" element={<OrdersListPage />} />
-          <Route path="orders/:id" element={<OrderDetailPage />} />
-          <Route path="addresses" element={<AddressesPage />} />
-          <Route path="wishlist" element={<WishlistPage variant="account" />} />
-          <Route path="password" element={<AccountPassword />} />
-          <Route path="preferences" element={<AccountPreferences />} />
+          <Route path="profile" element={wrap('account', <AccountProfile />)} />
+          <Route path="orders" element={wrap('account', <OrdersListPage />)} />
+          <Route path="orders/:id" element={wrap('account', <OrderDetailPage />)} />
+          <Route path="addresses" element={wrap('account', <AddressesPage />)} />
+          <Route
+            path="wishlist"
+            element={wrap('account', <WishlistPage variant="account" />)}
+          />
+          <Route path="password" element={wrap('account', <AccountPassword />)} />
+          <Route path="preferences" element={wrap('account', <AccountPreferences />)} />
         </Route>
 
-        {isDev ? <Route path="_kitchen-sink" element={<KitchenSink />} /> : null}
-        {isDev ? <Route path="_kitchen-sink/products" element={<KitchenSinkProducts />} /> : null}
+        {isDev ? (
+          <Route path="_kitchen-sink" element={wrap('page', <KitchenSink />)} />
+        ) : null}
+        {isDev ? (
+          <Route
+            path="_kitchen-sink/products"
+            element={wrap('page', <KitchenSinkProducts />)}
+          />
+        ) : null}
       </Route>
 
       <Route
@@ -124,9 +180,9 @@ function AppRoutes() {
         }
       >
         <Route index element={<Navigate to={PATHS.checkoutAddress} replace />} />
-        <Route path="address" element={<CheckoutAddress />} />
-        <Route path="payment" element={<CheckoutPayment />} />
-        <Route path="review" element={<CheckoutReview />} />
+        <Route path="address" element={wrap('checkout', <CheckoutAddress />)} />
+        <Route path="payment" element={wrap('checkout', <CheckoutPayment />)} />
+        <Route path="review" element={wrap('checkout', <CheckoutReview />)} />
       </Route>
 
       <Route
@@ -137,32 +193,29 @@ function AppRoutes() {
           </AuthProvider>
         }
       >
-        <Route path="confirmation/:id" element={<OrderConfirmation />} />
+        <Route
+          path="confirmation/:id"
+          element={wrap('checkout', <OrderConfirmation />)}
+        />
       </Route>
 
       <Route
         path="login"
         element={
-          <AuthProvider>
-            <Login />
-          </AuthProvider>
+          <AuthProvider>{wrap('page', <Login />)}</AuthProvider>
         }
       />
       <Route
         path="register"
         element={
-          <AuthProvider>
-            <RegisterPage />
-          </AuthProvider>
+          <AuthProvider>{wrap('page', <RegisterPage />)}</AuthProvider>
         }
       />
 
       <Route
         path="admin/login"
         element={
-          <AdminAuthProvider>
-            <AdminLoginPage />
-          </AdminAuthProvider>
+          <AdminAuthProvider>{wrap('admin', <AdminLoginPage />)}</AdminAuthProvider>
         }
       />
       <Route path="admin" element={<AdminLayout />}>
@@ -170,7 +223,7 @@ function AppRoutes() {
           index
           element={
             <RequireAdmin area="dashboard">
-              <AdminDashboard />
+              {wrap('admin', <AdminDashboard />)}
             </RequireAdmin>
           }
         />
@@ -178,7 +231,7 @@ function AppRoutes() {
           path="products"
           element={
             <RequireAdmin area="products">
-              <AdminProducts />
+              {wrap('admin', <AdminProducts />)}
             </RequireAdmin>
           }
         />
@@ -186,7 +239,7 @@ function AppRoutes() {
           path="products/new"
           element={
             <RequireAdmin area="products">
-              <AdminProductForm />
+              {wrap('admin', <AdminProductForm />)}
             </RequireAdmin>
           }
         />
@@ -194,7 +247,7 @@ function AppRoutes() {
           path="products/:id"
           element={
             <RequireAdmin area="products">
-              <AdminProductForm />
+              {wrap('admin', <AdminProductForm />)}
             </RequireAdmin>
           }
         />
@@ -202,7 +255,7 @@ function AppRoutes() {
           path="categories"
           element={
             <RequireAdmin area="categories">
-              <AdminCategories />
+              {wrap('admin', <AdminCategories />)}
             </RequireAdmin>
           }
         />
@@ -210,23 +263,21 @@ function AppRoutes() {
           path="inventory"
           element={
             <RequireAdmin area="inventory">
-              <AdminInventory />
+              {wrap('admin', <AdminInventory />)}
             </RequireAdmin>
           }
         />
         <Route
           path="orders"
           element={
-            <RequireAdmin area="orders">
-              <AdminOrders />
-            </RequireAdmin>
+            <RequireAdmin area="orders">{wrap('admin', <AdminOrders />)}</RequireAdmin>
           }
         />
         <Route
           path="orders/:id"
           element={
             <RequireAdmin area="orders">
-              <AdminOrderDetail />
+              {wrap('admin', <AdminOrderDetail />)}
             </RequireAdmin>
           }
         />
@@ -234,7 +285,7 @@ function AppRoutes() {
           path="customers"
           element={
             <RequireAdmin area="customers">
-              <AdminCustomers />
+              {wrap('admin', <AdminCustomers />)}
             </RequireAdmin>
           }
         />
@@ -242,7 +293,7 @@ function AppRoutes() {
           path="customers/:id"
           element={
             <RequireAdmin area="customers">
-              <AdminCustomerDetail />
+              {wrap('admin', <AdminCustomerDetail />)}
             </RequireAdmin>
           }
         />
@@ -250,7 +301,7 @@ function AppRoutes() {
           path="reviews"
           element={
             <RequireAdmin area="reviews">
-              <AdminReviews />
+              {wrap('admin', <AdminReviews />)}
             </RequireAdmin>
           }
         />
@@ -258,7 +309,7 @@ function AppRoutes() {
           path="coupons"
           element={
             <RequireAdmin area="coupons">
-              <AdminCoupons />
+              {wrap('admin', <AdminCoupons />)}
             </RequireAdmin>
           }
         />
@@ -266,7 +317,7 @@ function AppRoutes() {
           path="settings"
           element={
             <RequireAdmin area="settings">
-              <AdminSettings />
+              {wrap('admin', <AdminSettings />)}
             </RequireAdmin>
           }
         />
@@ -274,21 +325,19 @@ function AppRoutes() {
           path="reports"
           element={
             <RequireAdmin area="reports">
-              <AdminReports />
+              {wrap('admin', <AdminReports />)}
             </RequireAdmin>
           }
         />
         <Route
           path="users"
           element={
-            <RequireAdmin area="users">
-              <AdminUsers />
-            </RequireAdmin>
+            <RequireAdmin area="users">{wrap('admin', <AdminUsers />)}</RequireAdmin>
           }
         />
       </Route>
 
-      <Route path="*" element={<NotFound />} />
+      <Route path="*" element={wrap('page', <NotFound />)} />
     </Routes>
   );
 }

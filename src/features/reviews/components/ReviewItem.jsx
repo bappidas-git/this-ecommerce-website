@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { memo, useState } from 'react';
 import VerifiedRoundedIcon from '@mui/icons-material/VerifiedRounded';
 import ThumbUpAltOutlinedIcon from '@mui/icons-material/ThumbUpAltOutlined';
 import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
@@ -138,4 +138,4 @@ function ReviewItem({ review, onUpdate }) {
   );
 }
 
-export default ReviewItem;
+export default memo(ReviewItem);
