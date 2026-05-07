@@ -1238,6 +1238,60 @@ const adminGate = (req, res, next) => {
   next();
 };
 
+app.post('/api/admin/auth/login', (req, res) => {
+  const { email, password } = req.body || {};
+  if (!email || !password) {
+    return res.status(422).json(errorEnvelope('Email and password are required'));
+  }
+  const user = db
+    .get('users')
+    .find({ email: String(email).toLowerCase() })
+    .value();
+  if (!user || !user.isActive || !verifyPassword(password, user.passwordHash)) {
+    return res.status(401).json(errorEnvelope('Invalid credentials'));
+  }
+  if (!ADMIN_ROLES.includes(user.role)) {
+    return res.status(403).json(errorEnvelope('This account does not have admin access'));
+  }
+  res.json(wrapItem(buildAuthResponse(user)));
+});
+
+app.get('/api/admin/auth/me', adminGate, (req, res) => {
+  res.json(wrapItem(req.user));
+});
+
+app.post('/api/admin/auth/logout', (_req, res) => {
+  res.json(wrapItem({ ok: true }));
+});
+
+app.patch('/api/admin/auth/profile', adminGate, (req, res) => {
+  const { firstName, lastName, phone, avatar } = req.body || {};
+  const errors = {};
+  if (firstName !== undefined && !String(firstName).trim()) {
+    errors.firstName = 'First name is required';
+  }
+  if (lastName !== undefined && !String(lastName).trim()) {
+    errors.lastName = 'Last name is required';
+  }
+  if (phone && !/^\+?[0-9\s\-()]{6,20}$/.test(String(phone))) {
+    errors.phone = 'Enter a valid phone number';
+  }
+  if (Object.keys(errors).length) {
+    return res.status(422).json(errorEnvelope('Invalid input', errors));
+  }
+  const patch = { updatedAt: new Date().toISOString() };
+  if (firstName !== undefined) patch.firstName = String(firstName).trim();
+  if (lastName !== undefined) patch.lastName = String(lastName).trim();
+  if (phone !== undefined) patch.phone = phone ? String(phone).trim() : null;
+  if (avatar !== undefined) patch.avatar = avatar || null;
+  const updated = db
+    .get('users')
+    .find({ id: req.user.id })
+    .assign(patch)
+    .write();
+  res.json(wrapItem(sanitizeUser(updated)));
+});
+
 const dayKey = (iso) => String(iso).slice(0, 10);
 
 app.get('/api/admin/reports/sales-over-time', adminGate, (req, res) => {
