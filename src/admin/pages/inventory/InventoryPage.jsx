@@ -517,7 +517,7 @@ function InventoryPage() {
             onDiscard={discardEdits}
           />
 
-          <div className={styles.gridWrap}>
+          <div className={styles.gridWrap} data-admin-grid-wrap>
             {error && !isLoading ? (
               <div className={styles.errorWrap}>
                 <ErrorState

@@ -10,6 +10,10 @@
 
 .button {
   color: var(--color-ink);
+  /* Touch-target floor — IconButton's medium size is 40px; bump it so the
+     +/- steppers clear the 44px Apple/WCAG touch minimum. */
+  min-width: 44px;
+  min-height: 44px;
 }
 
 .button:hover {

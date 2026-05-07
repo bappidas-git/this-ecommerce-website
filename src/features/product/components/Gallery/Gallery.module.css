@@ -17,6 +17,8 @@
   gap: 12px;
   position: sticky;
   top: 96px;
+  /* Keep thumbnails above the sticky buybox shadow when both stick on scroll. */
+  z-index: 2;
 }
 
 @media (min-width: 768px) {

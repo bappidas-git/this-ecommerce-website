@@ -18,6 +18,19 @@
   --admin-sidebar-width: var(--admin-sidebar-collapsed);
 }
 
+/* Hide the admin shell on viewports below md — the AdminMinWidthNotice
+   replaces it. CSS-only gate keeps SSR/initial paint stable and avoids
+   tearing the React tree on every resize. */
+.shellGated {
+  display: none;
+}
+
+@media (min-width: 900px) {
+  .shellGated {
+    display: block;
+  }
+}
+
 .body {
   display: flex;
   flex-direction: column;
