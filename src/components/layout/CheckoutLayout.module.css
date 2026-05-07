@@ -80,6 +80,11 @@
 
 .summaryColumn {
   display: contents;
+  /* When the grid kicks in at 1024px, the column becomes a real flex/block
+     container — the `min-width: 0` rule below prevents long product names
+     and price strings inside the summary card from forcing horizontal
+     overflow on the page at the awkward just-above-mobile breakpoint. */
+  min-width: 0;
 }
 
 .footer {

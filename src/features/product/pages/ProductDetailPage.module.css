@@ -20,9 +20,18 @@
   }
 }
 
+@media (min-width: 1024px) {
+  .layout {
+    /* Switch to 7/5 a step earlier so the buybox column stays narrower than
+       the gallery, preventing the sticky buybox from visually crowding the
+       thumbnail column when the user hovers/zooms the main image. */
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    gap: 48px;
+  }
+}
+
 @media (min-width: 1200px) {
   .layout {
-    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
     gap: 56px;
   }
 }

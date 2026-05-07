@@ -186,7 +186,7 @@ function OrdersTab({ orders }) {
   }
 
   return (
-    <div className={styles.gridWrap}>
+    <div className={styles.gridWrap} data-admin-grid-wrap>
       <DataGrid
         rows={orders}
         columns={columns}

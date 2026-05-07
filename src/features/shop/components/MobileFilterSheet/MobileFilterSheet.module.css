@@ -1,7 +1,12 @@
 .handleWrap {
+  position: sticky;
+  top: 0;
+  z-index: 2;
   display: flex;
   justify-content: center;
   padding: 8px 0 4px;
+  margin: -20px -24px 0;
+  background: var(--color-surface);
 }
 
 .handle {
@@ -23,4 +28,5 @@
 
 .footer > :global(.MuiButtonBase-root) {
   flex: 1 1 0;
+  min-height: 44px;
 }

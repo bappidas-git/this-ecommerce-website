@@ -251,7 +251,10 @@ function AdminSidebar() {
         onClose={closeMobileSidebar}
         ModalProps={{ keepMounted: false }}
         PaperProps={{
-          className: styles.mobileDrawerPaper,
+          className: `${styles.mobileDrawerPaper} admin-mobile-drawer-paper`,
+        }}
+        slotProps={{
+          backdrop: { className: 'admin-mobile-drawer-backdrop' },
         }}
         // re-close on route change is handled by AdminLayout; keep key on location for reset
         key={location.pathname}

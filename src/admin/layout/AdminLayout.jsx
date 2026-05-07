@@ -19,6 +19,23 @@ import AdminSidebar from './AdminSidebar.jsx';
 import AdminTopbar from './AdminTopbar.jsx';
 
 import styles from './AdminLayout.module.css';
+import '../styles/admin-overrides.css';
+
+function AdminMinWidthNotice() {
+  return (
+    <div className="admin-min-width-gate" role="alert">
+      <div className="admin-min-width-gate__card">
+        <h1 className="admin-min-width-gate__title">Use a tablet or larger</h1>
+        <p className="admin-min-width-gate__body">
+          The THIS Interiors admin panel is designed for screens 900&nbsp;px and wider.
+          Please rotate your device to landscape, or open the admin from a tablet or
+          desktop browser.
+        </p>
+        <span className="admin-min-width-gate__hint">min‑width 900px</span>
+      </div>
+    </div>
+  );
+}
 
 function AdminShell() {
   const adminAuth = useAdminAuth();
@@ -35,26 +52,30 @@ function AdminShell() {
   }, [location.pathname]);
 
   return (
-    <div
-      className={[
-        styles.shell,
-        isSidebarCollapsed ? styles.shellCollapsed : '',
-      ]
-        .filter(Boolean)
-        .join(' ')}
-    >
-      <AdminSidebar />
-      <div className={styles.body}>
-        <AdminTopbar />
-        <main id="main" className={styles.main}>
-          <Container maxWidth="xl" className={styles.container}>
-            <ErrorBoundary>
-              <Outlet />
-            </ErrorBoundary>
-          </Container>
-        </main>
+    <>
+      <AdminMinWidthNotice />
+      <div
+        className={[
+          styles.shell,
+          styles.shellGated,
+          isSidebarCollapsed ? styles.shellCollapsed : '',
+        ]
+          .filter(Boolean)
+          .join(' ')}
+      >
+        <AdminSidebar />
+        <div className={styles.body}>
+          <AdminTopbar />
+          <main id="main" className={styles.main}>
+            <Container maxWidth="xl" className={styles.container}>
+              <ErrorBoundary>
+                <Outlet />
+              </ErrorBoundary>
+            </Container>
+          </main>
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 

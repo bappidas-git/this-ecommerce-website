@@ -1,0 +1,104 @@
+/*
+ * Admin-only global overrides. Imported once from AdminLayout so they apply
+ * to every admin page without leaking into the storefront bundle.
+ */
+
+/* DataGrid wrappers: any admin page can opt in with `data-admin-grid-wrap`
+   on its grid container. Enforces horizontal scroll on small screens and
+   surfaces a "Tap to scroll →" hint above the table on phones. */
+[data-admin-grid-wrap] {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+@media (max-width: 899.95px) {
+  [data-admin-grid-wrap] {
+    position: relative;
+    margin-top: 36px;
+  }
+
+  [data-admin-grid-wrap]::before {
+    content: 'Tap to scroll →';
+    position: absolute;
+    top: -32px;
+    right: 0;
+    padding: 6px 12px;
+    background: rgba(184, 146, 79, 0.12);
+    color: var(--admin-ink-2, #c9c2b4);
+    font-family: var(--font-ui, Inter, system-ui, sans-serif);
+    font-size: 0.6875rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    border: 1px solid rgba(184, 146, 79, 0.24);
+    border-radius: 999px;
+  }
+}
+
+/* Tablet-or-larger notice: shown by AdminLayout on viewports below md.
+   Lives here so the storefront bundle never ships it. */
+.admin-min-width-gate {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: var(--admin-bg, #0e1414);
+  color: var(--admin-ink, #f7f3ed);
+}
+
+.admin-min-width-gate__card {
+  max-width: 380px;
+  background: var(--admin-surface, #16201d);
+  border: 1px solid var(--admin-line, #243030);
+  border-radius: 14px;
+  padding: 28px;
+  text-align: center;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.32);
+}
+
+.admin-min-width-gate__title {
+  font-family: var(--font-display, 'Cormorant Garamond', serif);
+  font-size: 1.5rem;
+  margin: 0 0 8px;
+  letter-spacing: 0.01em;
+}
+
+.admin-min-width-gate__body {
+  margin: 0 0 16px;
+  color: var(--admin-ink-2, #c9c2b4);
+  font-family: var(--font-ui, Inter, system-ui, sans-serif);
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+.admin-min-width-gate__hint {
+  display: inline-block;
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: 0.75rem;
+  color: var(--admin-muted, #8c8678);
+  letter-spacing: 0.06em;
+}
+
+@media (min-width: 900px) {
+  .admin-min-width-gate {
+    display: none;
+  }
+}
+
+/* Admin mobile sidebar drawer: cover full viewport including iOS notch /
+   home-indicator areas so the backdrop never leaves a thin un-tinted strip. */
+.admin-mobile-drawer-paper {
+  padding-top: env(safe-area-inset-top);
+  padding-bottom: env(safe-area-inset-bottom);
+  padding-left: env(safe-area-inset-left);
+}
+
+.admin-mobile-drawer-backdrop {
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  /* Defensive — MUI sets `inset: 0` already; these explicit values guard
+     against any browser quirks around env() insets and rotated viewports. */
+}
