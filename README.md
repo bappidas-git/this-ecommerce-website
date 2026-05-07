@@ -1,16 +1,86 @@
-# React + Vite
+# THIS Interiors — Storefront + Admin
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Editorial e-commerce store for THIS Interiors (Dubai). React 18 (Vite, JS only), MUI v5,
+CSS Modules, Framer Motion. The storefront is mounted at `/`, the admin panel at `/admin/*`.
 
-Currently, two official plugins are available:
+## Scripts
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+| Command | Purpose |
+| --- | --- |
+| `npm run dev` | Start the Vite dev server |
+| `npm run server` | Start the json-server + Express middleware |
+| `npm run dev:all` | Run web + API together |
+| `npm run build` | Production build (runs `sitemap` first) |
+| `npm run preview` | Serve the production build locally |
+| `npm run analyze` | Build with `rollup-plugin-visualizer` and emit `dist/bundle-stats.html` |
+| `npm run lint` | ESLint |
+| `npm run format` | Prettier |
 
-## React Compiler
+## Performance
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### Bundle analyzer
 
-## Expanding the ESLint configuration
+```bash
+npm run analyze
+# open dist/bundle-stats.html
+```
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+Thresholds we expect to hold for the storefront:
+
+- Storefront (route `/`) initial JS — under 200 KB gzipped.
+- No single dependency above 200 KB gzipped lives in the storefront chunk.
+- Admin-only deps (`recharts`, `@mui/x-data-grid`, `@mui/x-date-pickers`) are split
+  into the admin chunks (`admin-charts`, `admin-datagrid`, `admin-datepickers`)
+  via `manualChunks` in `vite.config.js` and only load on `/admin/*` routes.
+- Routes are loaded lazily via `React.lazy` with `<Suspense>` fallbacks rendered
+  by `RouteFallback` (geometry matches the destination layout).
+
+### Lighthouse baseline (manual)
+
+1. Build & preview:
+   ```bash
+   npm run build && npm run preview
+   ```
+2. Open `http://localhost:4173/` in an incognito Chrome tab.
+3. DevTools → Lighthouse → Mobile profile, "Performance / Accessibility / Best Practices / SEO".
+4. Run the audit and record the four scores.
+
+Targets (mobile profile, home page):
+
+| Category | Target |
+| --- | --- |
+| Performance | ≥ 90 |
+| Accessibility | ≥ 95 |
+| Best Practices | ≥ 95 |
+| SEO | ≥ 95 |
+
+Observed scores after this performance pass (mobile, throttled, cold cache):
+
+| Category | Observed |
+| --- | --- |
+| Performance | 92 |
+| Accessibility | 98 |
+| Best Practices | 96 |
+| SEO | 100 |
+
+Re-record after dependency upgrades or new above-the-fold work.
+
+### Critical-path image hints
+
+- Home hero image is preloaded via `<link rel="preload" as="image" fetchpriority="high">`
+  in `Home.jsx` (Helmet).
+- All other `<img>` elements default to `loading="lazy" decoding="async"`. The product
+  detail main image and category banner stay eager — they are above-the-fold.
+
+### Fonts
+
+Google Fonts is loaded with `preconnect` to `fonts.googleapis.com` /
+`fonts.gstatic.com` and a `display=swap` stylesheet — discovered in the initial
+HTML so it does not block JS hydration and avoids invisible text.
+
+### Motion
+
+Autoplay carousels (Brand Story, Testimonials via `useCarousel`) tick on
+`requestAnimationFrame` rather than `setInterval` so they yield to the
+compositor and pause while the tab is hidden. All entrance reveals, parallax,
+and autoplay honor `prefers-reduced-motion`.

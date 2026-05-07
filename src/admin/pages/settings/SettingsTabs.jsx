@@ -255,6 +255,8 @@ export function BrandingTab({ initial, onSave, canWrite, isSaving, topError }) {
                 src={faviconUrl}
                 alt=""
                 className={styles.logoFavicon}
+                loading="lazy"
+                decoding="async"
                 onError={(e) => {
                   e.currentTarget.style.visibility = 'hidden';
                 }}

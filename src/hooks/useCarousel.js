@@ -1,5 +1,12 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 
+const hasWindow = typeof window !== 'undefined';
+
+function prefersReducedMotion() {
+  if (!hasWindow || !window.matchMedia) return false;
+  return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+}
+
 export function useCarousel({ length = 0, autoplay = 0, paused = false } = {}) {
   const [index, setIndex] = useState(0);
   const lengthRef = useRef(length);
@@ -34,10 +41,18 @@ export function useCarousel({ length = 0, autoplay = 0, paused = false } = {}) {
 
   useEffect(() => {
     if (!autoplay || paused || length <= 1) return undefined;
-    const id = window.setInterval(() => {
-      setIndex((current) => (current + 1) % lengthRef.current);
-    }, autoplay);
-    return () => window.clearInterval(id);
+    if (prefersReducedMotion()) return undefined;
+    let rafId = 0;
+    let last = performance.now();
+    const tick = (now) => {
+      if (now - last >= autoplay) {
+        setIndex((current) => (current + 1) % lengthRef.current);
+        last = now;
+      }
+      rafId = window.requestAnimationFrame(tick);
+    };
+    rafId = window.requestAnimationFrame(tick);
+    return () => window.cancelAnimationFrame(rafId);
   }, [autoplay, paused, length]);
 
   return { index, set, next, prev };

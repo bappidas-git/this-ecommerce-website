@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { Link } from 'react-router-dom';
 import ChevronRightRoundedIcon from '@mui/icons-material/ChevronRightRounded';
 
@@ -71,4 +72,4 @@ function OrderRow({ order }) {
   );
 }
 
-export default OrderRow;
+export default memo(OrderRow);

@@ -116,6 +116,8 @@ function MediaSection({ disabled = false }) {
                 className={styles.mediaThumb}
                 width={64}
                 height={80}
+                loading="lazy"
+                decoding="async"
                 onError={(event) => {
                   event.currentTarget.src = PLACEHOLDER;
                 }}

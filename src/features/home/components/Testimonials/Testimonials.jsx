@@ -57,6 +57,7 @@ function TestimonialCard({ item }) {
           className={styles.avatar}
           aria-hidden="true"
           loading="lazy"
+          decoding="async"
         />
         <span className={styles.identity}>
           <span className={styles.name}>{item.name}</span>

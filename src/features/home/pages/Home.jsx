@@ -1,12 +1,19 @@
+import { lazy, Suspense } from 'react';
+
 import Seo from '../../../components/common/Seo.jsx';
 
-import Hero from '../components/Hero/Hero.jsx';
+import Hero, { HERO_IMAGE } from '../components/Hero/Hero.jsx';
 import CategoryMosaic from '../components/CategoryMosaic/CategoryMosaic.jsx';
-import NewArrivals from '../components/NewArrivals.jsx';
-import Bestsellers from '../components/Bestsellers.jsx';
-import BrandStoryStrip from '../components/BrandStoryStrip/BrandStoryStrip.jsx';
-import Testimonials from '../components/Testimonials/Testimonials.jsx';
-import NewsletterBand from '../components/NewsletterBand/NewsletterBand.jsx';
+
+const NewArrivals = lazy(() => import('../components/NewArrivals.jsx'));
+const Bestsellers = lazy(() => import('../components/Bestsellers.jsx'));
+const BrandStoryStrip = lazy(() =>
+  import('../components/BrandStoryStrip/BrandStoryStrip.jsx'),
+);
+const Testimonials = lazy(() => import('../components/Testimonials/Testimonials.jsx'));
+const NewsletterBand = lazy(() =>
+  import('../components/NewsletterBand/NewsletterBand.jsx'),
+);
 
 const SEO_TITLE = 'THIS Interiors — Pieces that quiet a room.';
 const SEO_DESCRIPTION =
@@ -22,14 +29,18 @@ function Home() {
         description={SEO_DESCRIPTION}
         canonical="/"
         image={SEO_OG_IMAGE}
-      />
+      >
+        <link rel="preload" as="image" href={HERO_IMAGE} fetchpriority="high" />
+      </Seo>
       <Hero />
       <CategoryMosaic />
-      <NewArrivals />
-      <BrandStoryStrip />
-      <Bestsellers />
-      <Testimonials />
-      <NewsletterBand />
+      <Suspense fallback={null}>
+        <NewArrivals />
+        <BrandStoryStrip />
+        <Bestsellers />
+        <Testimonials />
+        <NewsletterBand />
+      </Suspense>
     </>
   );
 }
