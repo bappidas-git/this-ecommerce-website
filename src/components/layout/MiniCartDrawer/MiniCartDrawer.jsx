@@ -10,6 +10,7 @@ import MiniCartLine from './MiniCartLine.jsx';
 import { useUI } from '../../../context/UIContext.jsx';
 import { useCart } from '../../../context/CartContext.jsx';
 import useProducts from '../../../hooks/useProducts.js';
+import useDeferredLoading from '../../../hooks/useDeferredLoading.js';
 import { formatCurrency } from '../../../utils/format.js';
 import { PATHS } from '../../../routes/paths.js';
 import styles from './MiniCartDrawer.module.css';
@@ -213,6 +214,7 @@ function EmptyBag({ onBrowse }) {
     sort: 'bestselling',
     perPage: RECOMMENDATION_COUNT,
   });
+  const showSkeleton = useDeferredLoading(isLoading);
 
   return (
     <div className={styles.empty}>
@@ -229,14 +231,14 @@ function EmptyBag({ onBrowse }) {
         </div>
       </div>
 
-      {isLoading || items.length > 0 ? (
+      {showSkeleton || items.length > 0 ? (
         <div className={styles.recommendations}>
           <p className={styles.recoTitle}>You might love</p>
           <ul className={styles.recoRail} role="list">
-            {(isLoading ? Array.from({ length: RECOMMENDATION_COUNT }) : items)
+            {(showSkeleton ? Array.from({ length: RECOMMENDATION_COUNT }) : items)
               .slice(0, RECOMMENDATION_COUNT)
               .map((product, index) =>
-                isLoading ? (
+                showSkeleton ? (
                   <li
                     key={`reco-skel-${index}`}
                     className={`${styles.recoItem} ${styles.recoSkeleton}`}

@@ -10,6 +10,7 @@ import ProductRail from '../../../components/product/ProductRail/ProductRail.jsx
 import CartItemsTable from '../components/CartItemsTable.jsx';
 import OrderSummary from '../components/OrderSummary.jsx';
 import CartStickyBar from '../components/CartStickyBar.jsx';
+import CartSkeleton from '../components/CartSkeleton.jsx';
 
 import { useCart } from '../../../context/CartContext.jsx';
 import { useToast } from '../../../context/ToastContext.jsx';
@@ -201,31 +202,35 @@ function CartPage() {
             ) : null}
           </AnimatePresence>
 
-          <div className={styles.layout}>
-            <div className={styles.itemsCol}>
-              <CartItemsTable
-                items={state.items}
-                onUpdateQty={updateQty}
-                onRemove={handleRemove}
-                onMoveToWishlist={handleMoveToWishlist}
-              />
-            </div>
+          {!state.isHydrated ? (
+            <CartSkeleton />
+          ) : (
+            <div className={styles.layout}>
+              <div className={styles.itemsCol}>
+                <CartItemsTable
+                  items={state.items}
+                  onUpdateQty={updateQty}
+                  onRemove={handleRemove}
+                  onMoveToWishlist={handleMoveToWishlist}
+                />
+              </div>
 
-            <div className={styles.summaryCol} ref={summaryRef}>
-              <OrderSummary
-                subtotal={state.subtotal}
-                discount={state.discount}
-                tax={state.tax}
-                total={state.total}
-                currency={currency}
-                itemCount={itemCount}
-                couponCode={state.couponCode}
-                cartItems={state.items}
-                onApplyCoupon={handleApplyCoupon}
-                onClearCoupon={handleClearCoupon}
-              />
+              <div className={styles.summaryCol} ref={summaryRef}>
+                <OrderSummary
+                  subtotal={state.subtotal}
+                  discount={state.discount}
+                  tax={state.tax}
+                  total={state.total}
+                  currency={currency}
+                  itemCount={itemCount}
+                  couponCode={state.couponCode}
+                  cartItems={state.items}
+                  onApplyCoupon={handleApplyCoupon}
+                  onClearCoupon={handleClearCoupon}
+                />
+              </div>
             </div>
-          </div>
+          )}
         </Container>
       </Section>
 

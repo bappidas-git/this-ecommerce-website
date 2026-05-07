@@ -24,3 +24,4 @@ export { default as Section } from './Section.jsx';
 export { default as SectionHeader } from './SectionHeader.jsx';
 export { default as Seo } from './Seo.jsx';
 export { default as SkeletonCard } from './SkeletonCard/SkeletonCard.jsx';
+export { RectSkeleton, TextSkeleton } from './skeletons/index.js';

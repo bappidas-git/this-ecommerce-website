@@ -2,7 +2,6 @@ import { useMemo, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import dayjs from 'dayjs';
 
-import Skeleton from '@mui/material/Skeleton';
 import Box from '@mui/material/Box';
 import Table from '@mui/material/Table';
 import TableHead from '@mui/material/TableHead';
@@ -25,6 +24,10 @@ import { useTheme } from '@mui/material/styles';
 
 import Seo from '../../components/common/Seo.jsx';
 import ErrorState from '../../components/common/ErrorState/ErrorState.jsx';
+import {
+  RectSkeleton,
+  TextSkeleton,
+} from '../../components/common/skeletons/index.js';
 import AdminPageHeader from '../components/AdminPageHeader.jsx';
 import AdminCard from '../components/AdminCard.jsx';
 import KpiCard, { computeDelta } from '../components/KpiCard.jsx';
@@ -68,18 +71,23 @@ const useStatusColors = () => {
 
 function KpiSkeleton() {
   return (
-    <Box className={styles.kpiSkeleton}>
-      <Skeleton variant="text" width="40%" />
-      <Skeleton variant="text" width="60%" height={36} />
-      <Skeleton variant="rectangular" width="100%" height={48} />
+    <Box className={styles.kpiSkeleton} aria-hidden="true">
+      <RectSkeleton w="40%" h={12} r={4} />
+      <RectSkeleton w="60%" h={36} r={6} />
+      <RectSkeleton w="100%" h={48} r={6} />
     </Box>
   );
 }
 
 function CardSkeleton({ height = 280 }) {
   return (
-    <AdminCard title={<Skeleton variant="text" width={140} />}>
-      <Skeleton variant="rectangular" width="100%" height={height} />
+    <AdminCard title={<RectSkeleton w={140} h={16} r={4} />}>
+      <div aria-hidden="true">
+        <RectSkeleton w="100%" h={height} r={8} />
+        <div style={{ marginTop: 12 }}>
+          <TextSkeleton lines={2} />
+        </div>
+      </div>
     </AdminCard>
   );
 }

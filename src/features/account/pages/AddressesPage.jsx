@@ -9,7 +9,10 @@ import AddressCard from '../components/AddressCard.jsx';
 import AppButton from '../../../components/common/AppButton/AppButton.jsx';
 import AppDialog from '../../../components/common/AppDialog/AppDialog.jsx';
 import EmptyState from '../../../components/common/EmptyState/EmptyState.jsx';
-import Loader from '../../../components/common/Loader/Loader.jsx';
+import {
+  RectSkeleton,
+  TextSkeleton,
+} from '../../../components/common/skeletons/index.js';
 import Seo from '../../../components/common/Seo.jsx';
 
 import { useToast } from '../../../context/ToastContext.jsx';
@@ -214,9 +217,24 @@ function AddressesPage() {
       </header>
 
       {isLoading ? (
-        <div className={styles.loaderWrap}>
-          <Loader label="Loading addresses…" />
-        </div>
+        <ul className={styles.grid} aria-busy="true" aria-label="Loading addresses">
+          {Array.from({ length: 3 }).map((_, idx) => (
+            // eslint-disable-next-line react/no-array-index-key
+            <li key={`addr-skeleton-${idx}`} className={styles.gridItem}>
+              <div className={styles.skeletonCard}>
+                <div className={styles.skeletonHead}>
+                  <RectSkeleton w="40%" h={20} r={4} />
+                  <RectSkeleton w={64} h={20} r={999} />
+                </div>
+                <TextSkeleton lines={3} />
+                <div className={styles.skeletonActions}>
+                  <RectSkeleton w={84} h={32} r={999} />
+                  <RectSkeleton w={84} h={32} r={999} />
+                </div>
+              </div>
+            </li>
+          ))}
+        </ul>
       ) : loadError ? (
         <div className={styles.errorWrap} role="alert">
           <p>{loadError}</p>

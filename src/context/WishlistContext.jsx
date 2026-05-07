@@ -303,7 +303,7 @@ export function WishlistProvider({ children }) {
         // Revert
         dispatch({ type: ACTIONS.TOGGLE, payload: id });
         announce(wasOn ? 'Save failed — restored to wishlist' : 'Could not save to wishlist');
-        toastError(getApiErrorMessage(err) || 'Wishlist update failed');
+        toastError(getApiErrorMessage(err) || "Couldn't update — please try again.");
       }
     },
     [state.productIds, isAuthenticated, toastError, announce],
