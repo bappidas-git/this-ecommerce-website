@@ -41,8 +41,11 @@ npm run dev:all      # both, color-tagged, via concurrently
 
 | Role     | Email                              | Password       |
 | -------- | ---------------------------------- | -------------- |
-| Customer | `customer@thisinteriors.com`       | `Password123!` |
-| Admin    | `admin@thisinteriors.com`          | `Password123!` |
+| Customer | `layla@example.com`                | `Password123!` |
+| Customer | `omar@example.com`                 | `Password123!` |
+| Admin    | `admin@thisinteriors.test`         | `Password123!` |
+| Manager  | `manager@thisinteriors.test`       | `Password123!` |
+| Viewer   | `viewer@thisinteriors.test`        | `Password123!` |
 
 Customer login is at `/login`, admin login at `/admin/login` — they are
 different sessions and tokens.
