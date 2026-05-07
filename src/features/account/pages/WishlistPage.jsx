@@ -198,7 +198,20 @@ function WishlistPage({ variant = 'standalone' }) {
       </div>
     ) : null;
 
-  const body = isEmpty ? (
+  const showHydrationSkeleton = !isHydrated && products.length === 0;
+  const showLoadingSkeleton = isLoading && products.length === 0;
+  const skeletonCount = !isHydrated ? 8 : Math.max(1, Math.min(count, 8));
+
+  const body = showHydrationSkeleton ? (
+    <div className={styles.grid} aria-busy="true" aria-label="Loading wishlist">
+      {Array.from({ length: skeletonCount }).map((_, idx) => (
+        // eslint-disable-next-line react/no-array-index-key
+        <div key={`wl-skeleton-${idx}`} className={styles.gridItem}>
+          <ProductCard.Skeleton />
+        </div>
+      ))}
+    </div>
+  ) : isEmpty ? (
     <div className={styles.empty}>
       <EmptyState
         icon={<FavoriteBorderIcon fontSize="inherit" />}
@@ -215,9 +228,10 @@ function WishlistPage({ variant = 'standalone' }) {
     <>
       {bulkBar}
       <div className={styles.grid}>
-        {isLoading && products.length === 0
+        {showLoadingSkeleton
           ? Array.from({ length: Math.min(count, 8) }).map((_, idx) => (
-              <div key={idx} className={styles.gridItem}>
+              // eslint-disable-next-line react/no-array-index-key
+              <div key={`wl-loading-${idx}`} className={styles.gridItem}>
                 <ProductCard.Skeleton />
               </div>
             ))

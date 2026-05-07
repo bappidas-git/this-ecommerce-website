@@ -1,0 +1,93 @@
+.layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+  margin-top: 8px;
+}
+
+.itemsCol {
+  min-width: 0;
+}
+
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.row {
+  display: flex;
+  gap: 16px;
+  align-items: stretch;
+  padding-block: 20px;
+  border-bottom: 1px solid var(--color-line);
+}
+
+.row:first-child {
+  border-top: 1px solid var(--color-line);
+}
+
+.thumb {
+  flex-shrink: 0;
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex: 1;
+  min-width: 0;
+  padding-top: 4px;
+}
+
+.tail {
+  display: none;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 12px;
+  padding-top: 4px;
+}
+
+.summary {
+  border: 1px solid var(--color-line);
+  background: var(--color-surface);
+  border-radius: var(--radius-3);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 0;
+}
+
+.summaryRows {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.summaryRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.divider {
+  height: 1px;
+  background: var(--color-line);
+  margin-block: 4px;
+}
+
+@media (min-width: 768px) {
+  .tail {
+    display: flex;
+  }
+}
+
+@media (min-width: 1024px) {
+  .layout {
+    grid-template-columns: minmax(0, 1fr) 380px;
+    gap: 48px;
+  }
+}
