@@ -3687,7 +3687,7 @@
       "couponCode": "WELCOME10",
       "paymentMethod": "bank_transfer",
       "paymentStatus": "paid",
-      "status": "preparing",
+      "status": "ready",
       "shippingAddress": {
         "userId": 5,
         "label": "Home",
@@ -3716,7 +3716,17 @@
       },
       "notes": [],
       "createdAt": "2026-04-03T09:00:00.000Z",
-      "updatedAt": "2026-04-03T09:00:00.000Z"
+      "updatedAt": "2026-05-07T05:15:11.595Z",
+      "statusHistory": [
+        {
+          "id": 1,
+          "from": "preparing",
+          "to": "ready",
+          "note": "Ready",
+          "authorId": 1,
+          "createdAt": "2026-05-07T05:15:11.595Z"
+        }
+      ]
     },
     {
       "id": 10,
@@ -4360,7 +4370,8 @@
     "announcement": {
       "isActive": true,
       "text": "Complimentary gift wrap on orders over AED 800.",
-      "link": "/shop"
+      "link": "/shop",
+      "dismissible": true
     },
     "payment": {
       "codEnabled": true,
